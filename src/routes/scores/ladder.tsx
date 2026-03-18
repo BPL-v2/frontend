@@ -16,7 +16,7 @@ import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { ExperienceBar } from "@components/character/experience-bar";
 import POProgressBar from "@components/personal-objective/po-progress";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
 import {
@@ -36,6 +36,7 @@ import { TwitchFilled } from "@icons/twitch";
 import { renderScore } from "@utils/score";
 import { MultiSelectPercentage } from "@components/form/multi-select-percentage";
 import Select from "@components/form/select";
+import Table from "@components/table/table";
 
 type RowDef = {
   total: number;
@@ -535,7 +536,6 @@ function LadderTab(): JSX.Element {
       header: "Total",
       cell: ({ row }) =>
         renderScore(row.original.total, undefined, currentEvent?.uses_medals),
-      size: 140,
     },
     ...categoryNames.map((categoryName) => ({
       header: categoryName == "Personal Objectives" ? "P.O." : categoryName,
@@ -550,7 +550,6 @@ function LadderTab(): JSX.Element {
         ),
       // @ts-ignore
       sorter: (a, b) => a[categoryName] - b[categoryName],
-      size: 140,
     })),
   ];
 
@@ -726,7 +725,7 @@ function LadderTab(): JSX.Element {
             />
           )}
         </div>
-        <Table
+        <VirtualizedTable
           data={filteredLadder?.sort((a, b) => a.rank - b.rank) || []}
           columns={ladderColumns}
           className="h-[70vh]"

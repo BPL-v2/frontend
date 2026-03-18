@@ -150,7 +150,7 @@ function RouteComponent() {
     const user = userMap[Number(userId)];
     for (const wish of wishes) {
       rows.push({
-        user: user.display_name,
+        user: user?.display_name,
         wish: wish.wish,
         uniqueInfo: wish.uniqueInfo,
       });
@@ -160,7 +160,6 @@ function RouteComponent() {
     {
       header: "",
       accessorKey: "user",
-      size: 220,
       filterFn: "includesString",
       enableSorting: false,
       meta: {
@@ -244,7 +243,7 @@ function RouteComponent() {
     {
       header: "Build Enabling",
       accessorKey: "wish.build_enabling",
-      size: 170,
+      // size: 90,
       cell: (info) => {
         return (
           <input

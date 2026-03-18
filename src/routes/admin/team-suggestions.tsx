@@ -5,7 +5,7 @@ import {
   useGetEventStatus,
   useGetTeamGoals,
 } from "@client/query";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { ScoreObjective } from "@mytypes/score";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -400,13 +400,13 @@ function TeamSuggestionsPage() {
         </div>
       </form>
       <div className="divider m-0 divider-primary">Categories</div>
-      <Table
+      <VirtualizedTable
         columns={categoryColumns}
         data={relevantCategories}
         className="max-h-[50vh]"
       />
       <div className="divider m-0 divider-primary">Objectives</div>
-      <Table
+      <VirtualizedTable
         columns={objectiveColumns}
         data={relevantObjectives}
         className="max-h-[50vh]"

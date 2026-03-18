@@ -14,11 +14,12 @@ import {
   TableState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Select, { SelectOption } from "../form/select";
 
-function Table<T>({
+function VirtualizedTable<T>({
   data,
   columns,
   rowClassName,
@@ -39,20 +40,19 @@ function Table<T>({
     table?: string;
   };
 }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const tableRef = React.useRef<HTMLDivElement>(null);
 
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const options: TableOptions<T> = {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   };
-
   if (sortable) {
     options.getSortedRowModel = getSortedRowModel();
     options.onSortingChange = setSorting;
   }
-
   const state: Partial<TableState> = {
     sorting,
   };
@@ -62,6 +62,9 @@ function Table<T>({
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     setSorting(updater);
+    if (table.getRowModel().rows.length) {
+      rowVirtualizer.scrollToIndex?.(0);
+    }
   };
 
   table.setOptions((prev) => ({
@@ -71,21 +74,21 @@ function Table<T>({
 
   const { rows } = table.getRowModel();
 
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    estimateSize: () => 80,
+    getScrollElement: () => tableRef.current,
+    overscan: 5,
+  });
   return (
     <div
+      ref={tableRef}
       className={twMerge(
         "overflow-auto rounded-box border border-base-content/20 shadow-xl",
         className,
       )}
     >
-      <table
-        className={twMerge(
-          "table table-auto bg-base-300",
-          // Keep intrinsic column sizing based on content.
-          "w-max min-w-full",
-          styles?.table,
-        )}
-      >
+      <table className={twMerge("table bg-base-300", styles?.table)}>
         <thead
           className={twMerge(
             "sticky top-0 z-1 bg-base-200 text-lg text-highlight-content",
@@ -93,15 +96,18 @@ function Table<T>({
           )}
         >
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <tr key={headerGroup.id} className="flex w-full overflow-hidden">
               {headerGroup.headers.map((header) => {
                 const canSort = sortable && header.column.getCanSort();
                 const isSorting = !!sorting.find(
                   (sort) => sort.id === header.id,
                 );
-
                 return (
-                  <th key={header.id} className="align-middle">
+                  <th
+                    key={header.id}
+                    style={{ width: header.getSize() }}
+                    className="flex items-center overflow-clip"
+                  >
                     <div
                       className={
                         canSort ? "flex cursor-pointer items-center gap-1" : ""
@@ -135,30 +141,52 @@ function Table<T>({
             </tr>
           ))}
         </thead>
-        <tbody className={styles?.body}>
-          {rows.map((row) => (
-            <tr
-              className={twMerge(
-                "hover:bg-highlight",
-                rowClassName ? rowClassName(row) : "",
-              )}
-              style={rowStyle ? rowStyle(row) : undefined}
-              key={row.id}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="align-middle">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
+        <tbody
+          className={styles?.body}
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const row = rows[virtualRow.index] as Row<T>;
+            return (
+              <tr
+                className={twMerge(
+                  "absolute flex w-full items-center hover:bg-highlight",
+                  rowClassName ? rowClassName(row) : "",
+                )}
+                style={{
+                  ...(rowStyle ? rowStyle(row) : {}),
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+                data-index={virtualRow.index}
+                ref={(node) => rowVirtualizer.measureElement(node)}
+                key={row.id}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td
+                      key={cell.id}
+                      className="flex items-center self-stretch"
+                      style={{ width: cell.column.getSize() }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
 }
 
-export default Table;
+export default VirtualizedTable;
 
 type ColumnDefMeta<T> = {
   filterVariant?: "string" | "enum" | "boolean";
@@ -174,7 +202,7 @@ function Filter<T>({ column }: { column: Column<T, unknown> }) {
   if (filterVariant === "string") {
     return (
       <input
-        className="input w-full text-lg"
+        className="input text-lg"
         onChange={(e) => {
           column.setFilterValue(e.target.value);
           e.stopPropagation();
@@ -185,7 +213,6 @@ function Filter<T>({ column }: { column: Column<T, unknown> }) {
       />
     );
   }
-
   if (filterVariant === "enum") {
     return (
       <Select

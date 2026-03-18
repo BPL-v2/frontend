@@ -29,7 +29,7 @@ import {
   useGetValidConditionMappings,
 } from "@client/query";
 import { setFormValues, useAppForm } from "@components/form/context";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import {
   ClipboardDocumentListIcon,
   DocumentDuplicateIcon,
@@ -796,7 +796,7 @@ export function ScoringCategoryPage(): JSX.Element {
 
   const table = useMemo(() => {
     return (
-      <Table<Objective>
+      <VirtualizedTable<Objective>
         className="h-[70vh] w-full"
         columns={objectiveColumns}
         data={objective?.children.sort((a, b) => a.id - b.id) || []}

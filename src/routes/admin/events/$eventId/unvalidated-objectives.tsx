@@ -12,7 +12,7 @@ import {
   useGetScoringPresetsForEvent,
 } from "@client/query";
 import { ObjectiveIcon } from "@components/objective-icon";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
@@ -147,7 +147,7 @@ function RouteComponent() {
   );
 
   return (
-    <Table<Objective>
+    <VirtualizedTable<Objective>
       className="h-[70vh] w-full"
       columns={objectiveColumns}
       data={unvalidatedItems}

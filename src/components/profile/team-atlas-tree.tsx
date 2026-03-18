@@ -9,7 +9,7 @@ import { CompactTree } from "@mytypes/tree";
 import { CategoryIcon } from "@icons/category-icons";
 import { JSX, useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { Link } from "@tanstack/react-router";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
@@ -275,7 +275,7 @@ export function TeamAtlasTree() {
         </span>{" "}
         current atlas tree is highlighted
       </p>
-      <Table
+      <VirtualizedTable
         className="max-h-[70vh]"
         columns={[
           {

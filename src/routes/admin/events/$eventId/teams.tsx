@@ -2,7 +2,7 @@ import { GameVersion, Permission, Team, TeamCreate } from "@client/api";
 import { useCreateTeam, useDeleteTeam, useGetEvents } from "@client/query";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
@@ -220,7 +220,10 @@ function TeamPage() {
 
   return (
     <div className="flex flex-col gap-2">
-      <Table columns={columns} data={event.teams.sort((a, b) => a.id - b.id)} />
+      <VirtualizedTable
+        columns={columns}
+        data={event.teams.sort((a, b) => a.id - b.id)}
+      />
       <button
         className="btn self-center btn-primary"
         onClick={() => {

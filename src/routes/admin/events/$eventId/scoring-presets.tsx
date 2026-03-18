@@ -14,7 +14,7 @@ import {
 } from "@client/query";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
@@ -273,7 +273,7 @@ function ScoringPresetsPage() {
       >
         Create Preset
       </button>{" "}
-      <Table
+      <VirtualizedTable
         columns={presetColumns}
         data={scoringPresets}
         sortable={false}

@@ -6,7 +6,7 @@ import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ExperienceBar } from "@components/character/experience-bar";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { Ranking } from "@components/ranking";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
 import { ascendancies } from "@mytypes/ascendancy";
@@ -289,7 +289,7 @@ function DelveTab(): JSX.Element {
                 }
                 description="Depth:"
               />
-              <Table
+              <VirtualizedTable
                 columns={delveLadderColumns}
                 data={
                   ladder?.sort((a, b) => b.delve_depth - a.delve_depth) || []

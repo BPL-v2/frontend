@@ -9,7 +9,7 @@ import {
 import { DeleteButton } from "@components/form/delete-button";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import {
   CheckCircleIcon,
   PencilSquareIcon,
@@ -331,7 +331,7 @@ function EventPage() {
         </form>
       </Dialog>
 
-      <Table
+      <VirtualizedTable
         columns={columnDef}
         data={events?.sort((a, b) => b.id - a.id) ?? []}
       />

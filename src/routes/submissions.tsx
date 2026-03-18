@@ -12,7 +12,7 @@ import {
   useGetUsers,
   useReviewSubmission,
 } from "@client/query";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import {
   CheckCircleIcon,
@@ -251,11 +251,11 @@ function SubmissionPage() {
     return <div>No event selected</div>;
   }
   return (
-    <Table<Submission>
+    <VirtualizedTable<Submission>
       className="mt-4 h-[70vh]"
       data={submissions}
       columns={columns}
       rowClassName={() => "hover:bg-base-200/50"}
-    ></Table>
+    ></VirtualizedTable>
   );
 }

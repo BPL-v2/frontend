@@ -1,6 +1,6 @@
 import { Action, GuildStashChangelog } from "@client/api";
 import { preloadGuildLogs, useGetGuildLogs } from "@client/query";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@tanstack/react-table";
@@ -222,7 +222,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Table
+      <VirtualizedTable
         className="h-[80vh] w-full"
         data={processedLogs.sort((a, b) => b.timestamp - a.timestamp)}
         columns={columns}

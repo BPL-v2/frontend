@@ -1,6 +1,6 @@
 import { ObjectiveType, ScoringMethod, Team, Completion } from "@client/api";
 import { ObjectiveIcon } from "@components/objective-icon";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import { CategoryIcon, iconMap } from "@icons/category-icons";
 import { ScoreObjective } from "@mytypes/score";
@@ -364,7 +364,7 @@ function RouteComponent() {
           <span className="label-text">Show Ranked Only</span>
         </label>
       </fieldset>
-      <Table
+      <VirtualizedTable
         columns={columns}
         data={scoreRows
           .filter((s) => {
@@ -378,7 +378,7 @@ function RouteComponent() {
           })
           .sort((a, b) => b.timestamp - a.timestamp)}
         className="h-[70vh]"
-      ></Table>
+      ></VirtualizedTable>
       <div className="mt-4 h-250 rounded-box bg-base-300 p-4">
         <fieldset className="absolute ml-8 fieldset rounded-box bg-base-200 p-2 px-4">
           <label className="label text-highlight-content">

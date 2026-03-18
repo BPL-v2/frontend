@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Permission, User } from "@client/api";
 import { userApi } from "@client/client";
 import Select from "@components/form/select";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
@@ -132,7 +132,7 @@ function UserPage() {
           options={Object.values(Permission)}
         ></Select>
       </div>
-      <Table<User>
+      <VirtualizedTable<User>
         data={users.filter(
           (user) =>
             !!(

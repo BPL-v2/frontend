@@ -13,7 +13,7 @@ import {
 import { useContext, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ObjectiveIcon } from "../objective-icon";
-import Table from "./table";
+import VirtualizedTable from "./virtualized-table";
 
 export type ItemTableProps = {
   objective: ScoreObjective;
@@ -362,7 +362,7 @@ export function ItemTable({
 
   return (
     <>
-      <Table
+      <VirtualizedTable
         columns={columns}
         data={
           objective.children

@@ -10,7 +10,7 @@ import {
   useGetUsers,
 } from "@client/query";
 import { GlobalStateContext } from "@utils/context-provider";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { getTotalPoints } from "@utils/utils";
 
 export const Route = createFileRoute("/admin/activity")({
@@ -118,7 +118,7 @@ function ActivityPage() {
 
   return (
     <div className="mt-4 flex flex-col gap-4">
-      <Table
+      <VirtualizedTable
         data={Object.values(teamTableData)}
         columns={[
           {
@@ -170,7 +170,7 @@ function ActivityPage() {
         ]}
       />
 
-      <Table
+      <VirtualizedTable
         className="max-h-[70vh]"
         data={userActivities.sort((a, b) => b.activeHours - a.activeHours)}
         columns={[

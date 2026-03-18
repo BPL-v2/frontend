@@ -5,7 +5,7 @@ import {
   useGetSignups,
 } from "@client/query";
 import { DeleteButton } from "@components/form/delete-button";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -605,7 +605,7 @@ function UserSortPage() {
           Submit Assignments
         </button>
       </div>
-      <Table
+      <VirtualizedTable
         data={suggestions
           .sort((a, b) => {
             const aPartnerGroup = partnerMap.get(a.user.id) ?? -1;

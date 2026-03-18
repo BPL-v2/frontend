@@ -1,6 +1,6 @@
 import { SortedUser } from "@client/api";
 import { useGetSortedPlayers } from "@client/query";
-import Table from "@components/table/table";
+import VirtualizedTable from "@components/table/virtualized-table";
 import {
   CheckCircleIcon,
   ClipboardDocumentCheckIcon,
@@ -108,7 +108,7 @@ function RouteComponent() {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Sorted Players</h1>
-      <Table
+      <VirtualizedTable
         columns={columnDef}
         data={sortedPlayers || []}
         className="max-h-[70vh]"
