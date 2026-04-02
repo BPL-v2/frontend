@@ -1,4 +1,4 @@
-import { Team } from "@client/api";
+import { Team } from "@api";
 
 interface TeamNameProps extends React.HTMLAttributes<HTMLSpanElement> {
   team?: Team;

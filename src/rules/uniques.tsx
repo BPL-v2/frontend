@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ScoringMethod } from "@client/api";
+import { ScoringMethod } from "@api";
 import { pointsToGroup } from "@utils/text-utils";
 
 function convertArrayToText(points: number[] | undefined) {

@@ -7,7 +7,7 @@ import {
   ObjectiveType,
   AggregationType,
   Operator,
-} from "@client/api";
+} from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
@@ -16,7 +16,7 @@ import {
   useCreateObjective,
   useGetScoringPresetsForEvent,
   useGetValidConditionMappings,
-} from "@client/query";
+} from "@api";
 
 type ExtendedObjectiveCreate = ObjectiveCreate & {
   item_base_type?: string;
@@ -68,7 +68,7 @@ export function ObjectiveFormModal({
         );
         delete data.value.item_base_type;
       }
-      createObjective(data.value);
+      createObjective(data.value as ObjectiveCreate);
     },
   });
 

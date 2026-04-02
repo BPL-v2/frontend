@@ -1,5 +1,5 @@
-import { Action, GuildStashChangelog } from "@client/api";
-import { preloadGuildLogs, useGetGuildLogs } from "@client/query";
+import { Action, GuildStashChangelog } from "@api";
+import { preloadGuildLogs, useGetGuildLogs } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";

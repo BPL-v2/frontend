@@ -1,4 +1,4 @@
-import { useGetEventStatus, useGetTeamGoals } from "@client/query";
+import { useGetEventStatus, useGetTeamGoals } from "@api";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";

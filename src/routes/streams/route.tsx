@@ -5,13 +5,13 @@ import {
   LadderEntry,
   Team,
   TwitchStream,
-} from "@client/api";
+} from "@api";
 import {
   useGetEventStatus,
   useGetLadder,
   useGetStreams,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { TwitchStreamEmbed } from "@components/video/twitch-stream";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";

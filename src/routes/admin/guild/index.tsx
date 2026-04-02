@@ -1,4 +1,4 @@
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getPermissions } from "@utils/token";

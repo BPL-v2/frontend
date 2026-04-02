@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Event } from "@client/api";
+import { Event } from "@api";
 
 type Props = {
   index: number;

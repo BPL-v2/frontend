@@ -1,6 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
 import { redirectOauth } from "@utils/oauth";
-import { useRemoveOauthProvider } from "@client/query";
+import { useRemoveOauthProvider } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";

@@ -1,4 +1,4 @@
-import { Event, LadderEntry, Team } from "@client/api";
+import { Event, LadderEntry, Team } from "@api";
 import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
@@ -11,7 +11,7 @@ import {
   useGetLadder,
   useGetStreams,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { ExperienceBar } from "@components/character/experience-bar";

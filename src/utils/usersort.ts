@@ -1,4 +1,4 @@
-import { Event } from "@client/api";
+import { Event } from "@api";
 import { SortedSignup } from "../routes/admin/team-sort";
 
 export type SortBucketConfig = {

@@ -1,4 +1,4 @@
-import { ScoringMethod } from "@client/api";
+import { ScoringMethod } from "@api";
 import { ScoreObjective } from "@mytypes/score";
 
 function convertRacePointsToText(points: number[]) {

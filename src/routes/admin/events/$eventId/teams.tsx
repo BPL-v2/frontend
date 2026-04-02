@@ -1,5 +1,5 @@
-import { Permission, Team } from "@client/api";
-import { useDeleteTeam, useGetEvents } from "@client/query";
+import { Permission, Team } from "@api";
+import { useDeleteTeam, useGetEvents } from "@api";
 import { TeamFormModal } from "@components/form-dialogs/TeamFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";

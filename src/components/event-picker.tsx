@@ -1,4 +1,4 @@
-import { useGetEvents } from "@client/query";
+import { useGetEvents } from "@api";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext } from "react";
 import Select from "./form/select";

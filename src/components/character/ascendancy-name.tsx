@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
 import { GlobalStateContext } from "@utils/context-provider";
-import { GameVersion } from "@client/api";
+import { GameVersion } from "@api";
 import { twMerge } from "tailwind-merge";
 
 interface AscendancyProps extends React.HTMLAttributes<HTMLDivElement> {

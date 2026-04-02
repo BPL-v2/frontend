@@ -8,7 +8,8 @@
     "build": "tsgo -b && vite build",
     "build-tsc": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-client": "orval"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",

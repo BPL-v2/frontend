@@ -6,7 +6,7 @@ import {
   Score,
   ScoringMethod,
   AggregationType,
-} from "@client/api";
+} from "@api";
 import { getSubObjective } from "./scoring-objective";
 
 export type ScoreDiffMeta = {

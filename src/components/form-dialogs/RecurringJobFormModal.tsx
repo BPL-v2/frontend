@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { Event, JobType } from "@client/api";
+import { Event, JobType } from "@api";
 import { Dialog } from "@components/dialog";
 import Select from "@components/form/select";
 import { useQueryClient } from "@tanstack/react-query";
-import { useStartJob } from "@client/query";
+import { useStartJob } from "@api";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
@@ -29,7 +29,9 @@ export function RecurringJobFormModal({
   const qc = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedEvent, setSelectedEvent] = React.useState<Event | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = React.useState<Date | null>(null);
+  const [selectedEndDate, setSelectedEndDate] = React.useState<Date | null>(
+    null,
+  );
   const { startJob, isPending: startJobPending } = useStartJob(qc);
 
   useEffect(() => {
@@ -48,20 +50,16 @@ export function RecurringJobFormModal({
   }, [isOpen]);
 
   return (
-    <Dialog
-      title="Create recurring job"
-      open={isOpen}
-      setOpen={setIsOpen}
-    >
+    <Dialog title="Create recurring job" open={isOpen} setOpen={setIsOpen}>
       <form
         className="w-full space-y-4 text-left"
         onSubmit={(e) => {
           const values = new FormData(formRef.current!);
           e.preventDefault();
           startJob({
-            eventId: Number(values.get("event")),
-            jobType: values.get("jobType") as JobType,
-            endDate: new Date(values.get("endDate") as string),
+              event_id: Number(values.get("event")),
+              job_type: values.get("jobType") as JobType,
+              end_date: new Date(values.get("endDate") as string),
           });
           setIsOpen(false);
           formRef.current?.reset();

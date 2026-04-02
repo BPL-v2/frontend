@@ -1,4 +1,4 @@
-import { useDeletePoB, useGetEvents, useGetUser } from "@client/query";
+import { useDeletePoB, useGetEvents, useGetUser } from "@api";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import {
   ClipboardDocumentListIcon,
@@ -286,7 +286,7 @@ export function CharacterStats({
                       "Are you sure you want to delete this Path of Building? This action cannot be undone.",
                     )
                   ) {
-                    deletePoB({ userId, characterId, pobId });
+                    deletePoB(userId, characterId, pobId);
                   }
                 }}
               />

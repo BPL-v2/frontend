@@ -1,4 +1,4 @@
-import { LadderEntry, Team } from "@client/api";
+import { LadderEntry, Team } from "@api";
 import { getSkillColor } from "@utils/gems";
 import { Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";

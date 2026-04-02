@@ -1,9 +1,9 @@
-import { ExtendedSignup, Permission, Signup } from "@client/api";
+import { ExtendedSignup, Permission, Signup } from "@api";
 import {
   useAddUsersToTeams,
   useDeleteSignup,
   useGetSignups,
-} from "@client/query";
+} from "@api";
 import { DeleteButton } from "@components/form/delete-button";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
@@ -251,16 +251,16 @@ function UserSortPage() {
                     : signup,
                 ),
               );
-              addUsersToTeams({
-                eventId: currentEvent?.id || 0,
-                users: [
+              addUsersToTeams(
+                currentEvent?.id || 0,
+                [
                   {
                     user_id: row.original.user.id,
                     team_id: row.original.team_id,
                     is_team_lead: e.target.checked,
                   },
                 ],
-              });
+              );
             }}
           />
         ),
@@ -324,10 +324,10 @@ function UserSortPage() {
           return (
             <DeleteButton
               onDelete={() => {
-                deleteSignup({
-                  eventId: currentEvent.id,
-                  userId: row.original.user.id,
-                });
+                deleteSignup(
+                  currentEvent.id,
+                  row.original.user.id,
+                );
               }}
               className="btn-sm"
             ></DeleteButton>
@@ -590,16 +590,16 @@ function UserSortPage() {
         <button
           className="btn btn-warning"
           onClick={() => {
-            addUsersToTeams({
-              eventId: currentEvent.id,
-              users: suggestions.map((s) => {
+            addUsersToTeams(
+              currentEvent.id,
+              suggestions.map((s) => {
                 return {
                   user_id: s.user.id,
                   team_id: s.team_id || 0,
                   is_team_lead: s.team_lead,
                 };
               }),
-            });
+            );
           }}
         >
           Submit Assignments

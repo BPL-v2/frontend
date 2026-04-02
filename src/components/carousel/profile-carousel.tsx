@@ -1,5 +1,5 @@
-import { Character, GameVersion } from "@client/api";
-import { useGetEvents } from "@client/query";
+import { Character, GameVersion } from "@api";
+import { useGetEvents } from "@api";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
 import { Link } from "@tanstack/react-router";
 import { useKeenSlider } from "keen-slider/react";

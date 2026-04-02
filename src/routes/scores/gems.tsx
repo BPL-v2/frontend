@@ -2,11 +2,11 @@ import React, { JSX, useContext, useEffect } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import TeamScoreDisplay from "@components/team/team-score";
 import { ItemTable } from "@components/table/item-table";
-import { GameVersion } from "@client/api";
+import { GameVersion } from "@api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Ranking } from "@components/ranking";
 import { GemTabRules } from "@rules/gems";
-import { useFile } from "@client/query";
+import { useFile } from "@api";
 import clsx from "clsx";
 
 export const Route = createFileRoute("/scores/gems")({

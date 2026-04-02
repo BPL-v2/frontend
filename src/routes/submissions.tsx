@@ -4,14 +4,14 @@ import React, { useContext, useMemo } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { usePageSEO } from "@utils/use-seo";
 
-import { Objective, ObjectiveType, Permission, Submission } from "@client/api";
+import { Objective, ObjectiveType, Permission, Submission } from "@api";
 import {
   useGetRules,
   useGetSubmissions,
   useGetUser,
   useGetUsers,
   useReviewSubmission,
-} from "@client/query";
+} from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import {
@@ -192,10 +192,10 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-success"
                 onClick={() => {
-                  reviewSubmission({
-                    submissionId: submissionId,
-                    approvalStatus: "APPROVED",
-                  });
+                  reviewSubmission(
+                    submissionId,
+                    { approval_status: "APPROVED" },
+                  );
                 }}
                 disabled={reviewPending}
               >
@@ -207,10 +207,10 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-error"
                 onClick={() => {
-                  reviewSubmission({
-                    submissionId: submissionId,
-                    approvalStatus: "REJECTED",
-                  });
+                  reviewSubmission(
+                    submissionId,
+                    { approval_status: "REJECTED" },
+                  );
                 }}
                 disabled={reviewPending}
               >

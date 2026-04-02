@@ -1,4 +1,4 @@
-import { GameVersion, Objective } from "@client/api";
+import { GameVersion, Objective } from "@api";
 import { CollectionCard } from "@components/cards/collection-card";
 import TeamScoreDisplay from "@components/team/team-score";
 import { getImageLocation } from "@mytypes/scoring-objective";

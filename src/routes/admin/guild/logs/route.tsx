@@ -1,4 +1,4 @@
-import { useGetEventStatus, useGetGuilds } from "@client/query";
+import { useGetEventStatus, useGetGuilds } from "@api";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getPermissions } from "@utils/token";

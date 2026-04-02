@@ -1,4 +1,4 @@
-import { useGetUser } from "@client/query";
+import { useGetUser } from "@api";
 import {
   ArrowLeftStartOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,

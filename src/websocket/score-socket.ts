@@ -1,4 +1,4 @@
-import { ScoreDiff } from "@client/api";
+import { ScoreDiff } from "@api";
 import { QueryClient } from "@tanstack/react-query";
 import { isFinished, ScoreMap } from "@utils/utils";
 

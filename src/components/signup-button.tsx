@@ -1,13 +1,13 @@
 import React, { useContext, useMemo } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ApplicationStatus } from "@client/api";
+import { ApplicationStatus } from "@api";
 import { TeamName } from "./team/team-name";
 import {
   useDeleteSignup,
   useGetEvents,
   useGetEventStatus,
   useGetUser,
-} from "@client/query";
+} from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { SignupFormModal } from "@components/form-dialogs/SignupFormModal";
 
@@ -20,8 +20,8 @@ const SignupButton = () => {
   const upcomingEvent =
     events?.sort((a, b) => {
       return (
-        (Date.parse(b.event_start_time) || 0) -
-        (Date.parse(a.event_start_time) || 0)
+        (new Date(b.event_start_time).getTime() || 0) -
+        (new Date(a.event_start_time).getTime() || 0)
       );
     })[0] || currentEvent;
   const { eventStatus, isError: eventStatusError } = useGetEventStatus(
@@ -112,7 +112,7 @@ const SignupButton = () => {
               <div
                 className={"text-error hover:bg-error hover:text-error-content"}
                 onClick={() =>
-                  deleteSignup({ eventId: upcomingEvent.id, userId: user.id })
+                  deleteSignup(upcomingEvent.id, user.id)
                 }
               >
                 Withdraw Application

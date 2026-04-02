@@ -1,4 +1,4 @@
-export function getDeltaTimeBetween(to?: number, from?: string) {
+export function getDeltaTimeBetween(to?: number, from?: string | Date) {
   // If either timestamp or league
   if (!to || !from) {
     return "";

@@ -4,7 +4,7 @@ import {
   Operator,
   ItemField,
   Condition,
-} from "@client/api";
+} from "@api";
 import { ScoreObjective } from "./score";
 
 export function operatorToString(operator: Operator): string {

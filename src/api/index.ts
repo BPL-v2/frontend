@@ -1,24 +1,149 @@
+// Re-export all generated model types so consumers only need to import from @api
+export * from "./generated/models";
+
+// Raw API functions used directly (not via hooks)
+export { oauthCallbackBase, oauthRedirectBase } from "./generated/oauth/oauth";
+export { addEngagementBase } from "./generated/engagement/engagement";
+export { getAllUsersBase, changePermissionsBase } from "./generated/user/user";
+export {
+  validateObjectivesBase,
+  getObjectiveTreeForEventBase,
+} from "./generated/objective/objective";
+export { setBulkSubmissionForAdminBase } from "./generated/submission/submission";
+
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { useGetEventActivitiesBase, useGetEventActivitiesForUserBase } from "./generated/activity/activity";
+import {
+  useGetEventActivitiesBase,
+  useGetEventActivitiesForUserBase,
+} from "./generated/activity/activity";
 import { useGetTeamAtlasesForEventBase } from "./generated/atlas/atlas";
-import { useDeletePoBExportBase, useGetCharacterHistoryBase, useGetPoBsBase, useGetUserCharactersBase } from "./generated/characters/characters";
-import { useCreateEventBase, useDeleteEventBase, useDuplicateEventBase, useGetEventStatusBase, useGetEventsBase } from "./generated/event/event";
-import { useGetGuildStashForUserBase, useGetGuildStashTabBase, useGetGuildsBase, useGetLogEntriesForGuildBase, useSwitchStashFetchingBase, useUpdateStashTabBase } from "./generated/guild-stash/guild-stash";
-import { useChangeItemWishBase, useCreateItemWishBase, useDeleteItemWishBase, useGetItemWishesForTeamBase } from "./generated/item-wishes/item-wishes";
+import {
+  getGetPoBsBaseQueryKey,
+  getPoBsBase,
+  getCharacterHistoryBase,
+  getGetCharacterHistoryBaseQueryKey,
+  useDeletePoBExportBase,
+  useGetCharacterHistoryBase,
+  useGetPoBsBase,
+  useGetUserCharactersBase,
+} from "./generated/characters/characters";
+import {
+  getGetEventStatusBaseQueryKey,
+  getGetEventsBaseQueryKey,
+  useCreateEventBase,
+  useDeleteEventBase,
+  useDuplicateEventBase,
+  useGetEventStatusBase,
+  useGetEventsBase,
+} from "./generated/event/event";
+import {
+  getGetGuildStashForUserBaseQueryKey,
+  getGetGuildStashTabBaseQueryKey,
+  getGetLogEntriesForGuildBaseQueryKey,
+  getLogEntriesForGuildBase,
+  useGetGuildStashForUserBase,
+  useGetGuildStashTabBase,
+  useGetGuildsBase,
+  useGetLogEntriesForGuildBase,
+  useSwitchStashFetchingBase,
+  useUpdateStashTabBase,
+} from "./generated/guild-stash/guild-stash";
+import {
+  getGetItemWishesForTeamBaseQueryKey,
+  useChangeItemWishBase,
+  useCreateItemWishBase,
+  useDeleteItemWishBase,
+  useGetItemWishesForTeamBase,
+} from "./generated/item-wishes/item-wishes";
 import { useGetItemMapBase } from "./generated/items/items";
-import { useGetJobsBase, useStartJobBase } from "./generated/jobs/jobs";
-import { useGetLadderBase } from "./generated/ladder/ladder";
-import { createObjectiveBase, useCreateObjectiveBase, useDeleteObjectiveBase, useGetObjectiveTreeForEventBase, useGetObjectiveValidationsBase, useGetValidMappingsBase } from "./generated/objective/objective";
+import {
+  getGetJobsBaseQueryKey,
+  useGetJobsBase,
+  useStartJobBase,
+} from "./generated/jobs/jobs";
+import {
+  getLadderBase,
+  getGetLadderBaseQueryKey,
+  useGetLadderBase,
+} from "./generated/ladder/ladder";
+import {
+  createObjectiveBase,
+  getGetObjectiveTreeForEventBaseQueryKey,
+  useCreateObjectiveBase,
+  useDeleteObjectiveBase,
+  useGetObjectiveTreeForEventBase,
+  useGetObjectiveValidationsBase,
+  useGetValidMappingsBase,
+} from "./generated/objective/objective";
 import { useGetLatestScoresForEventBase } from "./generated/scores/scores";
-import { useCreateScoringPresetBase, useDeleteScoringPresetBase, useGetScoringPresetsForEventBase } from "./generated/scoring/scoring";
-import { useCreateSignupBase, useDeleteSignupBase, useGetEventSignupsBase, useGetPersonalSignupBase } from "./generated/signup/signup";
+import {
+  getGetScoringPresetsForEventBaseQueryKey,
+  useCreateScoringPresetBase,
+  useDeleteScoringPresetBase,
+  useGetScoringPresetsForEventBase,
+} from "./generated/scoring/scoring";
+import {
+  getGetPersonalSignupBaseQueryKey,
+  useCreateSignupBase,
+  useDeleteSignupBase,
+  useGetEventSignupsBase,
+  useGetPersonalSignupBase,
+} from "./generated/signup/signup";
 import { useGetStreamsBase } from "./generated/streams/streams";
-import { useGetSubmissionsBase, useReviewSubmissionBase, useSubmitBountyBase } from "./generated/submission/submission";
-import { useAddUsersToTeamsBase, useCreateObjectiveTeamSuggestionBase, useCreateTeamBase, useDeleteObjectiveTeamSuggestionBase, useDeleteTeamBase, useGetSortedUsersBase, useGetTeamSuggestionsBase } from "./generated/team/team";
-import { useGetTimingsBase, useSetTimingsBase } from "./generated/timing/timing";
-import { useGetAtlasProgressionBase, useGetUserBase, useGetUserByIdBase, useGetUsersForEventBase, useRemoveAuthBase, useUpdateUserBase } from "./generated/user/user";
+import {
+  getGetSubmissionsBaseQueryKey,
+  useGetSubmissionsBase,
+  useReviewSubmissionBase,
+  useSubmitBountyBase,
+} from "./generated/submission/submission";
+import {
+  getGetTeamSuggestionsBaseQueryKey,
+  useAddUsersToTeamsBase,
+  useCreateObjectiveTeamSuggestionBase,
+  useCreateTeamBase,
+  useDeleteObjectiveTeamSuggestionBase,
+  useDeleteTeamBase,
+  useGetSortedUsersBase,
+  useGetTeamSuggestionsBase,
+} from "./generated/team/team";
+import {
+  getGetTimingsBaseQueryKey,
+  useGetTimingsBase,
+  useSetTimingsBase,
+} from "./generated/timing/timing";
+import {
+  getGetUserBaseQueryKey,
+  getAtlasProgressionBase,
+  getGetAtlasProgressionBaseQueryKey,
+  useGetAtlasProgressionBase,
+  useGetUserBase,
+  useGetUserByIdBase,
+  useGetUsersForEventBase,
+  useRemoveAuthBase,
+  useUpdateUserBase,
+} from "./generated/user/user";
 import type { BulkObjectiveCreate } from "@components/form-dialogs/BulkObjectiveFormModal";
-import { ItemField, NumberField, Objective, ObjectiveCreate, ObjectiveType, Operator } from "./generated/models";
+import {
+  CreateItemWish,
+  EventCreate,
+  ItemField,
+  JobCreate,
+  NumberField,
+  Objective,
+  ObjectiveCreate,
+  ObjectiveType,
+  Operator,
+  ScoringPresetCreate,
+  SignupCreate,
+  SubmissionCreate,
+  SubmissionReview,
+  TabSwitchRequest,
+  TeamCreate,
+  TeamSuggestion,
+  TeamUserCreate,
+  TimingCreate,
+  UpdateItemWish,
+} from "./generated/models";
 import type { ScoreMap } from "@utils/utils";
 import { flatMap } from "@utils/utils";
 import { isLoggedIn } from "@utils/token";
@@ -38,35 +163,35 @@ export function useCreateEvent(qc: QueryClient, callback?: () => void) {
   const m = useCreateEventBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/events"] });
+        qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
         callback?.();
       },
     },
   });
-  return { createEvent: m.mutate, createEventPending: m.isPending };
+  return { createEvent: (data: EventCreate) => m.mutate({ data }), createEventPending: m.isPending };
 }
 
 export function useDeleteEvent(qc: QueryClient, callback?: () => void) {
   const m = useDeleteEventBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/events"] });
+        qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
         callback?.();
       },
     },
   });
-  return { deleteEvent: m.mutate, deleteEventPending: m.isPending };
+  return { deleteEvent: (eventId: number) => m.mutate({ eventId }), deleteEventPending: m.isPending };
 }
 
 export function useDuplicateEvent(qc: QueryClient) {
   const m = useDuplicateEventBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/events"] });
+        qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
       },
     },
   });
-  return { duplicateEvent: m.mutate, duplicateEventPending: m.isPending };
+  return { duplicateEvent: (eventId: number, data: EventCreate) => m.mutate({ eventId, data }), duplicateEventPending: m.isPending };
 }
 
 export function useGetEventStatus(eventId: number) {
@@ -94,10 +219,9 @@ export function useGetUsers(eventId: number) {
     query: {
       refetchOnMount: false,
       select: (data) =>
-        Object.entries(data)
-          .flatMap(([teamId, users]) =>
-            users.map((u) => ({ ...u, team_id: parseInt(teamId) })),
-          ),
+        Object.entries(data).flatMap(([teamId, users]) =>
+          users.map((u) => ({ ...u, team_id: parseInt(teamId) })),
+        ),
     },
   });
   return { ...query, users: query.data };
@@ -130,19 +254,26 @@ export function useGetUserById(userId: number) {
 export function useChangeUserDisplayName(qc: QueryClient) {
   const m = useUpdateUserBase({
     mutation: {
-      onSuccess: (data) => qc.setQueryData(["/users/self"], data),
+      onSuccess: (data) => qc.setQueryData(getGetUserBaseQueryKey(), data),
     },
   });
-  return { changeUserDisplayName: m.mutate, changeUserDisplayNamePending: m.isPending };
+  return {
+    changeUserDisplayName: (displayName: string) => m.mutate({ data: { display_name: displayName } }),
+    changeUserDisplayNamePending: m.isPending,
+  };
 }
 
 export function useRemoveOauthProvider(qc: QueryClient) {
   const m = useRemoveAuthBase({
     mutation: {
-      onSuccess: () => qc.invalidateQueries({ queryKey: ["/users/self"] }),
+      onSuccess: () =>
+        qc.invalidateQueries({ queryKey: getGetUserBaseQueryKey() }),
     },
   });
-  return { removeOauthProvider: m.mutate, removeOauthProviderPending: m.isPending };
+  return {
+    removeOauthProvider: (provider: string) => m.mutate({ params: { provider } }),
+    removeOauthProviderPending: m.isPending,
+  };
 }
 
 // --- Streams ---
@@ -174,8 +305,10 @@ export function useCreateSignup(
   const m = useCreateSignupBase({
     mutation: {
       onSuccess: (data, { eventId }) => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/status`] });
-        qc.setQueryData([`/events/${eventId}/signups/self`], data);
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        qc.setQueryData(getGetPersonalSignupBaseQueryKey(eventId), data);
         successCallback?.();
       },
       onError: async (error) => {
@@ -187,19 +320,23 @@ export function useCreateSignup(
       },
     },
   });
-  return { ...m, createSignup: m.mutate, createSignupPending: m.isPending };
+  return { ...m, createSignup: (eventId: number, data: SignupCreate) => m.mutate({ eventId, data }), createSignupPending: m.isPending };
 }
 
 export function useDeleteSignup(qc: QueryClient) {
   const m = useDeleteSignupBase({
     mutation: {
       onSuccess: (_, { eventId }) => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/status`] });
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/signups`] });
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        qc.invalidateQueries({
+          queryKey: getGetPersonalSignupBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { deleteSignup: m.mutate, deleteSignupPending: m.isPending };
+  return { deleteSignup: (eventId: number, userId: number) => m.mutate({ eventId, userId }), deleteSignupPending: m.isPending };
 }
 
 // --- Teams ---
@@ -208,34 +345,43 @@ export function useAddUsersToTeams(qc: QueryClient) {
   const m = useAddUsersToTeamsBase({
     mutation: {
       onSuccess: (_, { eventId }) => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/signups`] });
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        qc.invalidateQueries({
+          queryKey: getGetPersonalSignupBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { addUsersToTeams: m.mutate, addUsersToTeamsPending: m.isPending };
+  return { addUsersToTeams: (eventId: number, data: TeamUserCreate[]) => m.mutate({ eventId, data }), addUsersToTeamsPending: m.isPending };
 }
 
-export function useCreateTeam(qc: QueryClient, eventId: number, callback?: () => void) {
+export function useCreateTeam(
+  qc: QueryClient,
+  eventId: number,
+  callback?: () => void,
+) {
   const m = useCreateTeamBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/events"] });
+        qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
         callback?.();
       },
     },
   });
-  return { createTeam: m.mutate, createTeamPending: m.isPending };
+  return { createTeam: (data: TeamCreate) => m.mutate({ eventId, data }), createTeamPending: m.isPending };
 }
 
 export function useDeleteTeam(qc: QueryClient, eventId: number) {
   const m = useDeleteTeamBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/events"] });
+        qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
       },
     },
   });
-  return { deleteTeam: m.mutate, deleteTeamPending: m.isPending };
+  return { deleteTeam: (teamId: number) => m.mutate({ eventId, teamId }), deleteTeamPending: m.isPending };
 }
 
 export function useGetSortedPlayers(eventId: number) {
@@ -252,26 +398,36 @@ export function useGetTeamGoals(eventId: number, teamId?: number) {
   return { ...query, teamGoals: query.data };
 }
 
-export function useAddTeamSuggestion(eventId: number, queryClient: QueryClient) {
+export function useAddTeamSuggestion(
+  eventId: number,
+  queryClient: QueryClient,
+) {
   const mutation = useCreateObjectiveTeamSuggestionBase({
     mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [`/events/${eventId}/teams`] });
+      onSuccess: (_, { teamId }) => {
+        queryClient.invalidateQueries({
+          queryKey: getGetTeamSuggestionsBaseQueryKey(eventId, teamId),
+        });
       },
     },
   });
-  return { addTeamSuggestion: mutation.mutate, ...mutation };
+  return { addTeamSuggestion: (teamId: number, objectiveId: number, data: TeamSuggestion) => mutation.mutate({ eventId, teamId, objectiveId, data }), ...mutation };
 }
 
-export function useDeleteTeamSuggestion(eventId: number, queryClient: QueryClient) {
+export function useDeleteTeamSuggestion(
+  eventId: number,
+  queryClient: QueryClient,
+) {
   const mutation = useDeleteObjectiveTeamSuggestionBase({
     mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [`/events/${eventId}/teams`] });
+      onSuccess: (_, { teamId }) => {
+        queryClient.invalidateQueries({
+          queryKey: getGetTeamSuggestionsBaseQueryKey(eventId, teamId),
+        });
       },
     },
   });
-  return { deleteTeamSuggestion: mutation.mutate, ...mutation };
+  return { deleteTeamSuggestion: (teamId: number, objectiveId: number) => mutation.mutate({ eventId, teamId, objectiveId }), ...mutation };
 }
 
 // --- Objectives ---
@@ -296,7 +452,8 @@ export function useGetValidConditionMappings(eventId: number) {
       },
       {} as { [key in ItemField]: Operator[] },
     ),
-    numberFieldsForObjectiveType: query.data?.objective_type_to_number_fields as {
+    numberFieldsForObjectiveType: query.data
+      ?.objective_type_to_number_fields as {
       [key in ObjectiveType]: NumberField[];
     },
   };
@@ -309,27 +466,35 @@ export function useGetObjectiveValidations(eventId: number) {
   return { ...query, objectiveValidations: query.data ?? [] };
 }
 
-export function useCreateObjective(qc: QueryClient, eventId: number, callback?: () => void) {
+export function useCreateObjective(
+  qc: QueryClient,
+  eventId: number,
+  callback?: () => void,
+) {
   const m = useCreateObjectiveBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/objectives`] });
+        qc.invalidateQueries({
+          queryKey: getGetObjectiveTreeForEventBaseQueryKey(eventId),
+        });
         callback?.();
       },
     },
   });
-  return { createObjective: m.mutate, createObjectivePending: m.isPending };
+  return { createObjective: (data: ObjectiveCreate) => m.mutate({ eventId, data }), createObjectivePending: m.isPending };
 }
 
 export function useDeleteObjective(qc: QueryClient, eventId: number) {
   const m = useDeleteObjectiveBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/objectives`] });
+        qc.invalidateQueries({
+          queryKey: getGetObjectiveTreeForEventBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { deleteObjective: m.mutate, deleteObjectivePending: m.isPending };
+  return { deleteObjective: (id: number) => m.mutate({ eventId, id }), deleteObjectivePending: m.isPending };
 }
 
 export function useCreateBulkObjectives(
@@ -350,31 +515,60 @@ export function useCreateBulkObjectives(
           number_field: NumberField.STACK_SIZE,
           scoring_preset_ids: bulkObjective.scoring_preset_ids,
           parent_id: categoryId,
-          conditions: [{ field: bulkObjective.item_field, operator: Operator.EQ, value: name }],
+          conditions: [
+            {
+              field: bulkObjective.item_field,
+              operator: Operator.EQ,
+              value: name,
+            },
+          ],
         }));
-      return Promise.all(objectives.map((obj) => createObjectiveBase(eventId, obj)));
+      return Promise.all(
+        objectives.map((obj) => createObjectiveBase(eventId, obj)),
+      );
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: [`/events/${eventId}/objectives`] });
+      qc.invalidateQueries({
+        queryKey: getGetObjectiveTreeForEventBaseQueryKey(eventId),
+      });
       callback?.();
     },
   });
-  return { createBulkObjectives: m.mutate, createBulkObjectivesPending: m.isPending };
+  return {
+    createBulkObjectives: m.mutate,
+    createBulkObjectivesPending: m.isPending,
+  };
 }
 
-export function useChangeCategoryReleaseDates(qc: QueryClient, eventId: number) {
+export function useChangeCategoryReleaseDates(
+  qc: QueryClient,
+  eventId: number,
+) {
   const m = useMutation({
-    mutationFn: ({ objective, start, end }: { objective: Objective; start: Date | null; end: Date | null }) => {
+    mutationFn: ({
+      objective,
+      start,
+      end,
+    }: {
+      objective: Objective;
+      start: Date | null;
+      end: Date | null;
+    }) => {
       const promises = (flatMap(objective as any) as Objective[]).map((child) =>
         createObjectiveBase(eventId, toObjectiveCreate(child, start, end)),
       );
       return Promise.all(promises);
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: [`/events/${eventId}/objectives`] });
+      qc.invalidateQueries({
+        queryKey: getGetObjectiveTreeForEventBaseQueryKey(eventId),
+      });
     },
   });
-  return { changeCategoryReleaseDates: m.mutate, changeCategoryReleaseDatesPending: m.isPending };
+  return {
+    changeCategoryReleaseDates: m.mutate,
+    changeCategoryReleaseDatesPending: m.isPending,
+  };
 }
 
 // --- Scoring presets ---
@@ -394,27 +588,38 @@ export function useGetScoringPresetsForEvent(eventId: number) {
   return { ...query, scoringPresets: query.data ?? [] };
 }
 
-export function useAddScoringPreset(qc: QueryClient, eventId: number, callback?: () => void) {
+export function useAddScoringPreset(
+  qc: QueryClient,
+  eventId: number,
+  callback?: () => void,
+) {
   const m = useCreateScoringPresetBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/scoring-presets`] });
+        qc.invalidateQueries({
+          queryKey: getGetScoringPresetsForEventBaseQueryKey(eventId),
+        });
         callback?.();
       },
     },
   });
-  return { addScoringPreset: m.mutate, addScoringPresetPending: m.isPending };
+  return { addScoringPreset: (data: ScoringPresetCreate) => m.mutate({ eventId, data }), addScoringPresetPending: m.isPending };
 }
 
 export function useDeleteScoringPreset(qc: QueryClient, eventId: number) {
   const m = useDeleteScoringPresetBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/scoring-presets`] });
+        qc.invalidateQueries({
+          queryKey: getGetScoringPresetsForEventBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { deleteScoringPreset: m.mutate, deleteScoringPresetPending: m.isPending };
+  return {
+    deleteScoringPreset: (id: number) => m.mutate({ eventId, id }),
+    deleteScoringPresetPending: m.isPending,
+  };
 }
 
 // --- Submissions ---
@@ -430,22 +635,30 @@ export function useSubmitBounty(qc: QueryClient, eventId: number) {
   const m = useSubmitBountyBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/submissions`] });
+        qc.invalidateQueries({
+          queryKey: getGetSubmissionsBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { submitBounty: m.mutate, submitBountyPending: m.isPending };
+  return { submitBounty: (data: SubmissionCreate) => m.mutate({ eventId, data }), submitBountyPending: m.isPending };
 }
 
 export function useReviewSubmission(qc: QueryClient, eventId: number) {
   const m = useReviewSubmissionBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/submissions`] });
+        qc.invalidateQueries({
+          queryKey: getGetSubmissionsBaseQueryKey(eventId),
+        });
       },
     },
   });
-  return { ...m, reviewSubmission: m.mutate, reviewSubmissionPending: m.isPending };
+  return {
+    ...m,
+    reviewSubmission: (submissionId: number, data: SubmissionReview) => m.mutate({ eventId, submissionId, data }),
+    reviewSubmissionPending: m.isPending,
+  };
 }
 
 // --- Guild stash ---
@@ -462,7 +675,11 @@ export function useGetGuildStash(eventId: number, teamId: number) {
   return { ...query, guildStashes: query.data };
 }
 
-export function useGetGuildStashTab(eventId: number, teamId: number, tabId: string) {
+export function useGetGuildStashTab(
+  eventId: number,
+  teamId: number,
+  tabId: string,
+) {
   const query = useGetGuildStashTabBase(eventId, teamId, tabId, {
     query: {
       enabled: () => teamId !== 0 && isLoggedIn(),
@@ -472,31 +689,67 @@ export function useGetGuildStashTab(eventId: number, teamId: number, tabId: stri
   return { ...query, guildStashTab: query.data };
 }
 
-export function useUpdateGuildStashTab(qc: QueryClient, eventId: number, teamId: number) {
+export function useUpdateGuildStashTab(
+  qc: QueryClient,
+  eventId: number,
+  teamId: number,
+) {
   const m = useUpdateStashTabBase({
     mutation: {
       onSuccess: (_, { stashId }) => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/guild-stash/${teamId}/${stashId}`] });
+        qc.invalidateQueries({
+          queryKey: getGetGuildStashTabBaseQueryKey(eventId, teamId, stashId),
+        });
       },
     },
   });
-  return { updateGuildStashTab: m.mutate, updateGuildStashTabPending: m.isPending };
+  return {
+    updateGuildStashTab: (stashId: string) => m.mutate({ eventId, teamId, stashId }),
+    updateGuildStashTabPending: m.isPending,
+  };
 }
 
-export function useSwitchStashFetching(qc: QueryClient, eventId: number, teamId: number) {
+export function useSwitchStashFetching(
+  qc: QueryClient,
+  eventId: number,
+  teamId: number,
+) {
   const m = useSwitchStashFetchingBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/guild-stash/${teamId}`] });
+        qc.invalidateQueries({
+          queryKey: getGetGuildStashForUserBaseQueryKey(eventId, teamId),
+        });
       },
     },
   });
-  return { switchStashFetching: m.mutate, switchStashFetchingPending: m.isPending };
+  return {
+    switchStashFetching: (stashId: string, data: TabSwitchRequest) => m.mutate({ eventId, teamId, stashId, data }),
+    switchStashFetchingPending: m.isPending,
+  };
 }
 
 export function useGetGuildLogs(eventId: number, guildId: number) {
   const query = useGetLogEntriesForGuildBase(eventId, guildId);
   return { ...query, logs: query.data };
+}
+
+export function preloadGuildLogs(
+  eventId: number,
+  guildId: number,
+  limit: number,
+  qc: QueryClient,
+) {
+  return useMutation({
+    mutationFn: () => getLogEntriesForGuildBase(eventId, guildId, { limit }),
+    onSuccess: (data) => {
+      const queryKey = getGetLogEntriesForGuildBaseQueryKey(eventId, guildId);
+      const existing = qc.getQueryData(queryKey);
+      if (!existing) {
+        qc.setQueryData(queryKey, data);
+      }
+    },
+  });
 }
 
 export function useGetGuilds(eventId: number) {
@@ -556,11 +809,13 @@ export function useDeletePoB(qc: QueryClient) {
   const m = useDeletePoBExportBase({
     mutation: {
       onSuccess: (_, { userId, characterId }) => {
-        qc.invalidateQueries({ queryKey: [`/events/${userId}/users/${characterId}/pob`] });
+        qc.invalidateQueries({
+          queryKey: getGetPoBsBaseQueryKey(userId, characterId),
+        });
       },
     },
   });
-  return { deletePoB: m.mutate, deletePoBPending: m.isPending };
+  return { deletePoB: (userId: number, characterId: string, pobId: number) => m.mutate({ userId, characterId, pobId }), deletePoBPending: m.isPending };
 }
 
 // --- Scores ---
@@ -593,11 +848,11 @@ export function useStartJob(qc: QueryClient) {
   const m = useStartJobBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/jobs"] });
+        qc.invalidateQueries({ queryKey: getGetJobsBaseQueryKey() });
       },
     },
   });
-  return { ...m, startJob: m.mutate, startJobPending: m.isPending };
+  return { ...m, startJob: (data: JobCreate) => m.mutate({ data }), startJobPending: m.isPending };
 }
 
 // --- Timings ---
@@ -611,11 +866,11 @@ export function useSetTimings(qc: QueryClient) {
   const m = useSetTimingsBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["/timings"] });
+        qc.invalidateQueries({ queryKey: getGetTimingsBaseQueryKey() });
       },
     },
   });
-  return { setTimings: m.mutate, setTimingsPending: m.isPending };
+  return { setTimings: (data: TimingCreate[]) => m.mutate({ data }), setTimingsPending: m.isPending };
 }
 
 // --- Activity ---
@@ -665,37 +920,55 @@ export function useGetWishlist(eventId: number, teamId?: number) {
   return { ...query, wishlist: query.data };
 }
 
-export function useCreateItemWish(qc: QueryClient, eventId: number, teamId?: number) {
+export function useCreateItemWish(
+  qc: QueryClient,
+  eventId: number,
+  teamId?: number,
+) {
   const m = useCreateItemWishBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/teams/${teamId}/item_wishes`] });
+        qc.invalidateQueries({
+          queryKey: getGetItemWishesForTeamBaseQueryKey(eventId, teamId!),
+        });
       },
     },
   });
-  return { saveItemWish: m.mutate, saveItemWishPending: m.isPending };
+  return { saveItemWish: (data: CreateItemWish) => m.mutate({ eventId, teamId: teamId!, data }), saveItemWishPending: m.isPending };
 }
 
-export function useUpdateItemWish(qc: QueryClient, eventId: number, teamId?: number) {
+export function useUpdateItemWish(
+  qc: QueryClient,
+  eventId: number,
+  teamId?: number,
+) {
   const m = useChangeItemWishBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/teams/${teamId}/item_wishes`] });
+        qc.invalidateQueries({
+          queryKey: getGetItemWishesForTeamBaseQueryKey(eventId, teamId!),
+        });
       },
     },
   });
-  return { updateItemWish: m.mutate, updateItemWishPending: m.isPending };
+  return { updateItemWish: (wishId: number, data: UpdateItemWish) => m.mutate({ eventId, teamId: teamId!, wishId, data }), updateItemWishPending: m.isPending };
 }
 
-export function useDeleteItemWish(qc: QueryClient, eventId: number, teamId?: number) {
+export function useDeleteItemWish(
+  qc: QueryClient,
+  eventId: number,
+  teamId?: number,
+) {
   const m = useDeleteItemWishBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: [`/events/${eventId}/teams/${teamId}/item_wishes`] });
+        qc.invalidateQueries({
+          queryKey: getGetItemWishesForTeamBaseQueryKey(eventId, teamId!),
+        });
       },
     },
   });
-  return { deleteItemWish: m.mutate, deleteItemWishPending: m.isPending };
+  return { deleteItemWish: (wishId: number) => m.mutate({ eventId, teamId: teamId!, wishId }), deleteItemWishPending: m.isPending };
 }
 
 // --- Items ---
@@ -730,6 +1003,39 @@ function toObjectiveCreate(
     ...objective,
     valid_from: start ?? undefined,
     valid_to: end ?? undefined,
-    scoring_preset_ids: objective.scoring_presets?.map((preset) => preset.id) ?? [],
+    scoring_preset_ids:
+      objective.scoring_presets?.map((preset) => preset.id) ?? [],
   };
+}
+
+// --- Preload helpers ---
+
+export function preloadLadderData(qc: QueryClient) {
+  qc.prefetchQuery({
+    queryKey: getGetLadderBaseQueryKey("current" as unknown as number),
+    queryFn: () => getLadderBase("current" as unknown as number),
+  });
+}
+
+export function preloadCharacterData(
+  userId: number,
+  characterId: string,
+  eventId: number,
+  qc: QueryClient,
+) {
+  qc.prefetchQuery({
+    queryKey: getGetPoBsBaseQueryKey(userId, characterId),
+    queryFn: () => getPoBsBase(userId, characterId),
+  });
+  qc.prefetchQuery({
+    queryKey: getGetAtlasProgressionBaseQueryKey(eventId, userId),
+    queryFn: () => getAtlasProgressionBase(eventId, userId),
+  });
+  qc.prefetchQuery({
+    queryKey: getGetCharacterHistoryBaseQueryKey(userId, characterId),
+    queryFn: () =>
+      getCharacterHistoryBase(userId, characterId).then((data) =>
+        data.sort((a, b) => a.timestamp - b.timestamp),
+      ),
+  });
 }

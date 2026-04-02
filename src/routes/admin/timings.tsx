@@ -1,5 +1,5 @@
-import { Permission, TimingCreate } from "@client/api";
-import { useGetTimings, useSetTimings } from "@client/query";
+import { Permission, TimingCreate } from "@api";
+import { useGetTimings, useSetTimings } from "@api";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";

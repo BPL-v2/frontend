@@ -1,4 +1,4 @@
-import { Permission } from "@client/api";
+import { Permission } from "@api";
 
 import { JSX } from "react";
 import { router } from "../main";

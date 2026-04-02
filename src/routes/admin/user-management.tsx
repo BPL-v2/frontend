@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Permission, User } from "@client/api";
-import { userApi } from "@client/client";
+import { Permission, User } from "@api";
+import { getAllUsersBase, changePermissionsBase } from "@api";
 import Select from "@components/form/select";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
@@ -25,7 +25,7 @@ function UserPage() {
   const [roleFilter, setRoleFilter] = React.useState<Permission | "">("");
   const [users, setUsers] = React.useState<User[]>([]);
   useEffect(() => {
-    userApi.getAllUsers().then((users) => setUsers(users));
+    getAllUsersBase().then((users) => setUsers(users));
   }, []);
   const columns: ColumnDef<User>[] = [
     {
@@ -90,17 +90,18 @@ function UserPage() {
                 } else {
                   newPermissions.push(permission);
                 }
-                userApi
-                  .changePermissions(info.row.original.id, newPermissions)
-                  .then(() => {
-                    setUsers((prev) =>
-                      prev.map((user) =>
-                        user.id === info.row.original.id
-                          ? { ...user, permissions: newPermissions }
-                          : user,
-                      ),
-                    );
-                  });
+                changePermissionsBase(
+                  info.row.original.id,
+                  newPermissions,
+                ).then(() => {
+                  setUsers((prev) =>
+                    prev.map((user) =>
+                      user.id === info.row.original.id
+                        ? { ...user, permissions: newPermissions }
+                        : user,
+                    ),
+                  );
+                });
               }}
             >
               {permission}

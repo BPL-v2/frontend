@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { GameVersion, Team, TeamCreate } from "@client/api";
+import { GameVersion, Team, TeamCreate } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateTeam } from "@client/query";
+import { useCreateTeam } from "@api";
 
 interface TeamFormModalProps {
   isOpen: boolean;
@@ -104,7 +104,9 @@ export function TeamFormModal({
         />
         <form.AppField
           name="abbreviation"
-          children={(field) => <field.TextField label="Abbreviation" required />}
+          children={(field) => (
+            <field.TextField label="Abbreviation" required />
+          )}
         />
         <form.AppField
           name="color"
@@ -120,7 +122,9 @@ export function TeamFormModal({
             <field.ArrayField
               className="h-80"
               label="Allowed Classes"
-              options={gameVersion === GameVersion.poe2 ? poe2Classes : poe1Classes}
+              options={
+                gameVersion === GameVersion.poe2 ? poe2Classes : poe1Classes
+              }
             />
           )}
         />

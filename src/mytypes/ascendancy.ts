@@ -1,4 +1,4 @@
-import { GameVersion } from "@client/api";
+import { GameVersion } from "@api";
 
 export type ClassDef = {
   thumbnail: string;

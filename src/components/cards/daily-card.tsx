@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { ScoreObjective } from "@mytypes/score";
-import { ObjectiveType, ScoringMethod } from "@client/api";
+import { ObjectiveType, ScoringMethod } from "@api";
 import { twMerge } from "tailwind-merge";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { Countdown } from "@components/countdown";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import { ObjectiveIcon } from "@components/objective-icon";
@@ -16,7 +16,7 @@ export type DailyCardProps = {
 };
 
 function bonusAvailableCounter(
-  valid_to: string | null | undefined,
+  valid_to: string | Date | null | undefined,
   onFinish: () => void,
 ) {
   if (!valid_to) {

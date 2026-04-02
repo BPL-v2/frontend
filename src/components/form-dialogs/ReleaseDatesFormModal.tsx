@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Objective } from "@client/api";
+import { Objective } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useChangeCategoryReleaseDates } from "@client/query";
+import { useChangeCategoryReleaseDates } from "@api";
 
 interface ReleaseDatesFormModalProps {
   isOpen: boolean;

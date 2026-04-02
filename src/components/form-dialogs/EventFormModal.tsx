@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Event, EventCreate, GameVersion } from "@client/api";
+import { Event, EventCreate, GameVersion } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateEvent } from "@client/query";
+import { useCreateEvent } from "@api";
 
 interface EventFormModalProps {
   isOpen: boolean;
@@ -23,10 +23,10 @@ export function EventFormModal({
       name: "",
       patch: "",
       game_version: GameVersion.poe1,
-      application_start_time: new Date().toISOString(),
-      application_end_time: new Date().toISOString(),
-      event_start_time: new Date().toISOString(),
-      event_end_time: new Date().toISOString(),
+      application_start_time: new Date(),
+      application_end_time: new Date(),
+      event_start_time: new Date(),
+      event_end_time: new Date(),
       max_size: 1000,
       waitlist_size: 100,
       is_current: false,
@@ -105,9 +105,7 @@ export function EventFormModal({
           />
           <form.AppField
             name="event_end_time"
-            children={(field) => (
-              <field.DateTimeField label="Event End Time" />
-            )}
+            children={(field) => <field.DateTimeField label="Event End Time" />}
           />
         </div>
         <div className="flex flex-row gap-4">

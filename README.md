@@ -34,7 +34,7 @@ python3 icon-generation/fetch_icons.py
 Run the backend go server on localhost and execute
 
 ```
-./generate_client.sh
+npm run generate-client
 ```
 
 ## Credits

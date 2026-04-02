@@ -1,5 +1,5 @@
-import { Event } from "@client/api";
-import { useGetEvents } from "@client/query";
+import { Event } from "@api";
+import { useGetEvents } from "@api";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/events/")({
@@ -116,7 +116,9 @@ function EventsPage() {
   const sorted = [...events]
     .filter((e) => e.is_public)
     .sort(
-      (a, b) => Date.parse(b.event_start_time) - Date.parse(a.event_start_time),
+      (a, b) =>
+        new Date(b.event_start_time).getTime() -
+        new Date(a.event_start_time).getTime(),
     );
 
   return (

@@ -1,4 +1,4 @@
-import { useGetEvents, useGetEventStatus } from "@client/query";
+import { useGetEvents, useGetEventStatus } from "@api";
 // import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { Countdown } from "@components/countdown";
 import SignupButton from "@components/signup-button";
@@ -22,25 +22,26 @@ function Home() {
   const { events } = useGetEvents();
   const nextEvent = events?.sort(
     (a, b) =>
-      (Date.parse(b.event_start_time) || 0) -
-      (Date.parse(a.event_start_time) || 0),
+      (new Date(b.event_start_time).getTime() || 0) -
+      (new Date(a.event_start_time).getTime() || 0),
   )[0];
   const { eventStatus } = useGetEventStatus(nextEvent?.id || currentEvent.id);
   const now = Date.now();
   const pastEvents = (events || [])
-    .filter((e) => e.is_public && Date.parse(e.event_end_time) < now)
+    .filter((e) => e.is_public && new Date(e.event_end_time).getTime() < now)
     .sort(
       (a, b) =>
-        Date.parse(b.event_start_time) - Date.parse(a.event_start_time),
+        new Date(b.event_start_time).getTime() -
+        new Date(a.event_start_time).getTime(),
     );
   const signupsStart = nextEvent
     ? new Date() >= new Date(nextEvent.application_start_time)
     : false;
   const hasStarted = nextEvent
-    ? Date.parse(nextEvent.event_start_time) < now
+    ? new Date(nextEvent.event_start_time).getTime() < now
     : false;
   const hasEnded = nextEvent
-    ? Date.parse(nextEvent.event_end_time) < now
+    ? new Date(nextEvent.event_end_time).getTime() < now
     : true;
   return (
     <div className="mx-auto mt-8 flex flex-col gap-8">
@@ -137,7 +138,7 @@ function Home() {
                   <Link
                     to="/events/$eventId"
                     params={{ eventId: String(event.id) }}
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-sm btn-primary"
                   >
                     View Ladder
                   </Link>

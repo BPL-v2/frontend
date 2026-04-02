@@ -1,4 +1,4 @@
-import { GameVersion, ObjectiveType } from "@client/api";
+import { GameVersion, ObjectiveType } from "@api";
 import {
   preloadCharacterData,
   useFile,
@@ -8,7 +8,7 @@ import {
   useGetScore,
   useGetUser,
   useGetUserActivity,
-} from "@client/query";
+} from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { LazyCharacterChart } from "@components/profile/character-chart-lazy";
 import { PoB } from "@components/profile/pob";

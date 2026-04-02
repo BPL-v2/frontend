@@ -1,4 +1,4 @@
-import { Objective, GameVersion } from "@client/api";
+import { Objective, GameVersion } from "@api";
 import { ScoreObjective } from "@mytypes/score";
 import { getImageLocation, getItemName } from "@mytypes/scoring-objective";
 import { twMerge } from "tailwind-merge";

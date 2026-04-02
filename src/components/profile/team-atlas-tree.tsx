@@ -3,7 +3,7 @@ import {
   useGetEventStatus,
   useGetTeamAtlas,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { ComposedTree } from "./composed-tree";
 import { CompactTree } from "@mytypes/tree";
 import { CategoryIcon } from "@icons/category-icons";

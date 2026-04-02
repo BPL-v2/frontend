@@ -1,4 +1,4 @@
-import { ObjectiveType, ScoringMethod, Team, Completion } from "@client/api";
+import { ObjectiveType, ScoringMethod, Team, Completion } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";

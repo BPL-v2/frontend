@@ -1,11 +1,11 @@
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { ItemTable } from "@components/table/item-table";
 import TeamScoreDisplay from "@components/team/team-score";
 import { UniqueCategoryCard } from "@components/cards/unique-category-card";
 import { hasEnded, isWinnable, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { ScoringMethod } from "@client/api";
+import { ScoringMethod } from "@api";
 import { twMerge } from "tailwind-merge";
 
 function isTimed(objective: ScoreObjective): boolean {

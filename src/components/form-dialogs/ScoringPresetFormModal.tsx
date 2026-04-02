@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { ScoringMethod, ScoringPreset, ScoringPresetCreate } from "@client/api";
+import { ScoringMethod, ScoringPreset, ScoringPresetCreate } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAddScoringPreset } from "@client/query";
+import { useAddScoringPreset } from "@api";
 
 interface ScoringPresetFormModalProps {
   isOpen: boolean;
@@ -27,7 +27,9 @@ export function ScoringPresetFormModal({
       extra: {},
     } as ScoringPresetCreate,
     onSubmit: (data) => {
-      const create = JSON.parse(JSON.stringify(data.value)) as ScoringPresetCreate;
+      const create = JSON.parse(
+        JSON.stringify(data.value),
+      ) as ScoringPresetCreate;
       if (typeof data.value.points === "string") {
         create.points = (data.value.points as never as string)
           .split(",")
@@ -105,7 +107,9 @@ export function ScoringPresetFormModal({
                 children={(field) => (
                   <field.TextField
                     label="Number"
-                    hidden={scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME}
+                    hidden={
+                      scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME
+                    }
                   />
                 )}
               />
@@ -114,7 +118,9 @@ export function ScoringPresetFormModal({
                 children={(field) => (
                   <field.TextField
                     label="Percentage"
-                    hidden={scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME}
+                    hidden={
+                      scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME
+                    }
                   />
                 )}
               />

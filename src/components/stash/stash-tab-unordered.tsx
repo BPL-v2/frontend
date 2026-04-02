@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Item, GuildStashTabGGG } from "@client/api";
+import { Item, GuildStashTabGGG } from "@api";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -33,9 +33,9 @@ export const StashTabUnordered: React.FC<Props> = ({
       }}
     >
       {items.map((item, index) => {
-        const maximumStackSize = item.properties
+        const maximumStackSize = Number(item.properties
           ?.find((prop) => prop.name === "Stack Size")
-          ?.values?.[0]?.[0]?.split("/")?.[1];
+          ?.values?.[0]?.[0]?.toString().split("/")?.[1]);
         return (
           <div
             key={index}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { SignupCreate } from "@client/api";
+import { SignupCreate } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { redirectOauth } from "@utils/oauth";
-import { useCreateSignup, useGetOwnSignup } from "@client/query";
+import { useCreateSignup, useGetOwnSignup } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { DiscordFilled } from "@icons/discord";
 
@@ -44,7 +44,7 @@ export function SignupFormModal({
         alert("You need to link your Discord account to apply.");
         return;
       }
-      createSignup({ eventId, body: data.value });
+      createSignup(eventId, data.value);
     },
   });
 

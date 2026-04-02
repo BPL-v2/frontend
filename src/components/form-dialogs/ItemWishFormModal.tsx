@@ -1,8 +1,8 @@
-import { ItemField } from "@client/api";
+import { ItemField } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateItemWish, useFile } from "@client/query";
+import { useCreateItemWish, useFile } from "@api";
 import { decodePoBExport, Rarity } from "@utils/pob";
 
 interface ItemWishFormModalProps {
@@ -49,7 +49,9 @@ export function ItemWishFormModal({
           .filter((item) => item.rarity === Rarity.Unique)
           .map((item) => item.name)
           .forEach((itemName) =>
-            saveItemWish({ item_field: ItemField.NAME, value: itemName }),
+            saveItemWish(
+              { item_field: ItemField.NAME, value: itemName },
+            ),
           );
         pobData.skills.skillSets
           .flatMap((set) => set.skills)
@@ -57,14 +59,20 @@ export function ItemWishFormModal({
           .filter((gem) => gem.variantId.includes("Alt"))
           .map((gem) => gem.nameSpec)
           .forEach((itemName) =>
-            saveItemWish({ item_field: ItemField.BASE_TYPE, value: itemName }),
+            saveItemWish(
+              { item_field: ItemField.BASE_TYPE, value: itemName },
+            ),
           );
       }
       if (data.value.unique_name) {
-        saveItemWish({ item_field: ItemField.NAME, value: data.value.unique_name });
+        saveItemWish(
+          { item_field: ItemField.NAME, value: data.value.unique_name },
+        );
       }
       if (data.value.gem_name) {
-        saveItemWish({ item_field: ItemField.BASE_TYPE, value: data.value.gem_name });
+        saveItemWish(
+          { item_field: ItemField.BASE_TYPE, value: data.value.gem_name },
+        );
       }
       form.reset();
       setIsOpen(false);

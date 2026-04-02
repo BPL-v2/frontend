@@ -5,14 +5,11 @@ import {
   Objective,
   ObjectiveCreate,
   ObjectiveType,
-} from "@client/api";
+} from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  useCreateObjective,
-  useGetScoringPresetsForEvent,
-} from "@client/query";
+import { useCreateObjective, useGetScoringPresetsForEvent } from "@api";
 
 interface CategoryFormModalProps {
   isOpen: boolean;

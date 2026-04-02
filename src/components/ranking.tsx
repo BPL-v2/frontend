@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getPotentialPoints, getTotalPoints, rank2text } from "@utils/utils";
 // import { TeamLogo } from "./teamlogo";
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { twMerge } from "tailwind-merge";
 import { renderScore } from "@utils/score";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";

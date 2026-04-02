@@ -4,13 +4,13 @@ import {
   ObjectiveType,
   ObjectiveValidation,
   Permission,
-} from "@client/api";
+} from "@api";
 import {
   useGetEvents,
   useGetObjectiveValidations,
   useGetRules,
   useGetScoringPresetsForEvent,
-} from "@client/query";
+} from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { createFileRoute, useParams } from "@tanstack/react-router";

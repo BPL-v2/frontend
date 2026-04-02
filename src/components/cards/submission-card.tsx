@@ -1,9 +1,9 @@
-import { ApprovalStatus, Submission, Team } from "@client/api";
+import { ApprovalStatus, Submission, Team } from "@api";
 import {
   useGetEventStatus,
   useGetSubmissions,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import {
   CheckCircleIcon,

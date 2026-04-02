@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Permission, ScoringPreset } from "@client/api";
+import { Permission, ScoringPreset } from "@api";
 import {
   useDeleteScoringPreset,
   useGetEvents,
   useGetScoringPresetsForEvent,
-} from "@client/query";
+} from "@api";
 import { ScoringPresetFormModal } from "@components/form-dialogs/ScoringPresetFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";

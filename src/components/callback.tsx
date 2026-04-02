@@ -1,4 +1,4 @@
-import { oauthApi } from "@client/client";
+import { oauthCallbackBase, oauthRedirectBase } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -38,8 +38,7 @@ export function Callback({
       });
       return;
     }
-    oauthApi
-      .oauthCallback(provider, {
+    oauthCallbackBase(provider, {
         state: state,
         code: code,
         referrer: localStorage.getItem("referrer") || undefined,
@@ -52,8 +51,7 @@ export function Callback({
         });
 
         if (provider === "poe" && !resp.user.discord_id) {
-          oauthApi
-            .oauthRedirect("discord", resp.last_path)
+          oauthRedirectBase("discord", { last_url: resp.last_path })
             .then((urlString) => {
               window.open(urlString, "_self");
             });

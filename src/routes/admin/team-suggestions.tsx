@@ -1,10 +1,10 @@
-import { ScoringMethod, Team, TeamSuggestion } from "@client/api";
+import { ScoringMethod, Team, TeamSuggestion } from "@api";
 import {
   useAddTeamSuggestion,
   useDeleteTeamSuggestion,
   useGetEventStatus,
   useGetTeamGoals,
-} from "@client/query";
+} from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ScoreObjective } from "@mytypes/score";
 import { useQueryClient } from "@tanstack/react-query";
@@ -128,17 +128,16 @@ function TeamSuggestionsPage() {
             key={"cat-" + row.row.original.id}
             onChange={(e) => {
               if (e.target.checked) {
-                addTeamSuggestion({
-                  suggestion: {
-                    objective_id: row.row.original.id,
-                  },
-                  teamId: eventStatus.team_id!,
-                });
+                addTeamSuggestion(
+                  eventStatus.team_id!,
+                  row.row.original.id,
+                  {},
+                );
               } else {
-                deleteTeamSuggestion({
-                  objectiveId: row.row.original.id,
-                  teamId: eventStatus.team_id!,
-                });
+                deleteTeamSuggestion(
+                  eventStatus.team_id!,
+                  row.row.original.id,
+                );
               }
             }}
           />
@@ -164,13 +163,11 @@ function TeamSuggestionsPage() {
                     }
                     const formData = new FormData(e.target as HTMLFormElement);
                     const extra = formData.get("extra");
-                    addTeamSuggestion({
-                      suggestion: {
-                        objective_id: suggestion.objective_id,
-                        extra: extra ? (extra as string) : undefined,
-                      },
-                      teamId: eventStatus.team_id,
-                    });
+                    addTeamSuggestion(
+                      eventStatus.team_id,
+                      suggestion.objective_id!,
+                      { extra: extra ? (extra as string) : undefined },
+                    );
                   }}
                 >
                   <textarea
@@ -260,17 +257,16 @@ function TeamSuggestionsPage() {
             key={"cat-" + row.original.id}
             onChange={(e) => {
               if (e.target.checked) {
-                addTeamSuggestion({
-                  suggestion: {
-                    objective_id: row.original.id,
-                  },
-                  teamId: eventStatus.team_id!,
-                });
+                addTeamSuggestion(
+                  eventStatus.team_id!,
+                  row.original.id,
+                  {},
+                );
               } else {
-                deleteTeamSuggestion({
-                  objectiveId: row.original.id,
-                  teamId: eventStatus.team_id!,
-                });
+                deleteTeamSuggestion(
+                  eventStatus.team_id!,
+                  row.original.id,
+                );
               }
             }}
           />
@@ -293,13 +289,11 @@ function TeamSuggestionsPage() {
                     e.preventDefault();
                     const formData = new FormData(e.target as HTMLFormElement);
                     const extra = formData.get("extra");
-                    addTeamSuggestion({
-                      suggestion: {
-                        objective_id: suggestion.objective_id,
-                        extra: extra ? (extra as string) : undefined,
-                      },
-                      teamId: eventStatus.team_id!,
-                    });
+                    addTeamSuggestion(
+                      eventStatus.team_id!,
+                      suggestion.objective_id!,
+                      { extra: extra ? (extra as string) : undefined },
+                    );
                   }}
                 >
                   <textarea
@@ -370,13 +364,11 @@ function TeamSuggestionsPage() {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
           const extra = formData.get("extra");
-          addTeamSuggestion({
-            suggestion: {
-              objective_id: scores.id,
-              extra: extra ? (extra as string) : undefined,
-            },
-            teamId: eventStatus.team_id!,
-          });
+          addTeamSuggestion(
+            eventStatus.team_id!,
+            scores.id,
+            { extra: extra ? (extra as string) : undefined },
+          );
         }}
       >
         <div className="fieldset w-full">

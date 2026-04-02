@@ -1,4 +1,4 @@
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useRef } from "react";

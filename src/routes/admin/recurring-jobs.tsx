@@ -1,5 +1,5 @@
-import { Permission, RecurringJob } from "@client/api";
-import { useGetEvents, useGetJobs, useStartJob } from "@client/query";
+import { Permission, RecurringJob } from "@api";
+import { useGetEvents, useGetJobs, useStartJob } from "@api";
 import { RecurringJobFormModal } from "@components/form-dialogs/RecurringJobFormModal";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -19,9 +19,9 @@ function RecurringJobsPage() {
 
   const stopJob = (job: RecurringJob) => {
     startJob({
-      eventId: job.event_id,
-      jobType: job.job_type,
-      endDate: new Date(),
+      event_id: job.event_id,
+      job_type: job.job_type,
+      end_date: new Date(),
     });
   };
 

@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import "uplot/dist/uPlot.min.css";
 
-import { useGetUserById, useGetUserCharacters } from "@client/query";
+import { useGetUserById, useGetUserCharacters } from "@api";
 import { useParams } from "@tanstack/react-router";
 import { usePageSEO } from "@utils/use-seo";
 import { useEffect } from "react";

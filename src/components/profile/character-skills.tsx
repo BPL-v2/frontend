@@ -1,4 +1,4 @@
-import { useFile } from "@client/query";
+import { useFile } from "@api";
 import { InventoryIcon } from "@icons/inventory-icons";
 import { Gem, PathOfBuilding, Skill } from "@utils/pob";
 import { twMerge } from "tailwind-merge";

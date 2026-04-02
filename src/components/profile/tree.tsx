@@ -1,4 +1,4 @@
-import { useFile } from "@client/query";
+import { useFile } from "@api";
 import { CompactTree } from "@mytypes/tree";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";

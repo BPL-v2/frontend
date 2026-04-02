@@ -1,4 +1,4 @@
-import { Event, GameVersion } from "@client/api";
+import { Event, GameVersion } from "@api";
 import {
   useGetEvents,
   useGetEventStatus,
@@ -6,7 +6,7 @@ import {
   useGetScore,
   useGetUser,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { initPreferences } from "@mytypes/preferences";
 import { ScoreObjective } from "@mytypes/score";
 import { ContextProvider } from "@utils/context-provider";

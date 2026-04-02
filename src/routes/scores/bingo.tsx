@@ -1,4 +1,4 @@
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { ProgressBar } from "@components/progress-bar";
 import TeamScoreDisplay from "@components/team/team-score";
 import { BingoTabRules } from "@rules/bingo";

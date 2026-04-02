@@ -3,7 +3,7 @@ import {
   useGetGuildStash,
   useSwitchStashFetching,
   useUpdateGuildStashTab,
-} from "@client/query";
+} from "@api";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
@@ -122,13 +122,15 @@ export function GuildStashSelect({ path }: { path: path }) {
                           type="checkbox"
                           checked={stash.fetch_enabled}
                           onChange={(e) =>
-                            switchStashFetching({
-                              tabId: stash.id,
-                              fetch_enabled: e.target.checked,
-                              priority_fetch: e.target.checked
-                                ? stash.priority_fetch
-                                : false,
-                            })
+                            switchStashFetching(
+                              stash.id,
+                              {
+                                fetch_enabled: e.target.checked,
+                                priority_fetch: e.target.checked
+                                  ? stash.priority_fetch
+                                  : false,
+                              },
+                            )
                           }
                           className="checkbox checkbox-primary"
                         />
@@ -139,13 +141,15 @@ export function GuildStashSelect({ path }: { path: path }) {
                           type="checkbox"
                           checked={stash.priority_fetch}
                           onChange={(e) =>
-                            switchStashFetching({
-                              tabId: stash.id,
-                              fetch_enabled: e.target.checked
-                                ? true
-                                : stash.fetch_enabled,
-                              priority_fetch: e.target.checked,
-                            })
+                            switchStashFetching(
+                              stash.id,
+                              {
+                                fetch_enabled: e.target.checked
+                                  ? true
+                                  : stash.fetch_enabled,
+                                priority_fetch: e.target.checked,
+                              },
+                            )
                           }
                           className="checkbox checkbox-secondary"
                         />

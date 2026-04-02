@@ -3,7 +3,7 @@ import { TwitchFilled } from "@icons/twitch";
 import { DiscordFilled } from "@icons/discord";
 import { ThemePicker } from "@components/theme-picker";
 import { createFileRoute } from "@tanstack/react-router";
-import { useChangeUserDisplayName, useGetUser } from "@client/query";
+import { useChangeUserDisplayName, useGetUser } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";

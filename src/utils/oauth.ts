@@ -1,11 +1,10 @@
-import { oauthApi } from "@client/client";
+import { oauthRedirectBase } from "@api";
 
 export function redirectOauth(
   provider: "discord" | "twitch" | "poe",
   latestUrl: string,
 ): () => Promise<void | Window | null> {
   return () =>
-    oauthApi
-      .oauthRedirect(provider, latestUrl)
+    oauthRedirectBase(provider, { last_url: latestUrl })
       .then((urlString) => window.open(urlString, "_self"));
 }

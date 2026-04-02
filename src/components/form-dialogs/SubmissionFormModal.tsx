@@ -1,10 +1,10 @@
 import { ScoreObjective } from "@mytypes/score";
 import { Dialog } from "@components/dialog";
-import { useSubmitBounty } from "@client/query";
+import { useSubmitBounty } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useRef } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { AggregationType, SubmissionCreate } from "@client/api";
+import { AggregationType, SubmissionCreate } from "@api";
 import { DateTimePicker } from "@components/form/datetime-picker";
 
 type SubmissionFormModalProps = {
@@ -46,7 +46,7 @@ export function SubmissionFormModal({
           }
           const submissionCreate: SubmissionCreate = {
             ...values,
-            timestamp: values.timestamp as string,
+            timestamp: new Date(values.timestamp as string),
             number: parseInt(values.number as string) || 1,
             objective_id: objective.id,
           };

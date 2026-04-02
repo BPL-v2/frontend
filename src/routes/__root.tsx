@@ -17,12 +17,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { GlobalStateContext } from "@utils/context-provider";
 
-import { useGetEventStatus, useGetUser } from "@client/query";
+import { useGetEventStatus, useGetUser } from "@api";
 import { Footer } from "@components/footer";
 import { TwitchFilled } from "@icons/twitch";
 import { twMerge } from "tailwind-merge";
 import { router } from "../main";
-import { engagementApi } from "@client/client";
+import { addEngagementBase } from "@api";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -115,14 +115,14 @@ function RootComponent() {
       document.referrer &&
       document.location.hostname !== new URL(document.referrer).hostname
     ) {
-      engagementApi.addEngagement({ name: document.referrer });
+      addEngagementBase({ name: document.referrer });
     }
   }, [document.referrer]);
 
   useEffect(() => {
     if (hello) {
       localStorage.setItem("referrer", hello);
-      engagementApi.addEngagement({ name: hello });
+      addEngagementBase({ name: hello });
     }
     router.navigate({ to: router.state.location.pathname, replace: true });
   }, [hello]);

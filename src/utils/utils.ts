@@ -1,4 +1,4 @@
-import { Objective, ScoringMethod, ScoringPreset, Score } from "@client/api";
+import { Objective, ScoringMethod, ScoringPreset, Score } from "@api";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 
 type TeamScores = { [teamId: number]: ScoreClass };

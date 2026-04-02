@@ -7,7 +7,7 @@ import {
   ObjectiveCreate,
   ObjectiveValidation,
   Permission,
-} from "@client/api";
+} from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { useParams } from "@tanstack/react-router";
 
@@ -18,7 +18,7 @@ import {
   useGetObjectiveValidations,
   useGetRules,
   useGetScoringPresetsForEvent,
-} from "@client/query";
+} from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import {
   ClipboardDocumentListIcon,
@@ -35,7 +35,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
 import { findObjective, getPath } from "@utils/utils";
 import { twMerge } from "tailwind-merge";
-import { objectiveApi } from "@client/client";
+import { validateObjectivesBase } from "@api";
 import { ObjectiveFormModal } from "@components/form-dialogs/ObjectiveFormModal";
 import { BulkObjectiveFormModal } from "@components/form-dialogs/BulkObjectiveFormModal";
 import { CategoryFormModal } from "@components/form-dialogs/CategoryFormModal";
@@ -463,9 +463,9 @@ export function ScoringCategoryPage(): JSX.Element {
         <button
           className="btn btn-success"
           onClick={() =>
-            objectiveApi
-              .validateObjectives(eventId, { timeout_seconds: 300 })
-              .then(() => qc.invalidateQueries())
+            validateObjectivesBase(eventId, { timeout_seconds: 300 }).then(() =>
+              qc.invalidateQueries(),
+            )
           }
         >
           Validate Objectives

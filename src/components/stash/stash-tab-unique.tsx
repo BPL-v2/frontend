@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, GuildStashTabGGG } from "@client/api";
+import { Item, GuildStashTabGGG } from "@api";
 import clsx from "clsx";
 
 type Props = {

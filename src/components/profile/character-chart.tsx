@@ -1,5 +1,5 @@
-import { PoB } from "@client/api";
-import { useGetPoBs } from "@client/query";
+import { PoB } from "@api";
+import { useGetPoBs } from "@api";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";

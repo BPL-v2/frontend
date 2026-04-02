@@ -1,10 +1,10 @@
-import { Event, Permission } from "@client/api";
-import { objectiveApi } from "@client/client";
+import { Event, Permission } from "@api";
+import { getObjectiveTreeForEventBase } from "@api";
 import {
   useDeleteEvent,
   useDuplicateEvent,
   useGetEvents,
-} from "@client/query";
+} from "@api";
 import { DeleteButton } from "@components/form/delete-button";
 import { EventFormModal } from "@components/form-dialogs/EventFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
@@ -150,9 +150,9 @@ function EventPage() {
           <button
             className="btn btn-xs"
             onClick={() =>
-              duplicateEvent({
-                eventId: info.row.original.id,
-                eventCreate: {
+              duplicateEvent(
+                info.row.original.id,
+                {
                   ...info.row.original,
                   id: undefined,
                   name: `${info.row.original.name} (Copy)`,
@@ -160,7 +160,7 @@ function EventPage() {
                   is_public: false,
                   is_locked: false,
                 },
-              })
+              )
             }
           >
             Duplicate
@@ -181,8 +181,7 @@ function EventPage() {
           </Link>
           <button
             onClick={() => {
-              objectiveApi
-                .getObjectiveTreeForEvent(info.row.original.id)
+              getObjectiveTreeForEventBase(info.row.original.id)
                 .then((baseObjective) => {
                   navigate({
                     to: "/admin/events/$eventId/objectives/$objectiveId",

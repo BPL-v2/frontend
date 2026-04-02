@@ -4,15 +4,15 @@ import React, { useContext, useMemo } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
 
-import { Objective, ObjectiveType, Permission, Submission } from "@client/api";
-import { submissionApi } from "@client/client";
+import { Objective, ObjectiveType, Permission, Submission } from "@api";
+import { setBulkSubmissionForAdminBase } from "@api";
 import {
   useGetRules,
   useGetSubmissions,
   useGetUser,
   useGetUsers,
   useReviewSubmission,
-} from "@client/query";
+} from "@api";
 import Select from "@components/form/select";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
@@ -206,10 +206,10 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-success"
                 onClick={() => {
-                  reviewSubmission({
-                    submissionId: submissionId,
-                    approvalStatus: "APPROVED",
-                  });
+                  reviewSubmission(
+                    submissionId,
+                    { approval_status: "APPROVED" },
+                  );
                 }}
                 disabled={reviewPending}
               >
@@ -221,10 +221,10 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-error"
                 onClick={() => {
-                  reviewSubmission({
-                    submissionId: submissionId,
-                    approvalStatus: "REJECTED",
-                  });
+                  reviewSubmission(
+                    submissionId,
+                    { approval_status: "REJECTED" },
+                  );
                 }}
                 disabled={reviewPending}
               >
@@ -291,8 +291,7 @@ function SubmissionPage() {
             alert("You have to select different teams for each place");
             return;
           }
-          submissionApi
-            .setBulkSubmissionForAdmin(currentEvent.id, {
+          setBulkSubmissionForAdminBase(currentEvent.id, {
               objective_id: objectiveId,
               team_ids: places,
             })

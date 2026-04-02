@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Item, GuildStashTabGGG } from "@client/api";
+import { Item, GuildStashTabGGG } from "@api";
 import {
   getLayout,
   StashTabLayout,

@@ -1,6 +1,6 @@
 import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ScoringMethod } from "@client/api";
+import { ScoringMethod } from "@api";
 
 function convertArrayToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {

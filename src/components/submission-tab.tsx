@@ -1,4 +1,4 @@
-import { ObjectiveType } from "@client/api";
+import { ObjectiveType } from "@api";
 import { Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext } from "react";

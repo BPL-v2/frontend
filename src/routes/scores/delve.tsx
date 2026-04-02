@@ -1,5 +1,5 @@
-import { GameVersion, LadderEntry, Team } from "@client/api";
-import { preloadLadderData, useGetLadder, useGetUsers } from "@client/query";
+import { GameVersion, LadderEntry, Team } from "@api";
+import { preloadLadderData, useGetLadder, useGetUsers } from "@api";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { CollectionCardTable } from "@components/cards/collection-card-table";

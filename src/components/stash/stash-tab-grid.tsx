@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Item, GuildStashTabGGG } from "@client/api";
+import { Item, GuildStashTabGGG } from "@api";
 import { twMerge } from "tailwind-merge";
 
 type Props = {

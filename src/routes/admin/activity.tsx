@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Permission, Signup } from "@client/api";
+import { Permission, Signup } from "@api";
 import { renderConditionally } from "@utils/token";
 import { useContext } from "react";
 import {
@@ -8,7 +8,7 @@ import {
   useGetLadder,
   useGetSignups,
   useGetUsers,
-} from "@client/query";
+} from "@api";
 import { GlobalStateContext } from "@utils/context-provider";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { getTotalPoints } from "@utils/utils";

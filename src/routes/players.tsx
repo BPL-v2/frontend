@@ -1,5 +1,5 @@
-import { SortedUser } from "@client/api";
-import { useGetSortedPlayers } from "@client/query";
+import { SortedUser } from "@api";
+import { useGetSortedPlayers } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import {
   CheckCircleIcon,

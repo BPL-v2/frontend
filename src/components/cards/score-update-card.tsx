@@ -1,8 +1,8 @@
 import { JSX, useContext } from "react";
 import { getMetaInfo } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ScoreDiff } from "@client/api";
-import { useGetUsers } from "@client/query";
+import { ScoreDiff } from "@api";
+import { useGetUsers } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 
 type ScoreUpdateCardProps = {

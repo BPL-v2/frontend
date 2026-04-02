@@ -1,5 +1,5 @@
-import { AggregationType, GameVersion, ScoringMethod, Team } from "@client/api";
-import { useGetEventStatus, useGetUsers } from "@client/query";
+import { AggregationType, GameVersion, ScoringMethod, Team } from "@api";
+import { useGetEventStatus, useGetUsers } from "@api";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
 import { getImageLocation } from "@mytypes/scoring-objective";

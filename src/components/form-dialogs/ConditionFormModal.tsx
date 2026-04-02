@@ -1,12 +1,9 @@
-import { ItemField, Objective, ObjectiveCreate, Operator } from "@client/api";
+import { ItemField, Objective, ObjectiveCreate, Operator } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  useCreateObjective,
-  useGetValidConditionMappings,
-} from "@client/query";
+import { useCreateObjective, useGetValidConditionMappings } from "@api";
 
 interface ConditionFormModalProps {
   isOpen: boolean;
@@ -25,7 +22,11 @@ export function ConditionFormModal({
   const { operatorForField } = useGetValidConditionMappings(eventId);
 
   const form = useAppForm({
-    defaultValues: {} as { field: ItemField; operator: Operator; value: string },
+    defaultValues: {} as {
+      field: ItemField;
+      operator: Operator;
+      value: string;
+    },
     onSubmit: (data) => {
       const updatedConditions = [
         ...objective.conditions.filter(
@@ -51,9 +52,14 @@ export function ConditionFormModal({
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { field: itemField } = useStore(form.store, (state: any) => state.values);
+  const { field: itemField } = useStore(
+    form.store,
+    (state: any) => state.values,
+  );
   const operatorOptions: Operator[] =
-    operatorForField && itemField ? operatorForField[itemField as ItemField] : [];
+    operatorForField && itemField
+      ? operatorForField[itemField as ItemField]
+      : [];
 
   return (
     <Dialog

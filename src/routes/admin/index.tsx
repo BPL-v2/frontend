@@ -1,5 +1,5 @@
-import { Permission } from "@client/api";
-import { useGetEventStatus, useGetUser } from "@client/query";
+import { Permission } from "@api";
+import { useGetEventStatus, useGetUser } from "@api";
 import { EventPicker } from "@components/event-picker";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";

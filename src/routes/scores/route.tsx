@@ -1,4 +1,4 @@
-import { GameVersion } from "@client/api";
+import { GameVersion } from "@api";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { BountyTabRules } from "@rules/bounties";
 import { CollectionTabRules } from "@rules/collections";
@@ -19,7 +19,7 @@ import { usePageSEO } from "@utils/use-seo";
 import { JSX, useContext, useEffect, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { router } from "../../main";
-import { useGetRules } from "@client/query";
+import { useGetRules } from "@api";
 import { AscendancyChallengeTabRules } from "../../rules-alt/ascendancy-challenges";
 import { GraftRaceTabRules } from "../../rules-alt/graft-race";
 

@@ -1,11 +1,11 @@
-import { LadderEntry, ScoringMethod } from "@client/api";
+import { LadderEntry, ScoringMethod } from "@api";
 import {
   preloadLadderData,
   useGetEventStatus,
   useGetLadder,
   useGetTeamGoals,
   useGetUser,
-} from "@client/query";
+} from "@api";
 import ProgressCard from "@components/cards/progress-card";
 import { PoGauge } from "@components/personal-objective/po-gauge";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";

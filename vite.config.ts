@@ -38,7 +38,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@client": path.resolve(__dirname, "./src/client"),
+      "@api": path.resolve(__dirname, "./src/api"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@components": path.resolve(__dirname, "./src/components"),
       "@mytypes": path.resolve(__dirname, "./src/mytypes"),

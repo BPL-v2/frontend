@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 // import { UniqueTabRules } from "@rules/uniques";
-import { useGetEventStatus } from "@client/query";
+import { useGetEventStatus } from "@api";
 import { ItemTable } from "@components/table/item-table";
 import TeamScoreDisplay from "@components/team/team-score";
 import { UniqueCategoryCard } from "@components/cards/unique-category-card";

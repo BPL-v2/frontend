@@ -1,9 +1,9 @@
-import { Item } from "@client/api";
+import { Item } from "@api";
 import {
   useGetEventStatus,
   useGetGuildStashTab,
   useGetRules,
-} from "@client/query";
+} from "@api";
 import { Dialog } from "@components/dialog";
 import { StashTabGrid } from "@components/stash/stash-tab-grid";
 import { StashTabSpecial } from "@components/stash/stash-tab-special";
@@ -124,7 +124,7 @@ export function GuildStashView({
             <div className="flex flex-col">
               {selectedItem?.properties?.map((prop) => {
                 if (prop.displayMode === 3) {
-                  const values = prop.values?.map((v) => v[0]);
+                  const values = prop.values?.map((v) => String(v[0]));
                   let name = prop.name || "";
                   values?.forEach((value, i) => {
                     name = name.replace(`{${i}}`, value);
@@ -136,8 +136,8 @@ export function GuildStashView({
                   <p>
                     <span className="text-base-content/80">{prop.name}:</span>{" "}
                     <span className="text-magic">
-                      {prop.values?.[0]?.[0] || prop.values?.[0]?.[1]}{" "}
-                      {prop.displayMode == 1 ? prop.values?.[0]?.[1] : ""}
+                      {String(prop.values?.[0]?.[0] || prop.values?.[0]?.[1])}{" "}
+                      {prop.displayMode == 1 ? String(prop.values?.[0]?.[1]) : ""}
                     </span>
                   </p>
                 );

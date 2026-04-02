@@ -2,7 +2,7 @@ import { JSX, useContext, useEffect } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import TeamScoreDisplay from "@components/team/team-score";
 import { ItemTable } from "@components/table/item-table";
-import { GameVersion, ScoringMethod } from "@client/api";
+import { GameVersion, ScoringMethod } from "@api";
 import { Ranking } from "@components/ranking";
 import { createFileRoute } from "@tanstack/react-router";
 import { HeistTabRules } from "@rules/heist";
