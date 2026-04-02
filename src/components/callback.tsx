@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { router } from "../main";
+import { getGetUserBaseQueryKey } from "@api/generated/user/user";
 
 type CallbackProps = {
   state: string;
@@ -39,22 +40,21 @@ export function Callback({
       return;
     }
     oauthCallbackBase(provider, {
-        state: state,
-        code: code,
-        referrer: localStorage.getItem("referrer") || undefined,
-      })
+      state: state,
+      code: code,
+      referrer: localStorage.getItem("referrer") || undefined,
+    })
       .then((resp) => {
         localStorage.setItem("auth", resp.auth_token);
         localStorage.removeItem("referrer");
-        qc.invalidateQueries({
-          queryKey: ["user"],
-        });
+        qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
 
         if (provider === "poe" && !resp.user.discord_id) {
-          oauthRedirectBase("discord", { last_url: resp.last_path })
-            .then((urlString) => {
+          oauthRedirectBase("discord", { last_url: resp.last_path }).then(
+            (urlString) => {
               window.open(urlString, "_self");
-            });
+            },
+          );
           return;
         }
 
