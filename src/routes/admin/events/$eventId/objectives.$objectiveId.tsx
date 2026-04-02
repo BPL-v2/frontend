@@ -22,6 +22,7 @@ import {
 import VirtualizedTable from "@components/table/virtualized-table";
 import {
   ClipboardDocumentListIcon,
+  ClockIcon,
   DocumentDuplicateIcon,
   FolderOpenIcon,
   PencilSquareIcon,
@@ -39,6 +40,7 @@ import { ObjectiveFormModal } from "@components/form-dialogs/ObjectiveFormModal"
 import { BulkObjectiveFormModal } from "@components/form-dialogs/BulkObjectiveFormModal";
 import { CategoryFormModal } from "@components/form-dialogs/CategoryFormModal";
 import { ConditionFormModal } from "@components/form-dialogs/ConditionFormModal";
+import { ReleaseDatesFormModal } from "@components/form-dialogs/ReleaseDatesFormModal";
 
 export const Route = createFileRoute(
   "/admin/events/$eventId/objectives/$objectiveId",
@@ -72,6 +74,9 @@ export function ScoringCategoryPage(): JSX.Element {
   );
   const [categoryToEdit, setCategoryToEdit] = useState<Objective | null>(null);
   const [conditionObjective, setConditionObjective] =
+    useState<Objective | null>(null);
+  const [isReleaseDatesModalOpen, setIsReleaseDatesModalOpen] = useState(false);
+  const [releaseDatesObjective, setReleaseDatesObjective] =
     useState<Objective | null>(null);
 
   const { events } = useGetEvents();
@@ -236,6 +241,20 @@ export function ScoringCategoryPage(): JSX.Element {
                 </button>
               </div>
               <div
+                className="tooltip tooltip-bottom tooltip-warning"
+                data-tip="Release Dates"
+              >
+                <button
+                  className="btn btn-xs btn-warning"
+                  onClick={() => {
+                    setReleaseDatesObjective(row.original);
+                    setIsReleaseDatesModalOpen(true);
+                  }}
+                >
+                  <ClockIcon className="size-4" />
+                </button>
+              </div>
+              <div
                 className="tooltip tooltip-bottom tooltip-error"
                 data-tip="Delete"
               >
@@ -282,6 +301,7 @@ export function ScoringCategoryPage(): JSX.Element {
                   <PlusIcon className="size-4" />
                 </button>
               </div>
+
               <div
                 className="tooltip tooltip-bottom tooltip-secondary"
                 data-tip="Open as Category"
@@ -345,6 +365,17 @@ export function ScoringCategoryPage(): JSX.Element {
         parentId={objectiveId}
         existingCategory={categoryToEdit}
       />
+      {releaseDatesObjective && (
+        <ReleaseDatesFormModal
+          isOpen={isReleaseDatesModalOpen}
+          setIsOpen={(open) => {
+            setIsReleaseDatesModalOpen(open);
+            if (!open) setReleaseDatesObjective(null);
+          }}
+          eventId={eventId}
+          objective={releaseDatesObjective}
+        />
+      )}
       {conditionObjective && (
         <ConditionFormModal
           isOpen={isConditionModalOpen}

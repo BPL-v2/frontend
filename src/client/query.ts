@@ -1,7 +1,6 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { isLoggedIn } from "@utils/token";
-import { ScoreMap } from "@utils/utils";
-import { BulkObjectiveCreate } from "../routes/admin/events/$eventId/objectives.$objectiveId";
+import { flatMap, ScoreMap } from "@utils/utils";
 import {
   Character,
   CreateItemWish,
@@ -44,6 +43,7 @@ import {
   wishApi,
 } from "./client";
 import { promises } from "timers";
+import { BulkObjectiveCreate } from "@components/form-dialogs/BulkObjectiveFormModal";
 
 let current = 0;
 
@@ -1283,16 +1283,10 @@ export function useChangeCategoryReleaseDates(
       start: Date | null;
       end: Date | null;
     }) => {
-      const promises = objective.children.map((child) =>
+      const promises = flatMap(objective).map((child) =>
         objectiveApi.createObjective(
           eventId,
           toObjectiveCreate(child, start, end),
-        ),
-      );
-      promises.push(
-        objectiveApi.createObjective(
-          eventId,
-          toObjectiveCreate(objective, start, end),
         ),
       );
       return Promise.all(promises);
