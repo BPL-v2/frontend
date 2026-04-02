@@ -18,7 +18,7 @@ import { toTheme } from "./theme-picker";
 function ContextWrapper({ children }: { children: React.ReactNode }) {
   // initialize with a dummy event so that we can start making api calls
   const [currentEvent, setCurrentEvent] = useState<Event>({
-    id: "current",
+    id: Number(localStorage.getItem("currentEventId") || "0"),
     game_version: GameVersion.poe1,
     teams: [],
     uses_medals: false,
@@ -37,20 +37,17 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
   useGetEventStatus(currentEvent.id);
 
   useEffect(() => {
+    if (!events) return;
+    const storedId = localStorage.getItem("currentEventId");
+    const ev =
+      (storedId && events.find((event) => String(event.id) === storedId)) ||
+      events.find((event) => event.is_current);
+    if (!ev) return;
     // @ts-ignore
-    if (events && currentEvent.id === "current") {
-      const ev = events.find((event) => event.is_current);
-      if (!ev) return;
-      // @ts-ignore
-      setCurrentEvent({ ...ev, ignoreRefetch: true });
-    }
+    setCurrentEvent(ev);
   }, [events]);
 
   useEffect(() => {
-    // @ts-ignore just a manual flag to avoid refetching on initial load
-    if (currentEvent.ignoreRefetch) {
-      return;
-    }
     websocket?.close(1000, "eventChange");
     establishScoreSocket(
       currentEvent.id,
@@ -100,6 +97,13 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem("preferences", JSON.stringify(preferences));
   }, [preferences]);
+
+  useEffect(() => {
+    // @ts-ignore id starts as "current" string before real event loads
+    if (currentEvent.id !== "current") {
+      localStorage.setItem("currentEventId", String(currentEvent.id));
+    }
+  }, [currentEvent.id]);
   return (
     <ContextProvider
       value={{

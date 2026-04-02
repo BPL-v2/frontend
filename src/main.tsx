@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./App.css";
 import ContextWrapper from "./components/app-context";
 import { routeTree } from "./routeTree.gen";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const rootElement = document.getElementById("root")!;
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <QueryClientProvider client={queryClient}>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ContextWrapper>
         <RouterProvider router={router} />
       </ContextWrapper>

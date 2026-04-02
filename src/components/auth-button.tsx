@@ -1,4 +1,5 @@
 import { useGetUser } from "@api";
+import { getGetUserBaseQueryKey } from "@api/generated/user/user";
 import {
   ArrowLeftStartOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
@@ -61,7 +62,7 @@ const AuthButton = () => {
               className="hover:bg-error hover:text-error-content"
               onClick={() => {
                 localStorage.removeItem("auth");
-                qc.setQueryData(["user"], null);
+                qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
               }}
             >
               <ArrowLeftStartOnRectangleIcon className="size-6" />
