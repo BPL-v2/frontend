@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { UniqueTabRules } from "@rules/uniques";
+// import { UniqueTabRules } from "@rules/uniques";
 import { useGetEventStatus } from "@client/query";
 import { ItemTable } from "@components/table/item-table";
 import TeamScoreDisplay from "@components/team/team-score";
@@ -323,11 +323,20 @@ function UniqueTab(): JSX.Element {
                 onChange={() => {
                   setSelectedCategory(undefined);
                   if (value === type) {
-                    router.navigate({ to: Route.fullPath, search: (prev) => ({ rules: prev.rules ?? false, type: undefined }) });
+                    router.navigate({
+                      to: Route.fullPath,
+                      search: (prev) => ({
+                        rules: prev.rules ?? false,
+                        type: undefined,
+                      }),
+                    });
                   } else {
                     router.navigate({
                       to: Route.fullPath,
-                      search: (prev) => ({ rules: prev.rules ?? false, type: value as "standard" | "timed" }),
+                      search: (prev) => ({
+                        rules: prev.rules ?? false,
+                        type: value as "standard" | "timed",
+                      }),
                     });
                   }
                 }}

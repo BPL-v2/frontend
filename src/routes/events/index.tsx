@@ -1,4 +1,4 @@
-import { Event, GameVersion } from "@client/api";
+import { Event } from "@client/api";
 import { useGetEvents } from "@client/query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 

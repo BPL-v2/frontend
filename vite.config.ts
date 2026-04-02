@@ -51,24 +51,31 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          "@react": ["react", "react-dom"],
-          "@uplot": ["uplot", "uplot-react"],
-          "@tanstack": [
-            "@tanstack/react-form",
-            "@tanstack/react-query",
-            "@tanstack/react-router",
-            "@tanstack/react-table",
-            "@tanstack/react-virtual",
-          ],
-          "@headlessui": ["@headlessui/react"],
-          "@vendor": [
-            "clsx",
-            "dayjs",
-            "isomorphic-fetch",
-            "tailwind-merge",
-            "url",
-          ],
+        manualChunks(id) {
+          if (
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/react/")
+          ) {
+            return "@react";
+          }
+          if (id.includes("node_modules/uplot")) {
+            return "@uplot";
+          }
+          if (id.includes("node_modules/@tanstack/")) {
+            return "@tanstack";
+          }
+          if (id.includes("node_modules/@headlessui/")) {
+            return "@headlessui";
+          }
+          if (
+            id.includes("node_modules/clsx/") ||
+            id.includes("node_modules/dayjs/") ||
+            id.includes("node_modules/isomorphic-fetch/") ||
+            id.includes("node_modules/tailwind-merge/") ||
+            id.includes("node_modules/url/")
+          ) {
+            return "@vendor";
+          }
         },
       },
     },

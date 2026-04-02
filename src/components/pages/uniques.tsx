@@ -63,12 +63,6 @@ function CategoryGrid({
   const shownCategories = filtered
     .filter((category) => ids.includes(category.id))
     .sort((a, b) => a.name.localeCompare(b.name));
-  let label = "Standard Uniques";
-  if (categories.some((category) => isTimed(category))) {
-    label = "Timed Uniques";
-  } else if (categories.some((category) => isOpenEnded(category))) {
-    label = "Open Ended Uniques";
-  }
 
   return (
     <>

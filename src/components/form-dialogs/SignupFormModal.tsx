@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import { SignupCreate } from "@client/api";
 import { Dialog } from "@components/dialog";
+import { setFormValues, useAppForm } from "@components/form/context";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { redirectOauth } from "@utils/oauth";
 import { useCreateSignup, useGetOwnSignup } from "@client/query";
@@ -21,11 +23,7 @@ export function SignupFormModal({
 }: SignupFormModalProps) {
   const qc = useQueryClient();
   const state = useRouterState();
-  const formRef = useRef<HTMLFormElement>(null);
-  const [hourValue, setHourValue] = React.useState(1);
-  const [needHelp, setNeedHelp] = React.useState(false);
-  const [wantToHelp, setWantToHelp] = React.useState(false);
-  const [partnerWish, setPartnerWish] = React.useState("");
+  const [rulesChecked, setRulesChecked] = useState(false);
 
   const { signup } = useGetOwnSignup(eventId);
   const { createSignup, isError: signupError } = useCreateSignup(
@@ -34,93 +32,86 @@ export function SignupFormModal({
     (error) => alert(error),
   );
 
+  const form = useAppForm({
+    defaultValues: {
+      expected_playtime: 1,
+      needs_help: false,
+      wants_to_help: false,
+      partner_account_name: "",
+    } as SignupCreate,
+    onSubmit: (data) => {
+      if (!discordId) {
+        alert("You need to link your Discord account to apply.");
+        return;
+      }
+      createSignup({ eventId, body: data.value });
+    },
+  });
+
   useEffect(() => {
     if (!isOpen) return;
-    setHourValue(signup?.expected_playtime ?? 1);
-    setNeedHelp(signup?.needs_help ?? false);
-    setWantToHelp(signup?.wants_to_help ?? false);
+    form.reset();
+    setRulesChecked(!!signup);
+    if (signup) {
+      setFormValues(form, {
+        expected_playtime: signup.expected_playtime ?? 1,
+        needs_help: signup.needs_help ?? false,
+        wants_to_help: signup.wants_to_help ?? false,
+        partner_account_name: signup.partnerWish ?? "",
+      });
+    }
   }, [isOpen, signup]);
 
   return (
     <Dialog title="Apply for Event" open={isOpen} setOpen={setIsOpen}>
       <form
         className="w-full"
-        ref={formRef}
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target as HTMLFormElement);
-          if (!discordId) {
-            alert("You need to link your Discord account to apply.");
-            return;
-          }
-          createSignup({
-            eventId,
-            body: {
-              expected_playtime: hourValue,
-              wants_to_help: wantToHelp,
-              needs_help: needHelp,
-              partner_account_name: partnerWish,
-              extra:
-                formData.get("extra") === "on"
-                  ? JSON.stringify({ guild_owner: true })
-                  : undefined,
-            },
-          });
+          form.handleSubmit();
         }}
       >
         <fieldset className="fieldset gap-4 rounded-box bg-base-300 p-4">
-          <label className="fieldset-label">
-            How many hours will you be able to play per day?
-          </label>
-          <div className="flex items-center gap-2">
-            <span className="w-6 text-lg text-base-content">{hourValue}</span>
-            <div className="w-full">
-              <input
-                type="range"
-                min={1}
-                max="24"
-                value={hourValue}
-                className="range w-full range-primary"
-                step="1"
-                onChange={(e) => setHourValue(parseInt(e.target.value))}
-              />
-            </div>
-          </div>
-          <label className="fieldset-label">
-            <input
-              type="checkbox"
-              id="need_help"
-              name="need_help"
-              className="checkbox"
-              onChange={(e) => {
-                setNeedHelp(e.target.checked);
-                setWantToHelp(false);
-              }}
-              checked={needHelp}
-            />
-            I'm new and would like to have help
-          </label>
-          <label className="fieldset-label">
-            <input
-              type="checkbox"
-              id="want_to_help"
-              name="want_to_help"
-              className="checkbox"
-              onChange={(e) => {
-                setWantToHelp(e.target.checked);
-                setNeedHelp(false);
-              }}
-              checked={wantToHelp}
-            />
-            I'm experienced and would like to help others
-          </label>
+          <form.AppField
+            name="expected_playtime"
+            children={(field: any) => (
+              <field.NumberField label="Hours per day" min={1} max={24} />
+            )}
+          />
+          <form.AppField
+            name="needs_help"
+            listeners={{
+              onChange: ({ value }: { value: boolean }) => {
+                if (value) form.setFieldValue("wants_to_help", false);
+              },
+            }}
+            children={(field: any) => (
+              <field.BooleanField label="I'm new and would like to have help" />
+            )}
+          />
+          <form.AppField
+            name="wants_to_help"
+            listeners={{
+              onChange: ({ value }: { value: boolean }) => {
+                if (value) form.setFieldValue("needs_help", false);
+              },
+            }}
+            children={(field: any) => (
+              <field.BooleanField label="I'm experienced and would like to help others" />
+            )}
+          />
+          <form.AppField
+            name="partner_account_name"
+            children={(field: any) => (
+              <field.TextField label="Partner Wish (account name)" />
+            )}
+          />
           <label className="fieldset-label">
             <input
               type="checkbox"
-              id="rulecheck"
-              name="rulecheck"
               className="checkbox"
-              defaultChecked={!!signup}
+              checked={rulesChecked}
+              onChange={(e) => setRulesChecked(e.target.checked)}
               required
             />
             I've read the
@@ -129,45 +120,48 @@ export function SignupFormModal({
             </Link>
           </label>
         </fieldset>
-      </form>
-      {!discordId && (
-        <div className="mt-4">
-          <p>You need a linked discord account and join our server to apply.</p>
-          <a
-            className="bg-discord btn mt-4 text-xl text-white btn-lg"
-            onClick={redirectOauth("discord", state.location.href)}
-          >
-            <DiscordFilled className="size-6" />
-            Link Discord account
-          </a>
-        </div>
-      )}
-      {signupError ? null : (
-        <div className="mt-4">
-          <p>
-            Join our{" "}
+        {!discordId && (
+          <div className="mt-4">
+            <p>
+              You need a linked discord account and join our server to apply.
+            </p>
             <a
-              href="https://discord.com/invite/3weG9JACgb"
-              target="_blank"
-              className="link link-info"
+              className="bg-discord btn mt-4 text-xl text-white btn-lg"
+              onClick={redirectOauth("discord", state.location.href)}
             >
-              discord server
-            </a>{" "}
-            to apply for the event.
-          </p>
+              <DiscordFilled className="size-6" />
+              Link Discord account
+            </a>
+          </div>
+        )}
+        {signupError ? null : (
+          <div className="mt-4">
+            <p>
+              Join our{" "}
+              <a
+                href="https://discord.com/invite/3weG9JACgb"
+                target="_blank"
+                className="link link-info"
+              >
+                discord server
+              </a>{" "}
+              to apply for the event.
+            </p>
+          </div>
+        )}
+        <div className="modal-action w-full">
+          <button
+            type="button"
+            className="btn btn-error"
+            onClick={() => setIsOpen(false)}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary">
+            Apply
+          </button>
         </div>
-      )}
-      <div className="modal-action w-full">
-        <button className="btn btn-error" onClick={() => setIsOpen(false)}>
-          Cancel
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => formRef.current?.requestSubmit()}
-        >
-          Apply
-        </button>
-      </div>
+      </form>
     </Dialog>
   );
 }

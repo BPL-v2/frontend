@@ -1,7 +1,6 @@
 import React, { useContext, useMemo } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { ApplicationStatus } from "@client/api";
-import { Link } from "@tanstack/react-router";
 import { TeamName } from "./team/team-name";
 import {
   useDeleteSignup,
