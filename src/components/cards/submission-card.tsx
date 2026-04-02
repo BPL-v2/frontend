@@ -4,7 +4,7 @@ import {
   useGetSubmissions,
   useGetUsers,
 } from "@client/query";
-import { SubmissionDialog } from "@components/submission-diablog";
+import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import {
   CheckCircleIcon,
   EyeSlashIcon,
@@ -178,7 +178,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
     new Date(currentEvent.event_end_time) > new Date();
   return (
     <>
-      <SubmissionDialog
+      <SubmissionFormModal
         objective={objective}
         showModal={showModal}
         setShowModal={setShowModal}

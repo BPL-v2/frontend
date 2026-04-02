@@ -1,3 +1,4 @@
+import { Countdown } from "@components/countdown";
 import { CategoryIcon } from "@icons/category-icons";
 import { Medal } from "@icons/medal";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
@@ -27,6 +28,9 @@ export const UniqueCategoryCard = ({
     (acc, variantCategory) => acc + variantCategory.children.length,
     0,
   );
+  if (objective.team_score[teamId] === undefined) {
+    return null;
+  }
   const numItems = objective.team_score[teamId].number();
   const numVariants = teamId
     ? objective.children.reduce((acc, subCategory) => {
@@ -120,6 +124,20 @@ export const UniqueCategoryCard = ({
             ></progress>
           )}
         </div>
+        {objective.valid_to && new Date(objective.valid_to) > new Date() && (
+          <div className="flex h-16 items-center justify-center gap-4">
+            <span> Valid until:</span>
+            <Countdown
+              target={new Date(objective.valid_to || "")}
+              size="small"
+            />
+          </div>
+        )}
+        {objective.valid_to && new Date(objective.valid_to) < new Date() && (
+          <div className="flex h-16 items-center justify-center gap-4">
+            <span> Locked</span>
+          </div>
+        )}
       </div>
     </div>
   );

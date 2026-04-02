@@ -1,23 +1,23 @@
 import { ScoreObjective } from "@mytypes/score";
-import { Dialog } from "./dialog";
+import { Dialog } from "@components/dialog";
 import { useSubmitBounty } from "@client/query";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useRef } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { AggregationType, SubmissionCreate } from "@client/api";
-import { DateTimePicker } from "./form/datetime-picker";
+import { DateTimePicker } from "@components/form/datetime-picker";
 
-type SubmissionDialogProps = {
+type SubmissionFormModalProps = {
   objective?: ScoreObjective;
   showModal: boolean;
   setShowModal: (open: boolean) => void;
 };
 
-export function SubmissionDialog({
+export function SubmissionFormModal({
   objective,
   showModal,
   setShowModal,
-}: SubmissionDialogProps) {
+}: SubmissionFormModalProps) {
   const { currentEvent } = useContext(GlobalStateContext);
   const qc = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
@@ -56,10 +56,7 @@ export function SubmissionDialog({
         className="form w-full"
       >
         <fieldset className="fieldset rounded-box bg-base-300 p-6">
-          <DateTimePicker
-            label="Time (in your timezone)"
-            name="timestamp"
-          ></DateTimePicker>
+          <DateTimePicker label="Time (in your timezone)" name="timestamp" />
           {(objective?.aggregation == AggregationType.MAXIMUM ||
             objective?.aggregation == AggregationType.MINIMUM) && (
             <>
@@ -81,12 +78,7 @@ export function SubmissionDialog({
         </fieldset>
       </form>
       <div className="modal-action w-full">
-        <button
-          className="btn btn-soft"
-          onClick={() => {
-            setShowModal(false);
-          }}
-        >
+        <button className="btn btn-soft" onClick={() => setShowModal(false)}>
           Cancel
         </button>
         <button

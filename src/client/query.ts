@@ -10,6 +10,7 @@ import {
   ItemField,
   JobType,
   NumberField,
+  Objective,
   ObjectiveCreate,
   ObjectiveType,
   Operator,
@@ -42,6 +43,7 @@ import {
   userApi,
   wishApi,
 } from "./client";
+import { promises } from "timers";
 
 let current = 0;
 
@@ -1245,5 +1247,60 @@ export function useDeletePoB(qc: QueryClient) {
   return {
     deletePoB: m.mutate,
     deletePoBPending: m.isPending,
+  };
+}
+
+function toObjectiveCreate(
+  objective: Objective,
+  start: Date | null,
+  end: Date | null,
+): ObjectiveCreate {
+  return {
+    ...objective,
+    valid_from: start?.toISOString(),
+    valid_to: end?.toISOString(),
+    scoring_preset_ids:
+      objective.scoring_presets?.map((preset) => preset.id) ?? [],
+  };
+}
+
+export function useChangeCategoryReleaseDates(
+  qc: QueryClient,
+  eventId: number,
+) {
+  const m = useMutation({
+    onSuccess() {
+      qc.invalidateQueries({
+        queryKey: ["rules", current !== eventId ? eventId : "current"],
+      });
+    },
+    mutationFn: ({
+      objective,
+      start,
+      end,
+    }: {
+      objective: Objective;
+      start: Date | null;
+      end: Date | null;
+    }) => {
+      const promises = objective.children.map((child) =>
+        objectiveApi.createObjective(
+          eventId,
+          toObjectiveCreate(child, start, end),
+        ),
+      );
+      promises.push(
+        objectiveApi.createObjective(
+          eventId,
+          toObjectiveCreate(objective, start, end),
+        ),
+      );
+      return Promise.all(promises);
+    },
+  });
+
+  return {
+    changeCategoryReleaseDates: m.mutate,
+    changeCategoryReleaseDatesPending: m.isPending,
   };
 }

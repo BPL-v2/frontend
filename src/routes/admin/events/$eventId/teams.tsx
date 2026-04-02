@@ -1,14 +1,13 @@
-import { GameVersion, Permission, Team, TeamCreate } from "@client/api";
-import { useCreateTeam, useDeleteTeam, useGetEvents } from "@client/query";
-import { Dialog } from "@components/dialog";
-import { useAppForm } from "@components/form/context";
+import { Permission, Team } from "@client/api";
+import { useDeleteTeam, useGetEvents } from "@client/query";
+import { TeamFormModal } from "@components/form-dialogs/TeamFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/admin/events/$eventId/teams")({
   component: renderConditionally(TeamPage, [
@@ -31,22 +30,9 @@ function TeamPage() {
   const { events, isPending, isError } = useGetEvents();
   const event = events?.find((event) => event.id === eventId);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [teamToEdit, setTeamToEdit] = useState<Team | null>(null);
   const qc = useQueryClient();
-  const { createTeam } = useCreateTeam(qc, eventId, () => {
-    setIsDialogOpen(false);
-  });
   const { deleteTeam } = useDeleteTeam(qc, eventId);
-
-  const teamForm = useAppForm({
-    defaultValues: {
-      name: "",
-      abbreviation: "",
-      color: "#000000",
-      discord_role_id: undefined,
-      allowed_classes: [],
-    } as TeamCreate,
-    onSubmit: (data) => createTeam(data.value as TeamCreate),
-  });
 
   const columns: ColumnDef<Team>[] = [
     {
@@ -72,7 +58,7 @@ function TeamPage() {
         <div
           className="size-4 rounded-full"
           style={{ backgroundColor: info.row.original.color }}
-        ></div>
+        />
       ),
     },
     {
@@ -100,7 +86,7 @@ function TeamPage() {
           <button
             className="btn btn-sm btn-warning"
             onClick={() => {
-              teamForm.reset(info.row.original, { keepDefaultValues: true });
+              setTeamToEdit(info.row.original);
               setIsDialogOpen(true);
             }}
           >
@@ -111,105 +97,8 @@ function TeamPage() {
     },
   ];
 
-  const dialog = useMemo(() => {
-    return (
-      <Dialog
-        title={"Create Team"}
-        open={isDialogOpen}
-        setOpen={setIsDialogOpen}
-        className="w-md"
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            teamForm.handleSubmit();
-          }}
-          className="flex w-full flex-col gap-2 rounded-box bg-base-300 p-4"
-        >
-          <teamForm.AppField
-            name="name"
-            children={(field) => <field.TextField label="Name" required />}
-          />
-          <teamForm.AppField
-            name="abbreviation"
-            children={(field) => (
-              <field.TextField label="Abbreviation" required />
-            )}
-          />
-          <teamForm.AppField
-            name="color"
-            children={(field) => <field.ColorField label="Color" />}
-          />
-          <teamForm.AppField
-            name="discord_role_id"
-            children={(field) => <field.TextField label="Discord Role ID" />}
-          />
-          <teamForm.AppField
-            name="allowed_classes"
-            children={(field) => (
-              <field.ArrayField
-                className="h-80"
-                label="Allowed Classes"
-                options={
-                  event?.game_version === GameVersion.poe2
-                    ? [
-                        "Warbringer",
-                        "Titan",
-                        "Chronomancer",
-                        "Stormweaver",
-                        "Witchhunter",
-                        "Gemling Legionnaire",
-                        "Invoker",
-                        "Acolyte of Chayula",
-                        "Deadeye",
-                        "Pathfinder",
-                        "Blood Mage",
-                        "Infernalist",
-                      ]
-                    : [
-                        "Ascendant",
-                        "Assassin",
-                        "Berserker",
-                        "Champion",
-                        "Chieftain",
-                        "Deadeye",
-                        "Elementalist",
-                        "Gladiator",
-                        "Guardian",
-                        "Hierophant",
-                        "Inquisitor",
-                        "Juggernaut",
-                        "Necromancer",
-                        "Occultist",
-                        "Pathfinder",
-                        "Saboteur",
-                        "Slayer",
-                        "Trickster",
-                        "Warden",
-                      ]
-                }
-              />
-            )}
-          />
-          <div className="mt-2 flex flex-row justify-end gap-2">
-            <button
-              className="btn btn-error"
-              type="button"
-              onClick={() => setIsDialogOpen(false)}
-            >
-              Cancel
-            </button>
-            <button className="btn btn-primary" type="submit">
-              {"Save"}
-            </button>
-          </div>
-        </form>
-      </Dialog>
-    );
-  }, [teamForm, isDialogOpen, event?.game_version]);
-
   if (isPending) {
-    return <div className="loading loading-lg loading-spinner"></div>;
+    return <div className="loading loading-lg loading-spinner" />;
   }
   if (isError) {
     return <div>Error loading events.</div>;
@@ -227,13 +116,22 @@ function TeamPage() {
       <button
         className="btn self-center btn-primary"
         onClick={() => {
-          teamForm.reset();
+          setTeamToEdit(null);
           setIsDialogOpen(true);
         }}
       >
         Create Team
       </button>
-      {dialog}
+      <TeamFormModal
+        isOpen={isDialogOpen}
+        setIsOpen={(open) => {
+          setIsDialogOpen(open);
+          if (!open) setTeamToEdit(null);
+        }}
+        eventId={eventId}
+        gameVersion={event.game_version}
+        existingTeam={teamToEdit}
+      />
     </div>
   );
 }

@@ -27,6 +27,12 @@ function Home() {
   )[0];
   const { eventStatus } = useGetEventStatus(nextEvent?.id || currentEvent.id);
   const now = Date.now();
+  const pastEvents = (events || [])
+    .filter((e) => e.is_public && Date.parse(e.event_end_time) < now)
+    .sort(
+      (a, b) =>
+        Date.parse(b.event_start_time) - Date.parse(a.event_start_time),
+    );
   const signupsStart = nextEvent
     ? new Date() >= new Date(nextEvent.application_start_time)
     : false;
@@ -111,6 +117,41 @@ function Home() {
           </div>
         </div>
       </div>
+      {pastEvents.length > 0 && (
+        <div className="card max-w-full bg-card">
+          <div className="card-body p-12">
+            <div className="card-title text-4xl">Past Events</div>
+            <div className="mt-4 flex flex-col gap-2">
+              {pastEvents.slice(0, 3).map((event) => (
+                <div
+                  key={event.id}
+                  className="flex items-center justify-between rounded-box bg-base-200 px-6 py-4"
+                >
+                  <div>
+                    <span className="text-xl font-semibold">{event.name}</span>
+                    <span className="ml-4 opacity-60">
+                      {new Date(event.event_start_time).toLocaleDateString()} –{" "}
+                      {new Date(event.event_end_time).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <Link
+                    to="/events/$eventId"
+                    params={{ eventId: String(event.id) }}
+                    className="btn btn-primary btn-sm"
+                  >
+                    View Ladder
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-right">
+              <Link to="/events" className="link link-primary">
+                View all events →
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
       {nextEvent && !hasEnded ? (
         <>
           <div className="card bg-card">

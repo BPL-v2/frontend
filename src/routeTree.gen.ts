@@ -17,6 +17,7 @@ import { Route as TeamRouteRouteImport } from './routes/team/route'
 import { Route as StreamsRouteRouteImport } from './routes/streams/route'
 import { Route as ScoresRouteRouteImport } from './routes/scores/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as TeamWishlistRouteImport } from './routes/team/wishlist'
 import { Route as TeamAtlasRouteImport } from './routes/team/atlas'
@@ -39,6 +40,7 @@ import { Route as ScoresCollectionsRouteImport } from './routes/scores/collectio
 import { Route as ScoresBountiesRouteImport } from './routes/scores/bounties'
 import { Route as ScoresBingoRouteImport } from './routes/scores/bingo'
 import { Route as ScoresAscendancyChallengesRouteImport } from './routes/scores/ascendancy-challenges'
+import { Route as EventsEventIdRouteImport } from './routes/events/$eventId'
 import { Route as AdminUserManagementRouteImport } from './routes/admin/user-management'
 import { Route as AdminTimingsRouteImport } from './routes/admin/timings'
 import { Route as AdminTeamSuggestionsRouteImport } from './routes/admin/team-suggestions'
@@ -102,6 +104,11 @@ const ScoresRouteRoute = ScoresRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -215,6 +222,11 @@ const ScoresAscendancyChallengesRoute =
     path: '/ascendancy-challenges',
     getParentRoute: () => ScoresRouteRoute,
   } as any)
+const EventsEventIdRoute = EventsEventIdRouteImport.update({
+  id: '/events/$eventId',
+  path: '/events/$eventId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminUserManagementRoute = AdminUserManagementRouteImport.update({
   id: '/admin/user-management',
   path: '/admin/user-management',
@@ -359,6 +371,7 @@ export interface FileRoutesByFullPath {
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/scores/ascendancy-challenges': typeof ScoresAscendancyChallengesRoute
   '/scores/bingo': typeof ScoresBingoRoute
   '/scores/bounties': typeof ScoresBountiesRoute
@@ -381,6 +394,7 @@ export interface FileRoutesByFullPath {
   '/team/atlas': typeof TeamAtlasRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin/': typeof AdminIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
   '/admin/guild/stashes': typeof AdminGuildStashesRouteRouteWithChildren
   '/auth/discord/callback': typeof AuthDiscordCallbackRoute
@@ -415,6 +429,7 @@ export interface FileRoutesByTo {
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/scores/ascendancy-challenges': typeof ScoresAscendancyChallengesRoute
   '/scores/bingo': typeof ScoresBingoRoute
   '/scores/bounties': typeof ScoresBountiesRoute
@@ -437,6 +452,7 @@ export interface FileRoutesByTo {
   '/team/atlas': typeof TeamAtlasRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin': typeof AdminIndexRoute
+  '/events': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
   '/admin/guild/stashes': typeof AdminGuildStashesRouteRouteWithChildren
   '/auth/discord/callback': typeof AuthDiscordCallbackRoute
@@ -472,6 +488,7 @@ export interface FileRoutesById {
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/scores/ascendancy-challenges': typeof ScoresAscendancyChallengesRoute
   '/scores/bingo': typeof ScoresBingoRoute
   '/scores/bounties': typeof ScoresBountiesRoute
@@ -494,6 +511,7 @@ export interface FileRoutesById {
   '/team/atlas': typeof TeamAtlasRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin/': typeof AdminIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
   '/admin/guild/stashes': typeof AdminGuildStashesRouteRouteWithChildren
   '/auth/discord/callback': typeof AuthDiscordCallbackRoute
@@ -530,6 +548,7 @@ export interface FileRouteTypes {
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
+    | '/events/$eventId'
     | '/scores/ascendancy-challenges'
     | '/scores/bingo'
     | '/scores/bounties'
@@ -552,6 +571,7 @@ export interface FileRouteTypes {
     | '/team/atlas'
     | '/team/wishlist'
     | '/admin/'
+    | '/events/'
     | '/admin/guild/logs'
     | '/admin/guild/stashes'
     | '/auth/discord/callback'
@@ -586,6 +606,7 @@ export interface FileRouteTypes {
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
+    | '/events/$eventId'
     | '/scores/ascendancy-challenges'
     | '/scores/bingo'
     | '/scores/bounties'
@@ -608,6 +629,7 @@ export interface FileRouteTypes {
     | '/team/atlas'
     | '/team/wishlist'
     | '/admin'
+    | '/events'
     | '/admin/guild/logs'
     | '/admin/guild/stashes'
     | '/auth/discord/callback'
@@ -642,6 +664,7 @@ export interface FileRouteTypes {
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
+    | '/events/$eventId'
     | '/scores/ascendancy-challenges'
     | '/scores/bingo'
     | '/scores/bounties'
@@ -664,6 +687,7 @@ export interface FileRouteTypes {
     | '/team/atlas'
     | '/team/wishlist'
     | '/admin/'
+    | '/events/'
     | '/admin/guild/logs'
     | '/admin/guild/stashes'
     | '/auth/discord/callback'
@@ -698,7 +722,9 @@ export interface RootRouteChildren {
   AdminTeamSuggestionsRoute: typeof AdminTeamSuggestionsRoute
   AdminTimingsRoute: typeof AdminTimingsRoute
   AdminUserManagementRoute: typeof AdminUserManagementRoute
+  EventsEventIdRoute: typeof EventsEventIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
   AdminGuildLogsRouteRoute: typeof AdminGuildLogsRouteRouteWithChildren
   AdminGuildStashesRouteRoute: typeof AdminGuildStashesRouteRouteWithChildren
   AuthDiscordCallbackRoute: typeof AuthDiscordCallbackRoute
@@ -768,6 +794,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -923,6 +956,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/scores/ascendancy-challenges'
       preLoaderRoute: typeof ScoresAscendancyChallengesRouteImport
       parentRoute: typeof ScoresRouteRoute
+    }
+    '/events/$eventId': {
+      id: '/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof EventsEventIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/user-management': {
       id: '/admin/user-management'
@@ -1233,7 +1273,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminTeamSuggestionsRoute: AdminTeamSuggestionsRoute,
   AdminTimingsRoute: AdminTimingsRoute,
   AdminUserManagementRoute: AdminUserManagementRoute,
+  EventsEventIdRoute: EventsEventIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
   AdminGuildLogsRouteRoute: AdminGuildLogsRouteRouteWithChildren,
   AdminGuildStashesRouteRoute: AdminGuildStashesRouteRouteWithChildren,
   AuthDiscordCallbackRoute: AuthDiscordCallbackRoute,

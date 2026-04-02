@@ -14,11 +14,8 @@ import {
   useGetUser,
   useGetUsers,
   useGetWishlist,
-  useCreateItemWish,
   useUpdateItemWish,
 } from "@client/query";
-import { Dialog } from "@components/dialog";
-import { useAppForm } from "@components/form/context";
 import { ObjectiveIcon } from "@components/objective-icon";
 import Table from "@components/table/table";
 import {
@@ -31,10 +28,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
-import { decodePoBExport, Rarity } from "@utils/pob";
 import { flatMap } from "@utils/utils";
 import { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { ItemWishFormModal } from "@components/form-dialogs/ItemWishFormModal";
 
 export const Route = createFileRoute("/team/wishlist")({
   component: RouteComponent,
@@ -62,19 +59,9 @@ function RouteComponent() {
   const { data: uniques } = useFile<
     Record<string, { base_type: string; is_drop_restricted: boolean }>
   >("/assets/poe1/items/uniques.json");
-  const { data: gems } = useFile<Record<string, string[]>>(
-    "/assets/poe1/items/gem_colors.json",
-  );
   const { data: uniqueTiers = {} } = useFile<Record<string, number>>(
     "/assets/poe1/items/unique_tiers.json",
   );
-  const allGems = new Set<string>(Object.values(gems || {}).flat());
-  const altGems = Object.values(gems || {})
-    .flat()
-    .filter((gem) => {
-      const baseGem = gem.split(" of ")[0];
-      return baseGem != gem && allGems.has(baseGem);
-    });
   const pointUniques = flatMap(rules)
     .map((obj) => {
       for (const condition of obj.conditions) {
@@ -96,11 +83,6 @@ function RouteComponent() {
     eventStatus?.team_id,
   );
   const qc = useQueryClient();
-  const { saveItemWish } = useCreateItemWish(
-    qc,
-    currentEvent.id,
-    eventStatus?.team_id,
-  );
   const { updateItemWish } = useUpdateItemWish(
     qc,
     currentEvent.id,
@@ -183,7 +165,7 @@ function RouteComponent() {
                 } as Objective
               }
               gameVersion={GameVersion.poe1}
-            ></ObjectiveIcon>
+            />
             {info.row.original.uniqueInfo.condition.value}
           </div>
         );
@@ -236,20 +218,18 @@ function RouteComponent() {
       size: 140,
       cell: (info) => {
         return info.row.original.uniqueInfo.is_point_unique ? (
-          <ExclamationCircleIcon className="size-5 text-error"></ExclamationCircleIcon>
+          <ExclamationCircleIcon className="size-5 text-error" />
         ) : null;
       },
     },
     {
       header: "Build Enabling",
       accessorKey: "wish.build_enabling",
-      // size: 90,
       cell: (info) => {
         return (
           <input
             type="checkbox"
             defaultChecked={info.row.original.wish.build_enabling}
-            // disabled={user?.id != info.row.original.user?.id}
             className={twMerge(
               "checkbox border-2",
               user?.display_name != info.row.original.user ? "hidden" : "",
@@ -271,15 +251,6 @@ function RouteComponent() {
                 e.preventDefault();
               }
             }}
-            // onChange={async (e) => {
-            //   updateItemWish({
-            //     wishId: info.row.original.wish.id,
-            //     item_wish: {
-            //       build_enabling: e.target.checked,
-            //     },
-            //   });
-            //   info.row.original.wish.build_enabling = e.target.checked;
-            // }}
           />
         );
       },
@@ -304,7 +275,7 @@ function RouteComponent() {
                     });
                   }}
                   className="size-3 cursor-pointer border text-success"
-                ></PlusIcon>
+                />
                 <MinusIcon
                   onClick={() => {
                     updateItemWish({
@@ -315,7 +286,7 @@ function RouteComponent() {
                     });
                   }}
                   className="size-3 cursor-pointer border text-error"
-                ></MinusIcon>
+                />
               </div>
             )}
           </div>
@@ -356,7 +327,7 @@ function RouteComponent() {
         return (
           user?.display_name == info.row.original.user && (
             <button onClick={() => deleteItemWish(info.row.original.wish.id)}>
-              <TrashIcon className="size-5 cursor-pointer text-error"></TrashIcon>
+              <TrashIcon className="size-5 cursor-pointer text-error" />
             </button>
           )
         );
@@ -364,52 +335,7 @@ function RouteComponent() {
       size: 60,
     },
   ];
-  const form = useAppForm({
-    defaultValues: {
-      unique_name: "",
-      gem_name: "",
-      pob_export: "",
-    },
-    onSubmit: async (data) => {
-      if (data.value.pob_export) {
-        const pobData = await decodePoBExport(data.value.pob_export);
-        pobData.items
-          .filter((item) => item.rarity === Rarity.Unique)
-          .map((item) => item.name)
-          .forEach((itemName) =>
-            saveItemWish({
-              item_field: ItemField.NAME,
-              value: itemName,
-            }),
-          );
-        pobData.skills.skillSets
-          .flatMap((set) => set.skills)
-          .flatMap((skill) => skill.gems)
-          .filter((gem) => gem.variantId.includes("Alt"))
-          .map((gem) => gem.nameSpec)
-          .forEach((itemName) =>
-            saveItemWish({
-              item_field: ItemField.BASE_TYPE,
-              value: itemName,
-            }),
-          );
-      }
-      if (data.value.unique_name) {
-        saveItemWish({
-          item_field: ItemField.NAME,
-          value: data.value.unique_name,
-        });
-      }
-      if (data.value.gem_name) {
-        saveItemWish({
-          item_field: ItemField.BASE_TYPE,
-          value: data.value.gem_name,
-        });
-      }
-      form.reset();
-      setDialogOpen(false);
-    },
-  });
+
   return (
     <div className="p-4">
       <div className="flex flex-row gap-4">
@@ -425,72 +351,18 @@ function RouteComponent() {
               e.preventDefault();
             }
           }}
-          onChange={(e) => {
-            setItemfilter(e.target.value);
-          }}
+          onChange={(e) => setItemfilter(e.target.value)}
         />
-
-        <button
-          className="btn mb-4"
-          onClick={() => {
-            setDialogOpen(true);
-          }}
-        >
+        <button className="btn mb-4" onClick={() => setDialogOpen(true)}>
           Add Item Wish
         </button>
       </div>
-      <Dialog
-        title="Add Item Wish"
-        open={dialogOpen}
-        setOpen={() => setDialogOpen(false)}
-      >
-        <div className="flex w-full flex-col gap-4">
-          <form
-            className="fieldset w-full rounded-box bg-base-300 p-6"
-            onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit();
-            }}
-          >
-            <form.AppField
-              name="unique_name"
-              children={(field) => (
-                <field.TextField
-                  label="Unique"
-                  options={uniques ? Object.keys(uniques) : []}
-                />
-              )}
-            />
-            <form.AppField
-              name="gem_name"
-              children={(field) => (
-                <field.TextField label="Gem" options={altGems} />
-              )}
-            />
-            <form.AppField
-              name="pob_export"
-              children={(field) => <field.TextField label="PoB Export" />}
-            />
-          </form>
-          <div className="flex w-full justify-end gap-2">
-            <button
-              className="btn bg-base-300"
-              onClick={() => {
-                setDialogOpen(false);
-                form.reset();
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => form.handleSubmit()}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Dialog>
+      <ItemWishFormModal
+        isOpen={dialogOpen}
+        setIsOpen={setDialogOpen}
+        eventId={currentEvent.id}
+        teamId={eventStatus?.team_id}
+      />
       <Table
         className="max-h-[80vh]"
         columns={columns}

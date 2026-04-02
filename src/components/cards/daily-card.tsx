@@ -7,7 +7,7 @@ import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetEventStatus } from "@client/query";
 import { Countdown } from "@components/countdown";
-import { SubmissionDialog } from "@components/submission-diablog";
+import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { CollectionCardTable } from "./collection-card-table";
 
@@ -78,7 +78,7 @@ export function DailyCard({ daily }: DailyCardProps) {
   return (
     <>
       {canSubmit && (
-        <SubmissionDialog
+        <SubmissionFormModal
           objective={daily}
           showModal={showModal}
           setShowModal={setShowModal}
