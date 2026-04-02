@@ -78,7 +78,7 @@ export function SubmissionFormModal({
         </fieldset>
       </form>
       <div className="modal-action w-full">
-        <button className="btn btn-soft" onClick={() => setShowModal(false)}>
+        <button className="btn btn-error" onClick={() => setShowModal(false)}>
           Cancel
         </button>
         <button

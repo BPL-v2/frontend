@@ -106,7 +106,7 @@ export function RecurringJobFormModal({
       </form>
       <div className="modal-action">
         <button
-          className="btn btn-soft"
+          className="btn btn-error"
           type="button"
           onClick={() => setIsOpen(false)}
         >

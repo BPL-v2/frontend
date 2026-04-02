@@ -104,7 +104,7 @@ export function BulkObjectiveFormModal({
             />
           )}
         />
-        <div className="flex flex-row justify-end gap-2">
+        <div className="mt-4 flex flex-row justify-end gap-2">
           <button
             type="button"
             className="btn btn-error"

@@ -73,37 +73,36 @@ export function ItemWishFormModal({
 
   return (
     <Dialog title="Add Item Wish" open={isOpen} setOpen={setIsOpen}>
-      <div className="flex w-full flex-col gap-4">
-        <form
-          className="fieldset w-full rounded-box bg-base-300 p-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-        >
-          <form.AppField
-            name="unique_name"
-            children={(field) => (
-              <field.TextField
-                label="Unique"
-                options={uniques ? Object.keys(uniques) : []}
-              />
-            )}
-          />
-          <form.AppField
-            name="gem_name"
-            children={(field) => (
-              <field.TextField label="Gem" options={altGems} />
-            )}
-          />
-          <form.AppField
-            name="pob_export"
-            children={(field) => <field.TextField label="PoB Export" />}
-          />
-        </form>
-        <div className="flex w-full justify-end gap-2">
+      <form
+        className="flex w-full flex-col gap-2 rounded-box bg-base-300 p-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+      >
+        <form.AppField
+          name="unique_name"
+          children={(field) => (
+            <field.TextField
+              label="Unique"
+              options={uniques ? Object.keys(uniques) : []}
+            />
+          )}
+        />
+        <form.AppField
+          name="gem_name"
+          children={(field) => (
+            <field.TextField label="Gem" options={altGems} />
+          )}
+        />
+        <form.AppField
+          name="pob_export"
+          children={(field) => <field.TextField label="PoB Export" />}
+        />
+        <div className="mt-4 flex flex-row justify-end gap-2">
           <button
-            className="btn bg-base-300"
+            type="button"
+            className="btn btn-error"
             onClick={() => {
               setIsOpen(false);
               form.reset();
@@ -111,14 +110,11 @@ export function ItemWishFormModal({
           >
             Cancel
           </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => form.handleSubmit()}
-          >
+          <button type="submit" className="btn btn-primary">
             Save
           </button>
         </div>
-      </div>
+      </form>
     </Dialog>
   );
 }

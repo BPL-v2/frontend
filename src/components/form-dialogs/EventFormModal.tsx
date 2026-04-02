@@ -57,7 +57,7 @@ export function EventFormModal({
       className="max-w-xl"
     >
       <form
-        className="fieldset rounded-box bg-base-300 p-6"
+        className="flex w-full flex-col gap-2 rounded-box bg-base-300 p-4"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
@@ -142,7 +142,7 @@ export function EventFormModal({
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-primary">
             Save
           </button>
         </div>

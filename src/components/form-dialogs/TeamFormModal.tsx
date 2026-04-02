@@ -124,7 +124,7 @@ export function TeamFormModal({
             />
           )}
         />
-        <div className="mt-2 flex flex-row justify-end gap-2">
+        <div className="mt-4 flex flex-row justify-end gap-2">
           <button
             className="btn btn-error"
             type="button"

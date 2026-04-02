@@ -61,7 +61,7 @@ export function ScoringPresetFormModal({
       className="max-w-md"
     >
       <form
-        className="fieldset w-full rounded-box bg-base-300 p-6"
+        className="flex w-full flex-col gap-2 rounded-box bg-base-300 p-4"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();

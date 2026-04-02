@@ -94,7 +94,7 @@ export function ConditionFormModal({
           name="value"
           children={(field: any) => <field.TextField label="Value" required />}
         />
-        <div className="flex flex-row justify-end gap-2">
+        <div className="mt-4 flex flex-row justify-end gap-2">
           <button
             type="button"
             className="btn btn-error"

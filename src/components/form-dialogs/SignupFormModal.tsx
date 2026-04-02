@@ -158,7 +158,7 @@ export function SignupFormModal({
         </div>
       )}
       <div className="modal-action w-full">
-        <button className="btn btn-outline" onClick={() => setIsOpen(false)}>
+        <button className="btn btn-error" onClick={() => setIsOpen(false)}>
           Cancel
         </button>
         <button
