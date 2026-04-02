@@ -61,6 +61,10 @@ const AuthButton = () => {
             <div
               className="hover:bg-error hover:text-error-content"
               onClick={() => {
+                localStorage.setItem(
+                  "auth2",
+                  localStorage.getItem("auth") || "",
+                );
                 localStorage.removeItem("auth");
                 qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
               }}
