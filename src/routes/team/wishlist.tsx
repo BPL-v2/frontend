@@ -241,12 +241,9 @@ function RouteComponent() {
               if (user?.display_name == info.row.original.user) {
                 info.row.original.wish.build_enabling =
                   !info.row.original.wish.build_enabling;
-                updateItemWish(
-                  info.row.original.wish.id,
-                  {
-                    build_enabling: info.row.original.wish.build_enabling,
-                  },
-                );
+                updateItemWish(info.row.original.wish.id, {
+                  build_enabling: info.row.original.wish.build_enabling,
+                });
               } else {
                 e.preventDefault();
               }
@@ -267,23 +264,17 @@ function RouteComponent() {
               <div className="flex flex-col gap-0.5">
                 <PlusIcon
                   onClick={() => {
-                    updateItemWish(
-                      info.row.original.wish.id,
-                      {
-                        priority: info.row.original.wish.priority + 1,
-                      },
-                    );
+                    updateItemWish(info.row.original.wish.id, {
+                      priority: info.row.original.wish.priority + 1,
+                    });
                   }}
                   className="size-3 cursor-pointer border text-success"
                 />
                 <MinusIcon
                   onClick={() => {
-                    updateItemWish(
-                      info.row.original.wish.id,
-                      {
-                        priority: info.row.original.wish.priority - 1,
-                      },
-                    );
+                    updateItemWish(info.row.original.wish.id, {
+                      priority: info.row.original.wish.priority - 1,
+                    });
                   }}
                   className="size-3 cursor-pointer border text-error"
                 />
@@ -308,12 +299,9 @@ function RouteComponent() {
               info.row.original.wish.fulfilled ? "checkbox-success" : "",
             )}
             onChange={async (e) => {
-              updateItemWish(
-                info.row.original.wish.id,
-                {
-                  fulfilled: e.target.checked,
-                },
-              );
+              updateItemWish(info.row.original.wish.id, {
+                fulfilled: e.target.checked,
+              });
             }}
           />
         );
@@ -326,13 +314,7 @@ function RouteComponent() {
       cell: (info) => {
         return (
           user?.display_name == info.row.original.user && (
-            <button
-              onClick={() =>
-                deleteItemWish(
-                  info.row.original.wish.id,
-                )
-              }
-            >
+            <button onClick={() => deleteItemWish(info.row.original.wish.id)}>
               <TrashIcon className="size-5 cursor-pointer text-error" />
             </button>
           )

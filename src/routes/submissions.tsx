@@ -192,10 +192,9 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-success"
                 onClick={() => {
-                  reviewSubmission(
-                    submissionId,
-                    { approval_status: "APPROVED" },
-                  );
+                  reviewSubmission(submissionId, {
+                    approval_status: "APPROVED",
+                  });
                 }}
                 disabled={reviewPending}
               >
@@ -207,10 +206,9 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-error"
                 onClick={() => {
-                  reviewSubmission(
-                    submissionId,
-                    { approval_status: "REJECTED" },
-                  );
+                  reviewSubmission(submissionId, {
+                    approval_status: "REJECTED",
+                  });
                 }}
                 disabled={reviewPending}
               >

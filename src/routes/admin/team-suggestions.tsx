@@ -134,10 +134,7 @@ function TeamSuggestionsPage() {
                   {},
                 );
               } else {
-                deleteTeamSuggestion(
-                  eventStatus.team_id!,
-                  row.row.original.id,
-                );
+                deleteTeamSuggestion(eventStatus.team_id!, row.row.original.id);
               }
             }}
           />
@@ -257,16 +254,9 @@ function TeamSuggestionsPage() {
             key={"cat-" + row.original.id}
             onChange={(e) => {
               if (e.target.checked) {
-                addTeamSuggestion(
-                  eventStatus.team_id!,
-                  row.original.id,
-                  {},
-                );
+                addTeamSuggestion(eventStatus.team_id!, row.original.id, {});
               } else {
-                deleteTeamSuggestion(
-                  eventStatus.team_id!,
-                  row.original.id,
-                );
+                deleteTeamSuggestion(eventStatus.team_id!, row.original.id);
               }
             }}
           />
@@ -364,11 +354,9 @@ function TeamSuggestionsPage() {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
           const extra = formData.get("extra");
-          addTeamSuggestion(
-            eventStatus.team_id!,
-            scores.id,
-            { extra: extra ? (extra as string) : undefined },
-          );
+          addTeamSuggestion(eventStatus.team_id!, scores.id, {
+            extra: extra ? (extra as string) : undefined,
+          });
         }}
       >
         <div className="fieldset w-full">

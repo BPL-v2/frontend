@@ -1,9 +1,5 @@
 import { ExtendedSignup, Permission, Signup } from "@api";
-import {
-  useAddUsersToTeams,
-  useDeleteSignup,
-  useGetSignups,
-} from "@api";
+import { useAddUsersToTeams, useDeleteSignup, useGetSignups } from "@api";
 import { DeleteButton } from "@components/form/delete-button";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
@@ -251,16 +247,13 @@ function UserSortPage() {
                     : signup,
                 ),
               );
-              addUsersToTeams(
-                currentEvent?.id || 0,
-                [
-                  {
-                    user_id: row.original.user.id,
-                    team_id: row.original.team_id,
-                    is_team_lead: e.target.checked,
-                  },
-                ],
-              );
+              addUsersToTeams(currentEvent?.id || 0, [
+                {
+                  user_id: row.original.user.id,
+                  team_id: row.original.team_id,
+                  is_team_lead: e.target.checked,
+                },
+              ]);
             }}
           />
         ),
@@ -324,10 +317,7 @@ function UserSortPage() {
           return (
             <DeleteButton
               onDelete={() => {
-                deleteSignup(
-                  currentEvent.id,
-                  row.original.user.id,
-                );
+                deleteSignup(currentEvent.id, row.original.user.id);
               }}
               className="btn-sm"
             ></DeleteButton>

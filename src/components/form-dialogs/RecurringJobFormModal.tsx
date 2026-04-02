@@ -57,9 +57,9 @@ export function RecurringJobFormModal({
           const values = new FormData(formRef.current!);
           e.preventDefault();
           startJob({
-              event_id: Number(values.get("event")),
-              job_type: values.get("jobType") as JobType,
-              end_date: new Date(values.get("endDate") as string),
+            event_id: Number(values.get("event")),
+            job_type: values.get("jobType") as JobType,
+            end_date: new Date(values.get("endDate") as string),
           });
           setIsOpen(false);
           formRef.current?.reset();

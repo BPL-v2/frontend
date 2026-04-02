@@ -33,9 +33,12 @@ export const StashTabUnordered: React.FC<Props> = ({
       }}
     >
       {items.map((item, index) => {
-        const maximumStackSize = Number(item.properties
-          ?.find((prop) => prop.name === "Stack Size")
-          ?.values?.[0]?.[0]?.toString().split("/")?.[1]);
+        const maximumStackSize = Number(
+          item.properties
+            ?.find((prop) => prop.name === "Stack Size")
+            ?.values?.[0]?.[0]?.toString()
+            .split("/")?.[1],
+        );
         return (
           <div
             key={index}

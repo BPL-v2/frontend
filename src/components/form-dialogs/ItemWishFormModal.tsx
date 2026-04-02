@@ -49,9 +49,7 @@ export function ItemWishFormModal({
           .filter((item) => item.rarity === Rarity.Unique)
           .map((item) => item.name)
           .forEach((itemName) =>
-            saveItemWish(
-              { item_field: ItemField.NAME, value: itemName },
-            ),
+            saveItemWish({ item_field: ItemField.NAME, value: itemName }),
           );
         pobData.skills.skillSets
           .flatMap((set) => set.skills)
@@ -59,20 +57,20 @@ export function ItemWishFormModal({
           .filter((gem) => gem.variantId.includes("Alt"))
           .map((gem) => gem.nameSpec)
           .forEach((itemName) =>
-            saveItemWish(
-              { item_field: ItemField.BASE_TYPE, value: itemName },
-            ),
+            saveItemWish({ item_field: ItemField.BASE_TYPE, value: itemName }),
           );
       }
       if (data.value.unique_name) {
-        saveItemWish(
-          { item_field: ItemField.NAME, value: data.value.unique_name },
-        );
+        saveItemWish({
+          item_field: ItemField.NAME,
+          value: data.value.unique_name,
+        });
       }
       if (data.value.gem_name) {
-        saveItemWish(
-          { item_field: ItemField.BASE_TYPE, value: data.value.gem_name },
-        );
+        saveItemWish({
+          item_field: ItemField.BASE_TYPE,
+          value: data.value.gem_name,
+        });
       }
       form.reset();
       setIsOpen(false);

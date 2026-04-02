@@ -206,10 +206,9 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-success"
                 onClick={() => {
-                  reviewSubmission(
-                    submissionId,
-                    { approval_status: "APPROVED" },
-                  );
+                  reviewSubmission(submissionId, {
+                    approval_status: "APPROVED",
+                  });
                 }}
                 disabled={reviewPending}
               >
@@ -221,10 +220,9 @@ function SubmissionPage() {
               <button
                 className="btn btn-sm btn-error"
                 onClick={() => {
-                  reviewSubmission(
-                    submissionId,
-                    { approval_status: "REJECTED" },
-                  );
+                  reviewSubmission(submissionId, {
+                    approval_status: "REJECTED",
+                  });
                 }}
                 disabled={reviewPending}
               >
@@ -292,15 +290,14 @@ function SubmissionPage() {
             return;
           }
           setBulkSubmissionForAdminBase(currentEvent.id, {
-              objective_id: objectiveId,
-              team_ids: places,
-            })
-            .then(() => {
-              qc.invalidateQueries({
-                queryKey: ["submissions", currentEvent.id],
-              });
-              form.reset();
+            objective_id: objectiveId,
+            team_ids: places,
+          }).then(() => {
+            qc.invalidateQueries({
+              queryKey: ["submissions", currentEvent.id],
             });
+            form.reset();
+          });
         }}
       >
         <fieldset className="m-4 mb-4 fieldset w-md rounded-box bg-base-300 p-4">

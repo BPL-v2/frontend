@@ -1,10 +1,6 @@
 import { Event, Permission } from "@api";
 import { getObjectiveTreeForEventBase } from "@api";
-import {
-  useDeleteEvent,
-  useDuplicateEvent,
-  useGetEvents,
-} from "@api";
+import { useDeleteEvent, useDuplicateEvent, useGetEvents } from "@api";
 import { DeleteButton } from "@components/form/delete-button";
 import { EventFormModal } from "@components/form-dialogs/EventFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
@@ -150,17 +146,14 @@ function EventPage() {
           <button
             className="btn btn-xs"
             onClick={() =>
-              duplicateEvent(
-                info.row.original.id,
-                {
-                  ...info.row.original,
-                  id: undefined,
-                  name: `${info.row.original.name} (Copy)`,
-                  is_current: false,
-                  is_public: false,
-                  is_locked: false,
-                },
-              )
+              duplicateEvent(info.row.original.id, {
+                ...info.row.original,
+                id: undefined,
+                name: `${info.row.original.name} (Copy)`,
+                is_current: false,
+                is_public: false,
+                is_locked: false,
+              })
             }
           >
             Duplicate
@@ -181,8 +174,8 @@ function EventPage() {
           </Link>
           <button
             onClick={() => {
-              getObjectiveTreeForEventBase(info.row.original.id)
-                .then((baseObjective) => {
+              getObjectiveTreeForEventBase(info.row.original.id).then(
+                (baseObjective) => {
                   navigate({
                     to: "/admin/events/$eventId/objectives/$objectiveId",
                     params: {
@@ -190,7 +183,8 @@ function EventPage() {
                       objectiveId: baseObjective.id,
                     },
                   });
-                });
+                },
+              );
             }}
             className="btn btn-xs"
           >

@@ -168,7 +168,10 @@ export function useCreateEvent(qc: QueryClient, callback?: () => void) {
       },
     },
   });
-  return { createEvent: (data: EventCreate) => m.mutate({ data }), createEventPending: m.isPending };
+  return {
+    createEvent: (data: EventCreate) => m.mutate({ data }),
+    createEventPending: m.isPending,
+  };
 }
 
 export function useDeleteEvent(qc: QueryClient, callback?: () => void) {
@@ -180,7 +183,10 @@ export function useDeleteEvent(qc: QueryClient, callback?: () => void) {
       },
     },
   });
-  return { deleteEvent: (eventId: number) => m.mutate({ eventId }), deleteEventPending: m.isPending };
+  return {
+    deleteEvent: (eventId: number) => m.mutate({ eventId }),
+    deleteEventPending: m.isPending,
+  };
 }
 
 export function useDuplicateEvent(qc: QueryClient) {
@@ -191,7 +197,11 @@ export function useDuplicateEvent(qc: QueryClient) {
       },
     },
   });
-  return { duplicateEvent: (eventId: number, data: EventCreate) => m.mutate({ eventId, data }), duplicateEventPending: m.isPending };
+  return {
+    duplicateEvent: (eventId: number, data: EventCreate) =>
+      m.mutate({ eventId, data }),
+    duplicateEventPending: m.isPending,
+  };
 }
 
 export function useGetEventStatus(eventId: number) {
@@ -258,7 +268,8 @@ export function useChangeUserDisplayName(qc: QueryClient) {
     },
   });
   return {
-    changeUserDisplayName: (displayName: string) => m.mutate({ data: { display_name: displayName } }),
+    changeUserDisplayName: (displayName: string) =>
+      m.mutate({ data: { display_name: displayName } }),
     changeUserDisplayNamePending: m.isPending,
   };
 }
@@ -271,7 +282,8 @@ export function useRemoveOauthProvider(qc: QueryClient) {
     },
   });
   return {
-    removeOauthProvider: (provider: string) => m.mutate({ params: { provider } }),
+    removeOauthProvider: (provider: string) =>
+      m.mutate({ params: { provider } }),
     removeOauthProviderPending: m.isPending,
   };
 }
@@ -320,7 +332,12 @@ export function useCreateSignup(
       },
     },
   });
-  return { ...m, createSignup: (eventId: number, data: SignupCreate) => m.mutate({ eventId, data }), createSignupPending: m.isPending };
+  return {
+    ...m,
+    createSignup: (eventId: number, data: SignupCreate) =>
+      m.mutate({ eventId, data }),
+    createSignupPending: m.isPending,
+  };
 }
 
 export function useDeleteSignup(qc: QueryClient) {
@@ -336,7 +353,11 @@ export function useDeleteSignup(qc: QueryClient) {
       },
     },
   });
-  return { deleteSignup: (eventId: number, userId: number) => m.mutate({ eventId, userId }), deleteSignupPending: m.isPending };
+  return {
+    deleteSignup: (eventId: number, userId: number) =>
+      m.mutate({ eventId, userId }),
+    deleteSignupPending: m.isPending,
+  };
 }
 
 // --- Teams ---
@@ -354,7 +375,11 @@ export function useAddUsersToTeams(qc: QueryClient) {
       },
     },
   });
-  return { addUsersToTeams: (eventId: number, data: TeamUserCreate[]) => m.mutate({ eventId, data }), addUsersToTeamsPending: m.isPending };
+  return {
+    addUsersToTeams: (eventId: number, data: TeamUserCreate[]) =>
+      m.mutate({ eventId, data }),
+    addUsersToTeamsPending: m.isPending,
+  };
 }
 
 export function useCreateTeam(
@@ -370,7 +395,10 @@ export function useCreateTeam(
       },
     },
   });
-  return { createTeam: (data: TeamCreate) => m.mutate({ eventId, data }), createTeamPending: m.isPending };
+  return {
+    createTeam: (data: TeamCreate) => m.mutate({ eventId, data }),
+    createTeamPending: m.isPending,
+  };
 }
 
 export function useDeleteTeam(qc: QueryClient, eventId: number) {
@@ -381,7 +409,10 @@ export function useDeleteTeam(qc: QueryClient, eventId: number) {
       },
     },
   });
-  return { deleteTeam: (teamId: number) => m.mutate({ eventId, teamId }), deleteTeamPending: m.isPending };
+  return {
+    deleteTeam: (teamId: number) => m.mutate({ eventId, teamId }),
+    deleteTeamPending: m.isPending,
+  };
 }
 
 export function useGetSortedPlayers(eventId: number) {
@@ -411,7 +442,14 @@ export function useAddTeamSuggestion(
       },
     },
   });
-  return { addTeamSuggestion: (teamId: number, objectiveId: number, data: TeamSuggestion) => mutation.mutate({ eventId, teamId, objectiveId, data }), ...mutation };
+  return {
+    addTeamSuggestion: (
+      teamId: number,
+      objectiveId: number,
+      data: TeamSuggestion,
+    ) => mutation.mutate({ eventId, teamId, objectiveId, data }),
+    ...mutation,
+  };
 }
 
 export function useDeleteTeamSuggestion(
@@ -427,7 +465,11 @@ export function useDeleteTeamSuggestion(
       },
     },
   });
-  return { deleteTeamSuggestion: (teamId: number, objectiveId: number) => mutation.mutate({ eventId, teamId, objectiveId }), ...mutation };
+  return {
+    deleteTeamSuggestion: (teamId: number, objectiveId: number) =>
+      mutation.mutate({ eventId, teamId, objectiveId }),
+    ...mutation,
+  };
 }
 
 // --- Objectives ---
@@ -481,7 +523,10 @@ export function useCreateObjective(
       },
     },
   });
-  return { createObjective: (data: ObjectiveCreate) => m.mutate({ eventId, data }), createObjectivePending: m.isPending };
+  return {
+    createObjective: (data: ObjectiveCreate) => m.mutate({ eventId, data }),
+    createObjectivePending: m.isPending,
+  };
 }
 
 export function useDeleteObjective(qc: QueryClient, eventId: number) {
@@ -494,7 +539,10 @@ export function useDeleteObjective(qc: QueryClient, eventId: number) {
       },
     },
   });
-  return { deleteObjective: (id: number) => m.mutate({ eventId, id }), deleteObjectivePending: m.isPending };
+  return {
+    deleteObjective: (id: number) => m.mutate({ eventId, id }),
+    deleteObjectivePending: m.isPending,
+  };
 }
 
 export function useCreateBulkObjectives(
@@ -603,7 +651,11 @@ export function useAddScoringPreset(
       },
     },
   });
-  return { addScoringPreset: (data: ScoringPresetCreate) => m.mutate({ eventId, data }), addScoringPresetPending: m.isPending };
+  return {
+    addScoringPreset: (data: ScoringPresetCreate) =>
+      m.mutate({ eventId, data }),
+    addScoringPresetPending: m.isPending,
+  };
 }
 
 export function useDeleteScoringPreset(qc: QueryClient, eventId: number) {
@@ -641,7 +693,10 @@ export function useSubmitBounty(qc: QueryClient, eventId: number) {
       },
     },
   });
-  return { submitBounty: (data: SubmissionCreate) => m.mutate({ eventId, data }), submitBountyPending: m.isPending };
+  return {
+    submitBounty: (data: SubmissionCreate) => m.mutate({ eventId, data }),
+    submitBountyPending: m.isPending,
+  };
 }
 
 export function useReviewSubmission(qc: QueryClient, eventId: number) {
@@ -656,7 +711,8 @@ export function useReviewSubmission(qc: QueryClient, eventId: number) {
   });
   return {
     ...m,
-    reviewSubmission: (submissionId: number, data: SubmissionReview) => m.mutate({ eventId, submissionId, data }),
+    reviewSubmission: (submissionId: number, data: SubmissionReview) =>
+      m.mutate({ eventId, submissionId, data }),
     reviewSubmissionPending: m.isPending,
   };
 }
@@ -704,7 +760,8 @@ export function useUpdateGuildStashTab(
     },
   });
   return {
-    updateGuildStashTab: (stashId: string) => m.mutate({ eventId, teamId, stashId }),
+    updateGuildStashTab: (stashId: string) =>
+      m.mutate({ eventId, teamId, stashId }),
     updateGuildStashTabPending: m.isPending,
   };
 }
@@ -724,7 +781,8 @@ export function useSwitchStashFetching(
     },
   });
   return {
-    switchStashFetching: (stashId: string, data: TabSwitchRequest) => m.mutate({ eventId, teamId, stashId, data }),
+    switchStashFetching: (stashId: string, data: TabSwitchRequest) =>
+      m.mutate({ eventId, teamId, stashId, data }),
     switchStashFetchingPending: m.isPending,
   };
 }
@@ -815,7 +873,11 @@ export function useDeletePoB(qc: QueryClient) {
       },
     },
   });
-  return { deletePoB: (userId: number, characterId: string, pobId: number) => m.mutate({ userId, characterId, pobId }), deletePoBPending: m.isPending };
+  return {
+    deletePoB: (userId: number, characterId: string, pobId: number) =>
+      m.mutate({ userId, characterId, pobId }),
+    deletePoBPending: m.isPending,
+  };
 }
 
 // --- Scores ---
@@ -852,7 +914,11 @@ export function useStartJob(qc: QueryClient) {
       },
     },
   });
-  return { ...m, startJob: (data: JobCreate) => m.mutate({ data }), startJobPending: m.isPending };
+  return {
+    ...m,
+    startJob: (data: JobCreate) => m.mutate({ data }),
+    startJobPending: m.isPending,
+  };
 }
 
 // --- Timings ---
@@ -870,7 +936,10 @@ export function useSetTimings(qc: QueryClient) {
       },
     },
   });
-  return { setTimings: (data: TimingCreate[]) => m.mutate({ data }), setTimingsPending: m.isPending };
+  return {
+    setTimings: (data: TimingCreate[]) => m.mutate({ data }),
+    setTimingsPending: m.isPending,
+  };
 }
 
 // --- Activity ---
@@ -934,7 +1003,11 @@ export function useCreateItemWish(
       },
     },
   });
-  return { saveItemWish: (data: CreateItemWish) => m.mutate({ eventId, teamId: teamId!, data }), saveItemWishPending: m.isPending };
+  return {
+    saveItemWish: (data: CreateItemWish) =>
+      m.mutate({ eventId, teamId: teamId!, data }),
+    saveItemWishPending: m.isPending,
+  };
 }
 
 export function useUpdateItemWish(
@@ -951,7 +1024,11 @@ export function useUpdateItemWish(
       },
     },
   });
-  return { updateItemWish: (wishId: number, data: UpdateItemWish) => m.mutate({ eventId, teamId: teamId!, wishId, data }), updateItemWishPending: m.isPending };
+  return {
+    updateItemWish: (wishId: number, data: UpdateItemWish) =>
+      m.mutate({ eventId, teamId: teamId!, wishId, data }),
+    updateItemWishPending: m.isPending,
+  };
 }
 
 export function useDeleteItemWish(
@@ -968,7 +1045,11 @@ export function useDeleteItemWish(
       },
     },
   });
-  return { deleteItemWish: (wishId: number) => m.mutate({ eventId, teamId: teamId!, wishId }), deleteItemWishPending: m.isPending };
+  return {
+    deleteItemWish: (wishId: number) =>
+      m.mutate({ eventId, teamId: teamId!, wishId }),
+    deleteItemWishPending: m.isPending,
+  };
 }
 
 // --- Items ---

@@ -122,15 +122,12 @@ export function GuildStashSelect({ path }: { path: path }) {
                           type="checkbox"
                           checked={stash.fetch_enabled}
                           onChange={(e) =>
-                            switchStashFetching(
-                              stash.id,
-                              {
-                                fetch_enabled: e.target.checked,
-                                priority_fetch: e.target.checked
-                                  ? stash.priority_fetch
-                                  : false,
-                              },
-                            )
+                            switchStashFetching(stash.id, {
+                              fetch_enabled: e.target.checked,
+                              priority_fetch: e.target.checked
+                                ? stash.priority_fetch
+                                : false,
+                            })
                           }
                           className="checkbox checkbox-primary"
                         />
@@ -141,15 +138,12 @@ export function GuildStashSelect({ path }: { path: path }) {
                           type="checkbox"
                           checked={stash.priority_fetch}
                           onChange={(e) =>
-                            switchStashFetching(
-                              stash.id,
-                              {
-                                fetch_enabled: e.target.checked
-                                  ? true
-                                  : stash.fetch_enabled,
-                                priority_fetch: e.target.checked,
-                              },
-                            )
+                            switchStashFetching(stash.id, {
+                              fetch_enabled: e.target.checked
+                                ? true
+                                : stash.fetch_enabled,
+                              priority_fetch: e.target.checked,
+                            })
                           }
                           className="checkbox checkbox-secondary"
                         />
