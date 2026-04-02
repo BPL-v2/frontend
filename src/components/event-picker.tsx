@@ -32,10 +32,16 @@ export function EventPicker() {
       }}
       // @ts-ignore
       value={currentEvent.id}
-      options={events.map((event) => ({
-        label: event.name,
-        value: event.id,
-      }))}
+      options={events
+        .sort(
+          (a, b) =>
+            new Date(b.event_start_time).getTime() -
+            new Date(a.event_start_time).getTime(),
+        )
+        .map((event) => ({
+          label: event.name,
+          value: event.id,
+        }))}
     ></Select>
   );
 }
