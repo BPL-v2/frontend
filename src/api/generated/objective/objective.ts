@@ -26,10 +26,10 @@ import type {
 
 import type {
   ConditionMappings,
+  CreateObjectiveBaseBody,
   Objective,
-  ObjectiveCreate,
   ObjectiveValidation,
-  ValidationRequest
+  ValidateObjectivesBaseBody
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -146,7 +146,7 @@ export const getCreateObjectiveBaseUrl = (eventId: number,) => {
 }
 
 export const createObjectiveBase = async (eventId: number,
-    objectiveCreate: ObjectiveCreate, options?: RequestInit): Promise<Objective> => {
+    createObjectiveBaseBody: CreateObjectiveBaseBody, options?: RequestInit): Promise<Objective> => {
 
   return customFetch<Objective>(getCreateObjectiveBaseUrl(eventId),
   {
@@ -154,7 +154,7 @@ export const createObjectiveBase = async (eventId: number,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      objectiveCreate,)
+      createObjectiveBaseBody,)
   }
 );}
 
@@ -162,8 +162,8 @@ export const createObjectiveBase = async (eventId: number,
 
 
 export const getCreateObjectiveBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: ObjectiveCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: ObjectiveCreate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: CreateObjectiveBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: CreateObjectiveBaseBody}, TContext> => {
 
 const mutationKey = ['createObjectiveBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -175,7 +175,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createObjectiveBase>>, {eventId: number;data: ObjectiveCreate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createObjectiveBase>>, {eventId: number;data: CreateObjectiveBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  createObjectiveBase(eventId,data,requestOptions)
@@ -189,15 +189,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateObjectiveBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createObjectiveBase>>>
-    export type CreateObjectiveBaseMutationBody = ObjectiveCreate
+    export type CreateObjectiveBaseMutationBody = CreateObjectiveBaseBody
     export type CreateObjectiveBaseMutationError = unknown
 
     export const useCreateObjectiveBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: ObjectiveCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveBase>>, TError,{eventId: number;data: CreateObjectiveBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createObjectiveBase>>,
         TError,
-        {eventId: number;data: ObjectiveCreate},
+        {eventId: number;data: CreateObjectiveBaseBody},
         TContext
       > => {
       return useMutation(getCreateObjectiveBaseMutationOptions(options), queryClient);
@@ -404,7 +404,7 @@ export const getValidateObjectivesBaseUrl = (eventId: number,) => {
 }
 
 export const validateObjectivesBase = async (eventId: number,
-    validationRequest: ValidationRequest, options?: RequestInit): Promise<void> => {
+    validateObjectivesBaseBody: ValidateObjectivesBaseBody, options?: RequestInit): Promise<void> => {
 
   return customFetch<void>(getValidateObjectivesBaseUrl(eventId),
   {
@@ -412,7 +412,7 @@ export const validateObjectivesBase = async (eventId: number,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      validationRequest,)
+      validateObjectivesBaseBody,)
   }
 );}
 
@@ -420,8 +420,8 @@ export const validateObjectivesBase = async (eventId: number,
 
 
 export const getValidateObjectivesBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidationRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidationRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidateObjectivesBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidateObjectivesBaseBody}, TContext> => {
 
 const mutationKey = ['validateObjectivesBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -433,7 +433,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof validateObjectivesBase>>, {eventId: number;data: ValidationRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof validateObjectivesBase>>, {eventId: number;data: ValidateObjectivesBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  validateObjectivesBase(eventId,data,requestOptions)
@@ -447,18 +447,86 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type ValidateObjectivesBaseMutationResult = NonNullable<Awaited<ReturnType<typeof validateObjectivesBase>>>
-    export type ValidateObjectivesBaseMutationBody = ValidationRequest
+    export type ValidateObjectivesBaseMutationBody = ValidateObjectivesBaseBody
     export type ValidateObjectivesBaseMutationError = unknown
 
     export const useValidateObjectivesBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidationRequest}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof validateObjectivesBase>>, TError,{eventId: number;data: ValidateObjectivesBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof validateObjectivesBase>>,
         TError,
-        {eventId: number;data: ValidationRequest},
+        {eventId: number;data: ValidateObjectivesBaseBody},
         TContext
       > => {
       return useMutation(getValidateObjectivesBaseMutationOptions(options), queryClient);
+    }
+    /**
+ * Deletes an objective
+ */
+export const getDeleteObjectiveBaseUrl = (eventId: number,
+    id: number,) => {
+
+
+
+
+  return `/events/${eventId}/objectives/${id}`
+}
+
+export const deleteObjectiveBase = async (eventId: number,
+    id: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteObjectiveBaseUrl(eventId,id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteObjectiveBaseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext> => {
+
+const mutationKey = ['deleteObjectiveBase'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteObjectiveBase>>, {eventId: number;id: number}> = (props) => {
+          const {eventId,id} = props ?? {};
+
+          return  deleteObjectiveBase(eventId,id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteObjectiveBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteObjectiveBase>>>
+
+    export type DeleteObjectiveBaseMutationError = unknown
+
+    export const useDeleteObjectiveBase = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteObjectiveBase>>,
+        TError,
+        {eventId: number;id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteObjectiveBaseMutationOptions(options), queryClient);
     }
     /**
  * Gets an objective by id
@@ -563,71 +631,3 @@ export function useGetObjectiveBase<TData = Awaited<ReturnType<typeof getObjecti
 
 
 
-/**
- * Deletes an objective
- */
-export const getDeleteObjectiveBaseUrl = (eventId: number,
-    id: number,) => {
-
-
-
-
-  return `/events/${eventId}/objectives/${id}`
-}
-
-export const deleteObjectiveBase = async (eventId: number,
-    id: number, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getDeleteObjectiveBaseUrl(eventId,id),
-  {
-    ...options,
-    method: 'DELETE'
-
-
-  }
-);}
-
-
-
-
-export const getDeleteObjectiveBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext> => {
-
-const mutationKey = ['deleteObjectiveBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteObjectiveBase>>, {eventId: number;id: number}> = (props) => {
-          const {eventId,id} = props ?? {};
-
-          return  deleteObjectiveBase(eventId,id,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteObjectiveBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteObjectiveBase>>>
-
-    export type DeleteObjectiveBaseMutationError = unknown
-
-    export const useDeleteObjectiveBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteObjectiveBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteObjectiveBase>>,
-        TError,
-        {eventId: number;id: number},
-        TContext
-      > => {
-      return useMutation(getDeleteObjectiveBaseMutationOptions(options), queryClient);
-    }

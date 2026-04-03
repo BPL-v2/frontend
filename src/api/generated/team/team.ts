@@ -25,11 +25,13 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AddUsersToTeamsBaseBody,
+  CreateObjectiveTeamSuggestionBase201,
+  CreateObjectiveTeamSuggestionBaseBody,
+  CreateTeamBaseBody,
   SortedUser,
   Team,
-  TeamCreate,
-  TeamSuggestion,
-  TeamUserCreate
+  TeamSuggestion
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -146,7 +148,7 @@ export const getCreateTeamBaseUrl = (eventId: number,) => {
 }
 
 export const createTeamBase = async (eventId: number,
-    teamCreate: TeamCreate, options?: RequestInit): Promise<Team> => {
+    createTeamBaseBody: CreateTeamBaseBody, options?: RequestInit): Promise<Team> => {
 
   return customFetch<Team>(getCreateTeamBaseUrl(eventId),
   {
@@ -154,7 +156,7 @@ export const createTeamBase = async (eventId: number,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      teamCreate,)
+      createTeamBaseBody,)
   }
 );}
 
@@ -162,8 +164,8 @@ export const createTeamBase = async (eventId: number,
 
 
 export const getCreateTeamBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: TeamCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: TeamCreate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: CreateTeamBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: CreateTeamBaseBody}, TContext> => {
 
 const mutationKey = ['createTeamBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -175,7 +177,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createTeamBase>>, {eventId: number;data: TeamCreate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createTeamBase>>, {eventId: number;data: CreateTeamBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  createTeamBase(eventId,data,requestOptions)
@@ -189,15 +191,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateTeamBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createTeamBase>>>
-    export type CreateTeamBaseMutationBody = TeamCreate
+    export type CreateTeamBaseMutationBody = CreateTeamBaseBody
     export type CreateTeamBaseMutationError = unknown
 
     export const useCreateTeamBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: TeamCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createTeamBase>>, TError,{eventId: number;data: CreateTeamBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createTeamBase>>,
         TError,
-        {eventId: number;data: TeamCreate},
+        {eventId: number;data: CreateTeamBaseBody},
         TContext
       > => {
       return useMutation(getCreateTeamBaseMutationOptions(options), queryClient);
@@ -309,7 +311,7 @@ export const getAddUsersToTeamsBaseUrl = (eventId: number,) => {
 }
 
 export const addUsersToTeamsBase = async (eventId: number,
-    teamUserCreate: TeamUserCreate[], options?: RequestInit): Promise<void> => {
+    addUsersToTeamsBaseBody: AddUsersToTeamsBaseBody, options?: RequestInit): Promise<void> => {
 
   return customFetch<void>(getAddUsersToTeamsBaseUrl(eventId),
   {
@@ -317,7 +319,7 @@ export const addUsersToTeamsBase = async (eventId: number,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      teamUserCreate,)
+      addUsersToTeamsBaseBody,)
   }
 );}
 
@@ -325,8 +327,8 @@ export const addUsersToTeamsBase = async (eventId: number,
 
 
 export const getAddUsersToTeamsBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: TeamUserCreate[]}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: TeamUserCreate[]}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: AddUsersToTeamsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: AddUsersToTeamsBaseBody}, TContext> => {
 
 const mutationKey = ['addUsersToTeamsBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -338,7 +340,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addUsersToTeamsBase>>, {eventId: number;data: TeamUserCreate[]}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addUsersToTeamsBase>>, {eventId: number;data: AddUsersToTeamsBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  addUsersToTeamsBase(eventId,data,requestOptions)
@@ -352,18 +354,86 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type AddUsersToTeamsBaseMutationResult = NonNullable<Awaited<ReturnType<typeof addUsersToTeamsBase>>>
-    export type AddUsersToTeamsBaseMutationBody = TeamUserCreate[]
+    export type AddUsersToTeamsBaseMutationBody = AddUsersToTeamsBaseBody
     export type AddUsersToTeamsBaseMutationError = unknown
 
     export const useAddUsersToTeamsBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: TeamUserCreate[]}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUsersToTeamsBase>>, TError,{eventId: number;data: AddUsersToTeamsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof addUsersToTeamsBase>>,
         TError,
-        {eventId: number;data: TeamUserCreate[]},
+        {eventId: number;data: AddUsersToTeamsBaseBody},
         TContext
       > => {
       return useMutation(getAddUsersToTeamsBaseMutationOptions(options), queryClient);
+    }
+    /**
+ * Deletes a team
+ */
+export const getDeleteTeamBaseUrl = (eventId: number,
+    teamId: number,) => {
+
+
+
+
+  return `/events/${eventId}/teams/${teamId}`
+}
+
+export const deleteTeamBase = async (eventId: number,
+    teamId: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteTeamBaseUrl(eventId,teamId),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteTeamBaseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext> => {
+
+const mutationKey = ['deleteTeamBase'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteTeamBase>>, {eventId: number;teamId: number}> = (props) => {
+          const {eventId,teamId} = props ?? {};
+
+          return  deleteTeamBase(eventId,teamId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteTeamBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteTeamBase>>>
+
+    export type DeleteTeamBaseMutationError = unknown
+
+    export const useDeleteTeamBase = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteTeamBase>>,
+        TError,
+        {eventId: number;teamId: number},
+        TContext
+      > => {
+      return useMutation(getDeleteTeamBaseMutationOptions(options), queryClient);
     }
     /**
  * Fetches a team by id
@@ -469,74 +539,6 @@ export function useGetTeamBase<TData = Awaited<ReturnType<typeof getTeamBase>>, 
 
 
 /**
- * Deletes a team
- */
-export const getDeleteTeamBaseUrl = (eventId: number,
-    teamId: number,) => {
-
-
-
-
-  return `/events/${eventId}/teams/${teamId}`
-}
-
-export const deleteTeamBase = async (eventId: number,
-    teamId: number, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getDeleteTeamBaseUrl(eventId,teamId),
-  {
-    ...options,
-    method: 'DELETE'
-
-
-  }
-);}
-
-
-
-
-export const getDeleteTeamBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext> => {
-
-const mutationKey = ['deleteTeamBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteTeamBase>>, {eventId: number;teamId: number}> = (props) => {
-          const {eventId,teamId} = props ?? {};
-
-          return  deleteTeamBase(eventId,teamId,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteTeamBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteTeamBase>>>
-
-    export type DeleteTeamBaseMutationError = unknown
-
-    export const useDeleteTeamBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTeamBase>>, TError,{eventId: number;teamId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteTeamBase>>,
-        TError,
-        {eventId: number;teamId: number},
-        TContext
-      > => {
-      return useMutation(getDeleteTeamBaseMutationOptions(options), queryClient);
-    }
-    /**
  * Fetches all suggestions for your team for an event
  */
 export const getGetTeamSuggestionsBaseUrl = (eventId: number,
@@ -640,78 +642,6 @@ export function useGetTeamSuggestionsBase<TData = Awaited<ReturnType<typeof getT
 
 
 /**
- * Creates a suggestion for an objective for your team for an event
- */
-export const getCreateObjectiveTeamSuggestionBaseUrl = (eventId: number,
-    teamId: number,
-    objectiveId: number,) => {
-
-
-
-
-  return `/events/${eventId}/teams/${teamId}/suggestions/${objectiveId}`
-}
-
-export const createObjectiveTeamSuggestionBase = async (eventId: number,
-    teamId: number,
-    objectiveId: number,
-    teamSuggestion: TeamSuggestion, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getCreateObjectiveTeamSuggestionBaseUrl(eventId,teamId,objectiveId),
-  {
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      teamSuggestion,)
-  }
-);}
-
-
-
-
-export const getCreateObjectiveTeamSuggestionBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: TeamSuggestion}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: TeamSuggestion}, TContext> => {
-
-const mutationKey = ['createObjectiveTeamSuggestionBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, {eventId: number;teamId: number;objectiveId: number;data: TeamSuggestion}> = (props) => {
-          const {eventId,teamId,objectiveId,data} = props ?? {};
-
-          return  createObjectiveTeamSuggestionBase(eventId,teamId,objectiveId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateObjectiveTeamSuggestionBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>>
-    export type CreateObjectiveTeamSuggestionBaseMutationBody = TeamSuggestion
-    export type CreateObjectiveTeamSuggestionBaseMutationError = unknown
-
-    export const useCreateObjectiveTeamSuggestionBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: TeamSuggestion}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
-        TError,
-        {eventId: number;teamId: number;objectiveId: number;data: TeamSuggestion},
-        TContext
-      > => {
-      return useMutation(getCreateObjectiveTeamSuggestionBaseMutationOptions(options), queryClient);
-    }
-    /**
  * Deletes a suggestion for an objective for your team for an event
  */
 export const getDeleteObjectiveTeamSuggestionBaseUrl = (eventId: number,
@@ -780,4 +710,76 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getDeleteObjectiveTeamSuggestionBaseMutationOptions(options), queryClient);
+    }
+    /**
+ * Creates a suggestion for an objective for your team for an event
+ */
+export const getCreateObjectiveTeamSuggestionBaseUrl = (eventId: number,
+    teamId: number,
+    objectiveId: number,) => {
+
+
+
+
+  return `/events/${eventId}/teams/${teamId}/suggestions/${objectiveId}`
+}
+
+export const createObjectiveTeamSuggestionBase = async (eventId: number,
+    teamId: number,
+    objectiveId: number,
+    createObjectiveTeamSuggestionBaseBody: CreateObjectiveTeamSuggestionBaseBody, options?: RequestInit): Promise<CreateObjectiveTeamSuggestionBase201> => {
+
+  return customFetch<CreateObjectiveTeamSuggestionBase201>(getCreateObjectiveTeamSuggestionBaseUrl(eventId,teamId,objectiveId),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createObjectiveTeamSuggestionBaseBody,)
+  }
+);}
+
+
+
+
+export const getCreateObjectiveTeamSuggestionBaseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: CreateObjectiveTeamSuggestionBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: CreateObjectiveTeamSuggestionBaseBody}, TContext> => {
+
+const mutationKey = ['createObjectiveTeamSuggestionBase'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, {eventId: number;teamId: number;objectiveId: number;data: CreateObjectiveTeamSuggestionBaseBody}> = (props) => {
+          const {eventId,teamId,objectiveId,data} = props ?? {};
+
+          return  createObjectiveTeamSuggestionBase(eventId,teamId,objectiveId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateObjectiveTeamSuggestionBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>>
+    export type CreateObjectiveTeamSuggestionBaseMutationBody = CreateObjectiveTeamSuggestionBaseBody
+    export type CreateObjectiveTeamSuggestionBaseMutationError = unknown
+
+    export const useCreateObjectiveTeamSuggestionBase = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>, TError,{eventId: number;teamId: number;objectiveId: number;data: CreateObjectiveTeamSuggestionBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
+        TError,
+        {eventId: number;teamId: number;objectiveId: number;data: CreateObjectiveTeamSuggestionBaseBody},
+        TContext
+      > => {
+      return useMutation(getCreateObjectiveTeamSuggestionBaseMutationOptions(options), queryClient);
     }

@@ -25,9 +25,9 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  CreateSignupBaseBody,
   ExtendedSignup,
-  Signup,
-  SignupCreate
+  Signup
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -239,7 +239,7 @@ export const getCreateSignupBaseUrl = (eventId: number,) => {
 }
 
 export const createSignupBase = async (eventId: number,
-    signupCreate: SignupCreate, options?: RequestInit): Promise<Signup> => {
+    createSignupBaseBody: CreateSignupBaseBody, options?: RequestInit): Promise<Signup> => {
 
   return customFetch<Signup>(getCreateSignupBaseUrl(eventId),
   {
@@ -247,7 +247,7 @@ export const createSignupBase = async (eventId: number,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      signupCreate,)
+      createSignupBaseBody,)
   }
 );}
 
@@ -255,8 +255,8 @@ export const createSignupBase = async (eventId: number,
 
 
 export const getCreateSignupBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: SignupCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: SignupCreate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: CreateSignupBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: CreateSignupBaseBody}, TContext> => {
 
 const mutationKey = ['createSignupBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -268,7 +268,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSignupBase>>, {eventId: number;data: SignupCreate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSignupBase>>, {eventId: number;data: CreateSignupBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  createSignupBase(eventId,data,requestOptions)
@@ -282,15 +282,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateSignupBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createSignupBase>>>
-    export type CreateSignupBaseMutationBody = SignupCreate
+    export type CreateSignupBaseMutationBody = CreateSignupBaseBody
     export type CreateSignupBaseMutationError = unknown
 
     export const useCreateSignupBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: SignupCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSignupBase>>, TError,{eventId: number;data: CreateSignupBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createSignupBase>>,
         TError,
-        {eventId: number;data: SignupCreate},
+        {eventId: number;data: CreateSignupBaseBody},
         TContext
       > => {
       return useMutation(getCreateSignupBaseMutationOptions(options), queryClient);

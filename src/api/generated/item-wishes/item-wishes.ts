@@ -25,9 +25,9 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  CreateItemWish,
-  ItemWish,
-  UpdateItemWish
+  ChangeItemWishBaseBody,
+  CreateItemWishBaseBody,
+  ItemWish
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -154,7 +154,7 @@ export const getCreateItemWishBaseUrl = (eventId: number,
 
 export const createItemWishBase = async (eventId: number,
     teamId: number,
-    createItemWish: CreateItemWish, options?: RequestInit): Promise<ItemWish> => {
+    createItemWishBaseBody: CreateItemWishBaseBody, options?: RequestInit): Promise<ItemWish> => {
 
   return customFetch<ItemWish>(getCreateItemWishBaseUrl(eventId,teamId),
   {
@@ -162,7 +162,7 @@ export const createItemWishBase = async (eventId: number,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      createItemWish,)
+      createItemWishBaseBody,)
   }
 );}
 
@@ -170,8 +170,8 @@ export const createItemWishBase = async (eventId: number,
 
 
 export const getCreateItemWishBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWish}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWish}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWishBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWishBaseBody}, TContext> => {
 
 const mutationKey = ['createItemWishBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -183,7 +183,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItemWishBase>>, {eventId: number;teamId: number;data: CreateItemWish}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createItemWishBase>>, {eventId: number;teamId: number;data: CreateItemWishBaseBody}> = (props) => {
           const {eventId,teamId,data} = props ?? {};
 
           return  createItemWishBase(eventId,teamId,data,requestOptions)
@@ -197,15 +197,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateItemWishBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createItemWishBase>>>
-    export type CreateItemWishBaseMutationBody = CreateItemWish
+    export type CreateItemWishBaseMutationBody = CreateItemWishBaseBody
     export type CreateItemWishBaseMutationError = unknown
 
     export const useCreateItemWishBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWish}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createItemWishBase>>, TError,{eventId: number;teamId: number;data: CreateItemWishBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createItemWishBase>>,
         TError,
-        {eventId: number;teamId: number;data: CreateItemWish},
+        {eventId: number;teamId: number;data: CreateItemWishBaseBody},
         TContext
       > => {
       return useMutation(getCreateItemWishBaseMutationOptions(options), queryClient);
@@ -296,7 +296,7 @@ export const getChangeItemWishBaseUrl = (eventId: number,
 export const changeItemWishBase = async (eventId: number,
     teamId: number,
     wishId: number,
-    updateItemWish: UpdateItemWish, options?: RequestInit): Promise<ItemWish> => {
+    changeItemWishBaseBody: ChangeItemWishBaseBody, options?: RequestInit): Promise<ItemWish> => {
 
   return customFetch<ItemWish>(getChangeItemWishBaseUrl(eventId,teamId,wishId),
   {
@@ -304,7 +304,7 @@ export const changeItemWishBase = async (eventId: number,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      updateItemWish,)
+      changeItemWishBaseBody,)
   }
 );}
 
@@ -312,8 +312,8 @@ export const changeItemWishBase = async (eventId: number,
 
 
 export const getChangeItemWishBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: UpdateItemWish}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: UpdateItemWish}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: ChangeItemWishBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: ChangeItemWishBaseBody}, TContext> => {
 
 const mutationKey = ['changeItemWishBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -325,7 +325,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changeItemWishBase>>, {eventId: number;teamId: number;wishId: number;data: UpdateItemWish}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changeItemWishBase>>, {eventId: number;teamId: number;wishId: number;data: ChangeItemWishBaseBody}> = (props) => {
           const {eventId,teamId,wishId,data} = props ?? {};
 
           return  changeItemWishBase(eventId,teamId,wishId,data,requestOptions)
@@ -339,15 +339,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type ChangeItemWishBaseMutationResult = NonNullable<Awaited<ReturnType<typeof changeItemWishBase>>>
-    export type ChangeItemWishBaseMutationBody = UpdateItemWish
+    export type ChangeItemWishBaseMutationBody = ChangeItemWishBaseBody
     export type ChangeItemWishBaseMutationError = unknown
 
     export const useChangeItemWishBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: UpdateItemWish}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeItemWishBase>>, TError,{eventId: number;teamId: number;wishId: number;data: ChangeItemWishBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof changeItemWishBase>>,
         TError,
-        {eventId: number;teamId: number;wishId: number;data: UpdateItemWish},
+        {eventId: number;teamId: number;wishId: number;data: ChangeItemWishBaseBody},
         TContext
       > => {
       return useMutation(getChangeItemWishBaseMutationOptions(options), queryClient);

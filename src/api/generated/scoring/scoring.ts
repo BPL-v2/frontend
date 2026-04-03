@@ -25,8 +25,9 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  ScoringPreset,
-  ScoringPresetCreate
+  CreateScoringPresetBaseBody,
+  DeleteScoringPresetBase200,
+  ScoringPreset
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -143,7 +144,7 @@ export const getCreateScoringPresetBaseUrl = (eventId: number,) => {
 }
 
 export const createScoringPresetBase = async (eventId: number,
-    scoringPresetCreate: ScoringPresetCreate, options?: RequestInit): Promise<ScoringPreset> => {
+    createScoringPresetBaseBody: CreateScoringPresetBaseBody, options?: RequestInit): Promise<ScoringPreset> => {
 
   return customFetch<ScoringPreset>(getCreateScoringPresetBaseUrl(eventId),
   {
@@ -151,7 +152,7 @@ export const createScoringPresetBase = async (eventId: number,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      scoringPresetCreate,)
+      createScoringPresetBaseBody,)
   }
 );}
 
@@ -159,8 +160,8 @@ export const createScoringPresetBase = async (eventId: number,
 
 
 export const getCreateScoringPresetBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: ScoringPresetCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: ScoringPresetCreate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext> => {
 
 const mutationKey = ['createScoringPresetBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -172,7 +173,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createScoringPresetBase>>, {eventId: number;data: ScoringPresetCreate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createScoringPresetBase>>, {eventId: number;data: CreateScoringPresetBaseBody}> = (props) => {
           const {eventId,data} = props ?? {};
 
           return  createScoringPresetBase(eventId,data,requestOptions)
@@ -186,15 +187,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateScoringPresetBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createScoringPresetBase>>>
-    export type CreateScoringPresetBaseMutationBody = ScoringPresetCreate
+    export type CreateScoringPresetBaseMutationBody = CreateScoringPresetBaseBody
     export type CreateScoringPresetBaseMutationError = unknown
 
     export const useCreateScoringPresetBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: ScoringPresetCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createScoringPresetBase>>,
         TError,
-        {eventId: number;data: ScoringPresetCreate},
+        {eventId: number;data: CreateScoringPresetBaseBody},
         TContext
       > => {
       return useMutation(getCreateScoringPresetBaseMutationOptions(options), queryClient);
@@ -212,9 +213,9 @@ export const getDeleteScoringPresetBaseUrl = (eventId: number,
 }
 
 export const deleteScoringPresetBase = async (eventId: number,
-    id: number, options?: RequestInit): Promise<void> => {
+    id: number, options?: RequestInit): Promise<DeleteScoringPresetBase200> => {
 
-  return customFetch<void>(getDeleteScoringPresetBaseUrl(eventId,id),
+  return customFetch<DeleteScoringPresetBase200>(getDeleteScoringPresetBaseUrl(eventId,id),
   {
     ...options,
     method: 'DELETE'

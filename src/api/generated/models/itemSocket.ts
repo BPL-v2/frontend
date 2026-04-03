@@ -11,9 +11,7 @@ import type { ItemSocketType } from './itemSocketType';
 export interface ItemSocket {
   attr?: string;
   group?: number;
-  /** PoE2 only */
   item?: ItemSocketItem;
   sColour?: string;
-  /** PoE2 only */
   type?: ItemSocketType;
 }

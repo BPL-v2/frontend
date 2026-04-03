@@ -25,8 +25,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  JobCreate,
-  RecurringJob
+  RecurringJob,
+  StartJobBaseBody
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -142,7 +142,7 @@ export const getStartJobBaseUrl = () => {
   return `/jobs`
 }
 
-export const startJobBase = async (jobCreate: JobCreate, options?: RequestInit): Promise<RecurringJob> => {
+export const startJobBase = async (startJobBaseBody: StartJobBaseBody, options?: RequestInit): Promise<RecurringJob> => {
 
   return customFetch<RecurringJob>(getStartJobBaseUrl(),
   {
@@ -150,7 +150,7 @@ export const startJobBase = async (jobCreate: JobCreate, options?: RequestInit):
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      jobCreate,)
+      startJobBaseBody,)
   }
 );}
 
@@ -158,8 +158,8 @@ export const startJobBase = async (jobCreate: JobCreate, options?: RequestInit):
 
 
 export const getStartJobBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: JobCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: JobCreate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext> => {
 
 const mutationKey = ['startJobBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -171,7 +171,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startJobBase>>, {data: JobCreate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startJobBase>>, {data: StartJobBaseBody}> = (props) => {
           const {data} = props ?? {};
 
           return  startJobBase(data,requestOptions)
@@ -185,15 +185,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type StartJobBaseMutationResult = NonNullable<Awaited<ReturnType<typeof startJobBase>>>
-    export type StartJobBaseMutationBody = JobCreate
+    export type StartJobBaseMutationBody = StartJobBaseBody
     export type StartJobBaseMutationError = unknown
 
     export const useStartJobBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: JobCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof startJobBase>>,
         TError,
-        {data: JobCreate},
+        {data: StartJobBaseBody},
         TContext
       > => {
       return useMutation(getStartJobBaseMutationOptions(options), queryClient);

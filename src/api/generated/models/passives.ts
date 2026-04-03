@@ -20,6 +20,5 @@ export interface Passives {
   pantheon_major?: string;
   pantheon_minor?: string;
   skill_overrides?: PassivesSkillOverrides;
-  /** PoE2 only */
   specialisation?: Specialisations;
 }

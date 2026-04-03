@@ -25,7 +25,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  AchievementCreate,
+  AddAchievementBase201,
+  AddAchievementBaseBody,
   GetAchievementsBase200
 } from '../models';
 
@@ -136,77 +137,6 @@ export function useGetAchievementsBase<TData = Awaited<ReturnType<typeof getAchi
 
 
 /**
- * Add new achievement to the system.
- * @summary Add achievement
- */
-export const getAddAchievementBaseUrl = () => {
-
-
-
-
-  return `/achievements`
-}
-
-export const addAchievementBase = async (achievementCreate: AchievementCreate, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getAddAchievementBaseUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      achievementCreate,)
-  }
-);}
-
-
-
-
-export const getAddAchievementBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AchievementCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AchievementCreate}, TContext> => {
-
-const mutationKey = ['addAchievementBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addAchievementBase>>, {data: AchievementCreate}> = (props) => {
-          const {data} = props ?? {};
-
-          return  addAchievementBase(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AddAchievementBaseMutationResult = NonNullable<Awaited<ReturnType<typeof addAchievementBase>>>
-    export type AddAchievementBaseMutationBody = AchievementCreate
-    export type AddAchievementBaseMutationError = unknown
-
-    /**
- * @summary Add achievement
- */
-export const useAddAchievementBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AchievementCreate}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof addAchievementBase>>,
-        TError,
-        {data: AchievementCreate},
-        TContext
-      > => {
-      return useMutation(getAddAchievementBaseMutationOptions(options), queryClient);
-    }
-    /**
  * Update achievements for all users based on their current progress.
  * @summary Update achievements
  */
@@ -275,4 +205,75 @@ export const useUpdateAchievementsBase = <TError = unknown,
         TContext
       > => {
       return useMutation(getUpdateAchievementsBaseMutationOptions(options), queryClient);
+    }
+    /**
+ * Add new achievement to the system.
+ * @summary Add achievement
+ */
+export const getAddAchievementBaseUrl = () => {
+
+
+
+
+  return `/achievements`
+}
+
+export const addAchievementBase = async (addAchievementBaseBody: AddAchievementBaseBody, options?: RequestInit): Promise<AddAchievementBase201> => {
+
+  return customFetch<AddAchievementBase201>(getAddAchievementBaseUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      addAchievementBaseBody,)
+  }
+);}
+
+
+
+
+export const getAddAchievementBaseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext> => {
+
+const mutationKey = ['addAchievementBase'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addAchievementBase>>, {data: AddAchievementBaseBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  addAchievementBase(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AddAchievementBaseMutationResult = NonNullable<Awaited<ReturnType<typeof addAchievementBase>>>
+    export type AddAchievementBaseMutationBody = AddAchievementBaseBody
+    export type AddAchievementBaseMutationError = unknown
+
+    /**
+ * @summary Add achievement
+ */
+export const useAddAchievementBase = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof addAchievementBase>>,
+        TError,
+        {data: AddAchievementBaseBody},
+        TContext
+      > => {
+      return useMutation(getAddAchievementBaseMutationOptions(options), queryClient);
     }

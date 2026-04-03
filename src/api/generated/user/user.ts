@@ -26,11 +26,11 @@ import type {
 
 import type {
   AtlasProgression,
+  ChangePermissionsBaseBody,
   GetUsersForEventBase200,
-  Permission,
   RemoveAuthBaseParams,
-  User,
-  UserUpdate
+  UpdateUserBaseBody,
+  User
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -512,7 +512,7 @@ export const getUpdateUserBaseUrl = () => {
   return `/users/self`
 }
 
-export const updateUserBase = async (userUpdate: UserUpdate, options?: RequestInit): Promise<User> => {
+export const updateUserBase = async (updateUserBaseBody: UpdateUserBaseBody, options?: RequestInit): Promise<User> => {
 
   return customFetch<User>(getUpdateUserBaseUrl(),
   {
@@ -520,7 +520,7 @@ export const updateUserBase = async (userUpdate: UserUpdate, options?: RequestIn
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      userUpdate,)
+      updateUserBaseBody,)
   }
 );}
 
@@ -528,8 +528,8 @@ export const updateUserBase = async (userUpdate: UserUpdate, options?: RequestIn
 
 
 export const getUpdateUserBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UserUpdate}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UserUpdate}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext> => {
 
 const mutationKey = ['updateUserBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -541,7 +541,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUserBase>>, {data: UserUpdate}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUserBase>>, {data: UpdateUserBaseBody}> = (props) => {
           const {data} = props ?? {};
 
           return  updateUserBase(data,requestOptions)
@@ -555,15 +555,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type UpdateUserBaseMutationResult = NonNullable<Awaited<ReturnType<typeof updateUserBase>>>
-    export type UpdateUserBaseMutationBody = UserUpdate
+    export type UpdateUserBaseMutationBody = UpdateUserBaseBody
     export type UpdateUserBaseMutationError = unknown
 
     export const useUpdateUserBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UserUpdate}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateUserBase>>,
         TError,
-        {data: UserUpdate},
+        {data: UpdateUserBaseBody},
         TContext
       > => {
       return useMutation(getUpdateUserBaseMutationOptions(options), queryClient);
@@ -675,7 +675,7 @@ export const getChangePermissionsBaseUrl = (userId: number,) => {
 }
 
 export const changePermissionsBase = async (userId: number,
-    permission: Permission[], options?: RequestInit): Promise<User> => {
+    changePermissionsBaseBody: ChangePermissionsBaseBody, options?: RequestInit): Promise<User> => {
 
   return customFetch<User>(getChangePermissionsBaseUrl(userId),
   {
@@ -683,7 +683,7 @@ export const changePermissionsBase = async (userId: number,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      permission,)
+      changePermissionsBaseBody,)
   }
 );}
 
@@ -691,8 +691,8 @@ export const changePermissionsBase = async (userId: number,
 
 
 export const getChangePermissionsBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: Permission[]}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: Permission[]}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext> => {
 
 const mutationKey = ['changePermissionsBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -704,7 +704,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePermissionsBase>>, {userId: number;data: Permission[]}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePermissionsBase>>, {userId: number;data: ChangePermissionsBaseBody}> = (props) => {
           const {userId,data} = props ?? {};
 
           return  changePermissionsBase(userId,data,requestOptions)
@@ -718,15 +718,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type ChangePermissionsBaseMutationResult = NonNullable<Awaited<ReturnType<typeof changePermissionsBase>>>
-    export type ChangePermissionsBaseMutationBody = Permission[]
+    export type ChangePermissionsBaseMutationBody = ChangePermissionsBaseBody
     export type ChangePermissionsBaseMutationError = unknown
 
     export const useChangePermissionsBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: Permission[]}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof changePermissionsBase>>,
         TError,
-        {userId: number;data: Permission[]},
+        {userId: number;data: ChangePermissionsBaseBody},
         TContext
       > => {
       return useMutation(getChangePermissionsBaseMutationOptions(options), queryClient);

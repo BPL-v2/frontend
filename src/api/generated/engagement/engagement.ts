@@ -16,7 +16,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  EngagementAdd
+  AddEngagementBaseBody
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -37,7 +37,7 @@ export const getAddEngagementBaseUrl = () => {
   return `/engagement`
 }
 
-export const addEngagementBase = async (engagementAdd: EngagementAdd, options?: RequestInit): Promise<void> => {
+export const addEngagementBase = async (addEngagementBaseBody: AddEngagementBaseBody, options?: RequestInit): Promise<void> => {
 
   return customFetch<void>(getAddEngagementBaseUrl(),
   {
@@ -45,7 +45,7 @@ export const addEngagementBase = async (engagementAdd: EngagementAdd, options?: 
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      engagementAdd,)
+      addEngagementBaseBody,)
   }
 );}
 
@@ -53,8 +53,8 @@ export const addEngagementBase = async (engagementAdd: EngagementAdd, options?: 
 
 
 export const getAddEngagementBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: EngagementAdd}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: EngagementAdd}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: AddEngagementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: AddEngagementBaseBody}, TContext> => {
 
 const mutationKey = ['addEngagementBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -66,7 +66,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addEngagementBase>>, {data: EngagementAdd}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addEngagementBase>>, {data: AddEngagementBaseBody}> = (props) => {
           const {data} = props ?? {};
 
           return  addEngagementBase(data,requestOptions)
@@ -80,15 +80,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type AddEngagementBaseMutationResult = NonNullable<Awaited<ReturnType<typeof addEngagementBase>>>
-    export type AddEngagementBaseMutationBody = EngagementAdd
+    export type AddEngagementBaseMutationBody = AddEngagementBaseBody
     export type AddEngagementBaseMutationError = unknown
 
     export const useAddEngagementBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: EngagementAdd}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addEngagementBase>>, TError,{data: AddEngagementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof addEngagementBase>>,
         TError,
-        {data: EngagementAdd},
+        {data: AddEngagementBaseBody},
         TContext
       > => {
       return useMutation(getAddEngagementBaseMutationOptions(options), queryClient);

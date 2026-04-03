@@ -5,9 +5,9 @@
  * This is the backend API for the BPL project.
  * OpenAPI spec version: 2.0
  */
-import type { SubmissionReviewApprovalStatus } from './submissionReviewApprovalStatus';
+import type { ApprovalStatus } from './approvalStatus';
 
 export interface SubmissionReview {
-  approval_status: SubmissionReviewApprovalStatus;
+  approval_status: ApprovalStatus;
   review_comment?: string;
 }

@@ -6,6 +6,9 @@
  * OpenAPI spec version: 2.0
  */
 
+/**
+ * PoE2 only
+ */
 export type ItemSocketType = typeof ItemSocketType[keyof typeof ItemSocketType];
 
 

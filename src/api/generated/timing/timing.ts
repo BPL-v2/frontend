@@ -25,8 +25,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  Timing,
-  TimingCreate
+  SetTimingsBaseBody,
+  Timing
 } from '../models';
 
 import { customFetch } from '../../fetcher';
@@ -147,7 +147,7 @@ export const getSetTimingsBaseUrl = () => {
   return `/timings`
 }
 
-export const setTimingsBase = async (timingCreate: TimingCreate[], options?: RequestInit): Promise<void> => {
+export const setTimingsBase = async (setTimingsBaseBody: SetTimingsBaseBody, options?: RequestInit): Promise<void> => {
 
   return customFetch<void>(getSetTimingsBaseUrl(),
   {
@@ -155,7 +155,7 @@ export const setTimingsBase = async (timingCreate: TimingCreate[], options?: Req
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      timingCreate,)
+      setTimingsBaseBody,)
   }
 );}
 
@@ -163,8 +163,8 @@ export const setTimingsBase = async (timingCreate: TimingCreate[], options?: Req
 
 
 export const getSetTimingsBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: TimingCreate[]}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: TimingCreate[]}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: SetTimingsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: SetTimingsBaseBody}, TContext> => {
 
 const mutationKey = ['setTimingsBase'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -176,7 +176,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setTimingsBase>>, {data: TimingCreate[]}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setTimingsBase>>, {data: SetTimingsBaseBody}> = (props) => {
           const {data} = props ?? {};
 
           return  setTimingsBase(data,requestOptions)
@@ -190,18 +190,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type SetTimingsBaseMutationResult = NonNullable<Awaited<ReturnType<typeof setTimingsBase>>>
-    export type SetTimingsBaseMutationBody = TimingCreate[]
+    export type SetTimingsBaseMutationBody = SetTimingsBaseBody
     export type SetTimingsBaseMutationError = unknown
 
     /**
  * @summary Set timing configurations
  */
 export const useSetTimingsBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: TimingCreate[]}, TContext>, request?: SecondParameter<typeof customFetch>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setTimingsBase>>, TError,{data: SetTimingsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof setTimingsBase>>,
         TError,
-        {data: TimingCreate[]},
+        {data: SetTimingsBaseBody},
         TContext
       > => {
       return useMutation(getSetTimingsBaseMutationOptions(options), queryClient);

@@ -5,12 +5,6 @@
  * This is the backend API for the BPL project.
  * OpenAPI spec version: 2.0
  */
+import type { TimingCreate } from './timingCreate';
 
-/**
- * PoE2 only
- */
-export interface Specialisations {
-  set1?: number[];
-  set2?: number[];
-  shapeshift?: number[];
-}
+export type SetTimingsBaseBody = { [key: string]: unknown } | TimingCreate[];

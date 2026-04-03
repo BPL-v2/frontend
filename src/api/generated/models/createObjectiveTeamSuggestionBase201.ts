@@ -6,11 +6,4 @@
  * OpenAPI spec version: 2.0
  */
 
-/**
- * PoE2 only
- */
-export interface Specialisations {
-  set1?: number[];
-  set2?: number[];
-  shapeshift?: number[];
-}
+export type CreateObjectiveTeamSuggestionBase201 = { [key: string]: unknown };
