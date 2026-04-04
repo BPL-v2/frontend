@@ -568,6 +568,9 @@ async function duplicateObjective(
   const dupe = JSON.parse(JSON.stringify(objective)) as ObjectiveCreate;
   dupe.id = undefined;
   dupe.parent_id = parentId;
+  dupe.scoring_preset_ids = objective.scoring_presets.map(
+    (preset) => preset.id,
+  );
   const newObjective = await createObjectiveBase(eventId, dupe);
   if (objective.children.length > 0) {
     const children = await Promise.all(
