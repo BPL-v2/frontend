@@ -4,9 +4,9 @@ import { JSX, useMemo, useState } from "react";
 import {
   GameVersion,
   Objective,
-  ObjectiveCreate,
   ObjectiveValidation,
   Permission,
+  useDuplicateObjective,
 } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { useParams } from "@tanstack/react-router";
@@ -93,6 +93,7 @@ export function ScoringCategoryPage(): JSX.Element {
 
   const { deleteObjective } = useDeleteObjective(qc, eventId);
   const { createObjective } = useCreateObjective(qc, eventId);
+  const { duplicateObjective } = useDuplicateObjective(qc, eventId);
 
   const objective = findObjective(
     rules,
@@ -271,18 +272,7 @@ export function ScoringCategoryPage(): JSX.Element {
               >
                 <button
                   className="btn btn-xs btn-info"
-                  onClick={() => {
-                    const duplicate = JSON.parse(
-                      JSON.stringify(row.original),
-                    ) as ObjectiveCreate;
-                    duplicate.id = undefined;
-                    duplicate.conditions = row.original.conditions.map(
-                      (condition) => ({ ...condition, id: undefined }),
-                    );
-                    duplicate.scoring_preset_ids =
-                      row.original.scoring_presets.map((preset) => preset.id);
-                    createObjective(duplicate);
-                  }}
+                  onClick={() => duplicateObjective(row.original)}
                 >
                   <DocumentDuplicateIcon className="size-4" />
                 </button>

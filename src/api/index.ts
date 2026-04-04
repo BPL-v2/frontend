@@ -545,6 +545,41 @@ export function useDeleteObjective(qc: QueryClient, eventId: number) {
   };
 }
 
+export function useDuplicateObjective(qc: QueryClient, eventId: number) {
+  const m = useMutation({
+    mutationFn: async (objective: Objective) =>
+      duplicateObjective(objective, eventId, objective.parent_id),
+    onSuccess: () =>
+      qc.invalidateQueries({
+        queryKey: getGetObjectiveTreeForEventBaseQueryKey(eventId),
+      }),
+  });
+  return {
+    duplicateObjective: m.mutate,
+    duplicateObjectivePending: m.isPending,
+  };
+}
+
+async function duplicateObjective(
+  objective: Objective,
+  eventId: number,
+  parentId: number,
+): Promise<Objective> {
+  const dupe = JSON.parse(JSON.stringify(objective)) as ObjectiveCreate;
+  dupe.id = undefined;
+  dupe.parent_id = parentId;
+  const newObjective = await createObjectiveBase(eventId, dupe);
+  if (objective.children.length > 0) {
+    const children = await Promise.all(
+      objective.children.map((child) =>
+        duplicateObjective(child, eventId, newObjective.id),
+      ),
+    );
+    newObjective.children = children;
+  }
+  return newObjective;
+}
+
 export function useCreateBulkObjectives(
   qc: QueryClient,
   eventId: number,
