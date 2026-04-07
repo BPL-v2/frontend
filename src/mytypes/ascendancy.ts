@@ -136,6 +136,11 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe1/ascendancies/Ascendant.jpg",
       classColor: "text-highlight-content",
     },
+    Reliquarian: {
+      thumbnail: "/assets/poe1/ascendancies/thumbnails/Reliquarian.png",
+      image: "/assets/poe1/ascendancies/Reliquarian.jpg",
+      classColor: "text-highlight-content",
+    },
     Shadow: {
       thumbnail: "/assets/poe1/ascendancies/thumbnails/Shadow.png",
       image: "/assets/poe1/ascendancies/Shadow.png",
