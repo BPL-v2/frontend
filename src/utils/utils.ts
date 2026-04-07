@@ -211,7 +211,11 @@ export function getPotentialPointsValue(
   preset: ScoringPreset,
 ): PotentialPoints {
   return Object.keys(objective.team_score).reduce((acc, team_id) => {
-    acc[parseInt(team_id)] = preset.point_cap!;
+    if (preset.point_cap == 0) {
+      acc[parseInt(team_id)] = Infinity;
+    } else {
+      acc[parseInt(team_id)] = preset.point_cap!;
+    }
     return acc;
   }, {} as PotentialPoints);
 }

@@ -326,7 +326,6 @@ export function ScoringCategoryPage(): JSX.Element {
   if (!objectiveId) {
     return <></>;
   }
-  console.log("Rendering ScoringCategoryPage for objectiveId", objectiveId);
   return (
     <div className="mt-4 flex flex-col gap-4">
       <ObjectiveFormModal
@@ -395,22 +394,27 @@ export function ScoringCategoryPage(): JSX.Element {
                 <div className="divider my-2 divider-primary select-none"></div>
               )}
               <div className="flex flex-row flex-wrap gap-1">
-                {children?.map((objective) => (
-                  <div key={"category-child-" + objective.id}>
-                    <Link
-                      to={"/admin/events/$eventId/objectives/$objectiveId"}
-                      params={{ eventId: eventId!, objectiveId: objective.id }}
-                      className={twMerge(
-                        "btn",
-                        path.includes(objective.id)
-                          ? "btn-primary"
-                          : "btn-dash",
-                      )}
-                    >
-                      {objective.name}
-                    </Link>
-                  </div>
-                ))}
+                {children
+                  ?.sort((a, b) => a.name.localeCompare(b.name))
+                  .map((objective) => (
+                    <div key={"category-child-" + objective.id}>
+                      <Link
+                        to={"/admin/events/$eventId/objectives/$objectiveId"}
+                        params={{
+                          eventId: eventId!,
+                          objectiveId: objective.id,
+                        }}
+                        className={twMerge(
+                          "btn",
+                          path.includes(objective.id)
+                            ? "btn-primary"
+                            : "btn-dash",
+                        )}
+                      >
+                        {objective.name}
+                      </Link>
+                    </div>
+                  ))}
               </div>
             </div>
           );

@@ -63,7 +63,7 @@ export const UniqueCategoryCard = ({
       >
         <div
           className={twMerge(
-            "m-0 card-title flex min-h-4 items-center justify-center rounded-t-box bborder-b bg-base-300/50 p-2 sm:justify-between",
+            "m-0 card-title flex items-center justify-center rounded-t-box bborder-b bg-base-300/50 p-2 sm:justify-between",
             selected ? "border-0" : "",
           )}
         >
@@ -83,34 +83,32 @@ export const UniqueCategoryCard = ({
           </div>
         </div>
         <div className="flex h-full min-h-2 flex-col justify-between px-4">
-          <div className="h-full">
-            <div className="flex h-full flex-row items-start justify-between p-0 pt-2">
-              <div className="flex w-full flex-col">
+          <div className="flex h-full flex-row items-start justify-between p-0 pt-2">
+            <div className="flex w-full flex-col">
+              <div
+                className={twMerge(
+                  "text-4xl font-extrabold",
+                  numItems === totalItems ? "text-success" : "text-error",
+                  !finishable && "text-base-content",
+                )}
+              >
+                {finishable ? `${numItems} / ${totalItems}` : numItems}
+              </div>
+              {totalVariants ? (
                 <div
                   className={twMerge(
-                    "text-4xl font-extrabold",
-                    numItems === totalItems ? "text-success" : "text-error",
-                    !finishable && "text-base-content",
+                    "text-lg font-bold",
+                    numVariants === totalVariants
+                      ? "text-success"
+                      : "text-error",
                   )}
                 >
-                  {finishable ? `${numItems} / ${totalItems}` : numItems}
+                  {`Variants: ${numVariants} / ${totalVariants}`}
                 </div>
-                {totalVariants ? (
-                  <div
-                    className={twMerge(
-                      "text-lg font-bold",
-                      numVariants === totalVariants
-                        ? "text-success"
-                        : "text-error",
-                    )}
-                  >
-                    {`Variants: ${numVariants} / ${totalVariants}`}
-                  </div>
-                ) : null}
-              </div>
-              <div className="hidden self-center sm:block">
-                <CategoryIcon name={objective.name} />
-              </div>
+              ) : null}
+            </div>
+            <div className="hidden self-center sm:block">
+              <CategoryIcon name={objective.name} />
             </div>
           </div>
           {finishable && (
@@ -125,7 +123,7 @@ export const UniqueCategoryCard = ({
           )}
         </div>
         {objective.valid_to && new Date(objective.valid_to) > new Date() && (
-          <div className="flex h-16 items-center justify-center gap-4">
+          <div className="flex h-16 items-center justify-center gap-2 p-2">
             <span> Valid until:</span>
             <Countdown
               target={new Date(objective.valid_to || "")}

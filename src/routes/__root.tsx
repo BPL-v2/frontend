@@ -123,8 +123,8 @@ function RootComponent() {
     if (hello) {
       localStorage.setItem("referrer", hello);
       addEngagementBase({ name: hello });
+      router.navigate({ to: router.state.location.pathname, replace: true });
     }
-    router.navigate({ to: router.state.location.pathname, replace: true });
   }, [hello]);
   return (
     <>

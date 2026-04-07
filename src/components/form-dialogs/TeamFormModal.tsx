@@ -82,6 +82,7 @@ export function TeamFormModal({
     "Slayer",
     "Trickster",
     "Warden",
+    "Reliquarian",
   ];
 
   return (

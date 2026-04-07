@@ -81,18 +81,24 @@ function CategoryGrid({
       <div {...htmlDivProps} className={twMerge("", htmlDivProps.className)}>
         <div className="flex flex-col gap-4 rounded-box rounded-tl-none bg-base-200 p-8 pt-4 outline outline-base-300">
           <div className="m-2 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-            {categories.map((category) => {
-              return (
-                <div key={`unique-category-${category.id}`}>
-                  <CategoryCard
-                    category={category}
-                    selected={category.id === selectedCategory?.id}
-                    teamId={selectedTeam}
-                    onClick={() => handleCategoryClick(category)}
-                  />
-                </div>
-              );
-            })}
+            {categories
+              .sort(
+                (a, b) =>
+                  (a.valid_from?.getTime() || 0) -
+                  (b.valid_from?.getTime() || 0),
+              )
+              .map((category) => {
+                return (
+                  <div key={`unique-category-${category.id}`}>
+                    <CategoryCard
+                      category={category}
+                      selected={category.id === selectedCategory?.id}
+                      teamId={selectedTeam}
+                      onClick={() => handleCategoryClick(category)}
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
@@ -131,7 +137,6 @@ function UniqueTab(): JSX.Element {
     setSelectedCategory(objective);
     tableRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  type = "timed";
   useEffect(() => {
     if (eventStatus && eventStatus.team_id) {
       setSelectedTeam(eventStatus.team_id);
@@ -309,10 +314,11 @@ function UniqueTab(): JSX.Element {
         <div className="flex flex-col">
           <div className="join rounded-b-none bg-base-100">
             {[
-              ["standard", "Default Unique Collection"],
-              ["timed", "Time-gated Unique Collection"],
+              ["standard", "Permanent Unique Collection"],
+              ["timed", "Temporary Unique Collection"],
             ].map(([value, label]) => (
               <input
+                key={value}
                 type="radio"
                 name="tab"
                 className="btn join-item rounded-b-none border-2 btn-outline btn-lg btn-primary"
