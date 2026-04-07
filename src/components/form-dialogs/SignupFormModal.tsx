@@ -75,7 +75,11 @@ export function SignupFormModal({
           <form.AppField
             name="expected_playtime"
             children={(field: any) => (
-              <field.NumberField label="Hours per day" min={1} max={24} />
+              <field.NumberField
+                label="How many hours do you plan to play per day"
+                min={1}
+                max={24}
+              />
             )}
           />
           <form.AppField

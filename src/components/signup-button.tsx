@@ -52,7 +52,8 @@ const SignupButton = () => {
     userLoading ||
     userError ||
     eventStatusError ||
-    new Date(upcomingEvent.application_start_time) > new Date()
+    new Date() > upcomingEvent.application_end_time ||
+    new Date() < upcomingEvent.application_start_time
   ) {
     return null;
   }
@@ -122,12 +123,6 @@ const SignupButton = () => {
     );
   }
 
-  if (
-    new Date() > new Date(upcomingEvent.application_end_time) ||
-    new Date() < new Date(upcomingEvent.application_start_time)
-  ) {
-    return;
-  }
   if (eventStatus?.application_status === ApplicationStatus.none) {
     return (
       <>
