@@ -11,6 +11,9 @@ export type NumberField = typeof NumberField[keyof typeof NumberField];
 
 export const NumberField = {
   STACK_SIZE: 'STACK_SIZE',
+  HIGH_TIER_FOSSIL: 'HIGH_TIER_FOSSIL',
+  MID_TIER_FOSSIL: 'MID_TIER_FOSSIL',
+  LOW_TIER_FOSSIL: 'LOW_TIER_FOSSIL',
   PLAYER_LEVEL: 'PLAYER_LEVEL',
   DELVE_DEPTH: 'DELVE_DEPTH',
   DELVE_DEPTH_PAST_100: 'DELVE_DEPTH_PAST_100',
