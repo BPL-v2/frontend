@@ -1,10 +1,4 @@
-import {
-  Objective,
-  GameVersion,
-  Operator,
-  ItemField,
-  Condition,
-} from "@api";
+import { Objective, GameVersion, Operator, ItemField, Condition } from "@api";
 import { ScoreObjective } from "./score";
 
 export function operatorToString(operator: Operator): string {
@@ -347,7 +341,7 @@ const classToBaseType: Record<string, string> = {
   FishingRod: "Fishing Rod",
   Ring: "Amethyst Ring",
   Amulet: "Agate Amulet",
-  Belt: "Chain Belt",
+  Belt: "Heavy Belt",
   Shield: "Alder Spiked Shield",
   Helmet: "Ancient Mask",
   "Body Armour": "Arcane Vestment",
@@ -390,6 +384,8 @@ const classToBaseType: Record<string, string> = {
   ItemisedCorpse: "Blasphemer",
   NecropolisPack: "Allflame Ember of Abyss",
   TransfiguredGem: "Lightning Arrow of Electrocution",
+  MapKey: "Map (Tier 16)",
+  BlightedMapKey: "Map (Tier 16)",
 };
 
 export const anomalousBaseTypes: {
