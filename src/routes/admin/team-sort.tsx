@@ -62,22 +62,6 @@ function getParticipationBucket(
   return "veteran";
 }
 
-function getLastEventId(signups: ExtendedSignup[]): number | null {
-  let lastEventId: number | null = null;
-  for (const signup of signups) {
-    for (const key of Object.keys(
-      signup.playtimes_in_last_events_per_day_in_hours,
-    )) {
-      const parsed = Number.parseInt(key, 10);
-      if (!Number.isNaN(parsed)) {
-        lastEventId =
-          lastEventId === null ? parsed : Math.max(lastEventId, parsed);
-      }
-    }
-  }
-  return lastEventId;
-}
-
 function getPlaytimeBucket(
   signup: ExtendedSignup,
 ): "low" | "medium" | "large" | null {
@@ -94,8 +78,7 @@ function getPlaytimeBucket(
   return "large";
 }
 
-function buildBucketConfig(signups: ExtendedSignup[]): SortBucketConfig {
-  const lastEventId = getLastEventId(signups);
+function buildBucketConfig(): SortBucketConfig {
   const bucketKeys = [
     totalBucketKey,
     participationBucketKeys.new,
@@ -168,7 +151,6 @@ function UserSortPage() {
   for (const signup of signups) {
     signupMap.set(signup.user.id, signup);
   }
-  const lastEventId = useMemo(() => getLastEventId(suggestions), [suggestions]);
   for (const signup of signups) {
     if (signup.partner_id) {
       const partner = signupMap.get(signup.partner_id);
@@ -554,7 +536,7 @@ function UserSortPage() {
           onClick={() => {
             const time = new Date().getTime();
             setSuggestions(
-              sortUsers(currentEvent, signups, buildBucketConfig(signups)),
+              sortUsers(currentEvent, signups, buildBucketConfig()),
             );
             console.log("Sort took: ", new Date().getTime() - time + "ms");
           }}
