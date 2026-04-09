@@ -80,13 +80,8 @@ function getLastEventId(signups: ExtendedSignup[]): number | null {
 
 function getPlaytimeBucket(
   signup: ExtendedSignup,
-  lastEventId: number | null,
 ): "low" | "medium" | "large" | null {
-  if (lastEventId === null) {
-    return null;
-  }
-  const playtime =
-    signup.playtimes_in_last_events_per_day_in_hours[String(lastEventId)] || 0;
+  const playtime = getPlaytimeForLastPlayedEvent(signup);
   if (playtime <= 0) {
     return null;
   }
@@ -119,13 +114,21 @@ function buildBucketConfig(signups: ExtendedSignup[]): SortBucketConfig {
         totalBucketKey,
         participationBucketKeys[getParticipationBucket(signup)],
       ];
-      const playtimeBucket = getPlaytimeBucket(signup, lastEventId);
+      const playtimeBucket = getPlaytimeBucket(signup);
       if (playtimeBucket) {
         buckets.push(playtimeBucketKeys[playtimeBucket]);
       }
       return buckets;
     },
   };
+}
+
+function getPlaytimeForLastPlayedEvent(signup: ExtendedSignup): number {
+  return (
+    Object.entries(signup.playtimes_in_last_events_per_day_in_hours || {}).sort(
+      ([aKey], [bKey]) => Number.parseInt(bKey) - Number.parseInt(aKey),
+    )[0]?.[1] || 0
+  );
 }
 
 function UserSortPage() {
@@ -207,12 +210,7 @@ function UserSortPage() {
       },
       {
         header: "Playtime last BPL",
-        accessorFn: (row) =>
-          lastEventId === null
-            ? ""
-            : row.playtimes_in_last_events_per_day_in_hours[
-                String(lastEventId)
-              ] || 0,
+        accessorFn: getPlaytimeForLastPlayedEvent,
         cell: ({ getValue }) => {
           const playtime = getValue() as number;
           return playtime ? playtime.toFixed(1) + " h / day" : "N/A";
@@ -344,7 +342,7 @@ function UserSortPage() {
           (acc, signup) => {
             const participationBucket = getParticipationBucket(signup);
             acc[participationBucket] += 1;
-            const playtimeBucket = getPlaytimeBucket(signup, lastEventId);
+            const playtimeBucket = getPlaytimeBucket(signup);
             if (playtimeBucket) {
               acc[playtimeBucket] += 1;
             }
