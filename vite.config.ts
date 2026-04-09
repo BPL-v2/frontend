@@ -6,7 +6,7 @@ import path from "path";
 import { defineConfig } from "vite";
 
 // Load environment variables from .env file
-config();
+config({ override: true });
 
 // https://vite.dev/config/
 export default defineConfig({

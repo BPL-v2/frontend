@@ -264,7 +264,7 @@ export function ItemTable({
                   );
                 },
                 enableSorting: false,
-                size: 180,
+                size: 150,
                 cell: (info: CellContext<ExtendedScoreObjective, string>) => {
                   const score = info.row.original.team_score[team.id];
                   const finished = info.getValue<boolean>();

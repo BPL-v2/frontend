@@ -173,14 +173,14 @@ function DelveTab(): JSX.Element {
     return <></>;
   }
   const fossilRaceCategory = category.children.find(
-    (c) => c.name === "Fossil Race",
+    (c) => c.name === "Fossil Fuel Race",
   );
   const culmulativeDepthTotal = category.children.find(
     (o) => o.name === "Culmulative Depth",
   );
 
   const culmulativeDepthRace = category.children.find(
-    (o) => o.name === "Culmulative Depth Race",
+    (o) => o.name === "Culmulative Depth",
   );
 
   const culmulativeDepthObj = {
@@ -230,25 +230,14 @@ function DelveTab(): JSX.Element {
         <TeamScoreDisplay objective={category} />
         {fossilRaceCategory ? (
           <div className="rounded-box bg-base-200 p-8 pt-2">
-            <div className="divider divider-primary">Fossil Race</div>
+            <div className="divider divider-primary">Fossil Fuel Race</div>
             <Ranking
               objective={fossilRaceCategory}
-              description="Fossils:"
-              actual={(teamId) =>
-                fossilRaceCategory.children.reduce(
-                  (acc, objective) =>
-                    acc +
-                    Math.min(
-                      objective.team_score[teamId].number(),
-                      objective.required_number,
-                    ),
-                  0,
-                )
+              description="Fuel:"
+              actual={(teamId: number) =>
+                fossilRaceCategory.team_score[teamId].number()
               }
-              maximum={fossilRaceCategory.children.reduce(
-                (acc, objective) => acc + objective.required_number,
-                0,
-              )}
+              maximum={fossilRaceCategory.required_number}
             />
             <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {fossilRaceCategory.children.map((objective) => {

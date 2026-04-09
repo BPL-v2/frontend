@@ -169,11 +169,11 @@ function UserSortPage() {
 
   const sortColumns = useMemo(() => {
     const columns: ColumnDef<ExtendedSignup>[] = [
-      // {
-      //   header: "Partners",
-      //   accessorFn: (row) => partnerMap.get(row.user.id),
-      //   size: 120,
-      // },
+      {
+        header: "Partners",
+        accessorFn: (row) => partnerMap.get(row.user.id),
+        size: 120,
+      },
       {
         header: "ID",
         accessorFn: (row) => row.user.id,
