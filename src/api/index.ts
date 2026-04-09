@@ -40,9 +40,10 @@ import {
   getGetGuildStashForUserBaseQueryKey,
   getGetGuildStashTabBaseQueryKey,
   getGetLogEntriesForGuildBaseQueryKey,
+  getGuildStashTabBase,
   getLogEntriesForGuildBase,
+  updateStashTabBase,
   useGetGuildStashForUserBase,
-  useGetGuildStashTabBase,
   useGetGuildsBase,
   useGetLogEntriesForGuildBase,
   useSwitchStashFetchingBase,
@@ -147,6 +148,7 @@ import {
 import type { ScoreMap } from "@utils/utils";
 import { flatMap } from "@utils/utils";
 import { isLoggedIn } from "@utils/token";
+import { HttpError } from "./fetcher";
 
 // --- Events ---
 
@@ -774,11 +776,19 @@ export function useGetGuildStashTab(
   teamId: number,
   tabId: string,
 ) {
-  const query = useGetGuildStashTabBase(eventId, teamId, tabId, {
-    query: {
-      enabled: () => teamId !== 0 && isLoggedIn(),
-      refetchInterval: 60 * 1000,
-    },
+  const query = useQuery({
+    queryKey: getGetGuildStashTabBaseQueryKey(eventId, teamId, tabId),
+    queryFn: () =>
+      getGuildStashTabBase(eventId, teamId, tabId).catch(async (error) => {
+        if (error instanceof HttpError && error.status === 404) {
+          await updateStashTabBase(eventId, teamId, tabId);
+          return await getGuildStashTabBase(eventId, teamId, tabId);
+        }
+        throw error;
+      }),
+    enabled: () => teamId !== 0 && isLoggedIn(),
+    retry: false,
+    refetchInterval: 60 * 1000,
   });
   return { ...query, guildStashTab: query.data };
 }
@@ -791,8 +801,15 @@ export function useUpdateGuildStashTab(
   const m = useUpdateStashTabBase({
     mutation: {
       onSuccess: (_, { stashId }) => {
+        console.log(
+          "Invalidating guild stash tab query for stashId",
+          getGetGuildStashTabBaseQueryKey(eventId, teamId, stashId),
+        );
         qc.invalidateQueries({
           queryKey: getGetGuildStashTabBaseQueryKey(eventId, teamId, stashId),
+        });
+        qc.invalidateQueries({
+          queryKey: getGetGuildStashForUserBaseQueryKey(eventId, teamId),
         });
       },
     },

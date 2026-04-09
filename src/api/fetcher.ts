@@ -9,6 +9,17 @@ function dateReviver(_key: string, value: unknown): unknown {
   return value;
 }
 
+export class HttpError extends Error {
+  status: number;
+  message: string;
+
+  constructor({ status, message }: { status: number; message: string }) {
+    super(`HTTP Error ${status}: ${message}`);
+    this.status = status;
+    this.message = message;
+  }
+}
+
 export async function customFetch<TResponse>(
   url: string,
   options: RequestInit,
@@ -30,9 +41,10 @@ export async function customFetch<TResponse>(
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(
-      `API request failed (${response.status}): ${text || response.statusText}`,
-    );
+    throw new HttpError({
+      status: response.status,
+      message: text,
+    });
   }
 
   if (response.status === 204) {

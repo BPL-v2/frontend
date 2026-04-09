@@ -38,12 +38,12 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!events) return;
-    const storedId = localStorage.getItem("currentEventId");
-    const ev =
-      (storedId && events.find((event) => String(event.id) === storedId)) ||
-      events.find((event) => event.is_current);
+    const ev = events.find((event) => event.is_current);
     if (!ev) return;
-    // @ts-ignore
+    const storedId = localStorage.getItem("currentEventId");
+    if (storedId && ev.id !== Number(storedId)) {
+      localStorage.setItem("currentEventId", String(ev.id));
+    }
     setCurrentEvent(ev);
   }, [events]);
 

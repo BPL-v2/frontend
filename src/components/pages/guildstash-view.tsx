@@ -47,6 +47,14 @@ export function GuildStashView({
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const width = 700;
+  if (isPending) {
+    return (
+      <div
+        className="animate-pulse bg-base-200 duration-1000"
+        style={{ width: width, height: width }}
+      ></div>
+    );
+  }
   if (isPending || isError || !currentTab) {
     return (
       <div

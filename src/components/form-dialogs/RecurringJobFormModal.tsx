@@ -9,7 +9,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-const formatDateForInput = (date: Date | null) => {
+const formatDateForInput = (date?: Date) => {
   if (!date) return "";
   const tzOffset = 2 * date.getTimezoneOffset() * 60000;
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
@@ -28,24 +28,12 @@ export function RecurringJobFormModal({
 }: RecurringJobFormModalProps) {
   const qc = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
-  const [selectedEvent, setSelectedEvent] = React.useState<Event | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = React.useState<Date | null>(
-    null,
-  );
+  const [selectedEvent, setSelectedEvent] = React.useState<Event>();
   const { startJob, isPending: startJobPending } = useStartJob(qc);
 
   useEffect(() => {
-    if (selectedEvent) {
-      setSelectedEndDate(
-        dayjs(selectedEvent.event_end_time, "YYYY-MM-DDTHH:mm:ss").toDate(),
-      );
-    }
-  }, [selectedEvent]);
-
-  useEffect(() => {
     if (!isOpen) {
-      setSelectedEvent(null);
-      setSelectedEndDate(null);
+      setSelectedEvent(undefined);
     }
   }, [isOpen]);
 
@@ -73,7 +61,7 @@ export function RecurringJobFormModal({
             required
             onChange={(value) => {
               setSelectedEvent(
-                events.find((event) => event.id === (value || 0)) || null,
+                events.find((event) => event.id === (value || 0)),
               );
             }}
             className="w-full"
@@ -97,7 +85,7 @@ export function RecurringJobFormModal({
             name="endDate"
             type="datetime-local"
             className="input w-full"
-            defaultValue={formatDateForInput(selectedEndDate)}
+            defaultValue={formatDateForInput(selectedEvent?.event_end_time)}
             required
           />
         </fieldset>
