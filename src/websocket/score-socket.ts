@@ -66,11 +66,12 @@ export const establishScoreSocket = (
     });
   };
 
-  ws.onerror = (error) => {
-    console.error("WebSocket error", error);
+  ws.onerror = (event: Event) => {
+    console.error("WebSocket error", event);
   };
 
   ws.onclose = (ev) => {
+    console.log("WebSocket closed", ev.code, ev.reason);
     if (ev.code === 1000 && ev.reason === "eventChange") {
       return;
     }

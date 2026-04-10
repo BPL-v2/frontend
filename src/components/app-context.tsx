@@ -16,7 +16,9 @@ import { establishScoreSocket } from "../websocket/score-socket";
 import { toTheme } from "./theme-picker";
 
 function ContextWrapper({ children }: { children: React.ReactNode }) {
-  const [currentEventOverride, setCurrentEvent] = useState<Event | undefined>(undefined);
+  const [currentEventOverride, setCurrentEvent] = useState<Event | undefined>(
+    undefined,
+  );
   const [scoreDiffs, setScoreDiffs] = useState<ScoreMap>({});
   let scores: ScoreObjective | undefined = undefined;
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
@@ -31,7 +33,8 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
     teams: [],
     uses_medals: false,
   } as unknown as Event;
-  const currentEvent = currentEventOverride ?? events?.find((e) => e.is_current) ?? dummyEvent;
+  const currentEvent =
+    currentEventOverride ?? events?.find((e) => e.is_current) ?? dummyEvent;
   const { rules } = useGetRules(currentEvent.id);
   const { score: initialScore = {} } = useGetScore(currentEvent.id);
   useGetUsers(currentEvent.id);
@@ -47,7 +50,7 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
       () => {},
       // setUpdates((prevUpdates) => [...newUpdates, ...prevUpdates])
     );
-  }, [currentEvent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentEvent.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const handleResize = () => {
