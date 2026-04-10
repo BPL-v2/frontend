@@ -16,13 +16,7 @@ import { establishScoreSocket } from "../websocket/score-socket";
 import { toTheme } from "./theme-picker";
 
 function ContextWrapper({ children }: { children: React.ReactNode }) {
-  // initialize with a dummy event so that we can start making api calls
-  const [currentEvent, setCurrentEvent] = useState<Event>({
-    id: Number(localStorage.getItem("currentEventId") || "0"),
-    game_version: GameVersion.poe1,
-    teams: [],
-    uses_medals: false,
-  } as unknown as Event);
+  const [currentEventOverride, setCurrentEvent] = useState<Event | undefined>(undefined);
   const [scoreDiffs, setScoreDiffs] = useState<ScoreMap>({});
   let scores: ScoreObjective | undefined = undefined;
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
@@ -30,22 +24,19 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
   const [preferences, setPreferences] = useState(initPreferences());
   const [websocket, setWebsocket] = useState<WebSocket>();
   const { events } = useGetEvents();
+  // initialize with a dummy event so that we can start making api calls
+  const dummyEvent = {
+    id: Number(localStorage.getItem("currentEventId") || "0"),
+    game_version: GameVersion.poe1,
+    teams: [],
+    uses_medals: false,
+  } as unknown as Event;
+  const currentEvent = currentEventOverride ?? events?.find((e) => e.is_current) ?? dummyEvent;
   const { rules } = useGetRules(currentEvent.id);
   const { score: initialScore = {} } = useGetScore(currentEvent.id);
   useGetUsers(currentEvent.id);
   useGetUser();
   useGetEventStatus(currentEvent.id);
-
-  useEffect(() => {
-    if (!events) return;
-    const ev = events.find((event) => event.is_current);
-    if (!ev) return;
-    const storedId = localStorage.getItem("currentEventId");
-    if (storedId && ev.id !== Number(storedId)) {
-      localStorage.setItem("currentEventId", String(ev.id));
-    }
-    setCurrentEvent(ev);
-  }, [events]);
 
   useEffect(() => {
     websocket?.close(1000, "eventChange");
@@ -66,7 +57,7 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   if (rules && initialScore && currentEvent.teams.length > 0) {
-    const mergedScore = initialScore;
+    const mergedScore = { ...initialScore };
     for (const entry of Object.entries(scoreDiffs)) {
       const teamId = Number(entry[0]);
       const scoreMap = entry[1];
@@ -75,6 +66,8 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
         const score = diffEntry[1];
         if (!mergedScore[teamId]) {
           mergedScore[teamId] = {};
+        } else {
+          mergedScore[teamId] = { ...mergedScore[teamId] };
         }
         mergedScore[teamId][objectId] = score;
       }

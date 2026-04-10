@@ -30,9 +30,8 @@ export default function PoBSlider({
   timestamps,
   event,
 }: Props) {
-  if (timestamps.length === 0) return null;
-  const totalDuration = timestamps[timestamps.length - 1] - timestamps[0];
-  const progress = ((timestamps[index] - timestamps[0]) / totalDuration) * 100;
+  const totalDuration = timestamps.length > 0 ? timestamps[timestamps.length - 1] - timestamps[0] : 0;
+  const progress = timestamps.length > 0 ? ((timestamps[index] - timestamps[0]) / totalDuration) * 100 : 0;
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -120,6 +119,8 @@ export default function PoBSlider({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [index, setIndex, timestamps.length]);
+
+  if (timestamps.length === 0) return null;
 
   return (
     <div

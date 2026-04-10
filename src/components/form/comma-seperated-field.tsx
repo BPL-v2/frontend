@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFieldContext } from "./context";
 import { twMerge } from "tailwind-merge";
 
@@ -14,16 +14,8 @@ export function CommaSeperatedField<T>({
   toString: (value: T) => string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<T[]>();
-  const [stringValue, setStringValue] = useState<string>(
-    field.state.value?.map(toString).join(",") || "",
-  );
-  const [isInitializing, setIsInitializing] = useState(true);
-  useEffect(() => {
-    if (isInitializing && field.state.value.length > 0) {
-      setStringValue(field.state.value?.map(toString).join(",") || "");
-      setIsInitializing(false);
-    }
-  }, [field.state.value, isInitializing]);
+  const [editedValue, setEditedValue] = useState<string | undefined>(undefined);
+  const stringValue = editedValue ?? (field.state.value?.map(toString).join(",") || "");
 
   return (
     <label
@@ -37,7 +29,7 @@ export function CommaSeperatedField<T>({
       <input
         value={stringValue}
         onChange={(e) => {
-          setStringValue(e.target.value);
+          setEditedValue(e.target.value);
           field.handleChange(
             e.target.value
               .split(",")

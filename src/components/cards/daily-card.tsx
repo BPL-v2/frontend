@@ -17,7 +17,7 @@ export type DailyCardProps = {
 
 function bonusAvailableCounter(
   valid_to: string | Date | null | undefined,
-  onFinish: () => void,
+  _onFinish: () => void,
 ) {
   if (!valid_to) {
     return null;

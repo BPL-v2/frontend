@@ -17,7 +17,7 @@ export function EventPicker() {
   return (
     <Select
       placeholder="Pick an event"
-      // @ts-ignore
+      // @ts-ignore: Select onChange type doesn't match numeric event id
       onChange={(v: number) => {
         const event = events.find((event) => event.id === v);
         if (event) {
@@ -30,7 +30,7 @@ export function EventPicker() {
           return;
         }
       }}
-      // @ts-ignore
+      // @ts-ignore: currentEvent.id is a number, Select value is generic
       value={currentEvent.id}
       options={events
         .sort(

@@ -4,7 +4,7 @@ import TeamScoreDisplay from "@components/team/team-score";
 import { UniqueCategoryCard } from "@components/cards/unique-category-card";
 import { hasEnded, isWinnable, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
-import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { JSX, useContext, useMemo, useRef, useState } from "react";
 import { ScoringMethod } from "@api";
 import { twMerge } from "tailwind-merge";
 
@@ -100,8 +100,8 @@ export function Uniques({
 }): JSX.Element {
   const { currentEvent, scores, preferences, setPreferences } =
     useContext(GlobalStateContext);
-  const [selectedCategory, setSelectedCategory] = useState<ScoreObjective>();
-  const [selectedTeam, setSelectedTeam] = useState<number>();
+  const [selectedCategoryOverride, setSelectedCategory] = useState<ScoreObjective | null | undefined>(undefined);
+  const [selectedTeamOverride, setSelectedTeam] = useState<number | undefined>(undefined);
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [itemFilter, setItemfilter] = useState<string>("");
   const { eventStatus } = useGetEventStatus(currentEvent.id);
@@ -109,26 +109,18 @@ export function Uniques({
   const uniqueCategory = scores?.children.find(
     (category) => category.name === categoryName,
   );
+
+  const defaultTeam = eventStatus?.team_id ?? currentEvent?.teams?.[0]?.id;
+  const selectedTeam = selectedTeamOverride ?? defaultTeam;
+
   const handleCategoryClick = (objective: ScoreObjective) => {
-    if (objective.id === selectedCategory?.id) {
-      setSelectedCategory(undefined);
+    if (objective.id === selectedCategoryOverride?.id) {
+      setSelectedCategory(null);
       return;
     }
     setSelectedCategory(objective);
     tableRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  useEffect(() => {
-    if (eventStatus && eventStatus.team_id) {
-      setSelectedTeam(eventStatus.team_id);
-    } else if (
-      currentEvent &&
-      currentEvent.teams &&
-      currentEvent.teams.length > 0
-    ) {
-      setSelectedTeam(currentEvent.teams[0].id);
-    }
-  }, [eventStatus, currentEvent]);
 
   const shownCategories = useMemo(() => {
     if (!uniqueCategory) {
@@ -157,13 +149,13 @@ export function Uniques({
         };
       });
   }, [uniqueCategory, categoryFilter, itemFilter, preferences, selectedTeam]);
-  useEffect(() => {
-    if (shownCategories.length == 0) {
-      setSelectedCategory(undefined);
-    } else if (shownCategories.length === 1) {
-      setSelectedCategory(shownCategories[0]);
-    }
-  }, [shownCategories]);
+
+  // Derive selectedCategory: if override is set use it, otherwise auto-select when there's exactly one
+  const selectedCategory = selectedCategoryOverride !== undefined
+    ? selectedCategoryOverride ?? undefined
+    : shownCategories.length === 1
+      ? shownCategories[0]
+      : undefined;
 
   const table = useMemo(() => {
     if (!uniqueCategory) {

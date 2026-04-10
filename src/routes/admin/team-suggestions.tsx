@@ -16,7 +16,7 @@ import {
   getTotalPoints,
   iterateObjectives,
 } from "@utils/utils";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 
 export const Route = createFileRoute("/admin/team-suggestions")({
   component: TeamSuggestionsPage,
@@ -33,7 +33,7 @@ function TeamSuggestionsPage() {
   const { addTeamSuggestion } = useAddTeamSuggestion(currentEvent.id, qc);
   const { deleteTeamSuggestion } = useDeleteTeamSuggestion(currentEvent.id, qc);
 
-  const categoryColumns = useMemo(() => {
+  const categoryColumns = (() => {
     if (!eventStatus) {
       return [];
     }
@@ -189,9 +189,9 @@ function TeamSuggestionsPage() {
       },
     ];
     return columns;
-  }, [teamGoals, eventStatus, currentEvent]);
+  })();
 
-  const objectiveColumns = useMemo(() => {
+  const objectiveColumns = (() => {
     if (!eventStatus) {
       return [];
     }
@@ -308,7 +308,7 @@ function TeamSuggestionsPage() {
       },
     ];
     return columns;
-  }, [teamGoals, eventStatus, currentEvent]);
+  })();
 
   if (!scores) {
     return <div>Loading...</div>;

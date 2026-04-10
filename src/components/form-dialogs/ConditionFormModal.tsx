@@ -51,10 +51,9 @@ export function ConditionFormModal({
     form.reset();
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { field: itemField } = useStore(
     form.store,
-    (state: any) => state.values,
+    (state) => state.values,
   );
   const operatorOptions: Operator[] =
     operatorForField && itemField
@@ -77,7 +76,7 @@ export function ConditionFormModal({
       >
         <form.AppField
           name="field"
-          children={(field: any) => (
+          children={(field) => (
             <field.SelectField
               label="Field"
               options={Object.values(ItemField)}
@@ -87,7 +86,7 @@ export function ConditionFormModal({
         />
         <form.AppField
           name="operator"
-          children={(field: any) => (
+          children={(field) => (
             <field.SelectField
               label="Operator"
               options={operatorOptions}
@@ -98,7 +97,7 @@ export function ConditionFormModal({
         />
         <form.AppField
           name="value"
-          children={(field: any) => <field.TextField label="Value" required />}
+          children={(field) => <field.TextField label="Value" required />}
         />
         <div className="mt-4 flex flex-row justify-end gap-2">
           <button

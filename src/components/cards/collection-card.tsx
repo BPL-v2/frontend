@@ -69,7 +69,7 @@ export function CollectionCard({
   ...props
 }: CollectionCardProps) {
   const { currentEvent } = useContext(GlobalStateContext);
-  let actualObjective = parseMultiscoreCollection(objective);
+  const actualObjective = parseMultiscoreCollection(objective);
   return (
     <div
       key={actualObjective.id}

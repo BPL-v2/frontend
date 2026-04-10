@@ -5,7 +5,7 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type SelectOption<T> = {
@@ -35,9 +35,7 @@ export default function Select<T>({
   value,
 }: SelectProps<T>) {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<SelectOption<T> | undefined>(
-    value ? { label: value.toString(), value: value as T } : undefined,
-  );
+  const [manualSelected, setSelected] = useState<SelectOption<T> | null | undefined>(undefined);
   const cleanOptions = useMemo(() => {
     if (!options || options.length === 0) {
       return [];
@@ -54,14 +52,12 @@ export default function Select<T>({
     );
   }, [options]);
 
-  useEffect(() => {
-    if (value === null || value === undefined) {
-      setSelected(undefined);
-    }
-    if (value) {
-      setSelected(cleanOptions.find((option) => option.value === value));
-    }
-  }, [value]);
+  // Derive selected from value prop, but allow manual override
+  const selected = manualSelected !== undefined
+    ? manualSelected ?? undefined
+    : value == null
+      ? undefined
+      : cleanOptions.find((option) => option.value === value);
 
   const filtered =
     query === ""
@@ -82,7 +78,7 @@ export default function Select<T>({
       <Combobox
         value={selected?.value || null}
         onChange={(value) => {
-          setSelected(cleanOptions.find((o) => o.value === value));
+          setSelected(cleanOptions.find((o) => o.value === value) ?? null);
           if (onChange) onChange(value);
         }}
         onClose={() => setQuery("")}

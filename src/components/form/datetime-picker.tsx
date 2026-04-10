@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface DateTimePickerProps {
@@ -20,33 +20,26 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
 }) => {
   const pad = (n: number) => (n < 10 ? `0${n}` : n);
 
-  const [date, setDate] = useState<string>("");
-  const [time, setTime] = useState<string>("00:00");
+  const getTime = (d: Date | undefined) => {
+    if (!d) return "00:00";
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+  const getDate = (d: Date | undefined) => {
+    if (!d) return "";
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
 
-  useEffect(() => {
-    const getTime = (date: Date | undefined) => {
-      if (!date) {
-        return "00:00";
-      }
-      return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-    };
-    const getDate = (date: Date | undefined) => {
-      if (!date) {
-        return "";
-      }
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
-        date.getDate(),
-      )}`;
-    };
-    if (defaultValue) {
-      const initialDate =
-        typeof defaultValue === "string"
-          ? new Date(defaultValue)
-          : defaultValue;
-      setDate(getDate(initialDate));
-      setTime(getTime(initialDate));
-    }
+  const defaultDate = useMemo(() => {
+    if (!defaultValue) return { date: "", time: "00:00" };
+    const d = typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue;
+    return { date: getDate(d), time: getTime(d) };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValue]);
+
+  const [dateOverride, setDate] = useState<string | undefined>(undefined);
+  const [timeOverride, setTime] = useState<string | undefined>(undefined);
+  const date = dateOverride ?? defaultDate.date;
+  const time = timeOverride ?? defaultDate.time;
 
   const toIsoString = (time: string, date?: string) => {
     if (!date || !time) {

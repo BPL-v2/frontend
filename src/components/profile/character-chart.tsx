@@ -100,7 +100,7 @@ export function CharacterChart({
         side: 1,
         stroke: fontColor,
         scale: "metric",
-        values: (self, ticks) =>
+        values: (_self, ticks) =>
           ticks.map((tick) => formatMetricTick(tick, maxMetric)),
       },
     ],

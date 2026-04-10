@@ -2,7 +2,6 @@ import { useRouterState } from "@tanstack/react-router";
 import { redirectOauth } from "@utils/oauth";
 import { useRemoveOauthProvider } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 
 type OauthCardProps = {
@@ -29,21 +28,20 @@ export function OauthCard({
   const state = useRouterState();
   const qc = useQueryClient();
   const { removeOauthProvider } = useRemoveOauthProvider(qc);
-  const connectionButton = useMemo(() => {
-    if (accountName && !allowDisconnect) {
-      return null;
-    }
-    if (!accountName) {
-      return (
-        <button
-          className={"btn border-2 btn-outline btn-success"}
-          onClick={redirectOauth(provider, state.location.href)}
-        >
-          Connect
-        </button>
-      );
-    }
-    return (
+  let connectionButton;
+  if (accountName && !allowDisconnect) {
+    connectionButton = null;
+  } else if (!accountName) {
+    connectionButton = (
+      <button
+        className={"btn border-2 btn-outline btn-success"}
+        onClick={redirectOauth(provider, state.location.href)}
+      >
+        Connect
+      </button>
+    );
+  } else {
+    connectionButton = (
       <button
         className={"btn border-2 btn-outline btn-error"}
         onClick={() => removeOauthProvider(provider)}
@@ -51,7 +49,7 @@ export function OauthCard({
         Disconnect
       </button>
     );
-  }, [accountName, allowDisconnect, provider]);
+  }
 
   const card = (
     <div

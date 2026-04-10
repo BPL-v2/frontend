@@ -119,8 +119,8 @@ function filterActiveTree(
   newNodes?: Set<number>,
   removedNodes?: Set<number>,
 ): string {
-  var atConnectors = false;
-  var atNodes = false;
+  let atConnectors = false;
+  let atNodes = false;
   const newData = [];
   for (let line of data.split("\n")) {
     if (line.includes("<g")) {
@@ -158,10 +158,10 @@ export default function Tree({
   nodes,
   masteryMap = {},
   type,
-  index = -1,
+  index: _index = -1,
   ascendancies = [],
   nodeCounts,
-  showUnallocated = true,
+  showUnallocated: _showUnallocated = true,
   tooltip = false,
   changeNodeStyle,
   changeLineStyle,
@@ -189,15 +189,16 @@ export default function Tree({
       ([key, node]) =>
         nodes.has(Number(key)) && node.name?.includes("Bloodline"),
     )
-    .map(([key, node]) => node.name?.replaceAll(" Bloodline", ""))?.[0];
+    .map(([_key, node]) => node.name?.replaceAll(" Bloodline", ""))?.[0];
 
   if (bloodline) {
     ascendancies.push(bloodline);
   }
+  const effectiveNodeCounts = nodeCounts ? { ...nodeCounts } : undefined;
   if (type === "atlas") {
     nodes.add(29045); // add root node
-    if (nodeCounts) {
-      nodeCounts[29045] = 1;
+    if (effectiveNodeCounts) {
+      effectiveNodeCounts[29045] = 1;
     }
   }
 
@@ -222,7 +223,7 @@ export default function Tree({
         }}
       />
     );
-  }, [svg, nodes, ascendancies]);
+  }, [svg, nodes, ascendancies, changeNodeStyle, changeLineStyle, newNodes, removedNodes]);
 
   useEffect(() => {
     if (!tooltip || !activeTreeRef.current) {
@@ -254,12 +255,13 @@ export default function Tree({
         if (selectedNodes?.has(node)) {
           const newSet = new Set(selectedNodes);
           newSet.delete(node);
-          setSelectedNodes && setSelectedNodes(newSet);
+          if (setSelectedNodes) setSelectedNodes(newSet);
           e.stopPropagation();
           return;
         }
-        setSelectedNodes &&
+        if (setSelectedNodes) {
           setSelectedNodes(new Set([...(selectedNodes || []), node]));
+        }
         e.stopPropagation();
       };
       const hoverHandler = () => {

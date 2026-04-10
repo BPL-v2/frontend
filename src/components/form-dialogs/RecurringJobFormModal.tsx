@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Event, JobType } from "@api";
 import { Dialog } from "@components/dialog";
 import Select from "@components/form/select";
@@ -28,14 +28,9 @@ export function RecurringJobFormModal({
 }: RecurringJobFormModalProps) {
   const qc = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
-  const [selectedEvent, setSelectedEvent] = React.useState<Event>();
+  const [selectedEventOverride, setSelectedEvent] = React.useState<Event | null | undefined>(undefined);
+  const selectedEvent = isOpen ? selectedEventOverride : undefined;
   const { startJob, isPending: startJobPending } = useStartJob(qc);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSelectedEvent(undefined);
-    }
-  }, [isOpen]);
 
   return (
     <Dialog title="Create recurring job" open={isOpen} setOpen={setIsOpen}>

@@ -11,7 +11,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { SignupFormModal } from "@components/form-dialogs/SignupFormModal";
 
-const SignupButton = () => {
+export function SignupButton() {
   const { currentEvent } = useContext(GlobalStateContext);
   const [modalOpen, setModalOpen] = React.useState(false);
   const qc = useQueryClient();
@@ -136,6 +136,6 @@ const SignupButton = () => {
       </>
     );
   }
-};
+}
 
 export default SignupButton;

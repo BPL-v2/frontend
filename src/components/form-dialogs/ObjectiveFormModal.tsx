@@ -77,8 +77,7 @@ export function ObjectiveFormModal({
     form.reset();
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { objective_type } = useStore(form.store, (state: any) => state.values);
+  const { objective_type } = useStore(form.store, (state) => state.values);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -121,15 +120,15 @@ export function ObjectiveFormModal({
         <div className="grid grid-cols-2 gap-4">
           <form.AppField
             name="name"
-            children={(field: any) => <field.TextField label="Name" required />}
+            children={(field) => <field.TextField label="Name" required />}
           />
           <form.AppField
             name="extra"
-            children={(field: any) => <field.TextField label="Extra" />}
+            children={(field) => <field.TextField label="Extra" />}
           />
           <form.AppField
             name="objective_type"
-            children={(field: any) => (
+            children={(field) => (
               <field.SelectField
                 label="Objective Type"
                 options={Object.values(ObjectiveType)}
@@ -138,7 +137,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="aggregation"
-            children={(field: any) => (
+            children={(field) => (
               <field.SelectField
                 label="Aggregation"
                 options={Object.values(AggregationType)}
@@ -148,7 +147,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="number_field"
-            children={(field: any) => (
+            children={(field) => (
               <field.SelectField
                 label="Number Field"
                 options={
@@ -165,7 +164,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="number_field_explanation"
-            children={(field: any) => (
+            children={(field) => (
               <field.TextField
                 label="Submission Value Explanation"
                 hidden={!objective_type}
@@ -174,7 +173,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="required_number"
-            children={(field: any) => (
+            children={(field) => (
               <field.NumberField
                 label="Required Number"
                 required
@@ -184,7 +183,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="item_base_type"
-            children={(field: any) => (
+            children={(field) => (
               <field.TextField
                 label="Base Type"
                 hidden={objective_type !== ObjectiveType.ITEM}
@@ -193,7 +192,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="item_name"
-            children={(field: any) => (
+            children={(field) => (
               <field.TextField
                 label="Item Name"
                 hidden={objective_type !== ObjectiveType.ITEM}
@@ -202,13 +201,13 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="valid_from"
-            children={(field: any) => (
+            children={(field) => (
               <field.DateTimeField label="Valid From" />
             )}
           />
           <form.AppField
             name="scoring_preset_ids"
-            children={(field: any) => (
+            children={(field) => (
               <field.MultiSelectField
                 label="Scoring Presets"
                 options={scoringPresets.map((preset) => ({
@@ -220,11 +219,11 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="valid_to"
-            children={(field: any) => <field.DateTimeField label="Valid To" />}
+            children={(field) => <field.DateTimeField label="Valid To" />}
           />
           <form.AppField
             name="hide_progress"
-            children={(field: any) => (
+            children={(field) => (
               <field.BooleanField
                 label="Hide Progress"
                 className="checkbox-xl checkbox-primary"

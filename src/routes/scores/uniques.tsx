@@ -6,7 +6,7 @@ import TeamScoreDisplay from "@components/team/team-score";
 import { UniqueCategoryCard } from "@components/cards/unique-category-card";
 import { hasEnded, isWinnable, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
-import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { JSX, useContext, useMemo, useRef, useState } from "react";
 import { router } from "../../main";
 import { twMerge } from "tailwind-merge";
 import { Countdown } from "@components/countdown";
@@ -37,7 +37,7 @@ function CategoryCard({
     );
   }
   const hasStarted =
-    !!!category.valid_from || new Date(category.valid_from || "") < new Date();
+    !category.valid_from || new Date(category.valid_from || "") < new Date();
 
   if (!hasStarted) {
     return (
@@ -117,15 +117,17 @@ export const Route = createFileRoute("/scores/uniques")({
 });
 
 function UniqueTab(): JSX.Element {
-  let { rules, type } = Route.useSearch();
+  const { rules, type } = Route.useSearch();
   const { currentEvent, scores, preferences, setPreferences } =
     useContext(GlobalStateContext);
   const [selectedCategory, setSelectedCategory] = useState<ScoreObjective>();
-  const [selectedTeam, setSelectedTeam] = useState<number>();
+  const [teamOverride, setTeamOverride] = useState<number>();
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [itemFilter, setItemfilter] = useState<string>("");
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const tableRef = useRef<HTMLDivElement>(null);
+  const selectedTeam =
+    teamOverride ?? eventStatus?.team_id ?? currentEvent?.teams?.[0]?.id;
   const uniqueCategory = scores?.children.find(
     (category) => category.name === "Uniques",
   );
@@ -137,17 +139,6 @@ function UniqueTab(): JSX.Element {
     setSelectedCategory(objective);
     tableRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  useEffect(() => {
-    if (eventStatus && eventStatus.team_id) {
-      setSelectedTeam(eventStatus.team_id);
-    } else if (
-      currentEvent &&
-      currentEvent.teams &&
-      currentEvent.teams.length > 0
-    ) {
-      setSelectedTeam(currentEvent.teams[0].id);
-    }
-  }, [eventStatus, currentEvent]);
 
   const shownCategories = useMemo(() => {
     if (!uniqueCategory) {
@@ -194,19 +185,17 @@ function UniqueTab(): JSX.Element {
     type,
   ]);
 
-  useEffect(() => {
-    if (shownCategories.length == 0) {
-      setSelectedCategory(undefined);
-    } else if (shownCategories.length === 1) {
-      setSelectedCategory(shownCategories[0]);
-    }
-  }, [shownCategories]);
+  const effectiveSelectedCategory = useMemo(() => {
+    if (shownCategories.length === 0) return undefined;
+    if (shownCategories.length === 1) return shownCategories[0];
+    return selectedCategory;
+  }, [shownCategories, selectedCategory]);
 
   const table = useMemo(() => {
     if (!uniqueCategory) {
       return <></>;
     }
-    if (!selectedCategory) {
+    if (!effectiveSelectedCategory) {
       const cat = {
         ...uniqueCategory,
         children: [],
@@ -219,8 +208,8 @@ function UniqueTab(): JSX.Element {
       return <ItemTable objective={cat} />;
     }
 
-    return <ItemTable objective={selectedCategory}></ItemTable>;
-  }, [selectedCategory, uniqueCategory, shownCategories]);
+    return <ItemTable objective={effectiveSelectedCategory!}></ItemTable>;
+  }, [effectiveSelectedCategory, uniqueCategory, shownCategories]);
 
   if (!uniqueCategory) {
     return <></>;
@@ -236,7 +225,7 @@ function UniqueTab(): JSX.Element {
       <TeamScoreDisplay
         objective={uniqueCategory}
         selectedTeam={selectedTeam}
-        setSelectedTeam={setSelectedTeam}
+        setSelectedTeam={setTeamOverride}
       />
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex justify-center">
@@ -351,7 +340,7 @@ function UniqueTab(): JSX.Element {
           </div>
           <CategoryGrid
             categories={shownCategories}
-            selectedCategory={selectedCategory}
+            selectedCategory={effectiveSelectedCategory}
             selectedTeam={selectedTeam}
             handleCategoryClick={handleCategoryClick}
           />
@@ -360,7 +349,9 @@ function UniqueTab(): JSX.Element {
           ref={tableRef}
           className="divider divider-primary text-xl font-extrabold"
         >
-          {(selectedCategory ? selectedCategory.name : "All") + " Items"}
+          {(effectiveSelectedCategory
+            ? effectiveSelectedCategory.name
+            : "All") + " Items"}
         </div>
         {table}
       </div>

@@ -4,30 +4,21 @@ import TeamScoreDisplay from "@components/team/team-score";
 import { BingoTabRules } from "@rules/bingo";
 import { createFileRoute } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export const Route = createFileRoute("/scores/bingo")({
   component: RouteComponent,
 });
-var regex = /(\d+),(\d+)/;
+const regex = /(\d+),(\d+)/;
 function RouteComponent() {
   const { rules } = Route.useSearch();
   const { scores, currentEvent } = useContext(GlobalStateContext);
-  const [selectedTeam, setSelectedTeam] = useState<number>();
+  const [teamOverride, setTeamOverride] = useState<number>();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
+  const selectedTeam =
+    teamOverride ?? eventStatus?.team_id ?? currentEvent?.teams?.[0]?.id;
   const category = scores?.children.find((cat) => cat.name === "Bingo");
-  useEffect(() => {
-    if (eventStatus && eventStatus.team_id) {
-      setSelectedTeam(eventStatus.team_id);
-    } else if (
-      currentEvent &&
-      currentEvent.teams &&
-      currentEvent.teams.length > 0
-    ) {
-      setSelectedTeam(currentEvent.teams[0].id);
-    }
-  }, [eventStatus, currentEvent]);
   if (!category || !currentEvent) {
     return <></>;
   }
@@ -46,7 +37,7 @@ function RouteComponent() {
         <TeamScoreDisplay
           objective={category}
           selectedTeam={selectedTeam}
-          setSelectedTeam={setSelectedTeam}
+          setSelectedTeam={setTeamOverride}
         />
         <div className="grid grid-cols-5 gap-4">
           {Array.from({ length: gridSize })

@@ -27,8 +27,8 @@ export const { useAppForm } = createFormHook({
   formComponents: {},
 });
 
-export function setFormValues(form: any, object: any) {
+export function setFormValues(form: { setFieldValue: (key: never, value: never) => void }, object: object) {
   Object.entries(object).forEach(([key, value]) => {
-    form.setFieldValue(key, value);
+    (form.setFieldValue as (key: string, value: unknown) => void)(key, value);
   });
 }

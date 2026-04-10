@@ -79,15 +79,15 @@ export function CategoryFormModal({
       >
         <form.AppField
           name="name"
-          children={(field: any) => <field.TextField label="Name" required />}
+          children={(field) => <field.TextField label="Name" required />}
         />
         <form.AppField
           name="extra"
-          children={(field: any) => <field.TextField label="Extra" />}
+          children={(field) => <field.TextField label="Extra" />}
         />
         <form.AppField
           name="aggregation"
-          children={(field: any) => (
+          children={(field) => (
             <field.SelectField
               label="Aggregation"
               options={Object.values(AggregationType)}
@@ -97,7 +97,7 @@ export function CategoryFormModal({
         />
         <form.AppField
           name="scoring_preset_ids"
-          children={(field: any) => (
+          children={(field) => (
             <field.MultiSelectField
               label="Scoring Presets"
               options={scoringPresets.map((preset) => ({

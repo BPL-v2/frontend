@@ -43,8 +43,8 @@ function getCardColor(score: ScoreClass) {
 }
 
 function sort(
-  [teamId1, score1]: [string, ScoreClass],
-  [teamId2, score2]: [string, ScoreClass],
+  [_teamId1, score1]: [string, ScoreClass],
+  [_teamId2, score2]: [string, ScoreClass],
 ) {
   if (score1.rank() !== score2.rank()) {
     if (score1.rank() === 0) return 1;

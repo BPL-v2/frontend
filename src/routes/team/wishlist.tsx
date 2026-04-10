@@ -101,7 +101,10 @@ function RouteComponent() {
     },
     {} as Record<number, (typeof users)[number]>,
   );
-  const rowMap = {} as Record<number, any[]>;
+  const rowMap = {} as Record<
+    number,
+    { wish: ItemWish; uniqueInfo: UniqueInfo }[]
+  >;
   const wishCounter = {} as Record<string, number>;
   for (const wish of wishlist) {
     if (!wishCounter[wish.value]) {

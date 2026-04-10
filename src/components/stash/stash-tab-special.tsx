@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Item, GuildStashTabGGG } from "@api";
 import {
   getLayout,
@@ -61,19 +61,11 @@ export const StashTabSpecial: React.FC<Props> = ({
       ),
     );
   }, [layout]);
-  // Section state
-  const [selectedSection, setSelectedSection] = useState<string>(
-    sections.length > 0 ? sections[0] : "",
-  );
-
-  useEffect(() => {
-    // Reset selected section when sections change
-    if (sections.length > 0) {
-      setSelectedSection(sections[0]);
-    } else {
-      setSelectedSection("");
-    }
-  }, [sections]);
+  // Section state — override pattern: user selection overrides, but resets when sections list changes
+  const [selectedSectionOverride, setSelectedSection] = useState<string | undefined>(undefined);
+  const selectedSection = selectedSectionOverride !== undefined && sections.includes(selectedSectionOverride)
+    ? selectedSectionOverride
+    : sections.length > 0 ? sections[0] : "";
   const items = useMemo(() => {
     return (
       tab?.items?.filter((item) => {

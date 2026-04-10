@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
 import { sortUsers, type SortBucketConfig } from "@utils/usersort";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export const Route = createFileRoute("/admin/team-sort")({
@@ -129,22 +129,8 @@ function UserSortPage() {
     {} as Record<number, ExtendedSignup>,
   );
   const { addUsersToTeams } = useAddUsersToTeams(qc);
-  const [suggestions, setSuggestions] = useState<SortedSignup[]>([]);
-  const signupsKey = useMemo(
-    () =>
-      signups
-        .map(
-          (signup) =>
-            `${signup.user.id}:${signup.team_id ?? ""}:${signup.team_lead ? 1 : 0}`,
-        )
-        .join("|"),
-    [signups],
-  );
-  useEffect(() => {
-    if (signups) {
-      setSuggestions([...signups]);
-    }
-  }, [signupsKey]);
+  const [suggestionsOverride, setSuggestions] = useState<SortedSignup[] | undefined>(undefined);
+  const suggestions = suggestionsOverride ?? signups;
   let count = 0;
   const partnerMap = new Map<number, number>();
   const signupMap = new Map<number, ExtendedSignup>();
@@ -167,7 +153,7 @@ function UserSortPage() {
     }
   }
 
-  const sortColumns = useMemo(() => {
+  const sortColumns = (() => {
     const columns: ColumnDef<ExtendedSignup>[] = [
       {
         header: "Partners",
@@ -307,7 +293,7 @@ function UserSortPage() {
       },
     ];
     return columns;
-  }, [currentEvent, suggestions, partnerMap]);
+  })();
 
   if (isError) {
     return <div>Error loading signups</div>;
@@ -357,12 +343,12 @@ function UserSortPage() {
         "large",
         "members",
       ]) {
-        // @ts-ignore
+        // @ts-ignore: dynamic key access on typed object
         if (!acc[key]) {
-          // @ts-ignore
+          // @ts-ignore: dynamic key access on typed object
           acc[key] = 0;
         }
-        // @ts-ignore
+        // @ts-ignore: dynamic key access on typed object
         acc[key] += row[key] || 0;
       }
       return acc;

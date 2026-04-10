@@ -51,13 +51,14 @@ function SubmissionPage() {
   );
 
   const objectiveMap: Record<number, Objective> = useMemo(() => {
-    return {};
-  }, []);
-  iterateObjectives(rules, (objective) => {
-    if (objective.objective_type === ObjectiveType.SUBMISSION) {
-      objectiveMap[objective.id] = objective;
-    }
-  });
+    const map: Record<number, Objective> = {};
+    iterateObjectives(rules, (objective) => {
+      if (objective.objective_type === ObjectiveType.SUBMISSION) {
+        map[objective.id] = objective;
+      }
+    });
+    return map;
+  }, [rules]);
 
   const columns = React.useMemo(() => {
     if (!currentEvent || !rules || !users) {

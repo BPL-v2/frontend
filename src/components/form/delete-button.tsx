@@ -18,13 +18,15 @@ export function DeleteButton({
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    if (isConfirmed && requireConfirmation) {
+    if (!isConfirmed || !requireConfirmation) return;
+    const startTimer = setTimeout(() => {
       setIsTransitioning(true);
-      const timer = setTimeout(() => {
+      const endTimer = setTimeout(() => {
         setIsTransitioning(false);
       }, confirmTime);
-      return () => clearTimeout(timer);
-    }
+      return () => clearTimeout(endTimer);
+    }, 0);
+    return () => clearTimeout(startTimer);
   }, [isConfirmed, requireConfirmation, confirmTime]);
 
   if (!requireConfirmation) {

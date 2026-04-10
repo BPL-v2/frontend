@@ -1,5 +1,5 @@
 import { Action, GuildStashChangelog } from "@api";
-import { preloadGuildLogs, useGetGuildLogs } from "@api";
+import { usePreloadGuildLogs, useGetGuildLogs } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
@@ -133,11 +133,12 @@ function RouteComponent() {
   const { currentEvent } = useContext(GlobalStateContext);
   const { guildId } = useParams({ from: Route.id });
   const { logs = [] } = useGetGuildLogs(currentEvent.id, guildId);
-  const mutation = preloadGuildLogs(
+  const qc = useQueryClient();
+  const mutation = usePreloadGuildLogs(
     currentEvent.id,
     guildId,
     200,
-    useQueryClient(),
+    qc,
   );
   useEffect(() => {
     mutation.mutate();

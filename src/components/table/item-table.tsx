@@ -38,9 +38,7 @@ export function ItemTable({
   const [showVariants, setShowVariants] = useState<{
     [objectiveName: string]: boolean;
   }>({});
-  const [variantMap, setVariantMap] = useState<{
-    [objectiveName: string]: ScoreObjective[];
-  }>({});
+  const variantMap = useMemo(() => getVariantMap(objective), [objective]);
   const userTeamID = eventStatus?.team_id || -1;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -64,19 +62,6 @@ export function ItemTable({
     .slice(0, preferences.limitTeams ? preferences.limitTeams : undefined)
     .map((team) => team.id);
 
-  useEffect(() => {
-    const variantMap = getVariantMap(objective);
-    setVariantMap(variantMap);
-    setShowVariants(
-      Object.keys(variantMap).reduce(
-        (acc: { [objectiveName: string]: boolean }, objectiveName) => {
-          acc[objectiveName] = false;
-          return acc;
-        },
-        {},
-      ),
-    );
-  }, [objective]);
   const objectNameRender = (objective: ExtendedScoreObjective) => {
     if (variantMap[objective.name] && !objective.isVariant) {
       return (

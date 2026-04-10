@@ -493,7 +493,7 @@ function LadderTab(): JSX.Element {
         showAlwaysLadder.includes(col.id as string)
       );
     });
-  }, [isMobile, currentEvent, preferences, userMap, getTeam, setPreferences]);
+  }, [isMobile, currentEvent, preferences, userMap, streamsByUser, getTeam, showAlwaysLadder]);
 
   if (ladderIsError || usersIsError) {
     return (
@@ -541,14 +541,14 @@ function LadderTab(): JSX.Element {
       header: categoryName == "Personal Objectives" ? "P.O." : categoryName,
       accessorKey: categoryName,
       key: `column-${categoryName}`,
-      // @ts-ignore
+      // @ts-ignore: dynamic key access on typed row
       cell: ({ row }) =>
         renderScore(
           row.original[categoryName as keyof RowDef] || 0,
           undefined,
           currentEvent?.uses_medals,
         ),
-      // @ts-ignore
+      // @ts-ignore: dynamic key access on typed row
       sorter: (a, b) => a[categoryName] - b[categoryName],
     })),
   ];
@@ -719,8 +719,8 @@ function LadderTab(): JSX.Element {
               className=""
               placeholder="Show ladder at..."
               options={getTimeSelectOptions(currentEvent)}
-              onChange={(value: any) => {
-                setHoursAfterEventStart(value);
+              onChange={(value: unknown) => {
+                setHoursAfterEventStart(value as number);
               }}
             />
           )}

@@ -131,25 +131,19 @@ function EventPage(): JSX.Element {
 
   const teamMap = useMemo(
     () =>
-      event?.teams.reduce(
-        (acc: { [teamId: number]: Team }, team) => {
-          acc[team.id] = team;
-          return acc;
-        },
-        {},
-      ) || {},
+      event?.teams.reduce((acc: { [teamId: number]: Team }, team) => {
+        acc[team.id] = team;
+        return acc;
+      }, {}) || {},
     [event],
   );
 
   const userMap = useMemo(
     () =>
-      users.reduce(
-        (acc: { [userId: number]: (typeof users)[0] }, user) => {
-          acc[user.id] = user;
-          return acc;
-        },
-        {},
-      ),
+      users.reduce((acc: { [userId: number]: (typeof users)[0] }, user) => {
+        acc[user.id] = user;
+        return acc;
+      }, {}),
     [users],
   );
 
@@ -219,7 +213,7 @@ function EventPage(): JSX.Element {
               params={{
                 userId: info.row.original.user_id || 0,
                 characterId: info.row.original.character_id || "",
-                eventId: eventId,
+                eventId: event.id,
               }}
             >
               <ArrowTopRightOnSquareIcon className="inline size-4" />
@@ -432,7 +426,7 @@ function EventPage(): JSX.Element {
       header: name === "Personal Objectives" ? "P.O." : name,
       accessorKey: name,
       key: `column-${name}`,
-      // @ts-ignore
+      // @ts-ignore: dynamic key access on typed row
       cell: ({ row }) =>
         renderScore(
           (row.original[name] as number) || 0,
@@ -456,7 +450,7 @@ function EventPage(): JSX.Element {
 
   if (ladderIsError || usersIsError) {
     return (
-      <div className="alert alert-error mt-8">
+      <div className="mt-8 alert alert-error">
         <span>Error loading event data.</span>
       </div>
     );
@@ -554,7 +548,7 @@ function EventPage(): JSX.Element {
             className=""
             placeholder="Show ladder at..."
             options={getTimeSelectOptions(event)}
-            onChange={(value: any) => setHoursAfterEventStart(value)}
+            onChange={(value: unknown) => setHoursAfterEventStart(value as number)}
           />
         </div>
         <VirtualizedTable

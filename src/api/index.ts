@@ -642,7 +642,7 @@ export function useChangeCategoryReleaseDates(
       start: Date | null;
       end: Date | null;
     }) => {
-      const promises = (flatMap(objective as any) as Objective[]).map((child) =>
+      const promises = (flatMap(objective) as Objective[]).map((child) =>
         createObjectiveBase(eventId, toObjectiveCreate(child, start, end)),
       );
       return Promise.all(promises);
@@ -847,7 +847,7 @@ export function useGetGuildLogs(eventId: number, guildId: number) {
   return { ...query, logs: query.data };
 }
 
-export function preloadGuildLogs(
+export function usePreloadGuildLogs(
   eventId: number,
   guildId: number,
   limit: number,

@@ -94,6 +94,7 @@ function SubmissionStatus({
 }
 
 function VideoButton({ submissions }: { submissions: Submission[] }) {
+  const [now] = useState(Date.now);
   const submission = getRelevantSubmission(submissions);
   if (!submission) {
     return null;
@@ -114,7 +115,7 @@ function VideoButton({ submissions }: { submissions: Submission[] }) {
   if (twitchUrl) {
     if (
       new Date(submission.timestamp) <
-      new Date(Date.now() - 1000 * 60 * 60 * 24 * 14)
+      new Date(now - 1000 * 60 * 60 * 24 * 14)
     ) {
       return (
         <TwitchFilled className="size-5 cursor-not-allowed"></TwitchFilled>

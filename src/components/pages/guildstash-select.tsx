@@ -10,7 +10,7 @@ import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { router } from "../../main";
 import { isAdmin } from "@utils/token";
 
@@ -23,12 +23,8 @@ export function GuildStashSelect({ path }: { path: path }) {
   });
   const qc = useQueryClient();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
-  const [teamId, setTeamId] = useState(eventStatus?.team_id || 0);
-  useEffect(() => {
-    if (eventStatus?.team_id) {
-      setTeamId(eventStatus.team_id);
-    }
-  }, [eventStatus?.team_id]);
+  const [teamIdOverride, setTeamId] = useState<number | undefined>(undefined);
+  const teamId = teamIdOverride ?? eventStatus?.team_id ?? 0;
   const { guildStashes } = useGetGuildStash(currentEvent.id, teamId);
   const { switchStashFetching } = useSwitchStashFetching(
     qc,

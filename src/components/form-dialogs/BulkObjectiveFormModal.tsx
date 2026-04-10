@@ -61,7 +61,7 @@ export function BulkObjectiveFormModal({
       >
         <form.AppField
           name="nameList"
-          children={(field: any) => (
+          children={(field) => (
             <field.TextField
               label="Name List (Comma separated)"
               required
@@ -71,7 +71,7 @@ export function BulkObjectiveFormModal({
         />
         <form.AppField
           name="scoring_preset_ids"
-          children={(field: any) => (
+          children={(field) => (
             <field.MultiSelectField
               label="Scoring Presets"
               className="w-full"
@@ -84,7 +84,7 @@ export function BulkObjectiveFormModal({
         />
         <form.AppField
           name="aggregation_method"
-          children={(field: any) => (
+          children={(field) => (
             <field.SelectField
               label="Aggregation Method"
               className="w-full"
@@ -95,7 +95,7 @@ export function BulkObjectiveFormModal({
         />
         <form.AppField
           name="item_field"
-          children={(field: any) => (
+          children={(field) => (
             <field.SelectField
               label="Item Field"
               className="w-full"

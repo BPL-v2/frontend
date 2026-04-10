@@ -23,9 +23,9 @@ export function SignupFormModal({
 }: SignupFormModalProps) {
   const qc = useQueryClient();
   const state = useRouterState();
-  const [rulesChecked, setRulesChecked] = useState(false);
-
   const { signup } = useGetOwnSignup(eventId);
+  const [rulesCheckedOverride, setRulesChecked] = useState<boolean | undefined>(undefined);
+  const rulesChecked = rulesCheckedOverride ?? (isOpen ? !!signup : false);
   const { createSignup, isError: signupError } = useCreateSignup(
     qc,
     () => setIsOpen(false),
@@ -50,8 +50,9 @@ export function SignupFormModal({
 
   useEffect(() => {
     if (!isOpen) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRulesChecked(undefined);
     form.reset();
-    setRulesChecked(!!signup);
     if (signup) {
       setFormValues(form, {
         expected_playtime: signup.expected_playtime ?? 1,
@@ -74,7 +75,7 @@ export function SignupFormModal({
         <fieldset className="fieldset gap-4 rounded-box bg-base-300 p-4">
           <form.AppField
             name="expected_playtime"
-            children={(field: any) => (
+            children={(field) => (
               <field.NumberField
                 label="How many hours do you plan to play per day"
                 min={1}
@@ -89,7 +90,7 @@ export function SignupFormModal({
                 if (value) form.setFieldValue("wants_to_help", false);
               },
             }}
-            children={(field: any) => (
+            children={(field) => (
               <field.BooleanField label="I'm new and would like to have help" />
             )}
           />
@@ -100,13 +101,13 @@ export function SignupFormModal({
                 if (value) form.setFieldValue("needs_help", false);
               },
             }}
-            children={(field: any) => (
+            children={(field) => (
               <field.BooleanField label="I'm experienced and would like to help others" />
             )}
           />
           <form.AppField
             name="partner_account_name"
-            children={(field: any) => (
+            children={(field) => (
               <field.TextField label="Partner Wish (account name)" />
             )}
           />

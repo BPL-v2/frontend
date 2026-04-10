@@ -60,11 +60,11 @@ export function ReleaseDatesFormModal({
       >
         <form.AppField
           name="valid_from"
-          children={(field: any) => <field.DateTimeField label="Valid From" />}
+          children={(field) => <field.DateTimeField label="Valid From" />}
         />
         <form.AppField
           name="valid_to"
-          children={(field: any) => <field.DateTimeField label="Valid To" />}
+          children={(field) => <field.DateTimeField label="Valid To" />}
         />
         <div className="mt-4 flex flex-row justify-end gap-2">
           <button

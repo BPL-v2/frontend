@@ -51,7 +51,7 @@ export function totalPoints(score?: Score): number {
   return points;
 }
 
-var nullPreset: ScoringPreset[] = [
+const nullPreset: ScoringPreset[] = [
   {
     id: 0,
     name: "NULL",

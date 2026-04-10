@@ -10,7 +10,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { isLoggedIn } from "@utils/token";
 import { usePageSEO } from "@utils/use-seo";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -26,7 +26,7 @@ function Home() {
       (new Date(a.event_start_time).getTime() || 0),
   )[0];
   const { eventStatus } = useGetEventStatus(nextEvent?.id || currentEvent.id);
-  const now = Date.now();
+  const [now] = useState(Date.now);
   const pastEvents = (events || [])
     .filter((e) => e.is_public && new Date(e.event_end_time).getTime() < now)
     .sort(

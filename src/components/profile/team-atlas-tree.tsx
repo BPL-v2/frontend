@@ -14,6 +14,14 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { Link } from "@tanstack/react-router";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
+type AtlasRow = {
+  user_id: number;
+  player: string;
+  points: number;
+  trees: Record<string, number[]>;
+  primary_index: number;
+};
+
 function getRealAtlasPoints(nodes: number[]): number {
   if (nodes.includes(65225)) {
     return nodes.length - 20;
@@ -47,7 +55,7 @@ export function TeamAtlasTree() {
     `/assets/trees/json/atlas/${currentEvent.patch}.json`,
   );
   const leagueNodes = Object.entries(json?.nodes || {})
-    .filter(([_, node]) => node.isMastery)
+    .filter(([_id, node]) => node.isMastery)
     .reduce(
       (acc, [id, node]) => {
         if (!node.name || !json?.groups) {
@@ -70,11 +78,11 @@ export function TeamAtlasTree() {
     );
   const mavenNodes = Object.entries(json?.nodes || {})
     .filter(
-      ([_, node]) =>
+      ([_id, node]) =>
         (node.isNotable || node.isKeystone) &&
         node.stats?.some((stat) => stat.includes("Maven")),
     )
-    .map(([id, _]) => Number(id));
+    .map(([id]) => Number(id));
 
   if (mavenNodes.length > 0) {
     leagueNodes["Maven"] = mavenNodes;
@@ -106,7 +114,7 @@ export function TeamAtlasTree() {
       selectedLeagueMechanics: string[],
       setSelectedNodes: React.Dispatch<React.SetStateAction<Set<number>>>,
     ) =>
-    ({ row }: any): JSX.Element => {
+    ({ row }: { row: { original: AtlasRow } }): JSX.Element => {
       const treeNodes = row.original.trees[idx];
       return (
         <div
@@ -288,7 +296,7 @@ export function TeamAtlasTree() {
               filterVariant: "string",
               filterPlaceholder: "Player",
             },
-            cell: ({ row }: any) => (
+            cell: ({ row }: { row: { original: AtlasRow } }) => (
               <Link
                 to={`/profile/$userId`}
                 params={{ userId: row.original.user_id }}

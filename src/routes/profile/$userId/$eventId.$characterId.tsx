@@ -81,7 +81,6 @@ function RouteComponent() {
 
   useEffect(() => {
     if (!baseTypes || baseTypes.length === 0) {
-      setDecodedPobs([]);
       return;
     }
 
@@ -98,12 +97,8 @@ function RouteComponent() {
     })();
   }, [pobs, baseTypes]);
 
-  useEffect(() => {
-    if (pobs.length > 0) {
-      setPobId(pobs.length - 1);
-    }
-  }, [pobs]);
-  const [pobId, setPobId] = useState<number>(0);
+  const [pobIdOverride, setPobId] = useState<number | undefined>(undefined);
+  const pobId = pobIdOverride ?? (pobs.length > 0 ? pobs.length - 1 : 0);
   const [debouncedPobId, setDebouncedPobId] = useState<number>(0);
 
   useEffect(() => {

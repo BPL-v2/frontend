@@ -1,18 +1,15 @@
-import { LadderEntry, ScoringMethod } from "@api";
+import { ScoringMethod } from "@api";
 import {
   preloadLadderData,
   useGetEventStatus,
-  useGetLadder,
   useGetTeamGoals,
-  useGetUser,
 } from "@api";
 import ProgressCard from "@components/cards/progress-card";
-import { PoGauge } from "@components/personal-objective/po-gauge";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { createFileRoute } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 
 export const Route = createFileRoute("/scores/for-you")({
   component: ForYouTab,
@@ -25,8 +22,6 @@ export const Route = createFileRoute("/scores/for-you")({
 function ForYouTab() {
   const { currentEvent, scores } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
-  const { user } = useGetUser();
-  const { ladder } = useGetLadder(currentEvent.id);
   const { teamGoals = [] } = useGetTeamGoals(
     currentEvent.id,
     eventStatus?.team_id,
@@ -39,58 +34,7 @@ function ForYouTab() {
     },
     {} as Record<number, string>,
   );
-  // @ts-ignore not using this in bpl 17.5
-  const personalObjectiveRender = useMemo(() => {
-    let entry = ladder
-      ?.sort((a, b) => b.level - a.level)
-      .find((c) => c.user_id === user?.id);
 
-    if (!entry) {
-      entry = {
-        level: 1,
-        ascendancy_points: 0,
-        atlas_points: 0,
-        event_id: currentEvent.id,
-      } as never as LadderEntry;
-    }
-    return (
-      <div className="flex flex-col gap-2">
-        <h2 className="mt-4">Personal Objectives</h2>
-        <p>
-          Help your team out by improving your character and earn up to 9 points
-          for your team.
-        </p>
-        <div className="-mt-4 flex flex-col gap-1 text-base font-bold">
-          <PoGauge
-            descriptions={["Lvl 40", "Lvl 60", "Lvl 80"]}
-            values={[
-              entry.level >= 40 ? 1 : 0,
-              entry.level >= 60 ? 1 : 0,
-              entry.level >= 80 ? 1 : 0,
-            ]}
-            cap={3}
-          ></PoGauge>
-          <PoGauge
-            descriptions={["Cruel Lab", "Merc Lab", "Uber Lab"]}
-            values={[
-              entry.ascendancy_points >= 4 ? 1 : 0,
-              entry.ascendancy_points >= 6 ? 1 : 0,
-              entry.ascendancy_points >= 8 ? 1 : 0,
-            ]}
-            cap={3}
-          ></PoGauge>
-          <PoGauge
-            descriptions={["Lvl 90", "40 Atlas Points"]}
-            values={[
-              entry.level >= 90 ? 3 : 0,
-              entry.atlas_points >= 40 ? 3 : 0,
-            ]}
-            cap={3}
-          ></PoGauge>
-        </div>
-      </div>
-    );
-  }, [ladder, currentEvent.id, user?.id]);
   const teamId = eventStatus?.team_id as number;
   if (teamId === null || !eventStatus) {
     return (

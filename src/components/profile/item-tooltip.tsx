@@ -1,5 +1,5 @@
 import { Item, Rarity } from "@utils/pob";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -11,32 +11,35 @@ type Props = {
 export function ItemTooltip({ item, itemX, itemY }: Props) {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const maxWidth = Math.min(window.innerWidth - 40, 400);
-  const [position, setPosition] = useState({
+  const [adjustedPosition, setAdjustedPosition] = useState<{
+    left?: number;
+    top?: number;
+  } | null>(null);
+
+  const basePosition = {
     left: itemX,
     top: (itemY || 0) > 10 ? itemY : 10,
-  });
-  useEffect(() => {
-    setPosition({
-      left: itemX,
-      top: (itemY || 0) > 10 ? itemY : 10,
-    });
-  }, [item, itemX, itemY]);
+  };
 
-  useEffect(() => {
+  // Only use adjusted position if it was computed for the same base position
+  const [adjustedForPosition, setAdjustedForPosition] = useState<{ left?: number; top?: number } | null>(null);
+  const position = adjustedPosition && adjustedForPosition?.left === basePosition.left && adjustedForPosition?.top === basePosition.top
+    ? adjustedPosition
+    : basePosition;
+
+  const updateAdjustedPosition = () => {
     if (!tooltipRef.current) return;
-
-    let top = position.top;
-    let left = position.left;
-    if (
-      window.innerHeight < tooltipRef.current.getBoundingClientRect().bottom
-    ) {
-      top = window.innerHeight - tooltipRef.current!.offsetHeight - 10;
+    let top = basePosition.top;
+    let left = basePosition.left;
+    if (window.innerHeight < tooltipRef.current.getBoundingClientRect().bottom) {
+      top = window.innerHeight - tooltipRef.current.offsetHeight - 10;
     }
     if (window.innerWidth < tooltipRef.current.getBoundingClientRect().right) {
-      left = window.innerWidth - tooltipRef.current!.offsetWidth - 30;
+      left = window.innerWidth - tooltipRef.current.offsetWidth - 30;
     }
-    setPosition({ left, top });
-  }, [position.left, position.top]);
+    setAdjustedForPosition({ left: basePosition.left, top: basePosition.top });
+    setAdjustedPosition({ left, top });
+  };
 
   if (!item) return null;
 
@@ -62,7 +65,10 @@ export function ItemTooltip({ item, itemX, itemY }: Props) {
   }
   return (
     <div
-      ref={tooltipRef}
+      ref={(el) => {
+        (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        if (el) updateAdjustedPosition();
+      }}
       className={twMerge(
         "pointer-events-none fixed z-30 text-xs md:text-base",
         "gap flex flex-col rounded-lg border-2 bg-base-100/80 text-center shadow-lg md:bg-base-100/90",
