@@ -36,7 +36,7 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
       onError={() => {
         setErrorCount(errorCount + 1);
       }}
-      src={`/assets/team/${eventId}/${team?.name.replaceAll(" ", "").replaceAll("-", "").toLowerCase()}-min`}
+      src={`/assets/team/${eventId}/${team?.name.replaceAll(" ", "").replaceAll("-", "").toLowerCase()}-min.svg`}
       alt={team?.name || "Team Logo"}
     />
   );

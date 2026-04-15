@@ -6,7 +6,7 @@ var policyKeys: Partial<Record<keyof LadderEntry, string>> = {
   armour: "Armor",
   evasion: "Evasion",
   level: "Level",
-  voidstones: "Voidstones in Inventory",
+  voidstones: "Voidstones",
   high_level_flasks: "Magic ilvl 84 flasks",
   movement_speed: "Movement Speed",
   es: "Energy Shield",
