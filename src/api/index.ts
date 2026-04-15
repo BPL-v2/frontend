@@ -26,6 +26,7 @@ import {
   useGetCharacterHistoryBase,
   useGetPoBsBase,
   useGetUserCharactersBase,
+  updateCharacterBase,
 } from "./generated/characters/characters";
 import {
   getGetEventStatusBaseQueryKey,
@@ -932,6 +933,25 @@ export function useDeletePoB(qc: QueryClient) {
     deletePoB: (userId: number, characterId: string, pobId: number) =>
       m.mutate({ userId, characterId, pobId }),
     deletePoBPending: m.isPending,
+  };
+}
+
+export function useUpdateCharacter(qc: QueryClient, eventId: number) {
+  const m = useMutation({
+    mutationFn: (characterId: string) =>
+      updateCharacterBase(eventId, characterId).then(async () => {
+        // hopefully this is enough time for the PoB calculation and ladder update
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: getGetLadderBaseQueryKey(eventId),
+      });
+    },
+  });
+  return {
+    updateCharacter: (characterId: string) => m.mutate(characterId),
+    updateCharacterPending: m.isPending,
   };
 }
 

@@ -14,6 +14,7 @@ export interface CharacterStat {
   ele_max_hit: number;
   es: number;
   evasion: number;
+  high_level_flasks: number;
   hp: number;
   item_indexes: number[];
   lowest_ele_res: number;

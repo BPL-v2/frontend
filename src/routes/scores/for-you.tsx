@@ -1,15 +1,12 @@
 import { ScoringMethod } from "@api";
-import {
-  preloadLadderData,
-  useGetEventStatus,
-  useGetTeamGoals,
-} from "@api";
+import { preloadLadderData, useGetEventStatus, useGetTeamGoals } from "@api";
 import ProgressCard from "@components/cards/progress-card";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { createFileRoute } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
 import { useContext } from "react";
+import PoPoints from "@components/personal-objective/po-points";
 
 export const Route = createFileRoute("/scores/for-you")({
   component: ForYouTab,
@@ -89,7 +86,7 @@ function ForYouTab() {
   }
   return (
     <div className="prose prose-lg flex max-w-full flex-col px-4 text-left 2xl:px-0">
-      {/* {personalObjectiveRender} */}
+      <PoPoints />
       {teamGoals && (
         <div>
           {scores && teamGoalMap[scores.id] && (

@@ -11,6 +11,7 @@ export interface LadderEntry {
   ascendancy: string;
   ascendancy_points: number;
   atlas_points: number;
+  attack_block: number;
   character_id: string;
   character_name: string;
   delve_depth: number;
@@ -21,10 +22,12 @@ export interface LadderEntry {
   ele_max_hit: number;
   es: number;
   evasion: number;
+  high_level_flasks: number;
   hp: number;
   item_indexes: number[];
   last_active: number;
   level: number;
+  lowest_ele_res: number;
   main_skill: string;
   mana: number;
   movement_speed: number;
@@ -32,8 +35,10 @@ export interface LadderEntry {
   phys_max_hit: number;
   poe_account: string;
   rank: number;
+  spell_block: number;
   team_id: number;
   twitch_name?: string;
   user_id: number;
+  voidstones: number;
   xp: number;
 }
