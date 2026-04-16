@@ -50,10 +50,10 @@ export function DailyCard({ daily }: DailyCardProps) {
   if (!isReleased) {
     return (
       <div className="card bborder bg-card shadow-xl" key={daily.id}>
-        <div className="h-full min-h-25 rounded-t-box p-8 text-center text-xl font-semibold">
+        <div className="h-full min-h-25 rounded-t-box p-8 pb-0 text-center text-xl font-semibold">
           Daily not yet available
         </div>
-        <div className="card-body rounded-b-box p-8">
+        <div className="card-body rounded-b-box p-8 pt-0">
           <p className="text-center text-lg">The daily will be available in:</p>
           <div className="flex justify-center">
             <Countdown target={new Date(daily.valid_from)} />
