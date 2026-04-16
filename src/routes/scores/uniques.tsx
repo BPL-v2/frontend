@@ -46,7 +46,10 @@ function CategoryCard({
           <h1 className="w-full font-extrabold">Coming Soon</h1>
         </div>
         <div className="flex h-full flex-col items-center justify-center px-4">
-          <Countdown target={new Date(category.valid_to || "")} size="small" />
+          <Countdown
+            target={new Date(category.valid_from || "")}
+            size="small"
+          />
         </div>
       </div>
     );
