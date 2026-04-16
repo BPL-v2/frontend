@@ -75,6 +75,7 @@ function CategoryGrid({
   handleCategoryClick,
   ...htmlDivProps
 }: CategoryGridProps) {
+  const { currentEvent } = useContext(GlobalStateContext);
   if (categories.length === 0) return;
   return (
     <>
@@ -87,6 +88,15 @@ function CategoryGrid({
                   (a.valid_from?.getTime() || 0) -
                   (b.valid_from?.getTime() || 0),
               )
+              .filter((category) => {
+                if (!category.valid_from) {
+                  return true;
+                }
+                return (
+                  currentEvent.event_end_time.getTime() >
+                  category.valid_from.getTime()
+                );
+              })
               .map((category) => {
                 return (
                   <div key={`unique-category-${category.id}`}>
