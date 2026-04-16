@@ -493,7 +493,15 @@ function LadderTab(): JSX.Element {
         showAlwaysLadder.includes(col.id as string)
       );
     });
-  }, [isMobile, currentEvent, preferences, userMap, streamsByUser, getTeam, showAlwaysLadder]);
+  }, [
+    isMobile,
+    currentEvent,
+    preferences,
+    userMap,
+    streamsByUser,
+    getTeam,
+    showAlwaysLadder,
+  ]);
 
   if (ladderIsError || usersIsError) {
     return (
@@ -560,9 +568,6 @@ function LadderTab(): JSX.Element {
     (obj) => obj.scoring_presets[0]?.point_cap || 0 > 0,
   );
   const checkPoints = objs?.filter((obj) => !obj.scoring_presets[0]?.point_cap);
-  const firstCheckpointCompleted =
-    checkPoints?.some((obj) => new Date(obj.valid_to || "") < new Date()) ||
-    false;
   return (
     <>
       {rules ? (
@@ -584,7 +589,7 @@ function LadderTab(): JSX.Element {
           ></Table>
         </>
       )}
-      {firstCheckpointCompleted && (
+      {
         <div>
           <div className="divider divider-primary">
             Personal Objective Points
@@ -635,7 +640,11 @@ function LadderTab(): JSX.Element {
                         <div className="flex flex-col" key={team.id}>
                           <div className="flex flex-row justify-start gap-2 text-lg">
                             <TeamName className="font-semibold" team={team} />
-                            <div className="">{`${total} = (${current} + ${extra.join(" + ")})`}</div>
+                            {extra.length > 0 ? (
+                              <div className="">{`${total} = (${current} + ${extra.join(" + ")})`}</div>
+                            ) : (
+                              <div className="">{total}</div>
+                            )}
                           </div>
                           <POProgressBar
                             checkpoints={values}
@@ -651,7 +660,7 @@ function LadderTab(): JSX.Element {
             </div>
           )}
         </div>
-      )}
+      }
       <div className="divider divider-primary">Ladder</div>
       <div className="flex flex-col gap-2">
         {!isMobile && (
