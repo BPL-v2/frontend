@@ -351,6 +351,10 @@ export function ItemTable({
         columns={columns}
         data={
           objective.children
+            .filter(
+              (obj) =>
+                !obj.valid_from || obj.valid_from.getTime() <= Date.now(),
+            )
             .filter((obj) => (filter ? filter(obj) : true))
             .sort((a, b) => {
               if (
