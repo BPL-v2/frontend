@@ -224,7 +224,11 @@ export function ItemTable({
                   row.team_score[team.id].isFinished(),
                 id: `team_${team.id}`,
                 header: () => {
-                  const objectives = flatMapUniques(objective);
+                  const objectives = flatMapUniques(objective).filter(
+                    (obj) =>
+                      !obj.valid_from || obj.valid_from.getTime() <= Date.now(),
+                  );
+
                   const numberOfFinishes =
                     objectives
                       .filter((o) => (filter ? filter(o) : true))
