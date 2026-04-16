@@ -19,7 +19,7 @@ function totalPoPoints(char: LadderEntry) {
   return points;
 }
 
-export default function StaticPoPoints({
+export default function GeneralPoPoints({
   char,
 }: {
   char?: LadderEntry;
@@ -36,7 +36,7 @@ export default function StaticPoPoints({
   return (
     <div className="flex flex-col gap-1">
       <span>
-        Static Personal Objective Points based on your character{" "}
+        General Personal Objective Points based on your character{" "}
         <span
           className={twMerge(
             "text-warning",

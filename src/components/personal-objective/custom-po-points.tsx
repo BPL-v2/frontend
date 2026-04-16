@@ -40,7 +40,7 @@ var policies: POPolicies = {
   phys_max_hit: [12000, 16000, 20000],
 };
 
-const maxDynamicPoPoints = 8;
+const maxCustomPoPoints = 8;
 const pointsPerThreshold = [1, 2, 4];
 
 function computeEntries(char?: LadderEntry) {
@@ -77,7 +77,7 @@ function computeEntries(char?: LadderEntry) {
   });
 }
 
-export default function DynamicPoPoints({
+export default function CustomPoPoints({
   char,
 }: {
   char?: LadderEntry;
@@ -85,20 +85,20 @@ export default function DynamicPoPoints({
   const entries = computeEntries(char);
   const totalEarnedPoints = Math.min(
     entries.reduce((sum, e) => sum + (e.earnedPoints ?? 0), 0),
-    maxDynamicPoPoints,
+    maxCustomPoPoints,
   );
 
   return (
     <div>
-      Dynamic Personal Objective Points based on your character's current stats{" "}
+      Custom Personal Objective Points based on your character's current stats{" "}
       <span
         className={twMerge(
-          totalEarnedPoints >= maxDynamicPoPoints
+          totalEarnedPoints >= maxCustomPoPoints
             ? "text-success"
             : "text-warning",
         )}
       >
-        (Total: {totalEarnedPoints}/{maxDynamicPoPoints})
+        (Total: {totalEarnedPoints}/{maxCustomPoPoints})
       </span>
       :
       <div className="grid grid-cols-5 gap-2">

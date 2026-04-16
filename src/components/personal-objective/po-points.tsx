@@ -1,7 +1,7 @@
 import { useGetLadder, useGetUser, useUpdateCharacter } from "@api";
 import React, { useContext } from "react";
-import StaticPoPoints from "./static-po-points";
-import DynamicPoPoints from "./dynamic-po-points";
+import GeneralPoPoints from "./general-po-points";
+import CustomPoPoints from "./custom-po-points";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
@@ -37,8 +37,8 @@ export default function PoPoints(): React.JSX.Element {
         </button>
       </div>
       <div className="flex flex-col gap-4">
-        <StaticPoPoints char={char} />
-        <DynamicPoPoints char={char} />
+        <GeneralPoPoints char={char} />
+        <CustomPoPoints char={char} />
       </div>
     </div>
   );
