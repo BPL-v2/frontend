@@ -53,33 +53,148 @@ export function POPointRules() {
         points per team. These are the challenges that can be completed to earn
         points:
       </p>
-      <ul>
-        <li>
-          Reach level 40 <b className="text-info"> +1</b>
-        </li>
+      <p>9 Progress Points available from general objectives:</p>
+      <table className="table w-full border bg-base-100 px-8 py-2">
+        <thead>
+          <tr>
+            <th></th>
+            <th>+1</th>
+            <th>+2</th>
+            <th>+3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="font-bold">Level</td>
+            <td>40</td>
+            <td>60</td>
+            <td>80</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Lab</td>
+            <td>Cruel</td>
+            <td>Merciless</td>
+            <td>Uber</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Atlas Nodes</td>
+            <td></td>
+            <td></td>
+            <td>40 </td>
+          </tr>
+          <tr>
+            <td className="font-bold">Level</td>
+            <td>90</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Up to 8 Progress Points available from custom objectives:</p>
 
-        <li>
-          Reach level 60 <b className="text-info"> +1</b>
-        </li>
-        <li>
-          Reach level 80 <b className="text-info"> +1</b>
-        </li>
-        <li>
-          Complete the Cruel Labyrinth <b className="text-info"> +1</b>
-        </li>
-        <li>
-          Complete the Merc Labyrinth <b className="text-info"> +1</b>
-        </li>
-        <li>
-          Complete the Uber Labyrinth <b className="text-info"> +1</b>
-        </li>
-        <li>
-          Reach level 90 <b className="text-info"> +3</b>
-        </li>
-        <li>
-          Allocate 40 Atlas Nodes <b className="text-info"> +3</b>
-        </li>
-      </ul>
+      <table className="table w-full border bg-base-100 px-8 py-2">
+        <thead>
+          <tr>
+            <th></th>
+            <th>+1</th>
+            <th>+2</th>
+            <th>+4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="font-bold">Armor</td>
+            <td>30k</td>
+            <td>60k</td>
+            <td>150k</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Evasion</td>
+            <td>30k</td>
+            <td>60k</td>
+            <td>150k</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Player Level</td>
+            <td></td>
+            <td>95</td>
+            <td>98</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Voidstones</td>
+            <td></td>
+            <td></td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td className="font-bold">magic ilvl 84 flasks</td>
+            <td>5</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td className="font-bold">Movement Speed</td>
+            <td>150</td>
+            <td>200</td>
+            <td>250</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Energy Shield</td>
+            <td>9000</td>
+            <td>12000</td>
+            <td>15000</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Life</td>
+            <td>5500</td>
+            <td>6250</td>
+            <td>7000</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Mana</td>
+            <td>8000</td>
+            <td>11000</td>
+            <td>14000</td>
+          </tr>
+          <tr>
+            <td className="font-bold">DPS</td>
+            <td>5 mil</td>
+            <td>10 mil</td>
+            <td>32 mil</td>
+          </tr>
+          <tr>
+            <td className="font-bold">eHP</td>
+            <td>50k</td>
+            <td>150k</td>
+            <td>400k</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Attack Block</td>
+            <td>75</td>
+            <td>80</td>
+            <td>83</td>
+          </tr>
+          <tr>
+            <td className="font-bold">All Ele Max Res</td>
+            <td>84</td>
+            <td>90</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td className="font-bold">Ele max hit</td>
+            <td>40k</td>
+            <td>80k</td>
+            <td>120k</td>
+          </tr>
+          <tr>
+            <td className="font-bold">Phys max hit</td>
+            <td>12k</td>
+            <td>16k</td>
+            <td>20k</td>
+          </tr>
+        </tbody>
+      </table>
+
       {checkPoints.length > 0 && (
         <>
           <h3>PO Checkpoints</h3>

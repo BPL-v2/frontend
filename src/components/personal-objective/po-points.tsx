@@ -18,8 +18,8 @@ export default function PoPoints(): React.JSX.Element {
     ?.sort((a, b) => b.level - a.level)
     .find((c) => c.user_id === user?.id);
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="mt-4">Personal Objectives</h2>
+    <div className="flex flex-col">
+      <h2>Personal Objectives</h2>
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-bold">
           Help your team out by improving your character and earn up to 17
@@ -36,7 +36,7 @@ export default function PoPoints(): React.JSX.Element {
           Update character
         </button>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-8">
         <GeneralPoPoints char={char} />
         <CustomPoPoints char={char} />
       </div>

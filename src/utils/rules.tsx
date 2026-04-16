@@ -52,21 +52,21 @@ function convertBonusPointsToText(points: number[]) {
   }
   out.push({ points: current_points, number: current_count });
   const out_text = [
-    <span>
+    <span key={0}>
       The first {out[0].number} items will be awarded{" "}
       <b className="text-info">{out[0].points}</b> points.{" "}
     </span>,
   ];
   for (let i = 1; i < out.length - 1; i++) {
     out_text.push(
-      <span>
+      <span key={i}>
         The next {out[i].number} items will be awarded{" "}
         <b className="text-info">{out[i].points}</b> points.{" "}
       </span>,
     );
   }
   out_text.push(
-    <span>
+    <span key={out.length - 1}>
       The remaining items will be awarded{" "}
       <b className="text-info">{out[out.length - 1].points}</b> points.
     </span>,
@@ -107,10 +107,10 @@ function getItemPointsRules(category: ScoreObjective) {
 
 export function getPointRules(category: ScoreObjective) {
   return (
-    <>
+    <div key={category.name}>
       <h3>{category.name}</h3>
       {getRacePointsRules(category)}
       {getItemPointsRules(category)}
-    </>
+    </div>
   );
 }

@@ -54,61 +54,66 @@ export function Countdown({ target, onEnd, size }: CountdownProps) {
   const countdownClass = twMerge("countdown mont-mono", numberSize);
 
   return (
-    <div
-      className={twMerge(
-        "grid auto-cols-max grid-flow-col gap-5 text-center",
-        textSize,
-      )}
-    >
-      {days > 0 && (
+    <div className="tooltip tooltip-bottom tooltip-primary">
+      <div className="tooltip-content p-4 text-xl">
+        {target.toLocaleString()}
+      </div>
+      <div
+        className={twMerge(
+          "grid auto-cols-max grid-flow-col gap-5 text-center",
+          textSize,
+        )}
+      >
+        {days > 0 && (
+          <div className="flex flex-col">
+            <span className={countdownClass}>
+              <span
+                style={{ "--value": Math.min(days, 99) } as React.CSSProperties}
+                aria-live="polite"
+                aria-label={"days"}
+              >
+                {days}
+              </span>
+            </span>
+            days
+          </div>
+        )}
         <div className="flex flex-col">
           <span className={countdownClass}>
             <span
-              style={{ "--value": Math.min(days, 99) } as React.CSSProperties}
+              style={{ "--value": hours } as React.CSSProperties}
               aria-live="polite"
-              aria-label={"days"}
+              aria-label={"hours"}
             >
-              {days}
+              {hours}
             </span>
           </span>
-          days
+          hours
         </div>
-      )}
-      <div className="flex flex-col">
-        <span className={countdownClass}>
-          <span
-            style={{ "--value": hours } as React.CSSProperties}
-            aria-live="polite"
-            aria-label={"hours"}
-          >
-            {hours}
+        <div className="flex flex-col">
+          <span className={countdownClass}>
+            <span
+              style={{ "--value": minutes } as React.CSSProperties}
+              aria-live="polite"
+              aria-label={"minutes"}
+            >
+              {minutes}
+            </span>
           </span>
-        </span>
-        hours
-      </div>
-      <div className="flex flex-col">
-        <span className={countdownClass}>
-          <span
-            style={{ "--value": minutes } as React.CSSProperties}
-            aria-live="polite"
-            aria-label={"minutes"}
-          >
-            {minutes}
+          min
+        </div>
+        <div className="flex flex-col">
+          <span className={countdownClass}>
+            <span
+              style={{ "--value": seconds } as React.CSSProperties}
+              aria-live="polite"
+              aria-label={"seconds"}
+            >
+              {seconds}
+            </span>
           </span>
-        </span>
-        min
-      </div>
-      <div className="flex flex-col">
-        <span className={countdownClass}>
-          <span
-            style={{ "--value": seconds } as React.CSSProperties}
-            aria-live="polite"
-            aria-label={"seconds"}
-          >
-            {seconds}
-          </span>
-        </span>
-        sec
+          sec
+        </div>
       </div>
     </div>
   );

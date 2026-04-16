@@ -10,7 +10,9 @@ export function GemTabRules() {
       <h3>Points</h3>
       {scores?.children
         .find((category) => category.name === "Gems")
-        ?.children.map((child) => getPointRules(child))}
+        ?.children.map((child) => (
+          <div key={child.name}>{getPointRules(child)}</div>
+        ))}
     </>
   );
 }

@@ -31,7 +31,6 @@ function CategoryCard({
   teamId?: number;
   onClick: () => void;
 }) {
-  console.log(category);
   return (
     <UniqueCategoryCard
       objective={category}
@@ -100,8 +99,12 @@ export function Uniques({
 }): JSX.Element {
   const { currentEvent, scores, preferences, setPreferences } =
     useContext(GlobalStateContext);
-  const [selectedCategoryOverride, setSelectedCategory] = useState<ScoreObjective | null | undefined>(undefined);
-  const [selectedTeamOverride, setSelectedTeam] = useState<number | undefined>(undefined);
+  const [selectedCategoryOverride, setSelectedCategory] = useState<
+    ScoreObjective | null | undefined
+  >(undefined);
+  const [selectedTeamOverride, setSelectedTeam] = useState<number | undefined>(
+    undefined,
+  );
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [itemFilter, setItemfilter] = useState<string>("");
   const { eventStatus } = useGetEventStatus(currentEvent.id);
@@ -151,11 +154,12 @@ export function Uniques({
   }, [uniqueCategory, categoryFilter, itemFilter, preferences, selectedTeam]);
 
   // Derive selectedCategory: if override is set use it, otherwise auto-select when there's exactly one
-  const selectedCategory = selectedCategoryOverride !== undefined
-    ? selectedCategoryOverride ?? undefined
-    : shownCategories.length === 1
-      ? shownCategories[0]
-      : undefined;
+  const selectedCategory =
+    selectedCategoryOverride !== undefined
+      ? (selectedCategoryOverride ?? undefined)
+      : shownCategories.length === 1
+        ? shownCategories[0]
+        : undefined;
 
   const table = useMemo(() => {
     if (!uniqueCategory) {

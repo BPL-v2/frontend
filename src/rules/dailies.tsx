@@ -15,7 +15,7 @@ function convertArrayToText(points: number[]): JSX.Element[] {
       return (
         <span key={index}>
           {" "}
-          and the remaining teams <b className="text-info">{point}</b> points
+          and the remaining teams <b className="text-info">{point}</b> points.
         </span>
       );
     } else {
@@ -47,6 +47,13 @@ export function DailyTabRules() {
         objective.scoring_presets[0]?.scoring_method ===
         ScoringMethod.RANKED_TIME,
     )?.scoring_presets[0]?.points || [];
+
+  const hoursForCompletion = (
+    dailyCategory?.children?.map(
+      (objective) =>
+        objective.valid_to!.getTime() - objective.valid_from!.getTime(),
+    ) || []
+  ).map((ms) => ms / (1000 * 60 * 60));
   return (
     <>
       <h3> Releases </h3>
@@ -56,13 +63,14 @@ export function DailyTabRules() {
       </p>
       <h3> Expiry </h3>
       <p>
-        After their release, the dailies will be completable for 24 hours (see
-        countdowns). After that, they will grant no more points.
+        After their release, the dailies will be completable for{" "}
+        {hoursForCompletion[0]} hours (see countdowns). After that, they will
+        grant no more points.
       </p>
       <h3>Points</h3>
       <p>
         Regular dailies grant <b className="text-info">{basePoints[0]}</b>{" "}
-        points on completion. {convertArrayToText(racePoints)}.
+        points on completion. {convertArrayToText(racePoints)}
       </p>
       <h3 className="text-warning">Notes </h3>
       <p className="text-warning">

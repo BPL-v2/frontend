@@ -1,5 +1,6 @@
 import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
+import { NumberField, ScoringMethod } from "@api";
 
 function racePointsToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {
@@ -38,9 +39,12 @@ export function DelveTabRules() {
   const fossilRaceCategory = delveCategory?.children.find(
     (c) => c.name === "Fossil Race",
   );
+  const fossilFuelRaceCategory = delveCategory?.children.find(
+    (c) => c.name === "Fossil Fuel Race",
+  );
 
-  const culmDepthObjective = delveCategory?.children.find(
-    (c) => c.name === "Culmulative Depth",
+  const cumulativeDepthObjective = delveCategory?.children.find(
+    (c) => c.number_field === NumberField.PROGRESSIVE_DELVE_DEPTH,
   );
 
   const delveRace = delveCategory?.children.find(
@@ -62,14 +66,71 @@ export function DelveTabRules() {
           </p>
         </>
       )}
-      {culmDepthObjective && (
+      {fossilFuelRaceCategory && (
         <>
-          <h3>Culmulative Team Depth</h3>
+          <h3>Fossil Fuel Race</h3>
+          <p>
+            The teams race to finish the fossil fuel collection, gathering{" "}
+            {fossilFuelRaceCategory.required_number} Fossil Fuel.
+          </p>
+          <ul>
+            <li>
+              {" "}
+              <span className="font-bold">
+                Tier 1 Fossils give 10 Fossil Fuel{" "}
+              </span>{" "}
+              <span>
+                (Faceted, Tangled, Bloodstained, Hollow, Fractured, Glyphic)
+              </span>
+            </li>
+            <li>
+              <span className="font-bold">
+                Tier 2 Fossils give 2 Fossil Fuel
+              </span>{" "}
+              <span>
+                (Bound, Corroded, Opulent, Prismatic, Deft, Lucent, Serrated,
+                Shuddering, Fundamental, Aetheric, Gilded and Sanctified){" "}
+              </span>
+            </li>
+            <li>
+              <span className="font-bold">
+                Tier 3 Fossils give 1 Fossil Fuel{" "}
+              </span>
+              <span>
+                (Jagged, Dense, Frigid, Aberrant, Scorched, Metallic and
+                Pristine)
+              </span>
+            </li>
+          </ul>
+          <p>
+            {racePointsToText(
+              fossilFuelRaceCategory.scoring_presets[0]?.points || [],
+            )}
+          </p>
+        </>
+      )}
+      {cumulativeDepthObjective && (
+        <>
+          <h3>Cumulative Team Depth</h3>
           <p>
             Total team delve progress is equal to a sum of everyone&apos;s
             individual solo depth progress past 100 depth. Each team is awarded{" "}
             <b className="text-info">1 point per 10</b> total team delve
-            progress up to a cap of <b className="text-info">500</b> points.
+            progress up to a cap of{" "}
+            <b className="text-info">
+              {
+                cumulativeDepthObjective.scoring_presets?.find(
+                  (preset) =>
+                    preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+                )?.point_cap
+              }
+            </b>{" "}
+            points.
+          </p>
+          <p>
+            Starting at 150 depth, you get an additional 0.2x multiplier for
+            cumulative depth, with every 100 depth after increasing this
+            multiplier by an additional 0.2x with a maximum of 2x at 650 depth.
           </p>
         </>
       )}
