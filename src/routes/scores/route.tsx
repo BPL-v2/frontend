@@ -224,6 +224,7 @@ function ScoringPage() {
         tab.visible && categories?.children.find((c) => c.name === tab.name),
     ),
   ];
+  return <h1> Work in progress</h1>;
   return (
     <>
       <div className="mb-4 flex items-center justify-between rounded-b-box bg-base-300 shadow-xl">
