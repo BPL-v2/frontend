@@ -1,3 +1,4 @@
+import { ScoringMethod } from "@api";
 import { Countdown } from "@components/countdown";
 import { CategoryIcon } from "@icons/category-icons";
 import { Medal } from "@icons/medal";
@@ -15,6 +16,34 @@ type UniqueCategoryCardProps = {
   onClick: () => void;
 };
 
+function isRepeatable(objective: ScoreObjective): boolean {
+  return objective.scoring_presets.some(
+    (preset) => preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+  );
+}
+
+function getSubmissionCap(objective: ScoreObjective): number {
+  const preset = objective.scoring_presets.find(
+    (preset) => preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+  );
+  if (!preset) {
+    return 0;
+  }
+  let numItems = 0;
+  let remainingPointBudget = preset.point_cap || 0;
+  let pointIndex = 0;
+  while (remainingPointBudget >= 0) {
+    const points =
+      pointIndex < preset.points.length
+        ? preset.points[pointIndex]
+        : preset.points[preset.points.length - 1];
+    remainingPointBudget -= points;
+    numItems++;
+    pointIndex++;
+  }
+  return numItems - 1; // Subtract 1 because the loop runs one extra time after exceeding the budget
+}
+
 export const UniqueCategoryCard = ({
   objective,
   selected,
@@ -28,16 +57,24 @@ export const UniqueCategoryCard = ({
     (acc, variantCategory) => acc + variantCategory.children.length,
     0,
   );
+  const multiUnique = objective.children.find(isRepeatable);
+  const multiUniqueCap = multiUnique ? getSubmissionCap(multiUnique) : 0;
   if (objective.team_score[teamId] === undefined) {
     return null;
   }
-  const numItems = objective.team_score[teamId].number();
+  const multiUniqueCurrentNum = multiUnique?.team_score[teamId].number() || 0;
+  const numItems = objective.children.reduce((acc, subCategory) => {
+    if (subCategory.team_score[teamId].number() > 0) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
   const numVariants = teamId
     ? objective.children.reduce((acc, subCategory) => {
         return (
           acc +
           subCategory.children.reduce((numVariants, child) => {
-            if (child.team_score[teamId].isFinished()) {
+            if (child.team_score[teamId].number() > 0) {
               return numVariants + 1;
             }
             return numVariants;
@@ -94,7 +131,7 @@ export const UniqueCategoryCard = ({
               >
                 {finishable ? `${numItems} / ${totalItems}` : numItems}
               </div>
-              {totalVariants ? (
+              {!!totalVariants && (
                 <div
                   className={twMerge(
                     "text-lg font-bold",
@@ -105,7 +142,19 @@ export const UniqueCategoryCard = ({
                 >
                   {`Variants: ${numVariants} / ${totalVariants}`}
                 </div>
-              ) : null}
+              )}
+              {multiUnique && (
+                <div
+                  className={twMerge(
+                    "text-lg font-bold",
+                    multiUniqueCurrentNum === multiUniqueCap
+                      ? "text-success"
+                      : "text-error",
+                  )}
+                >
+                  {`Repeatable: ${multiUniqueCurrentNum} / ${multiUniqueCap}`}
+                </div>
+              )}
             </div>
             <div className="hidden self-center sm:block">
               <CategoryIcon name={objective.name} />
