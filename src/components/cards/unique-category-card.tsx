@@ -147,7 +147,7 @@ export const UniqueCategoryCard = ({
                 <div
                   className={twMerge(
                     "text-lg font-bold",
-                    multiUniqueCurrentNum === multiUniqueCap
+                    multiUniqueCurrentNum >= multiUniqueCap
                       ? "text-success"
                       : "text-error",
                   )}

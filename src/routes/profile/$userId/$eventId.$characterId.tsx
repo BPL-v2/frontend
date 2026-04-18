@@ -80,7 +80,7 @@ function RouteComponent() {
   const [decodedPobs, setDecodedPobs] = useState<PathOfBuilding[]>([]);
 
   useEffect(() => {
-    if (!baseTypes || baseTypes.length === 0) {
+    if (!baseTypes || baseTypes.length === 0 || pobs.length === 0) {
       return;
     }
 
