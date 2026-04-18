@@ -1,4 +1,4 @@
-import { GameVersion, LadderEntry, Team } from "@api";
+import { LadderEntry, Team } from "@api";
 import { preloadLadderData, useGetLadder, useGetUsers } from "@api";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
@@ -9,14 +9,15 @@ import { Ranking } from "@components/ranking";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
-import { ascendancies } from "@mytypes/ascendancy";
 import { ScoreClass, ScoreObjective, TeamScore } from "@mytypes/score";
 import { DelveTabRules } from "@rules/delve";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useMemo } from "react";
 import { LadderPortrait } from "@components/character/ladder-portrait";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { getSkillColor } from "@utils/gems";
 
 export const Route = createFileRoute("/scores/delve")({
   component: DelveTab,
@@ -64,25 +65,25 @@ function DelveTab(): JSX.Element {
     if (!isMobile) {
       columns = [
         {
-          accessorKey: "delve",
+          accessorKey: "delve_depth",
           header: "Depth",
           sortingFn: sortingFns.basic,
           size: 100,
         },
         {
-          accessorKey: "character_name",
+          id: "Account",
+          accessorKey: "poe_account",
           header: "",
-          enableSorting: false,
-          size: 250,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Character",
-          },
-        },
-        {
-          accessorKey: "account_name",
-          header: "",
+          cell: (info) => (
+            <a
+              className="flex cursor-pointer items-center gap-1 hover:text-primary"
+              href={`https://www.pathofexile.com/account/view-profile/${info.row.original.poe_account.replace("#", "-")}/characters`}
+              target="_blank"
+            >
+              <ArrowTopRightOnSquareIcon className="inline size-4" />
+              {info.row.original.poe_account}
+            </a>
+          ),
           enableSorting: false,
           size: 250,
           filterFn: "includesString",
@@ -92,13 +93,40 @@ function DelveTab(): JSX.Element {
           },
         },
         {
-          accessorFn: (row) => getTeam(row.user_id),
+          id: "Character",
+          accessorKey: "character_name",
+          header: "",
+          enableSorting: false,
+          size: 250,
+          filterFn: "includesString",
+          meta: {
+            filterVariant: "string",
+            filterPlaceholder: "Character",
+          },
+          cell: (info) => (
+            <Link
+              to={"/profile/$userId/$eventId/$characterId"}
+              className="flex items-center gap-1 hover:text-primary"
+              params={{
+                userId: info.row.original.user_id || 0,
+                characterId: info.row.original.character_id || "",
+                eventId: currentEvent.id,
+              }}
+            >
+              <ArrowTopRightOnSquareIcon className="inline size-4" />
+              {info.row.original.character_name}
+            </Link>
+          ),
+        },
+        {
+          id: "Team",
+          accessorFn: (row) => getTeam(row.user_id)?.name,
           header: " ",
           cell: (info) => (
             <TeamName team={getTeam(info.row.original.user_id)} />
           ),
           enableSorting: false,
-          size: 250,
+          size: 200,
           filterFn: "includesString",
           meta: {
             filterVariant: "enum",
@@ -107,24 +135,31 @@ function DelveTab(): JSX.Element {
           },
         },
         {
-          accessorKey: "character_class",
+          id: "Ascendancy",
+          accessorFn: (row) => row.ascendancy + row.main_skill,
           header: "",
           cell: (info) => (
             <div className="flex items-center gap-2">
               <AscendancyPortrait
                 character_class={info.row.original.ascendancy}
-                className="size-8 rounded-full object-cover"
+                className="size-10 rounded-full object-cover"
               />
-              <AscendancyName character_class={info.row.original.ascendancy} />
+              <div className="flex flex-col">
+                <span className={getSkillColor(info.row.original.main_skill)}>
+                  {info.row.original.main_skill}
+                </span>
+                <AscendancyName
+                  character_class={info.row.original.ascendancy}
+                />
+              </div>
             </div>
           ),
-          size: 250,
+          size: 300,
           filterFn: "includesString",
           enableSorting: false,
           meta: {
-            filterVariant: "enum",
-            filterPlaceholder: "Ascendancy",
-            options: Object.keys(ascendancies[GameVersion.poe1]),
+            filterVariant: "string",
+            filterPlaceholder: "Ascendancy / Skill",
           },
         },
         {
@@ -134,21 +169,24 @@ function DelveTab(): JSX.Element {
             <ExperienceBar
               experience={info.row.original.xp}
               level={info.row.original.level}
+              width={60}
+              className="text-lg font-bold"
             />
           ),
           sortingFn: sortingFns.basic,
-          size: 150,
+          size: 120,
         },
       ];
     } else {
       columns = [
         {
-          accessorKey: "delve",
+          accessorKey: "delve_depth",
           header: "Depth",
           sortingFn: sortingFns.basic,
           size: 100,
         },
         {
+          id: "Character",
           accessorFn: (row) =>
             row.poe_account + row.character_name + row.ascendancy,
           header: " ",
