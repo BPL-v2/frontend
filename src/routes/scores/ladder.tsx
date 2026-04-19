@@ -567,7 +567,11 @@ function LadderTab(): JSX.Element {
   const totalObjective = objs?.find(
     (obj) => obj.scoring_presets[0]?.point_cap || 0 > 0,
   );
-  const checkPoints = objs?.filter((obj) => !obj.scoring_presets[0]?.point_cap);
+  const checkPoints = objs
+    ?.filter((obj) => !obj.scoring_presets[0]?.point_cap)
+    .sort(
+      (a, b) => (a.valid_from?.getTime() || 0) - (b.valid_from?.getTime() || 0),
+    );
   return (
     <>
       {rules ? (
