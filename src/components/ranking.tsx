@@ -121,17 +121,18 @@ export function Ranking({
                     </div>
                   </div>
                   <div className="">
-                    {
+                    {score.isFinished() && score.rank() > 0 && (
                       <div className="text-lg font-semibold">
                         {rank2text(score.rank())}
                       </div>
-                    }
+                    )}
                     <div className="text-xl font-bold">
                       {renderScore(
                         getTotalPoints(objective)[teamId],
                         getPotentialPoints(objective)[teamId],
                         currentEvent?.uses_medals,
-                      )}
+                      )}{" "}
+                      Points
                     </div>
                   </div>
                 </div>

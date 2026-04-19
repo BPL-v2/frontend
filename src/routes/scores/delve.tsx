@@ -9,7 +9,6 @@ import { Ranking } from "@components/ranking";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
-import { ScoreClass, ScoreObjective, TeamScore } from "@mytypes/score";
 import { DelveTabRules } from "@rules/delve";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
@@ -216,45 +215,13 @@ function DelveTab(): JSX.Element {
   const culmulativeDepthTotal = category.children.find(
     (o) => o.name === "Culmulative Depth",
   );
-
-  const culmulativeDepthRace = category.children.find(
-    (o) => o.name === "Culmulative Depth",
+  console.log("culmulativeDepthTotal", culmulativeDepthTotal);
+  console.log(
+    "finished",
+    Object.entries(culmulativeDepthTotal?.team_score || {}).map(
+      ([teamId, score]) => ({ teamId, finished: score.isFinished() }),
+    ),
   );
-
-  const culmulativeDepthObj = {
-    children: [] as ScoreObjective[],
-    team_score: {} as TeamScore,
-  } as ScoreObjective;
-
-  for (const teamId in category.team_score) {
-    const completion = {
-      number: 0,
-      rank: 0,
-      finished: false,
-      points: 0,
-      timestamp: 0,
-      user_id: 0,
-      preset_id: 0,
-    };
-    if (culmulativeDepthTotal) {
-      completion.number = culmulativeDepthTotal.team_score[teamId].number();
-      completion.points +=
-        culmulativeDepthTotal.team_score[teamId].totalPoints();
-      completion.timestamp =
-        culmulativeDepthTotal.team_score[teamId].lastTimestamp();
-    }
-    if (culmulativeDepthRace) {
-      completion.rank = culmulativeDepthRace.team_score[teamId].rank();
-      completion.finished =
-        culmulativeDepthRace.team_score[teamId].isFinished();
-      completion.points +=
-        culmulativeDepthRace.team_score[teamId].totalPoints();
-    }
-    culmulativeDepthObj.team_score[teamId] = new ScoreClass({
-      completions: [completion],
-      bonus_points: 0,
-    });
-  }
   return (
     <>
       {rules ? (
@@ -302,17 +269,17 @@ function DelveTab(): JSX.Element {
           </div>
         ) : null}
 
-        {culmulativeDepthTotal && culmulativeDepthRace ? (
+        {culmulativeDepthTotal ? (
           <div className="rounded-box bg-base-200 p-8 pt-2">
             <div className="divider divider-primary">
               {"Culmulative Team Depth"}
             </div>
             <div className="flex flex-col gap-4">
               <Ranking
-                objective={culmulativeDepthObj}
-                maximum={culmulativeDepthRace.required_number}
+                objective={culmulativeDepthTotal}
+                maximum={culmulativeDepthTotal.required_number}
                 actual={(teamId: number) =>
-                  culmulativeDepthObj.team_score[teamId].number()
+                  culmulativeDepthTotal.team_score[teamId].number()
                 }
                 description="Depth:"
               />

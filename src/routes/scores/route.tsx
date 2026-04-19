@@ -21,17 +21,12 @@ import { twMerge } from "tailwind-merge";
 import { router } from "../../main";
 import { useGetRules } from "@api";
 import { AscendancyChallengeTabRules } from "../../rules-alt/ascendancy-challenges";
-import { GraftRaceTabRules } from "../../rules-alt/graft-race";
 
 type scoringTabKey =
   | "ladder"
   | "for-you"
   | "progress"
   | "uniques"
-  | "focus-uniques"
-  | "slot-uniques"
-  | "foulborn-uniques"
-  | "graft-race"
   | "races"
   | "bounties"
   | "ascendancy-challenges"
@@ -107,27 +102,6 @@ function ScoringPage() {
         visible: true,
       },
       {
-        name: "Focus Uniques",
-        key: "focus-uniques",
-        shortName: "Bloodlines",
-        rules: <UniqueTabRules />,
-        visible: true,
-      },
-      {
-        name: "Slot Uniques",
-        shortName: "Slots",
-        key: "slot-uniques",
-        rules: <UniqueTabRules />,
-        visible: true,
-      },
-      {
-        name: "Foulborn Uniques",
-        shortName: "Foulborns",
-        key: "foulborn-uniques",
-        rules: <UniqueTabRules />,
-        visible: true,
-      },
-      {
         name: "Races",
         key: "races",
         rules: <RaceTabRules />,
@@ -144,13 +118,6 @@ function ScoringPage() {
         key: "ascendancy-challenges",
         shortName: "Asc. Challenges",
         rules: <AscendancyChallengeTabRules />,
-        visible: true,
-      },
-      {
-        name: "Graft Race",
-        key: "graft-race",
-        shortName: "Grafts",
-        rules: <GraftRaceTabRules />,
         visible: true,
       },
       {

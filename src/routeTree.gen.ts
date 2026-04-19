@@ -23,7 +23,6 @@ import { Route as TeamWishlistRouteImport } from './routes/team/wishlist'
 import { Route as TeamAtlasRouteImport } from './routes/team/atlas'
 import { Route as StreamsTwitchAccountRouteImport } from './routes/streams/$twitchAccount'
 import { Route as ScoresUniquesRouteImport } from './routes/scores/uniques'
-import { Route as ScoresSlotUniquesRouteImport } from './routes/scores/slot-uniques'
 import { Route as ScoresScarabsRouteImport } from './routes/scores/scarabs'
 import { Route as ScoresRacesRouteImport } from './routes/scores/races'
 import { Route as ScoresProgressRouteImport } from './routes/scores/progress'
@@ -33,7 +32,6 @@ import { Route as ScoresGraftRaceRouteImport } from './routes/scores/graft-race'
 import { Route as ScoresGemsRouteImport } from './routes/scores/gems'
 import { Route as ScoresFoulbornUniquesRouteImport } from './routes/scores/foulborn-uniques'
 import { Route as ScoresForYouRouteImport } from './routes/scores/for-you'
-import { Route as ScoresFocusUniquesRouteImport } from './routes/scores/focus-uniques'
 import { Route as ScoresDelveRouteImport } from './routes/scores/delve'
 import { Route as ScoresDailiesRouteImport } from './routes/scores/dailies'
 import { Route as ScoresCollectionsRouteImport } from './routes/scores/collections'
@@ -136,11 +134,6 @@ const ScoresUniquesRoute = ScoresUniquesRouteImport.update({
   path: '/uniques',
   getParentRoute: () => ScoresRouteRoute,
 } as any)
-const ScoresSlotUniquesRoute = ScoresSlotUniquesRouteImport.update({
-  id: '/slot-uniques',
-  path: '/slot-uniques',
-  getParentRoute: () => ScoresRouteRoute,
-} as any)
 const ScoresScarabsRoute = ScoresScarabsRouteImport.update({
   id: '/scarabs',
   path: '/scarabs',
@@ -184,11 +177,6 @@ const ScoresFoulbornUniquesRoute = ScoresFoulbornUniquesRouteImport.update({
 const ScoresForYouRoute = ScoresForYouRouteImport.update({
   id: '/for-you',
   path: '/for-you',
-  getParentRoute: () => ScoresRouteRoute,
-} as any)
-const ScoresFocusUniquesRoute = ScoresFocusUniquesRouteImport.update({
-  id: '/focus-uniques',
-  path: '/focus-uniques',
   getParentRoute: () => ScoresRouteRoute,
 } as any)
 const ScoresDelveRoute = ScoresDelveRouteImport.update({
@@ -378,7 +366,6 @@ export interface FileRoutesByFullPath {
   '/scores/collections': typeof ScoresCollectionsRoute
   '/scores/dailies': typeof ScoresDailiesRoute
   '/scores/delve': typeof ScoresDelveRoute
-  '/scores/focus-uniques': typeof ScoresFocusUniquesRoute
   '/scores/for-you': typeof ScoresForYouRoute
   '/scores/foulborn-uniques': typeof ScoresFoulbornUniquesRoute
   '/scores/gems': typeof ScoresGemsRoute
@@ -388,7 +375,6 @@ export interface FileRoutesByFullPath {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/races': typeof ScoresRacesRoute
   '/scores/scarabs': typeof ScoresScarabsRoute
-  '/scores/slot-uniques': typeof ScoresSlotUniquesRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
@@ -436,7 +422,6 @@ export interface FileRoutesByTo {
   '/scores/collections': typeof ScoresCollectionsRoute
   '/scores/dailies': typeof ScoresDailiesRoute
   '/scores/delve': typeof ScoresDelveRoute
-  '/scores/focus-uniques': typeof ScoresFocusUniquesRoute
   '/scores/for-you': typeof ScoresForYouRoute
   '/scores/foulborn-uniques': typeof ScoresFoulbornUniquesRoute
   '/scores/gems': typeof ScoresGemsRoute
@@ -446,7 +431,6 @@ export interface FileRoutesByTo {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/races': typeof ScoresRacesRoute
   '/scores/scarabs': typeof ScoresScarabsRoute
-  '/scores/slot-uniques': typeof ScoresSlotUniquesRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
@@ -495,7 +479,6 @@ export interface FileRoutesById {
   '/scores/collections': typeof ScoresCollectionsRoute
   '/scores/dailies': typeof ScoresDailiesRoute
   '/scores/delve': typeof ScoresDelveRoute
-  '/scores/focus-uniques': typeof ScoresFocusUniquesRoute
   '/scores/for-you': typeof ScoresForYouRoute
   '/scores/foulborn-uniques': typeof ScoresFoulbornUniquesRoute
   '/scores/gems': typeof ScoresGemsRoute
@@ -505,7 +488,6 @@ export interface FileRoutesById {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/races': typeof ScoresRacesRoute
   '/scores/scarabs': typeof ScoresScarabsRoute
-  '/scores/slot-uniques': typeof ScoresSlotUniquesRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
@@ -555,7 +537,6 @@ export interface FileRouteTypes {
     | '/scores/collections'
     | '/scores/dailies'
     | '/scores/delve'
-    | '/scores/focus-uniques'
     | '/scores/for-you'
     | '/scores/foulborn-uniques'
     | '/scores/gems'
@@ -565,7 +546,6 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/races'
     | '/scores/scarabs'
-    | '/scores/slot-uniques'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
@@ -613,7 +593,6 @@ export interface FileRouteTypes {
     | '/scores/collections'
     | '/scores/dailies'
     | '/scores/delve'
-    | '/scores/focus-uniques'
     | '/scores/for-you'
     | '/scores/foulborn-uniques'
     | '/scores/gems'
@@ -623,7 +602,6 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/races'
     | '/scores/scarabs'
-    | '/scores/slot-uniques'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
@@ -671,7 +649,6 @@ export interface FileRouteTypes {
     | '/scores/collections'
     | '/scores/dailies'
     | '/scores/delve'
-    | '/scores/focus-uniques'
     | '/scores/for-you'
     | '/scores/foulborn-uniques'
     | '/scores/gems'
@@ -681,7 +658,6 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/races'
     | '/scores/scarabs'
-    | '/scores/slot-uniques'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
@@ -838,13 +814,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScoresUniquesRouteImport
       parentRoute: typeof ScoresRouteRoute
     }
-    '/scores/slot-uniques': {
-      id: '/scores/slot-uniques'
-      path: '/slot-uniques'
-      fullPath: '/scores/slot-uniques'
-      preLoaderRoute: typeof ScoresSlotUniquesRouteImport
-      parentRoute: typeof ScoresRouteRoute
-    }
     '/scores/scarabs': {
       id: '/scores/scarabs'
       path: '/scarabs'
@@ -906,13 +875,6 @@ declare module '@tanstack/react-router' {
       path: '/for-you'
       fullPath: '/scores/for-you'
       preLoaderRoute: typeof ScoresForYouRouteImport
-      parentRoute: typeof ScoresRouteRoute
-    }
-    '/scores/focus-uniques': {
-      id: '/scores/focus-uniques'
-      path: '/focus-uniques'
-      fullPath: '/scores/focus-uniques'
-      preLoaderRoute: typeof ScoresFocusUniquesRouteImport
       parentRoute: typeof ScoresRouteRoute
     }
     '/scores/delve': {
@@ -1142,7 +1104,6 @@ interface ScoresRouteRouteChildren {
   ScoresCollectionsRoute: typeof ScoresCollectionsRoute
   ScoresDailiesRoute: typeof ScoresDailiesRoute
   ScoresDelveRoute: typeof ScoresDelveRoute
-  ScoresFocusUniquesRoute: typeof ScoresFocusUniquesRoute
   ScoresForYouRoute: typeof ScoresForYouRoute
   ScoresFoulbornUniquesRoute: typeof ScoresFoulbornUniquesRoute
   ScoresGemsRoute: typeof ScoresGemsRoute
@@ -1152,7 +1113,6 @@ interface ScoresRouteRouteChildren {
   ScoresProgressRoute: typeof ScoresProgressRoute
   ScoresRacesRoute: typeof ScoresRacesRoute
   ScoresScarabsRoute: typeof ScoresScarabsRoute
-  ScoresSlotUniquesRoute: typeof ScoresSlotUniquesRoute
   ScoresUniquesRoute: typeof ScoresUniquesRoute
 }
 
@@ -1163,7 +1123,6 @@ const ScoresRouteRouteChildren: ScoresRouteRouteChildren = {
   ScoresCollectionsRoute: ScoresCollectionsRoute,
   ScoresDailiesRoute: ScoresDailiesRoute,
   ScoresDelveRoute: ScoresDelveRoute,
-  ScoresFocusUniquesRoute: ScoresFocusUniquesRoute,
   ScoresForYouRoute: ScoresForYouRoute,
   ScoresFoulbornUniquesRoute: ScoresFoulbornUniquesRoute,
   ScoresGemsRoute: ScoresGemsRoute,
@@ -1173,7 +1132,6 @@ const ScoresRouteRouteChildren: ScoresRouteRouteChildren = {
   ScoresProgressRoute: ScoresProgressRoute,
   ScoresRacesRoute: ScoresRacesRoute,
   ScoresScarabsRoute: ScoresScarabsRoute,
-  ScoresSlotUniquesRoute: ScoresSlotUniquesRoute,
   ScoresUniquesRoute: ScoresUniquesRoute,
 }
 
