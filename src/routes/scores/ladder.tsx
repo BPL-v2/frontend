@@ -28,7 +28,7 @@ import {
 import { POPointRules } from "@rules/po-points";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getSkillColor } from "@utils/gems";
-import { calcPersonalPoints } from "@utils/personal-points";
+import { totalPoPoints } from "@utils/personal-points";
 import { LadderPortrait } from "@components/character/ladder-portrait";
 import { twMerge } from "tailwind-merge";
 import { defaultPreferences } from "@mytypes/preferences";
@@ -421,7 +421,7 @@ function LadderTab(): JSX.Element {
         {
           id: "P.O.",
           header: "P.O.",
-          accessorFn: (row) => calcPersonalPoints(row),
+          accessorFn: (row) => totalPoPoints(row),
           cell: (info) => info.getValue(),
           size: 90,
         },

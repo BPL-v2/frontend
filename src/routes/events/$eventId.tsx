@@ -27,7 +27,7 @@ import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getSkillColor } from "@utils/gems";
-import { calcPersonalPoints } from "@utils/personal-points";
+import { totalPoPoints } from "@utils/personal-points";
 import { renderScore } from "@utils/score";
 import { hidePOTotal, mergeScores, getTotalPoints } from "@utils/utils";
 import { JSX, useContext, useMemo, useState } from "react";
@@ -326,7 +326,7 @@ function EventPage(): JSX.Element {
         {
           id: "P.O.",
           header: "P.O.",
-          accessorFn: (row) => calcPersonalPoints(row),
+          accessorFn: (row) => totalPoPoints(row),
           cell: (info) => info.getValue(),
           size: 90,
         },
@@ -548,7 +548,9 @@ function EventPage(): JSX.Element {
             className=""
             placeholder="Show ladder at..."
             options={getTimeSelectOptions(event)}
-            onChange={(value: unknown) => setHoursAfterEventStart(value as number)}
+            onChange={(value: unknown) =>
+              setHoursAfterEventStart(value as number)
+            }
           />
         </div>
         <VirtualizedTable

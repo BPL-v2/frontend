@@ -17,6 +17,7 @@ import { JSX, useContext, useMemo } from "react";
 import { LadderPortrait } from "@components/character/ladder-portrait";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { getSkillColor } from "@utils/gems";
+import { progressiveDelveDepth } from "@utils/personal-points";
 
 export const Route = createFileRoute("/scores/delve")({
   component: DelveTab,
@@ -67,6 +68,16 @@ function DelveTab(): JSX.Element {
           accessorKey: "delve_depth",
           header: "Depth",
           sortingFn: sortingFns.basic,
+          cell: ({ row }) => (
+            <div className="flex items-center gap-2">
+              {row.original.delve_depth}
+              {progressiveDelveDepth(row.original) > 0 && (
+                <span className="text-sm text-success">
+                  ({progressiveDelveDepth(row.original)})
+                </span>
+              )}
+            </div>
+          ),
           size: 100,
         },
         {

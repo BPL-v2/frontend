@@ -1,4 +1,8 @@
 import { LadderEntry } from "@api";
+import {
+  calculatePolicyEntries,
+  maxCustomPoPoints,
+} from "@utils/personal-points";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -20,69 +24,12 @@ var policyKeys: Partial<Record<keyof LadderEntry, string>> = {
   phys_max_hit: "Phys Max Hit",
 };
 
-type POPolicies = Partial<Record<keyof LadderEntry, (number | null)[]>>;
-
-var policies: POPolicies = {
-  armour: [30000, 60000, 90000],
-  evasion: [30000, 60000, 90000],
-  level: [null, 95, 98],
-  voidstones: [null, null, 4],
-  high_level_flasks: [5, null, null],
-  movement_speed: [150, 250, 350],
-  es: [9000, 12000, 15000],
-  hp: [5500, 6250, 7000],
-  mana: [8000, 12000, 15000],
-  dps: [5000000, 10000000, 32000000],
-  ehp: [50000, 150000, 400000],
-  attack_block: [75, 80, 83],
-  lowest_ele_res: [84, 90, null],
-  ele_max_hit: [40000, 80000, 120000],
-  phys_max_hit: [12000, 16000, 20000],
-};
-
-const maxCustomPoPoints = 8;
-const pointsPerThreshold = [1, 2, 4];
-
-function computeEntries(char?: LadderEntry) {
-  return Object.entries(policies).map((entry) => {
-    const key = entry[0] as keyof LadderEntry;
-    const thresholds = entry[1];
-    const charValue = (char?.[key] as number) || 0;
-
-    const getPrevValue = (i: number): number => {
-      for (let j = i - 1; j >= 0; j--) {
-        if (thresholds[j] !== null) return thresholds[j] as number;
-      }
-      return 0;
-    };
-
-    const segments = thresholds.map((threshold, i) => {
-      if (threshold === null) return null;
-      if (charValue >= threshold) return 1;
-      const prev = getPrevValue(i);
-      if (charValue <= prev) return 0;
-      return (charValue - prev) / (threshold - prev);
-    });
-
-    const earnedPoints = segments.reduceRight(
-      (pts, fill, i) => {
-        if (pts !== null) return pts;
-        if (fill === 1) return pointsPerThreshold[i];
-        return null;
-      },
-      null as number | null,
-    );
-
-    return { key, thresholds, charValue, segments, earnedPoints };
-  });
-}
-
 export default function CustomPoPoints({
   char,
 }: {
   char?: LadderEntry;
 }): React.JSX.Element {
-  const entries = computeEntries(char);
+  const entries = calculatePolicyEntries(char);
   const totalEarnedPoints = Math.min(
     entries.reduce((sum, e) => sum + (e.earnedPoints ?? 0), 0),
     maxCustomPoPoints,
