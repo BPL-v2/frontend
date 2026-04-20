@@ -1,3 +1,5 @@
-import type { ValidationRequest } from './validationRequest';
+import type { ValidationRequest } from "./validationRequest";
 
-export type ValidateObjectivesBaseBody = { [key: string]: unknown } | ValidationRequest;
+export type ValidateObjectivesBaseBody =
+  | { [key: string]: unknown }
+  | ValidationRequest;

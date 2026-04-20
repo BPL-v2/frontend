@@ -1,3 +1,3 @@
-import type { ItemJewelData } from './itemJewelData';
+import type { ItemJewelData } from "./itemJewelData";
 
-export type PassivesJewelData = {[key: string]: ItemJewelData};
+export type PassivesJewelData = { [key: string]: ItemJewelData };

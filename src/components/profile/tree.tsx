@@ -223,7 +223,15 @@ export default function Tree({
         }}
       />
     );
-  }, [svg, nodes, ascendancies, changeNodeStyle, changeLineStyle, newNodes, removedNodes]);
+  }, [
+    svg,
+    nodes,
+    ascendancies,
+    changeNodeStyle,
+    changeLineStyle,
+    newNodes,
+    removedNodes,
+  ]);
 
   useEffect(() => {
     if (!tooltip || !activeTreeRef.current) {

@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,252 +11,368 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   CreateScoringPresetBaseBody,
   DeleteScoringPresetBase200,
-  ScoringPreset
-} from '../models';
+  ScoringPreset,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Fetches the scoring presets for the current event
  */
-export const getGetScoringPresetsForEventBaseUrl = (eventId: number,) => {
+export const getGetScoringPresetsForEventBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/scoring-presets`;
+};
 
+export const getScoringPresetsForEventBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<ScoringPreset[]> => {
+  return customFetch<ScoringPreset[]>(
+    getGetScoringPresetsForEventBaseUrl(eventId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
+export const getGetScoringPresetsForEventBaseQueryKey = (eventId: number) => {
+  return [`/events/${eventId}/scoring-presets`] as const;
+};
 
-
-  return `/events/${eventId}/scoring-presets`
-}
-
-export const getScoringPresetsForEventBase = async (eventId: number, options?: RequestInit): Promise<ScoringPreset[]> => {
-
-  return customFetch<ScoringPreset[]>(getGetScoringPresetsForEventBaseUrl(eventId),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getGetScoringPresetsForEventBaseQueryKey = (eventId: number,) => {
-    return [
-    `/events/${eventId}/scoring-presets`
-    ] as const;
-    }
-
-
-export const getGetScoringPresetsForEventBaseQueryOptions = <TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError = unknown>(eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetScoringPresetsForEventBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetScoringPresetsForEventBaseQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetScoringPresetsForEventBaseQueryKey(eventId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getScoringPresetsForEventBase>>
+  > = ({ signal }) =>
+    getScoringPresetsForEventBase(eventId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetScoringPresetsForEventBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getScoringPresetsForEventBase>>
+>;
+export type GetScoringPresetsForEventBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>> = ({ signal }) => getScoringPresetsForEventBase(eventId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetScoringPresetsForEventBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>>
-export type GetScoringPresetsForEventBaseQueryError = unknown
-
-
-export function useGetScoringPresetsForEventBase<TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError = unknown>(
- eventId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData>> & Pick<
+export function useGetScoringPresetsForEventBase<
+  TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getScoringPresetsForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetScoringPresetsForEventBase<TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetScoringPresetsForEventBase<
+  TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getScoringPresetsForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetScoringPresetsForEventBase<TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetScoringPresetsForEventBase<
+  TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetScoringPresetsForEventBase<TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getScoringPresetsForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetScoringPresetsForEventBase<
+  TData = Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getScoringPresetsForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetScoringPresetsForEventBaseQueryOptions(
+    eventId,
+    options,
+  );
 
-  const queryOptions = getGetScoringPresetsForEventBaseQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
  * Creates a new scoring preset
  */
-export const getCreateScoringPresetBaseUrl = (eventId: number,) => {
+export const getCreateScoringPresetBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/scoring-presets`;
+};
 
-
-
-
-  return `/events/${eventId}/scoring-presets`
-}
-
-export const createScoringPresetBase = async (eventId: number,
-    createScoringPresetBaseBody: CreateScoringPresetBaseBody, options?: RequestInit): Promise<ScoringPreset> => {
-
-  return customFetch<ScoringPreset>(getCreateScoringPresetBaseUrl(eventId),
-  {
+export const createScoringPresetBase = async (
+  eventId: number,
+  createScoringPresetBaseBody: CreateScoringPresetBaseBody,
+  options?: RequestInit,
+): Promise<ScoringPreset> => {
+  return customFetch<ScoringPreset>(getCreateScoringPresetBaseUrl(eventId), {
     ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      createScoringPresetBaseBody,)
-  }
-);}
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createScoringPresetBaseBody),
+  });
+};
 
+export const getCreateScoringPresetBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createScoringPresetBase>>,
+    TError,
+    { eventId: number; data: CreateScoringPresetBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createScoringPresetBase>>,
+  TError,
+  { eventId: number; data: CreateScoringPresetBaseBody },
+  TContext
+> => {
+  const mutationKey = ["createScoringPresetBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createScoringPresetBase>>,
+    { eventId: number; data: CreateScoringPresetBaseBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
+    return createScoringPresetBase(eventId, data, requestOptions);
+  };
 
-export const getCreateScoringPresetBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['createScoringPresetBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type CreateScoringPresetBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createScoringPresetBase>>
+>;
+export type CreateScoringPresetBaseMutationBody = CreateScoringPresetBaseBody;
+export type CreateScoringPresetBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createScoringPresetBase>>, {eventId: number;data: CreateScoringPresetBaseBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  createScoringPresetBase(eventId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateScoringPresetBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createScoringPresetBase>>>
-    export type CreateScoringPresetBaseMutationBody = CreateScoringPresetBaseBody
-    export type CreateScoringPresetBaseMutationError = unknown
-
-    export const useCreateScoringPresetBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createScoringPresetBase>>, TError,{eventId: number;data: CreateScoringPresetBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createScoringPresetBase>>,
-        TError,
-        {eventId: number;data: CreateScoringPresetBaseBody},
-        TContext
-      > => {
-      return useMutation(getCreateScoringPresetBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useCreateScoringPresetBase = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createScoringPresetBase>>,
+      TError,
+      { eventId: number; data: CreateScoringPresetBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createScoringPresetBase>>,
+  TError,
+  { eventId: number; data: CreateScoringPresetBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getCreateScoringPresetBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Deletes a scoring preset by id
  */
-export const getDeleteScoringPresetBaseUrl = (eventId: number,
-    id: number,) => {
+export const getDeleteScoringPresetBaseUrl = (eventId: number, id: number) => {
+  return `/events/${eventId}/scoring-presets/${id}`;
+};
 
+export const deleteScoringPresetBase = async (
+  eventId: number,
+  id: number,
+  options?: RequestInit,
+): Promise<DeleteScoringPresetBase200> => {
+  return customFetch<DeleteScoringPresetBase200>(
+    getDeleteScoringPresetBaseUrl(eventId, id),
+    {
+      ...options,
+      method: "DELETE",
+    },
+  );
+};
 
+export const getDeleteScoringPresetBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteScoringPresetBase>>,
+    TError,
+    { eventId: number; id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteScoringPresetBase>>,
+  TError,
+  { eventId: number; id: number },
+  TContext
+> => {
+  const mutationKey = ["deleteScoringPresetBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteScoringPresetBase>>,
+    { eventId: number; id: number }
+  > = (props) => {
+    const { eventId, id } = props ?? {};
 
-  return `/events/${eventId}/scoring-presets/${id}`
-}
+    return deleteScoringPresetBase(eventId, id, requestOptions);
+  };
 
-export const deleteScoringPresetBase = async (eventId: number,
-    id: number, options?: RequestInit): Promise<DeleteScoringPresetBase200> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-  return customFetch<DeleteScoringPresetBase200>(getDeleteScoringPresetBaseUrl(eventId,id),
-  {
-    ...options,
-    method: 'DELETE'
+export type DeleteScoringPresetBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteScoringPresetBase>>
+>;
 
+export type DeleteScoringPresetBaseMutationError = unknown;
 
-  }
-);}
-
-
-
-
-export const getDeleteScoringPresetBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteScoringPresetBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteScoringPresetBase>>, TError,{eventId: number;id: number}, TContext> => {
-
-const mutationKey = ['deleteScoringPresetBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteScoringPresetBase>>, {eventId: number;id: number}> = (props) => {
-          const {eventId,id} = props ?? {};
-
-          return  deleteScoringPresetBase(eventId,id,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteScoringPresetBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteScoringPresetBase>>>
-
-    export type DeleteScoringPresetBaseMutationError = unknown
-
-    export const useDeleteScoringPresetBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteScoringPresetBase>>, TError,{eventId: number;id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteScoringPresetBase>>,
-        TError,
-        {eventId: number;id: number},
-        TContext
-      > => {
-      return useMutation(getDeleteScoringPresetBaseMutationOptions(options), queryClient);
-    }
+export const useDeleteScoringPresetBase = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteScoringPresetBase>>,
+      TError,
+      { eventId: number; id: number },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteScoringPresetBase>>,
+  TError,
+  { eventId: number; id: number },
+  TContext
+> => {
+  return useMutation(
+    getDeleteScoringPresetBaseMutationOptions(options),
+    queryClient,
+  );
+};

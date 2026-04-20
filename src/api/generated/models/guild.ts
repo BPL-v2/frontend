@@ -1,4 +1,3 @@
-
 export interface Guild {
   event_id?: number;
   id: number;

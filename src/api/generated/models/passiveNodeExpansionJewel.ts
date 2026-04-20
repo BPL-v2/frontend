@@ -1,4 +1,3 @@
-
 export interface PassiveNodeExpansionJewel {
   index?: number;
   parent?: string;

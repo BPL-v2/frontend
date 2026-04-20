@@ -1,2 +1,1 @@
-
-export type ScoringPresetCreateExtra = {[key: string]: string};
+export type ScoringPresetCreateExtra = { [key: string]: string };

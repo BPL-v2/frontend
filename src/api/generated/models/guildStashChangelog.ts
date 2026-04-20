@@ -1,4 +1,4 @@
-import type { Action } from './action';
+import type { Action } from "./action";
 
 export interface GuildStashChangelog {
   account_name: string;

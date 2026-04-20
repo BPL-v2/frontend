@@ -1,4 +1,4 @@
-import type { TimingKey } from './timingKey';
+import type { TimingKey } from "./timingKey";
 
 export interface TimingCreate {
   duration_seconds: number;

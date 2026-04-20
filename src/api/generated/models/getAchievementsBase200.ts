@@ -1,2 +1,1 @@
-
-export type GetAchievementsBase200 = {[key: string]: number[]};
+export type GetAchievementsBase200 = { [key: string]: number[] };

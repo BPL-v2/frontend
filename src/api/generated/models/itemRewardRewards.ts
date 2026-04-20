@@ -1,2 +1,1 @@
-
-export type ItemRewardRewards = {[key: string]: number};
+export type ItemRewardRewards = { [key: string]: number };

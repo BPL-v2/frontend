@@ -1,3 +1,5 @@
-import type { SubmissionReview } from './submissionReview';
+import type { SubmissionReview } from "./submissionReview";
 
-export type ReviewSubmissionBaseBody = { [key: string]: unknown } | SubmissionReview;
+export type ReviewSubmissionBaseBody =
+  | { [key: string]: unknown }
+  | SubmissionReview;

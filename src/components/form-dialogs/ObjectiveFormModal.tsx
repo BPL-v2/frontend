@@ -201,9 +201,7 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="valid_from"
-            children={(field) => (
-              <field.DateTimeField label="Valid From" />
-            )}
+            children={(field) => <field.DateTimeField label="Valid From" />}
           />
           <form.AppField
             name="scoring_preset_ids"

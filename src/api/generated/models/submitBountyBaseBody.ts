@@ -1,3 +1,5 @@
-import type { SubmissionCreate } from './submissionCreate';
+import type { SubmissionCreate } from "./submissionCreate";
 
-export type SubmitBountyBaseBody = { [key: string]: unknown } | SubmissionCreate;
+export type SubmitBountyBaseBody =
+  | { [key: string]: unknown }
+  | SubmissionCreate;

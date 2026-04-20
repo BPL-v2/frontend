@@ -1,4 +1,4 @@
-import type { AtlasTrees } from './atlasTrees';
+import type { AtlasTrees } from "./atlasTrees";
 
 export interface Atlas {
   primary_index: number;

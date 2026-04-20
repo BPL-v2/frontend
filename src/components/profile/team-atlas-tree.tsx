@@ -1,9 +1,4 @@
-import {
-  useFile,
-  useGetEventStatus,
-  useGetTeamAtlas,
-  useGetUsers,
-} from "@api";
+import { useFile, useGetEventStatus, useGetTeamAtlas, useGetUsers } from "@api";
 import { ComposedTree } from "./composed-tree";
 import { CompactTree } from "@mytypes/tree";
 import { CategoryIcon } from "@icons/category-icons";

@@ -1,2 +1,1 @@
-
-export type PassivesMasteryEffects = {[key: string]: number};
+export type PassivesMasteryEffects = { [key: string]: number };

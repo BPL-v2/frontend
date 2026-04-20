@@ -1,4 +1,4 @@
-import type { ApplicationStatus } from './applicationStatus';
+import type { ApplicationStatus } from "./applicationStatus";
 
 export interface EventStatus {
   application_status: ApplicationStatus;

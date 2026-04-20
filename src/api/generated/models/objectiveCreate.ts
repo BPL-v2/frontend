@@ -1,7 +1,7 @@
-import type { AggregationType } from './aggregationType';
-import type { Condition } from './condition';
-import type { NumberField } from './numberField';
-import type { ObjectiveType } from './objectiveType';
+import type { AggregationType } from "./aggregationType";
+import type { Condition } from "./condition";
+import type { NumberField } from "./numberField";
+import type { ObjectiveType } from "./objectiveType";
 
 export interface ObjectiveCreate {
   aggregation: AggregationType;

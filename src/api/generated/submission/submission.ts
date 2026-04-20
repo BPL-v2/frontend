@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,391 +11,540 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   ReviewSubmissionBaseBody,
   SetBulkSubmissionForAdminBaseBody,
   Submission,
-  SubmitBountyBaseBody
-} from '../models';
+  SubmitBountyBaseBody,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Fetches all submissions for an event
  */
-export const getGetSubmissionsBaseUrl = (eventId: number,) => {
+export const getGetSubmissionsBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/submissions`;
+};
 
-
-
-
-  return `/events/${eventId}/submissions`
-}
-
-export const getSubmissionsBase = async (eventId: number, options?: RequestInit): Promise<Submission[]> => {
-
-  return customFetch<Submission[]>(getGetSubmissionsBaseUrl(eventId),
-  {
+export const getSubmissionsBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<Submission[]> => {
+  return customFetch<Submission[]>(getGetSubmissionsBaseUrl(eventId), {
     ...options,
-    method: 'GET'
+    method: "GET",
+  });
+};
 
+export const getGetSubmissionsBaseQueryKey = (eventId: number) => {
+  return [`/events/${eventId}/submissions`] as const;
+};
 
-  }
-);}
-
-
-
-
-
-export const getGetSubmissionsBaseQueryKey = (eventId: number,) => {
-    return [
-    `/events/${eventId}/submissions`
-    ] as const;
-    }
-
-
-export const getGetSubmissionsBaseQueryOptions = <TData = Awaited<ReturnType<typeof getSubmissionsBase>>, TError = unknown>(eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetSubmissionsBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getSubmissionsBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSubmissionsBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetSubmissionsBaseQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetSubmissionsBaseQueryKey(eventId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getSubmissionsBase>>
+  > = ({ signal }) =>
+    getSubmissionsBase(eventId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getSubmissionsBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetSubmissionsBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getSubmissionsBase>>
+>;
+export type GetSubmissionsBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSubmissionsBase>>> = ({ signal }) => getSubmissionsBase(eventId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetSubmissionsBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getSubmissionsBase>>>
-export type GetSubmissionsBaseQueryError = unknown
-
-
-export function useGetSubmissionsBase<TData = Awaited<ReturnType<typeof getSubmissionsBase>>, TError = unknown>(
- eventId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData>> & Pick<
+export function useGetSubmissionsBase<
+  TData = Awaited<ReturnType<typeof getSubmissionsBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSubmissionsBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSubmissionsBase>>,
           TError,
           Awaited<ReturnType<typeof getSubmissionsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSubmissionsBase<TData = Awaited<ReturnType<typeof getSubmissionsBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSubmissionsBase<
+  TData = Awaited<ReturnType<typeof getSubmissionsBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSubmissionsBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSubmissionsBase>>,
           TError,
           Awaited<ReturnType<typeof getSubmissionsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSubmissionsBase<TData = Awaited<ReturnType<typeof getSubmissionsBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSubmissionsBase<
+  TData = Awaited<ReturnType<typeof getSubmissionsBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSubmissionsBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetSubmissionsBase<TData = Awaited<ReturnType<typeof getSubmissionsBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubmissionsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetSubmissionsBase<
+  TData = Awaited<ReturnType<typeof getSubmissionsBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSubmissionsBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetSubmissionsBaseQueryOptions(eventId, options);
 
-  const queryOptions = getGetSubmissionsBaseQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
  * Submits a bounty for an event
  */
-export const getSubmitBountyBaseUrl = (eventId: number,) => {
+export const getSubmitBountyBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/submissions`;
+};
 
-
-
-
-  return `/events/${eventId}/submissions`
-}
-
-export const submitBountyBase = async (eventId: number,
-    submitBountyBaseBody: SubmitBountyBaseBody, options?: RequestInit): Promise<Submission> => {
-
-  return customFetch<Submission>(getSubmitBountyBaseUrl(eventId),
-  {
+export const submitBountyBase = async (
+  eventId: number,
+  submitBountyBaseBody: SubmitBountyBaseBody,
+  options?: RequestInit,
+): Promise<Submission> => {
+  return customFetch<Submission>(getSubmitBountyBaseUrl(eventId), {
     ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      submitBountyBaseBody,)
-  }
-);}
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(submitBountyBaseBody),
+  });
+};
 
+export const getSubmitBountyBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof submitBountyBase>>,
+    TError,
+    { eventId: number; data: SubmitBountyBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof submitBountyBase>>,
+  TError,
+  { eventId: number; data: SubmitBountyBaseBody },
+  TContext
+> => {
+  const mutationKey = ["submitBountyBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof submitBountyBase>>,
+    { eventId: number; data: SubmitBountyBaseBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
+    return submitBountyBase(eventId, data, requestOptions);
+  };
 
-export const getSubmitBountyBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitBountyBase>>, TError,{eventId: number;data: SubmitBountyBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof submitBountyBase>>, TError,{eventId: number;data: SubmitBountyBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['submitBountyBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type SubmitBountyBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof submitBountyBase>>
+>;
+export type SubmitBountyBaseMutationBody = SubmitBountyBaseBody;
+export type SubmitBountyBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof submitBountyBase>>, {eventId: number;data: SubmitBountyBaseBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  submitBountyBase(eventId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type SubmitBountyBaseMutationResult = NonNullable<Awaited<ReturnType<typeof submitBountyBase>>>
-    export type SubmitBountyBaseMutationBody = SubmitBountyBaseBody
-    export type SubmitBountyBaseMutationError = unknown
-
-    export const useSubmitBountyBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitBountyBase>>, TError,{eventId: number;data: SubmitBountyBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof submitBountyBase>>,
-        TError,
-        {eventId: number;data: SubmitBountyBaseBody},
-        TContext
-      > => {
-      return useMutation(getSubmitBountyBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useSubmitBountyBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof submitBountyBase>>,
+      TError,
+      { eventId: number; data: SubmitBountyBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof submitBountyBase>>,
+  TError,
+  { eventId: number; data: SubmitBountyBaseBody },
+  TContext
+> => {
+  return useMutation(getSubmitBountyBaseMutationOptions(options), queryClient);
+};
+/**
  * Sets submissions for teams
  */
-export const getSetBulkSubmissionForAdminBaseUrl = (eventId: number,) => {
+export const getSetBulkSubmissionForAdminBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/submissions/admin`;
+};
 
+export const setBulkSubmissionForAdminBase = async (
+  eventId: number,
+  setBulkSubmissionForAdminBaseBody: SetBulkSubmissionForAdminBaseBody,
+  options?: RequestInit,
+): Promise<Submission[]> => {
+  return customFetch<Submission[]>(
+    getSetBulkSubmissionForAdminBaseUrl(eventId),
+    {
+      ...options,
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(setBulkSubmissionForAdminBaseBody),
+    },
+  );
+};
 
+export const getSetBulkSubmissionForAdminBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
+    TError,
+    { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
+  TError,
+  { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+  TContext
+> => {
+  const mutationKey = ["setBulkSubmissionForAdminBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
+    { eventId: number; data: SetBulkSubmissionForAdminBaseBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-  return `/events/${eventId}/submissions/admin`
-}
+    return setBulkSubmissionForAdminBase(eventId, data, requestOptions);
+  };
 
-export const setBulkSubmissionForAdminBase = async (eventId: number,
-    setBulkSubmissionForAdminBaseBody: SetBulkSubmissionForAdminBaseBody, options?: RequestInit): Promise<Submission[]> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-  return customFetch<Submission[]>(getSetBulkSubmissionForAdminBaseUrl(eventId),
-  {
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      setBulkSubmissionForAdminBaseBody,)
-  }
-);}
+export type SetBulkSubmissionForAdminBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>
+>;
+export type SetBulkSubmissionForAdminBaseMutationBody =
+  SetBulkSubmissionForAdminBaseBody;
+export type SetBulkSubmissionForAdminBaseMutationError = unknown;
 
-
-
-
-export const getSetBulkSubmissionForAdminBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>, TError,{eventId: number;data: SetBulkSubmissionForAdminBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>, TError,{eventId: number;data: SetBulkSubmissionForAdminBaseBody}, TContext> => {
-
-const mutationKey = ['setBulkSubmissionForAdminBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>, {eventId: number;data: SetBulkSubmissionForAdminBaseBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  setBulkSubmissionForAdminBase(eventId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type SetBulkSubmissionForAdminBaseMutationResult = NonNullable<Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>>
-    export type SetBulkSubmissionForAdminBaseMutationBody = SetBulkSubmissionForAdminBaseBody
-    export type SetBulkSubmissionForAdminBaseMutationError = unknown
-
-    export const useSetBulkSubmissionForAdminBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>, TError,{eventId: number;data: SetBulkSubmissionForAdminBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
-        TError,
-        {eventId: number;data: SetBulkSubmissionForAdminBaseBody},
-        TContext
-      > => {
-      return useMutation(getSetBulkSubmissionForAdminBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useSetBulkSubmissionForAdminBase = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
+      TError,
+      { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
+  TError,
+  { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getSetBulkSubmissionForAdminBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Deletes a submission
  */
-export const getDeleteSubmissionBaseUrl = (eventId: number,
-    submissionId: number,) => {
+export const getDeleteSubmissionBaseUrl = (
+  eventId: number,
+  submissionId: number,
+) => {
+  return `/events/${eventId}/submissions/${submissionId}`;
+};
 
-
-
-
-  return `/events/${eventId}/submissions/${submissionId}`
-}
-
-export const deleteSubmissionBase = async (eventId: number,
-    submissionId: number, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getDeleteSubmissionBaseUrl(eventId,submissionId),
-  {
+export const deleteSubmissionBase = async (
+  eventId: number,
+  submissionId: number,
+  options?: RequestInit,
+): Promise<void> => {
+  return customFetch<void>(getDeleteSubmissionBaseUrl(eventId, submissionId), {
     ...options,
-    method: 'DELETE'
+    method: "DELETE",
+  });
+};
 
+export const getDeleteSubmissionBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteSubmissionBase>>,
+    TError,
+    { eventId: number; submissionId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteSubmissionBase>>,
+  TError,
+  { eventId: number; submissionId: number },
+  TContext
+> => {
+  const mutationKey = ["deleteSubmissionBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  }
-);}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteSubmissionBase>>,
+    { eventId: number; submissionId: number }
+  > = (props) => {
+    const { eventId, submissionId } = props ?? {};
 
+    return deleteSubmissionBase(eventId, submissionId, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteSubmissionBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteSubmissionBase>>
+>;
 
-export const getDeleteSubmissionBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubmissionBase>>, TError,{eventId: number;submissionId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteSubmissionBase>>, TError,{eventId: number;submissionId: number}, TContext> => {
+export type DeleteSubmissionBaseMutationError = unknown;
 
-const mutationKey = ['deleteSubmissionBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteSubmissionBase>>, {eventId: number;submissionId: number}> = (props) => {
-          const {eventId,submissionId} = props ?? {};
-
-          return  deleteSubmissionBase(eventId,submissionId,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteSubmissionBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteSubmissionBase>>>
-
-    export type DeleteSubmissionBaseMutationError = unknown
-
-    export const useDeleteSubmissionBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubmissionBase>>, TError,{eventId: number;submissionId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteSubmissionBase>>,
-        TError,
-        {eventId: number;submissionId: number},
-        TContext
-      > => {
-      return useMutation(getDeleteSubmissionBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useDeleteSubmissionBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteSubmissionBase>>,
+      TError,
+      { eventId: number; submissionId: number },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteSubmissionBase>>,
+  TError,
+  { eventId: number; submissionId: number },
+  TContext
+> => {
+  return useMutation(
+    getDeleteSubmissionBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Reviews a submission
  */
-export const getReviewSubmissionBaseUrl = (eventId: number,
-    submissionId: number,) => {
+export const getReviewSubmissionBaseUrl = (
+  eventId: number,
+  submissionId: number,
+) => {
+  return `/events/${eventId}/submissions/${submissionId}/review`;
+};
 
+export const reviewSubmissionBase = async (
+  eventId: number,
+  submissionId: number,
+  reviewSubmissionBaseBody: ReviewSubmissionBaseBody,
+  options?: RequestInit,
+): Promise<Submission> => {
+  return customFetch<Submission>(
+    getReviewSubmissionBaseUrl(eventId, submissionId),
+    {
+      ...options,
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(reviewSubmissionBaseBody),
+    },
+  );
+};
 
+export const getReviewSubmissionBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof reviewSubmissionBase>>,
+    TError,
+    { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof reviewSubmissionBase>>,
+  TError,
+  { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+  TContext
+> => {
+  const mutationKey = ["reviewSubmissionBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof reviewSubmissionBase>>,
+    { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody }
+  > = (props) => {
+    const { eventId, submissionId, data } = props ?? {};
 
-  return `/events/${eventId}/submissions/${submissionId}/review`
-}
+    return reviewSubmissionBase(eventId, submissionId, data, requestOptions);
+  };
 
-export const reviewSubmissionBase = async (eventId: number,
-    submissionId: number,
-    reviewSubmissionBaseBody: ReviewSubmissionBaseBody, options?: RequestInit): Promise<Submission> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-  return customFetch<Submission>(getReviewSubmissionBaseUrl(eventId,submissionId),
-  {
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      reviewSubmissionBaseBody,)
-  }
-);}
+export type ReviewSubmissionBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof reviewSubmissionBase>>
+>;
+export type ReviewSubmissionBaseMutationBody = ReviewSubmissionBaseBody;
+export type ReviewSubmissionBaseMutationError = unknown;
 
-
-
-
-export const getReviewSubmissionBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof reviewSubmissionBase>>, TError,{eventId: number;submissionId: number;data: ReviewSubmissionBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof reviewSubmissionBase>>, TError,{eventId: number;submissionId: number;data: ReviewSubmissionBaseBody}, TContext> => {
-
-const mutationKey = ['reviewSubmissionBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof reviewSubmissionBase>>, {eventId: number;submissionId: number;data: ReviewSubmissionBaseBody}> = (props) => {
-          const {eventId,submissionId,data} = props ?? {};
-
-          return  reviewSubmissionBase(eventId,submissionId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ReviewSubmissionBaseMutationResult = NonNullable<Awaited<ReturnType<typeof reviewSubmissionBase>>>
-    export type ReviewSubmissionBaseMutationBody = ReviewSubmissionBaseBody
-    export type ReviewSubmissionBaseMutationError = unknown
-
-    export const useReviewSubmissionBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof reviewSubmissionBase>>, TError,{eventId: number;submissionId: number;data: ReviewSubmissionBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof reviewSubmissionBase>>,
-        TError,
-        {eventId: number;submissionId: number;data: ReviewSubmissionBaseBody},
-        TContext
-      > => {
-      return useMutation(getReviewSubmissionBaseMutationOptions(options), queryClient);
-    }
+export const useReviewSubmissionBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof reviewSubmissionBase>>,
+      TError,
+      { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof reviewSubmissionBase>>,
+  TError,
+  { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getReviewSubmissionBaseMutationOptions(options),
+    queryClient,
+  );
+};

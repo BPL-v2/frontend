@@ -1,5 +1,5 @@
-import type { PassiveNodeExpansionJewel } from './passiveNodeExpansionJewel';
-import type { PassiveNodeMasteryEffect } from './passiveNodeMasteryEffect';
+import type { PassiveNodeExpansionJewel } from "./passiveNodeExpansionJewel";
+import type { PassiveNodeMasteryEffect } from "./passiveNodeMasteryEffect";
 
 export interface PassiveNode {
   activeEffectImage?: string;

@@ -1,7 +1,7 @@
-import type { PassivesJewelData } from './passivesJewelData';
-import type { PassivesMasteryEffects } from './passivesMasteryEffects';
-import type { PassivesSkillOverrides } from './passivesSkillOverrides';
-import type { Specialisations } from './specialisations';
+import type { PassivesJewelData } from "./passivesJewelData";
+import type { PassivesMasteryEffects } from "./passivesMasteryEffects";
+import type { PassivesSkillOverrides } from "./passivesSkillOverrides";
+import type { Specialisations } from "./specialisations";
 
 export interface Passives {
   alternate_ascendancy?: string;

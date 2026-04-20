@@ -1,5 +1,5 @@
-import type { GameVersion } from './gameVersion';
-import type { Team } from './team';
+import type { GameVersion } from "./gameVersion";
+import type { Team } from "./team";
 
 export interface Event {
   application_end_time: Date;

@@ -6,9 +6,8 @@ export const LazyCharacterChart = lazy(async () => {
   await import("uplot/dist/uPlot.min.css");
 
   // Import the component
-  const { CharacterChart } = await import(
-    "@components/profile/character-chart"
-  );
+  const { CharacterChart } =
+    await import("@components/profile/character-chart");
 
   return {
     default: CharacterChart,

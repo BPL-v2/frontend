@@ -1,4 +1,3 @@
-
 export interface GuildStashLogTimestampResponse {
   earliest?: number;
   latest?: number;

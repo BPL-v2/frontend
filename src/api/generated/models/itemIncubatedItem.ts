@@ -1,4 +1,3 @@
-
 export interface ItemIncubatedItem {
   level?: number;
   name?: string;

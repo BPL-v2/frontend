@@ -1,5 +1,5 @@
-import type { ScoringMethod } from './scoringMethod';
-import type { ScoringPresetCreateExtra } from './scoringPresetCreateExtra';
+import type { ScoringMethod } from "./scoringMethod";
+import type { ScoringPresetCreateExtra } from "./scoringPresetCreateExtra";
 
 export interface ScoringPresetCreate {
   description?: string;

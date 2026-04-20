@@ -51,10 +51,7 @@ export function ConditionFormModal({
     form.reset();
   });
 
-  const { field: itemField } = useStore(
-    form.store,
-    (state) => state.values,
-  );
+  const { field: itemField } = useStore(form.store, (state) => state.values);
   const operatorOptions: Operator[] =
     operatorForField && itemField
       ? operatorForField[itemField as ItemField]

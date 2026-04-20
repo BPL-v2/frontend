@@ -1,5 +1,5 @@
-import type { ItemSocketItem } from './itemSocketItem';
-import type { ItemSocketType } from './itemSocketType';
+import type { ItemSocketItem } from "./itemSocketItem";
+import type { ItemSocketType } from "./itemSocketType";
 
 export interface ItemSocket {
   attr?: string;

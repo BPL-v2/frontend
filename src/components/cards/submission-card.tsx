@@ -1,9 +1,5 @@
 import { ApprovalStatus, Submission, Team } from "@api";
-import {
-  useGetEventStatus,
-  useGetSubmissions,
-  useGetUsers,
-} from "@api";
+import { useGetEventStatus, useGetSubmissions, useGetUsers } from "@api";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import {
   CheckCircleIcon,
@@ -114,8 +110,7 @@ function VideoButton({ submissions }: { submissions: Submission[] }) {
   const twitchUrl = urls.find((url) => url.hostname.endsWith("twitch.tv"));
   if (twitchUrl) {
     if (
-      new Date(submission.timestamp) <
-      new Date(now - 1000 * 60 * 60 * 24 * 14)
+      new Date(submission.timestamp) < new Date(now - 1000 * 60 * 60 * 24 * 14)
     ) {
       return (
         <TwitchFilled className="size-5 cursor-not-allowed"></TwitchFilled>

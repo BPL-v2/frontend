@@ -411,7 +411,6 @@ html {
   }
 }
 
-
 .passiveTree circle[active] {
   fill: var(--color-info);
   stroke-width: 100;

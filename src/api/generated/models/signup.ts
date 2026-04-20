@@ -1,4 +1,4 @@
-import type { NonSensitiveUser } from './nonSensitiveUser';
+import type { NonSensitiveUser } from "./nonSensitiveUser";
 
 export interface Signup {
   expected_playtime: number;

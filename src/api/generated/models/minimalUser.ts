@@ -1,4 +1,3 @@
-
 export interface MinimalUser {
   discord_id?: string;
   discord_name?: string;

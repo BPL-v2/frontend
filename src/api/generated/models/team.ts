@@ -1,4 +1,3 @@
-
 export interface Team {
   abbreviation?: string;
   allowed_classes: string[];

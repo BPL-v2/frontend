@@ -24,7 +24,9 @@ export function SignupFormModal({
   const qc = useQueryClient();
   const state = useRouterState();
   const { signup } = useGetOwnSignup(eventId);
-  const [rulesCheckedOverride, setRulesChecked] = useState<boolean | undefined>(undefined);
+  const [rulesCheckedOverride, setRulesChecked] = useState<boolean | undefined>(
+    undefined,
+  );
   const rulesChecked = rulesCheckedOverride ?? (isOpen ? !!signup : false);
   const { createSignup, isError: signupError } = useCreateSignup(
     qc,

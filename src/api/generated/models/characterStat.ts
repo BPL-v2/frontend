@@ -1,4 +1,3 @@
-
 export interface CharacterStat {
   armour: number;
   attack_block: number;

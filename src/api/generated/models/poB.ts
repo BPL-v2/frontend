@@ -1,4 +1,3 @@
-
 export interface PoB {
   armour: number;
   ascendancy: string;

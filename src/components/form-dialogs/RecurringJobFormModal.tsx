@@ -28,7 +28,9 @@ export function RecurringJobFormModal({
 }: RecurringJobFormModalProps) {
   const qc = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
-  const [selectedEventOverride, setSelectedEvent] = React.useState<Event | null | undefined>(undefined);
+  const [selectedEventOverride, setSelectedEvent] = React.useState<
+    Event | null | undefined
+  >(undefined);
   const selectedEvent = isOpen ? selectedEventOverride : undefined;
   const { startJob, isPending: startJobPending } = useStartJob(qc);
 

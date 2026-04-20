@@ -1,19 +1,18 @@
-
-export type AchievementName = typeof AchievementName[keyof typeof AchievementName];
-
+export type AchievementName =
+  (typeof AchievementName)[keyof typeof AchievementName];
 
 export const AchievementName = {
-  'Participated in an event': 'Participated in an event',
-  'Won an event': 'Won an event',
-  Teamlead: 'Teamlead',
-  MVP: 'MVP',
-  'Played 5 leagues': 'Played 5 leagues',
-  'Played 10 leagues': 'Played 10 leagues',
-  'Reached level 90': 'Reached level 90',
-  'Reached level 95': 'Reached level 95',
-  'Reached level 100': 'Reached level 100',
-  'Submitted a bounty': 'Submitted a bounty',
-  'Submitted a point unique': 'Submitted a point unique',
-  'Played 5 different ascendancies': 'Played 5 different ascendancies',
-  'Played 10 different ascendancies': 'Played 10 different ascendancies',
+  "Participated in an event": "Participated in an event",
+  "Won an event": "Won an event",
+  Teamlead: "Teamlead",
+  MVP: "MVP",
+  "Played 5 leagues": "Played 5 leagues",
+  "Played 10 leagues": "Played 10 leagues",
+  "Reached level 90": "Reached level 90",
+  "Reached level 95": "Reached level 95",
+  "Reached level 100": "Reached level 100",
+  "Submitted a bounty": "Submitted a bounty",
+  "Submitted a point unique": "Submitted a point unique",
+  "Played 5 different ascendancies": "Played 5 different ascendancies",
+  "Played 10 different ascendancies": "Played 10 different ascendancies",
 } as const;

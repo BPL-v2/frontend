@@ -1,6 +1,4 @@
-import {
-  useQuery
-} from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -10,114 +8,143 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
-import type {
-  GetItemMapBase200
-} from '../models';
+import type { GetItemMapBase200 } from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Returns a map of item types to item-name-to-ID maps
  */
 export const getGetItemMapBaseUrl = () => {
+  return `/items/map`;
+};
 
-
-
-
-  return `/items/map`
-}
-
-export const getItemMapBase = async ( options?: RequestInit): Promise<GetItemMapBase200> => {
-
-  return customFetch<GetItemMapBase200>(getGetItemMapBaseUrl(),
-  {
+export const getItemMapBase = async (
+  options?: RequestInit,
+): Promise<GetItemMapBase200> => {
+  return customFetch<GetItemMapBase200>(getGetItemMapBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetItemMapBaseQueryKey = () => {
-    return [
-    `/items/map`
-    ] as const;
-    }
+  return [`/items/map`] as const;
+};
 
+export const getGetItemMapBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getItemMapBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetItemMapBaseQueryOptions = <TData = Awaited<ReturnType<typeof getItemMapBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetItemMapBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemMapBase>>> = ({
+    signal,
+  }) => getItemMapBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetItemMapBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getItemMapBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetItemMapBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getItemMapBase>>
+>;
+export type GetItemMapBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemMapBase>>> = ({ signal }) => getItemMapBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetItemMapBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getItemMapBase>>>
-export type GetItemMapBaseQueryError = unknown
-
-
-export function useGetItemMapBase<TData = Awaited<ReturnType<typeof getItemMapBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>> & Pick<
+export function useGetItemMapBase<
+  TData = Awaited<ReturnType<typeof getItemMapBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getItemMapBase>>,
           TError,
           Awaited<ReturnType<typeof getItemMapBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetItemMapBase<TData = Awaited<ReturnType<typeof getItemMapBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetItemMapBase<
+  TData = Awaited<ReturnType<typeof getItemMapBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getItemMapBase>>,
           TError,
           Awaited<ReturnType<typeof getItemMapBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetItemMapBase<TData = Awaited<ReturnType<typeof getItemMapBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetItemMapBase<
+  TData = Awaited<ReturnType<typeof getItemMapBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetItemMapBase<TData = Awaited<ReturnType<typeof getItemMapBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetItemMapBase<
+  TData = Awaited<ReturnType<typeof getItemMapBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getItemMapBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetItemMapBaseQueryOptions(options);
 
-  const queryOptions = getGetItemMapBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

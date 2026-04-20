@@ -1,4 +1,4 @@
-import type { ItemJewelDataSubgraph } from './itemJewelDataSubgraph';
+import type { ItemJewelDataSubgraph } from "./itemJewelDataSubgraph";
 
 export interface ItemJewelData {
   radius?: number;

@@ -1,4 +1,3 @@
-
 export interface PassiveGroup {
   isProxy?: boolean;
   nodes?: string[];

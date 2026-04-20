@@ -1,3 +1,5 @@
-import type { NumberField } from './numberField';
+import type { NumberField } from "./numberField";
 
-export type ConditionMappingsObjectiveTypeToNumberFields = {[key: string]: NumberField[]};
+export type ConditionMappingsObjectiveTypeToNumberFields = {
+  [key: string]: NumberField[];
+};

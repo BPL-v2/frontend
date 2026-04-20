@@ -1,6 +1,4 @@
-import {
-  useQuery
-} from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -10,122 +8,198 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
-import type {
-  Atlas
-} from '../models';
+import type { Atlas } from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Get atlas trees for your team for an event
  */
-export const getGetTeamAtlasesForEventBaseUrl = (eventId: number,
-    teamId: number,) => {
-
-
-
-
-  return `/events/${eventId}/team/${teamId}/atlas`
-}
-
-export const getTeamAtlasesForEventBase = async (eventId: number,
-    teamId: number, options?: RequestInit): Promise<Atlas[]> => {
-
-  return customFetch<Atlas[]>(getGetTeamAtlasesForEventBaseUrl(eventId,teamId),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getGetTeamAtlasesForEventBaseQueryKey = (eventId: number,
-    teamId: number,) => {
-    return [
-    `/events/${eventId}/team/${teamId}/atlas`
-    ] as const;
-    }
-
-
-export const getGetTeamAtlasesForEventBaseQueryOptions = <TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError = unknown>(eventId: number,
-    teamId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetTeamAtlasesForEventBaseUrl = (
+  eventId: number,
+  teamId: number,
 ) => {
+  return `/events/${eventId}/team/${teamId}/atlas`;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getTeamAtlasesForEventBase = async (
+  eventId: number,
+  teamId: number,
+  options?: RequestInit,
+): Promise<Atlas[]> => {
+  return customFetch<Atlas[]>(
+    getGetTeamAtlasesForEventBaseUrl(eventId, teamId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTeamAtlasesForEventBaseQueryKey(eventId,teamId);
+export const getGetTeamAtlasesForEventBaseQueryKey = (
+  eventId: number,
+  teamId: number,
+) => {
+  return [`/events/${eventId}/team/${teamId}/atlas`] as const;
+};
 
+export const getGetTeamAtlasesForEventBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetTeamAtlasesForEventBaseQueryKey(eventId, teamId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>> = ({ signal }) => getTeamAtlasesForEventBase(eventId,teamId, { signal, ...requestOptions });
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>
+  > = ({ signal }) =>
+    getTeamAtlasesForEventBase(eventId, teamId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!(eventId && teamId),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetTeamAtlasesForEventBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>
+>;
+export type GetTeamAtlasesForEventBaseQueryError = unknown;
 
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId && teamId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetTeamAtlasesForEventBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>>
-export type GetTeamAtlasesForEventBaseQueryError = unknown
-
-
-export function useGetTeamAtlasesForEventBase<TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError = unknown>(
- eventId: number,
-    teamId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData>> & Pick<
+export function useGetTeamAtlasesForEventBase<
+  TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTeamAtlasesForEventBase<TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError = unknown>(
- eventId: number,
-    teamId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamAtlasesForEventBase<
+  TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTeamAtlasesForEventBase<TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError = unknown>(
- eventId: number,
-    teamId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamAtlasesForEventBase<
+  TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetTeamAtlasesForEventBase<TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError = unknown>(
- eventId: number,
-    teamId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetTeamAtlasesForEventBase<
+  TData = Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTeamAtlasesForEventBaseQueryOptions(
+    eventId,
+    teamId,
+    options,
+  );
 
-  const queryOptions = getGetTeamAtlasesForEventBaseQueryOptions(eventId,teamId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

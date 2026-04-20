@@ -1,2 +1,1 @@
-
-export type ItemInfluences = {[key: string]: boolean};
+export type ItemInfluences = { [key: string]: boolean };

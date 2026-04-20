@@ -1,2 +1,1 @@
-
-export type GetEventActivitiesBase200 = {[key: string]: number};
+export type GetEventActivitiesBase200 = { [key: string]: number };

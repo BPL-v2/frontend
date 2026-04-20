@@ -1,4 +1,4 @@
-import type { JobType } from './jobType';
+import type { JobType } from "./jobType";
 
 export interface RecurringJob {
   end_date: string;

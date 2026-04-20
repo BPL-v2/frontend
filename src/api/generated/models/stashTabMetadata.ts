@@ -1,4 +1,3 @@
-
 export interface StashTabMetadata {
   colour?: string;
   folder?: boolean;

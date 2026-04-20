@@ -1,4 +1,3 @@
-
 export interface GuildStashTab {
   color?: string;
   fetch_enabled: boolean;

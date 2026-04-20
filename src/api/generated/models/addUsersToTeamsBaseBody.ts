@@ -1,3 +1,5 @@
-import type { TeamUserCreate } from './teamUserCreate';
+import type { TeamUserCreate } from "./teamUserCreate";
 
-export type AddUsersToTeamsBaseBody = { [key: string]: unknown } | TeamUserCreate[];
+export type AddUsersToTeamsBaseBody =
+  | { [key: string]: unknown }
+  | TeamUserCreate[];

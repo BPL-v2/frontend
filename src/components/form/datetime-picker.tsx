@@ -31,9 +31,10 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
 
   const defaultDate = useMemo(() => {
     if (!defaultValue) return { date: "", time: "00:00:00" };
-    const d = typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue;
+    const d =
+      typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue;
     return { date: getDate(d), time: getTime(d) };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValue]);
 
   const [dateOverride, setDate] = useState<string | undefined>(undefined);

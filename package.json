@@ -9,6 +9,7 @@
     "build": "tsgo -b && vite build",
     "build-tsc": "tsc -b && vite build",
     "lint": "eslint .",
+    "format": "prettier --write src/",
     "preview": "vite preview",
     "generate-client": "orval",
     "update": "npm-check-updates --reject '/eslint/' -u && npm install"

@@ -1,3 +1,5 @@
-import type { ObjectiveCreate } from './objectiveCreate';
+import type { ObjectiveCreate } from "./objectiveCreate";
 
-export type CreateObjectiveBaseBody = { [key: string]: unknown } | ObjectiveCreate;
+export type CreateObjectiveBaseBody =
+  | { [key: string]: unknown }
+  | ObjectiveCreate;

@@ -1,4 +1,4 @@
-import type { ApprovalStatus } from './approvalStatus';
+import type { ApprovalStatus } from "./approvalStatus";
 
 export interface Submission {
   approval_status: ApprovalStatus;

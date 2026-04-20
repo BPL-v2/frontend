@@ -15,6 +15,7 @@ export default defineConfig({
       httpClient: "fetch",
       mode: "tags-split",
       clean: true,
+      formatter: "prettier",
       override: {
         header: false,
         useDates: true,

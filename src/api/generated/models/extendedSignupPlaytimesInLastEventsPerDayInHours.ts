@@ -1,2 +1,3 @@
-
-export type ExtendedSignupPlaytimesInLastEventsPerDayInHours = {[key: string]: number};
+export type ExtendedSignupPlaytimesInLastEventsPerDayInHours = {
+  [key: string]: number;
+};

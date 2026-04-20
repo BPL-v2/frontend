@@ -1,3 +1,3 @@
-import type { FieldType } from './fieldType';
+import type { FieldType } from "./fieldType";
 
-export type ConditionMappingsFieldToType = {[key: string]: FieldType};
+export type ConditionMappingsFieldToType = { [key: string]: FieldType };

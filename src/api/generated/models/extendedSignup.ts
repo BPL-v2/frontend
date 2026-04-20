@@ -1,6 +1,6 @@
-import type { ExtendedSignupHighestCharacterLevels } from './extendedSignupHighestCharacterLevels';
-import type { ExtendedSignupPlaytimesInLastEventsPerDayInHours } from './extendedSignupPlaytimesInLastEventsPerDayInHours';
-import type { NonSensitiveUser } from './nonSensitiveUser';
+import type { ExtendedSignupHighestCharacterLevels } from "./extendedSignupHighestCharacterLevels";
+import type { ExtendedSignupPlaytimesInLastEventsPerDayInHours } from "./extendedSignupPlaytimesInLastEventsPerDayInHours";
+import type { NonSensitiveUser } from "./nonSensitiveUser";
 
 export interface ExtendedSignup {
   expected_playtime: number;

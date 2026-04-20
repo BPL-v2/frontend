@@ -1,7 +1,6 @@
-
 export type RemoveAuthBaseParams = {
-/**
- * Provider
- */
-provider: string;
+  /**
+   * Provider
+   */
+  provider: string;
 };

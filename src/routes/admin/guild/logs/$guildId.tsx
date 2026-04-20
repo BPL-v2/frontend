@@ -134,12 +134,7 @@ function RouteComponent() {
   const { guildId } = useParams({ from: Route.id });
   const { logs = [] } = useGetGuildLogs(currentEvent.id, guildId);
   const qc = useQueryClient();
-  const mutation = usePreloadGuildLogs(
-    currentEvent.id,
-    guildId,
-    200,
-    qc,
-  );
+  const mutation = usePreloadGuildLogs(currentEvent.id, guildId, 200, qc);
   useEffect(() => {
     mutation.mutate();
   }, [currentEvent.id, guildId]);

@@ -62,10 +62,16 @@ export const StashTabSpecial: React.FC<Props> = ({
     );
   }, [layout]);
   // Section state — override pattern: user selection overrides, but resets when sections list changes
-  const [selectedSectionOverride, setSelectedSection] = useState<string | undefined>(undefined);
-  const selectedSection = selectedSectionOverride !== undefined && sections.includes(selectedSectionOverride)
-    ? selectedSectionOverride
-    : sections.length > 0 ? sections[0] : "";
+  const [selectedSectionOverride, setSelectedSection] = useState<
+    string | undefined
+  >(undefined);
+  const selectedSection =
+    selectedSectionOverride !== undefined &&
+    sections.includes(selectedSectionOverride)
+      ? selectedSectionOverride
+      : sections.length > 0
+        ? sections[0]
+        : "";
   const items = useMemo(() => {
     return (
       tab?.items?.filter((item) => {

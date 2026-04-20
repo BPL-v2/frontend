@@ -30,8 +30,14 @@ export default function PoBSlider({
   timestamps,
   event,
 }: Props) {
-  const totalDuration = timestamps.length > 0 ? timestamps[timestamps.length - 1] - timestamps[0] : 0;
-  const progress = timestamps.length > 0 ? ((timestamps[index] - timestamps[0]) / totalDuration) * 100 : 0;
+  const totalDuration =
+    timestamps.length > 0
+      ? timestamps[timestamps.length - 1] - timestamps[0]
+      : 0;
+  const progress =
+    timestamps.length > 0
+      ? ((timestamps[index] - timestamps[0]) / totalDuration) * 100
+      : 0;
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 

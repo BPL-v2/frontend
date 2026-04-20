@@ -4,16 +4,19 @@ import { ItemTooltip } from "./item-tooltip";
 import { useState } from "react";
 
 export function CharacterItems({ pob }: { pob: PathOfBuilding }) {
-  const [selectedItemId, setSelectedItemId] = useState<string | number | undefined>();
+  const [selectedItemId, setSelectedItemId] = useState<
+    string | number | undefined
+  >();
   const [itemPosition, setItemPosition] = useState<{
     x: number;
     y: number;
   }>();
 
   // Derive selected item from current pob data to stay in sync when pob changes
-  const selectedItem = selectedItemId != null
-    ? pob.items.find((item) => item.id === selectedItemId)
-    : undefined;
+  const selectedItem =
+    selectedItemId != null
+      ? pob.items.find((item) => item.id === selectedItemId)
+      : undefined;
 
   const setSelectedItem = (item: Item | undefined) => {
     setSelectedItemId(item?.id);

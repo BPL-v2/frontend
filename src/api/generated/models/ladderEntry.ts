@@ -1,4 +1,3 @@
-
 export interface LadderEntry {
   armour: number;
   ascendancy: string;

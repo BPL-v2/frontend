@@ -1,3 +1,5 @@
-import type { TeamSuggestion } from './teamSuggestion';
+import type { TeamSuggestion } from "./teamSuggestion";
 
-export type CreateObjectiveTeamSuggestionBaseBody = { [key: string]: unknown } | TeamSuggestion;
+export type CreateObjectiveTeamSuggestionBaseBody =
+  | { [key: string]: unknown }
+  | TeamSuggestion;

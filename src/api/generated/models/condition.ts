@@ -1,5 +1,5 @@
-import type { ItemField } from './itemField';
-import type { Operator } from './operator';
+import type { ItemField } from "./itemField";
+import type { Operator } from "./operator";
 
 export interface Condition {
   field: ItemField;

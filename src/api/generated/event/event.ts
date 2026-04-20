@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,512 +11,708 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   CreateEventBaseBody,
   DuplicateEventBaseBody,
   Event,
-  EventStatus
-} from '../models';
+  EventStatus,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Fetches all events
  */
 export const getGetEventsBaseUrl = () => {
+  return `/events`;
+};
 
-
-
-
-  return `/events`
-}
-
-export const getEventsBase = async ( options?: RequestInit): Promise<Event[]> => {
-
-  return customFetch<Event[]>(getGetEventsBaseUrl(),
-  {
+export const getEventsBase = async (
+  options?: RequestInit,
+): Promise<Event[]> => {
+  return customFetch<Event[]>(getGetEventsBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetEventsBaseQueryKey = () => {
-    return [
-    `/events`
-    ] as const;
-    }
+  return [`/events`] as const;
+};
 
+export const getGetEventsBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEventsBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetEventsBaseQueryOptions = <TData = Awaited<ReturnType<typeof getEventsBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetEventsBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventsBase>>> = ({
+    signal,
+  }) => getEventsBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetEventsBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEventsBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetEventsBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getEventsBase>>
+>;
+export type GetEventsBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventsBase>>> = ({ signal }) => getEventsBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetEventsBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getEventsBase>>>
-export type GetEventsBaseQueryError = unknown
-
-
-export function useGetEventsBase<TData = Awaited<ReturnType<typeof getEventsBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>> & Pick<
+export function useGetEventsBase<
+  TData = Awaited<ReturnType<typeof getEventsBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventsBase>>,
           TError,
           Awaited<ReturnType<typeof getEventsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventsBase<TData = Awaited<ReturnType<typeof getEventsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventsBase<
+  TData = Awaited<ReturnType<typeof getEventsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventsBase>>,
           TError,
           Awaited<ReturnType<typeof getEventsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventsBase<TData = Awaited<ReturnType<typeof getEventsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventsBase<
+  TData = Awaited<ReturnType<typeof getEventsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetEventsBase<TData = Awaited<ReturnType<typeof getEventsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetEventsBase<
+  TData = Awaited<ReturnType<typeof getEventsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventsBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetEventsBaseQueryOptions(options);
 
-  const queryOptions = getGetEventsBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Creates or updates an event
  */
 export const getCreateEventBaseUrl = () => {
+  return `/events`;
+};
 
-
-
-
-  return `/events`
-}
-
-export const createEventBase = async (createEventBaseBody: CreateEventBaseBody, options?: RequestInit): Promise<Event> => {
-
-  return customFetch<Event>(getCreateEventBaseUrl(),
-  {
+export const createEventBase = async (
+  createEventBaseBody: CreateEventBaseBody,
+  options?: RequestInit,
+): Promise<Event> => {
+  return customFetch<Event>(getCreateEventBaseUrl(), {
     ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      createEventBaseBody,)
-  }
-);}
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createEventBaseBody),
+  });
+};
 
+export const getCreateEventBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createEventBase>>,
+    TError,
+    { data: CreateEventBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createEventBase>>,
+  TError,
+  { data: CreateEventBaseBody },
+  TContext
+> => {
+  const mutationKey = ["createEventBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createEventBase>>,
+    { data: CreateEventBaseBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return createEventBase(data, requestOptions);
+  };
 
-export const getCreateEventBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createEventBase>>, TError,{data: CreateEventBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createEventBase>>, TError,{data: CreateEventBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['createEventBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type CreateEventBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createEventBase>>
+>;
+export type CreateEventBaseMutationBody = CreateEventBaseBody;
+export type CreateEventBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createEventBase>>, {data: CreateEventBaseBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createEventBase(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateEventBaseMutationResult = NonNullable<Awaited<ReturnType<typeof createEventBase>>>
-    export type CreateEventBaseMutationBody = CreateEventBaseBody
-    export type CreateEventBaseMutationError = unknown
-
-    export const useCreateEventBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createEventBase>>, TError,{data: CreateEventBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createEventBase>>,
-        TError,
-        {data: CreateEventBaseBody},
-        TContext
-      > => {
-      return useMutation(getCreateEventBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useCreateEventBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createEventBase>>,
+      TError,
+      { data: CreateEventBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createEventBase>>,
+  TError,
+  { data: CreateEventBaseBody },
+  TContext
+> => {
+  return useMutation(getCreateEventBaseMutationOptions(options), queryClient);
+};
+/**
  * Deletes an event
  */
-export const getDeleteEventBaseUrl = (eventId: number,) => {
+export const getDeleteEventBaseUrl = (eventId: number) => {
+  return `/events/${eventId}`;
+};
 
-
-
-
-  return `/events/${eventId}`
-}
-
-export const deleteEventBase = async (eventId: number, options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getDeleteEventBaseUrl(eventId),
-  {
+export const deleteEventBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<void> => {
+  return customFetch<void>(getDeleteEventBaseUrl(eventId), {
     ...options,
-    method: 'DELETE'
+    method: "DELETE",
+  });
+};
 
+export const getDeleteEventBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteEventBase>>,
+    TError,
+    { eventId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteEventBase>>,
+  TError,
+  { eventId: number },
+  TContext
+> => {
+  const mutationKey = ["deleteEventBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  }
-);}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteEventBase>>,
+    { eventId: number }
+  > = (props) => {
+    const { eventId } = props ?? {};
 
+    return deleteEventBase(eventId, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteEventBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteEventBase>>
+>;
 
-export const getDeleteEventBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteEventBase>>, TError,{eventId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteEventBase>>, TError,{eventId: number}, TContext> => {
+export type DeleteEventBaseMutationError = unknown;
 
-const mutationKey = ['deleteEventBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteEventBase>>, {eventId: number}> = (props) => {
-          const {eventId} = props ?? {};
-
-          return  deleteEventBase(eventId,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteEventBaseMutationResult = NonNullable<Awaited<ReturnType<typeof deleteEventBase>>>
-
-    export type DeleteEventBaseMutationError = unknown
-
-    export const useDeleteEventBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteEventBase>>, TError,{eventId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteEventBase>>,
-        TError,
-        {eventId: number},
-        TContext
-      > => {
-      return useMutation(getDeleteEventBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useDeleteEventBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteEventBase>>,
+      TError,
+      { eventId: number },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteEventBase>>,
+  TError,
+  { eventId: number },
+  TContext
+> => {
+  return useMutation(getDeleteEventBaseMutationOptions(options), queryClient);
+};
+/**
  * Fetches an event by id
  */
-export const getGetEventBaseUrl = (eventId: number,) => {
+export const getGetEventBaseUrl = (eventId: number) => {
+  return `/events/${eventId}`;
+};
 
-
-
-
-  return `/events/${eventId}`
-}
-
-export const getEventBase = async (eventId: number, options?: RequestInit): Promise<Event> => {
-
-  return customFetch<Event>(getGetEventBaseUrl(eventId),
-  {
+export const getEventBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<Event> => {
+  return customFetch<Event>(getGetEventBaseUrl(eventId), {
     ...options,
-    method: 'GET'
+    method: "GET",
+  });
+};
 
+export const getGetEventBaseQueryKey = (eventId: number) => {
+  return [`/events/${eventId}`] as const;
+};
 
-  }
-);}
-
-
-
-
-
-export const getGetEventBaseQueryKey = (eventId: number,) => {
-    return [
-    `/events/${eventId}`
-    ] as const;
-    }
-
-
-export const getGetEventBaseQueryOptions = <TData = Awaited<ReturnType<typeof getEventBase>>, TError = unknown>(eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetEventBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetEventBaseQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetEventBaseQueryKey(eventId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventBase>>> = ({
+    signal,
+  }) => getEventBase(eventId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEventBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetEventBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getEventBase>>
+>;
+export type GetEventBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventBase>>> = ({ signal }) => getEventBase(eventId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetEventBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getEventBase>>>
-export type GetEventBaseQueryError = unknown
-
-
-export function useGetEventBase<TData = Awaited<ReturnType<typeof getEventBase>>, TError = unknown>(
- eventId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>> & Pick<
+export function useGetEventBase<
+  TData = Awaited<ReturnType<typeof getEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventBase>>,
           TError,
           Awaited<ReturnType<typeof getEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventBase<TData = Awaited<ReturnType<typeof getEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventBase<
+  TData = Awaited<ReturnType<typeof getEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventBase>>,
           TError,
           Awaited<ReturnType<typeof getEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventBase<TData = Awaited<ReturnType<typeof getEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventBase<
+  TData = Awaited<ReturnType<typeof getEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetEventBase<TData = Awaited<ReturnType<typeof getEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetEventBase<
+  TData = Awaited<ReturnType<typeof getEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getEventBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetEventBaseQueryOptions(eventId, options);
 
-  const queryOptions = getGetEventBaseQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Duplicates an event's configuration
  */
-export const getDuplicateEventBaseUrl = (eventId: number,) => {
+export const getDuplicateEventBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/duplicate`;
+};
 
-
-
-
-  return `/events/${eventId}/duplicate`
-}
-
-export const duplicateEventBase = async (eventId: number,
-    duplicateEventBaseBody: DuplicateEventBaseBody, options?: RequestInit): Promise<Event> => {
-
-  return customFetch<Event>(getDuplicateEventBaseUrl(eventId),
-  {
+export const duplicateEventBase = async (
+  eventId: number,
+  duplicateEventBaseBody: DuplicateEventBaseBody,
+  options?: RequestInit,
+): Promise<Event> => {
+  return customFetch<Event>(getDuplicateEventBaseUrl(eventId), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      duplicateEventBaseBody,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(duplicateEventBaseBody),
+  });
+};
 
+export const getDuplicateEventBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof duplicateEventBase>>,
+    TError,
+    { eventId: number; data: DuplicateEventBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof duplicateEventBase>>,
+  TError,
+  { eventId: number; data: DuplicateEventBaseBody },
+  TContext
+> => {
+  const mutationKey = ["duplicateEventBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof duplicateEventBase>>,
+    { eventId: number; data: DuplicateEventBaseBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
+    return duplicateEventBase(eventId, data, requestOptions);
+  };
 
-export const getDuplicateEventBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof duplicateEventBase>>, TError,{eventId: number;data: DuplicateEventBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof duplicateEventBase>>, TError,{eventId: number;data: DuplicateEventBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['duplicateEventBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type DuplicateEventBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof duplicateEventBase>>
+>;
+export type DuplicateEventBaseMutationBody = DuplicateEventBaseBody;
+export type DuplicateEventBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof duplicateEventBase>>, {eventId: number;data: DuplicateEventBaseBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  duplicateEventBase(eventId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DuplicateEventBaseMutationResult = NonNullable<Awaited<ReturnType<typeof duplicateEventBase>>>
-    export type DuplicateEventBaseMutationBody = DuplicateEventBaseBody
-    export type DuplicateEventBaseMutationError = unknown
-
-    export const useDuplicateEventBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof duplicateEventBase>>, TError,{eventId: number;data: DuplicateEventBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof duplicateEventBase>>,
-        TError,
-        {eventId: number;data: DuplicateEventBaseBody},
-        TContext
-      > => {
-      return useMutation(getDuplicateEventBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useDuplicateEventBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof duplicateEventBase>>,
+      TError,
+      { eventId: number; data: DuplicateEventBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof duplicateEventBase>>,
+  TError,
+  { eventId: number; data: DuplicateEventBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getDuplicateEventBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Gets the status for an event including the user's application status
  */
-export const getGetEventStatusBaseUrl = (eventId: number,) => {
+export const getGetEventStatusBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/status`;
+};
 
-
-
-
-  return `/events/${eventId}/status`
-}
-
-export const getEventStatusBase = async (eventId: number, options?: RequestInit): Promise<EventStatus> => {
-
-  return customFetch<EventStatus>(getGetEventStatusBaseUrl(eventId),
-  {
+export const getEventStatusBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<EventStatus> => {
+  return customFetch<EventStatus>(getGetEventStatusBaseUrl(eventId), {
     ...options,
-    method: 'GET'
+    method: "GET",
+  });
+};
 
+export const getGetEventStatusBaseQueryKey = (eventId: number) => {
+  return [`/events/${eventId}/status`] as const;
+};
 
-  }
-);}
-
-
-
-
-
-export const getGetEventStatusBaseQueryKey = (eventId: number,) => {
-    return [
-    `/events/${eventId}/status`
-    ] as const;
-    }
-
-
-export const getGetEventStatusBaseQueryOptions = <TData = Awaited<ReturnType<typeof getEventStatusBase>>, TError = unknown>(eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetEventStatusBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEventStatusBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventStatusBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetEventStatusBaseQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetEventStatusBaseQueryKey(eventId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getEventStatusBase>>
+  > = ({ signal }) =>
+    getEventStatusBase(eventId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEventStatusBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetEventStatusBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getEventStatusBase>>
+>;
+export type GetEventStatusBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventStatusBase>>> = ({ signal }) => getEventStatusBase(eventId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetEventStatusBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getEventStatusBase>>>
-export type GetEventStatusBaseQueryError = unknown
-
-
-export function useGetEventStatusBase<TData = Awaited<ReturnType<typeof getEventStatusBase>>, TError = unknown>(
- eventId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData>> & Pick<
+export function useGetEventStatusBase<
+  TData = Awaited<ReturnType<typeof getEventStatusBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventStatusBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventStatusBase>>,
           TError,
           Awaited<ReturnType<typeof getEventStatusBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventStatusBase<TData = Awaited<ReturnType<typeof getEventStatusBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventStatusBase<
+  TData = Awaited<ReturnType<typeof getEventStatusBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventStatusBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getEventStatusBase>>,
           TError,
           Awaited<ReturnType<typeof getEventStatusBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetEventStatusBase<TData = Awaited<ReturnType<typeof getEventStatusBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventStatusBase<
+  TData = Awaited<ReturnType<typeof getEventStatusBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventStatusBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetEventStatusBase<TData = Awaited<ReturnType<typeof getEventStatusBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEventStatusBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetEventStatusBase<
+  TData = Awaited<ReturnType<typeof getEventStatusBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventStatusBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetEventStatusBaseQueryOptions(eventId, options);
 
-  const queryOptions = getGetEventStatusBaseQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

@@ -1,3 +1,5 @@
-import type { AchievementCreate } from './achievementCreate';
+import type { AchievementCreate } from "./achievementCreate";
 
-export type AddAchievementBaseBody = { [key: string]: unknown } | AchievementCreate;
+export type AddAchievementBaseBody =
+  | { [key: string]: unknown }
+  | AchievementCreate;

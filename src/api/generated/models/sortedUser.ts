@@ -1,4 +1,3 @@
-
 export interface SortedUser {
   discord_id: string;
   discord_name: string;

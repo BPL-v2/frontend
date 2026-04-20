@@ -1,4 +1,3 @@
-
 export interface SignupCreate {
   expected_playtime: number;
   extra?: string;

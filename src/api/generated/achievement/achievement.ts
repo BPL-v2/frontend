@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,261 +11,345 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   AddAchievementBase201,
   AddAchievementBaseBody,
-  GetAchievementsBase200
-} from '../models';
+  GetAchievementsBase200,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Retrieve all user achievements in the system.
  * @summary Get achievements
  */
 export const getGetAchievementsBaseUrl = () => {
+  return `/achievements`;
+};
 
-
-
-
-  return `/achievements`
-}
-
-export const getAchievementsBase = async ( options?: RequestInit): Promise<GetAchievementsBase200> => {
-
-  return customFetch<GetAchievementsBase200>(getGetAchievementsBaseUrl(),
-  {
+export const getAchievementsBase = async (
+  options?: RequestInit,
+): Promise<GetAchievementsBase200> => {
+  return customFetch<GetAchievementsBase200>(getGetAchievementsBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetAchievementsBaseQueryKey = () => {
-    return [
-    `/achievements`
-    ] as const;
-    }
+  return [`/achievements`] as const;
+};
 
+export const getGetAchievementsBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAchievementsBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getAchievementsBase>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetAchievementsBaseQueryOptions = <TData = Awaited<ReturnType<typeof getAchievementsBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetAchievementsBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAchievementsBase>>
+  > = ({ signal }) => getAchievementsBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAchievementsBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAchievementsBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAchievementsBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAchievementsBase>>
+>;
+export type GetAchievementsBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAchievementsBase>>> = ({ signal }) => getAchievementsBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAchievementsBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getAchievementsBase>>>
-export type GetAchievementsBaseQueryError = unknown
-
-
-export function useGetAchievementsBase<TData = Awaited<ReturnType<typeof getAchievementsBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData>> & Pick<
+export function useGetAchievementsBase<
+  TData = Awaited<ReturnType<typeof getAchievementsBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAchievementsBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAchievementsBase>>,
           TError,
           Awaited<ReturnType<typeof getAchievementsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAchievementsBase<TData = Awaited<ReturnType<typeof getAchievementsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAchievementsBase<
+  TData = Awaited<ReturnType<typeof getAchievementsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAchievementsBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAchievementsBase>>,
           TError,
           Awaited<ReturnType<typeof getAchievementsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAchievementsBase<TData = Awaited<ReturnType<typeof getAchievementsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAchievementsBase<
+  TData = Awaited<ReturnType<typeof getAchievementsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAchievementsBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Get achievements
  */
 
-export function useGetAchievementsBase<TData = Awaited<ReturnType<typeof getAchievementsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAchievementsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAchievementsBase<
+  TData = Awaited<ReturnType<typeof getAchievementsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAchievementsBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAchievementsBaseQueryOptions(options);
 
-  const queryOptions = getGetAchievementsBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Update achievements for all users based on their current progress.
  * @summary Update achievements
  */
 export const getUpdateAchievementsBaseUrl = () => {
+  return `/achievements`;
+};
 
-
-
-
-  return `/achievements`
-}
-
-export const updateAchievementsBase = async ( options?: RequestInit): Promise<void> => {
-
-  return customFetch<void>(getUpdateAchievementsBaseUrl(),
-  {
+export const updateAchievementsBase = async (
+  options?: RequestInit,
+): Promise<void> => {
+  return customFetch<void>(getUpdateAchievementsBaseUrl(), {
     ...options,
-    method: 'PATCH'
+    method: "PATCH",
+  });
+};
 
+export const getUpdateAchievementsBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateAchievementsBase>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateAchievementsBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["updateAchievementsBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  }
-);}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateAchievementsBase>>,
+    void
+  > = () => {
+    return updateAchievementsBase(requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type UpdateAchievementsBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateAchievementsBase>>
+>;
 
+export type UpdateAchievementsBaseMutationError = unknown;
 
-export const getUpdateAchievementsBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAchievementsBase>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateAchievementsBase>>, TError,void, TContext> => {
-
-const mutationKey = ['updateAchievementsBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAchievementsBase>>, void> = () => {
-
-
-          return  updateAchievementsBase(requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateAchievementsBaseMutationResult = NonNullable<Awaited<ReturnType<typeof updateAchievementsBase>>>
-
-    export type UpdateAchievementsBaseMutationError = unknown
-
-    /**
+/**
  * @summary Update achievements
  */
-export const useUpdateAchievementsBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAchievementsBase>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateAchievementsBase>>,
-        TError,
-        void,
-        TContext
-      > => {
-      return useMutation(getUpdateAchievementsBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useUpdateAchievementsBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateAchievementsBase>>,
+      TError,
+      void,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateAchievementsBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(
+    getUpdateAchievementsBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Add new achievement to the system.
  * @summary Add achievement
  */
 export const getAddAchievementBaseUrl = () => {
+  return `/achievements`;
+};
 
-
-
-
-  return `/achievements`
-}
-
-export const addAchievementBase = async (addAchievementBaseBody: AddAchievementBaseBody, options?: RequestInit): Promise<AddAchievementBase201> => {
-
-  return customFetch<AddAchievementBase201>(getAddAchievementBaseUrl(),
-  {
+export const addAchievementBase = async (
+  addAchievementBaseBody: AddAchievementBaseBody,
+  options?: RequestInit,
+): Promise<AddAchievementBase201> => {
+  return customFetch<AddAchievementBase201>(getAddAchievementBaseUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      addAchievementBaseBody,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(addAchievementBaseBody),
+  });
+};
 
+export const getAddAchievementBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addAchievementBase>>,
+    TError,
+    { data: AddAchievementBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addAchievementBase>>,
+  TError,
+  { data: AddAchievementBaseBody },
+  TContext
+> => {
+  const mutationKey = ["addAchievementBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addAchievementBase>>,
+    { data: AddAchievementBaseBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return addAchievementBase(data, requestOptions);
+  };
 
-export const getAddAchievementBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['addAchievementBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type AddAchievementBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addAchievementBase>>
+>;
+export type AddAchievementBaseMutationBody = AddAchievementBaseBody;
+export type AddAchievementBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addAchievementBase>>, {data: AddAchievementBaseBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  addAchievementBase(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AddAchievementBaseMutationResult = NonNullable<Awaited<ReturnType<typeof addAchievementBase>>>
-    export type AddAchievementBaseMutationBody = AddAchievementBaseBody
-    export type AddAchievementBaseMutationError = unknown
-
-    /**
+/**
  * @summary Add achievement
  */
-export const useAddAchievementBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addAchievementBase>>, TError,{data: AddAchievementBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof addAchievementBase>>,
-        TError,
-        {data: AddAchievementBaseBody},
-        TContext
-      > => {
-      return useMutation(getAddAchievementBaseMutationOptions(options), queryClient);
-    }
+export const useAddAchievementBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof addAchievementBase>>,
+      TError,
+      { data: AddAchievementBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addAchievementBase>>,
+  TError,
+  { data: AddAchievementBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getAddAchievementBaseMutationOptions(options),
+    queryClient,
+  );
+};

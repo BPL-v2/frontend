@@ -1,4 +1,3 @@
-
 export interface AtlasProgression {
   index?: number;
   nodes?: number[];

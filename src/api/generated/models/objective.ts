@@ -1,8 +1,8 @@
-import type { AggregationType } from './aggregationType';
-import type { Condition } from './condition';
-import type { NumberField } from './numberField';
-import type { ObjectiveType } from './objectiveType';
-import type { ScoringPreset } from './scoringPreset';
+import type { AggregationType } from "./aggregationType";
+import type { Condition } from "./condition";
+import type { NumberField } from "./numberField";
+import type { ObjectiveType } from "./objectiveType";
+import type { ScoringPreset } from "./scoringPreset";
 
 export interface Objective {
   aggregation: AggregationType;

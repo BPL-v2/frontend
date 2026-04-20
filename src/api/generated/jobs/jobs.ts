@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,182 +11,226 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
-import type {
-  RecurringJob,
-  StartJobBaseBody
-} from '../models';
+import type { RecurringJob, StartJobBaseBody } from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Get all recurring jobs
  */
 export const getGetJobsBaseUrl = () => {
+  return `/jobs`;
+};
 
-
-
-
-  return `/jobs`
-}
-
-export const getJobsBase = async ( options?: RequestInit): Promise<RecurringJob[]> => {
-
-  return customFetch<RecurringJob[]>(getGetJobsBaseUrl(),
-  {
+export const getJobsBase = async (
+  options?: RequestInit,
+): Promise<RecurringJob[]> => {
+  return customFetch<RecurringJob[]>(getGetJobsBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetJobsBaseQueryKey = () => {
-    return [
-    `/jobs`
-    ] as const;
-    }
+  return [`/jobs`] as const;
+};
 
+export const getGetJobsBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getJobsBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetJobsBaseQueryOptions = <TData = Awaited<ReturnType<typeof getJobsBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetJobsBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getJobsBase>>> = ({
+    signal,
+  }) => getJobsBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetJobsBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getJobsBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetJobsBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getJobsBase>>
+>;
+export type GetJobsBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getJobsBase>>> = ({ signal }) => getJobsBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetJobsBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getJobsBase>>>
-export type GetJobsBaseQueryError = unknown
-
-
-export function useGetJobsBase<TData = Awaited<ReturnType<typeof getJobsBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>> & Pick<
+export function useGetJobsBase<
+  TData = Awaited<ReturnType<typeof getJobsBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getJobsBase>>,
           TError,
           Awaited<ReturnType<typeof getJobsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetJobsBase<TData = Awaited<ReturnType<typeof getJobsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetJobsBase<
+  TData = Awaited<ReturnType<typeof getJobsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getJobsBase>>,
           TError,
           Awaited<ReturnType<typeof getJobsBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetJobsBase<TData = Awaited<ReturnType<typeof getJobsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetJobsBase<
+  TData = Awaited<ReturnType<typeof getJobsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetJobsBase<TData = Awaited<ReturnType<typeof getJobsBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetJobsBase<
+  TData = Awaited<ReturnType<typeof getJobsBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getJobsBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetJobsBaseQueryOptions(options);
 
-  const queryOptions = getGetJobsBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Start a recurring job
  */
 export const getStartJobBaseUrl = () => {
+  return `/jobs`;
+};
 
-
-
-
-  return `/jobs`
-}
-
-export const startJobBase = async (startJobBaseBody: StartJobBaseBody, options?: RequestInit): Promise<RecurringJob> => {
-
-  return customFetch<RecurringJob>(getStartJobBaseUrl(),
-  {
+export const startJobBase = async (
+  startJobBaseBody: StartJobBaseBody,
+  options?: RequestInit,
+): Promise<RecurringJob> => {
+  return customFetch<RecurringJob>(getStartJobBaseUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      startJobBaseBody,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(startJobBaseBody),
+  });
+};
 
+export const getStartJobBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof startJobBase>>,
+    TError,
+    { data: StartJobBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof startJobBase>>,
+  TError,
+  { data: StartJobBaseBody },
+  TContext
+> => {
+  const mutationKey = ["startJobBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof startJobBase>>,
+    { data: StartJobBaseBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return startJobBase(data, requestOptions);
+  };
 
-export const getStartJobBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['startJobBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type StartJobBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof startJobBase>>
+>;
+export type StartJobBaseMutationBody = StartJobBaseBody;
+export type StartJobBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startJobBase>>, {data: StartJobBaseBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  startJobBase(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type StartJobBaseMutationResult = NonNullable<Awaited<ReturnType<typeof startJobBase>>>
-    export type StartJobBaseMutationBody = StartJobBaseBody
-    export type StartJobBaseMutationError = unknown
-
-    export const useStartJobBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startJobBase>>, TError,{data: StartJobBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof startJobBase>>,
-        TError,
-        {data: StartJobBaseBody},
-        TContext
-      > => {
-      return useMutation(getStartJobBaseMutationOptions(options), queryClient);
-    }
+export const useStartJobBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof startJobBase>>,
+      TError,
+      { data: StartJobBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof startJobBase>>,
+  TError,
+  { data: StartJobBaseBody },
+  TContext
+> => {
+  return useMutation(getStartJobBaseMutationOptions(options), queryClient);
+};

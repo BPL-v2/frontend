@@ -1,2 +1,1 @@
-
-export type ExtendedSignupHighestCharacterLevels = {[key: string]: number};
+export type ExtendedSignupHighestCharacterLevels = { [key: string]: number };

@@ -1,3 +1,3 @@
-import type { PassiveNode } from './passiveNode';
+import type { PassiveNode } from "./passiveNode";
 
-export type ItemJewelDataSubgraphNodes = {[key: string]: PassiveNode};
+export type ItemJewelDataSubgraphNodes = { [key: string]: PassiveNode };

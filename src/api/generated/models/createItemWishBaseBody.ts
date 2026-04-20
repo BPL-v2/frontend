@@ -1,3 +1,5 @@
-import type { CreateItemWish } from './createItemWish';
+import type { CreateItemWish } from "./createItemWish";
 
-export type CreateItemWishBaseBody = { [key: string]: unknown } | CreateItemWish;
+export type CreateItemWishBaseBody =
+  | { [key: string]: unknown }
+  | CreateItemWish;

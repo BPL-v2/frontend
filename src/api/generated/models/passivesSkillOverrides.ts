@@ -1,3 +1,3 @@
-import type { PassiveNode } from './passiveNode';
+import type { PassiveNode } from "./passiveNode";
 
-export type PassivesSkillOverrides = {[key: string]: PassiveNode};
+export type PassivesSkillOverrides = { [key: string]: PassiveNode };

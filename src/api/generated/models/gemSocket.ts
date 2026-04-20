@@ -1,7 +1,5 @@
-
-export type GemSocket = typeof GemSocket[keyof typeof GemSocket];
-
+export type GemSocket = (typeof GemSocket)[keyof typeof GemSocket];
 
 export const GemSocket = {
-  W: 'W',
+  W: "W",
 } as const;

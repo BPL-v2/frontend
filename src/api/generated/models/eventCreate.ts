@@ -1,4 +1,4 @@
-import type { GameVersion } from './gameVersion';
+import type { GameVersion } from "./gameVersion";
 
 export interface EventCreate {
   application_end_time: Date;

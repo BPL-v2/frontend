@@ -1,2 +1,1 @@
-
-export type AtlasTrees = {[key: string]: number[]};
+export type AtlasTrees = { [key: string]: number[] };

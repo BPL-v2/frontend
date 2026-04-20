@@ -1,4 +1,4 @@
-import type { ItemField } from './itemField';
+import type { ItemField } from "./itemField";
 
 export interface ItemWish {
   build_enabling: boolean;

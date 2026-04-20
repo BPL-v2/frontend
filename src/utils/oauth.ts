@@ -5,6 +5,7 @@ export function redirectOauth(
   latestUrl: string,
 ): () => Promise<void | Window | null> {
   return () =>
-    oauthRedirectBase(provider, { last_url: latestUrl })
-      .then((urlString) => window.open(urlString, "_self"));
+    oauthRedirectBase(provider, { last_url: latestUrl }).then((urlString) =>
+      window.open(urlString, "_self"),
+    );
 }

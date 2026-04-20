@@ -1,4 +1,4 @@
-import type { ItemRewardRewards } from './itemRewardRewards';
+import type { ItemRewardRewards } from "./itemRewardRewards";
 
 export interface ItemReward {
   label?: string;

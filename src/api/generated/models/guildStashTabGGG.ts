@@ -1,5 +1,5 @@
-import type { Item } from './item';
-import type { StashTabMetadata } from './stashTabMetadata';
+import type { Item } from "./item";
+import type { StashTabMetadata } from "./stashTabMetadata";
 
 export interface GuildStashTabGGG {
   children?: GuildStashTabGGG[];

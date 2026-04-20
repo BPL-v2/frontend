@@ -1,4 +1,3 @@
-
 export interface TwitchStream {
   backend_user_id?: number;
   game_id?: string;

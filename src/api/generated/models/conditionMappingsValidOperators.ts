@@ -1,3 +1,3 @@
-import type { Operator } from './operator';
+import type { Operator } from "./operator";
 
-export type ConditionMappingsValidOperators = {[key: string]: Operator[]};
+export type ConditionMappingsValidOperators = { [key: string]: Operator[] };

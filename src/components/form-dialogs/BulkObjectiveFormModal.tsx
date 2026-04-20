@@ -2,10 +2,7 @@ import { AggregationType, ItemField } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  useCreateBulkObjectives,
-  useGetScoringPresetsForEvent,
-} from "@api";
+import { useCreateBulkObjectives, useGetScoringPresetsForEvent } from "@api";
 
 export type BulkObjectiveCreate = {
   nameList: string;

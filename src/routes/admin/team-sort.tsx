@@ -129,7 +129,9 @@ function UserSortPage() {
     {} as Record<number, ExtendedSignup>,
   );
   const { addUsersToTeams } = useAddUsersToTeams(qc);
-  const [suggestionsOverride, setSuggestions] = useState<SortedSignup[] | undefined>(undefined);
+  const [suggestionsOverride, setSuggestions] = useState<
+    SortedSignup[] | undefined
+  >(undefined);
   const suggestions = suggestionsOverride ?? signups;
   let count = 0;
   const partnerMap = new Map<number, number>();

@@ -1,4 +1,4 @@
-import type { GuildStashChangeResponseEntriesItem } from './guildStashChangeResponseEntriesItem';
+import type { GuildStashChangeResponseEntriesItem } from "./guildStashChangeResponseEntriesItem";
 
 export interface GuildStashChangeResponse {
   entries?: GuildStashChangeResponseEntriesItem[];

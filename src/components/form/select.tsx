@@ -35,7 +35,9 @@ export default function Select<T>({
   value,
 }: SelectProps<T>) {
   const [query, setQuery] = useState("");
-  const [manualSelected, setSelected] = useState<SelectOption<T> | null | undefined>(undefined);
+  const [manualSelected, setSelected] = useState<
+    SelectOption<T> | null | undefined
+  >(undefined);
   const cleanOptions = useMemo(() => {
     if (!options || options.length === 0) {
       return [];
@@ -53,11 +55,12 @@ export default function Select<T>({
   }, [options]);
 
   // Derive selected from value prop, but allow manual override
-  const selected = manualSelected !== undefined
-    ? manualSelected ?? undefined
-    : value == null
-      ? undefined
-      : cleanOptions.find((option) => option.value === value);
+  const selected =
+    manualSelected !== undefined
+      ? (manualSelected ?? undefined)
+      : value == null
+        ? undefined
+        : cleanOptions.find((option) => option.value === value);
 
   const filtered =
     query === ""

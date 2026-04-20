@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,265 +11,375 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   CallbackResponse,
   OauthCallbackBaseBody,
-  OauthRedirectBaseParams
-} from '../models';
+  OauthRedirectBaseParams,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Logs in the discord bot (only for internal use)
  */
 export const getLoginDiscordBotBaseUrl = () => {
+  return `/oauth2/discord/bot-login`;
+};
 
-
-
-
-  return `/oauth2/discord/bot-login`
-}
-
-export const loginDiscordBotBase = async ( options?: RequestInit): Promise<string> => {
-
-  return customFetch<string>(getLoginDiscordBotBaseUrl(),
-  {
+export const loginDiscordBotBase = async (
+  options?: RequestInit,
+): Promise<string> => {
+  return customFetch<string>(getLoginDiscordBotBaseUrl(), {
     ...options,
-    method: 'POST'
+    method: "POST",
+  });
+};
 
+export const getLoginDiscordBotBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof loginDiscordBotBase>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof loginDiscordBotBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["loginDiscordBotBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  }
-);}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof loginDiscordBotBase>>,
+    void
+  > = () => {
+    return loginDiscordBotBase(requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type LoginDiscordBotBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof loginDiscordBotBase>>
+>;
 
+export type LoginDiscordBotBaseMutationError = unknown;
 
-export const getLoginDiscordBotBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loginDiscordBotBase>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof loginDiscordBotBase>>, TError,void, TContext> => {
-
-const mutationKey = ['loginDiscordBotBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof loginDiscordBotBase>>, void> = () => {
-
-
-          return  loginDiscordBotBase(requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type LoginDiscordBotBaseMutationResult = NonNullable<Awaited<ReturnType<typeof loginDiscordBotBase>>>
-
-    export type LoginDiscordBotBaseMutationError = unknown
-
-    export const useLoginDiscordBotBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loginDiscordBotBase>>, TError,void, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof loginDiscordBotBase>>,
-        TError,
-        void,
-        TContext
-      > => {
-      return useMutation(getLoginDiscordBotBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useLoginDiscordBotBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof loginDiscordBotBase>>,
+      TError,
+      void,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof loginDiscordBotBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(
+    getLoginDiscordBotBaseMutationOptions(options),
+    queryClient,
+  );
+};
+/**
  * Callback handler for oauth
  */
-export const getOauthCallbackBaseUrl = (provider: 'poe' | 'twitch' | 'discord',) => {
+export const getOauthCallbackBaseUrl = (
+  provider: "poe" | "twitch" | "discord",
+) => {
+  return `/oauth2/${provider}/callback`;
+};
 
-
-
-
-  return `/oauth2/${provider}/callback`
-}
-
-export const oauthCallbackBase = async (provider: 'poe' | 'twitch' | 'discord',
-    oauthCallbackBaseBody: OauthCallbackBaseBody, options?: RequestInit): Promise<CallbackResponse> => {
-
-  return customFetch<CallbackResponse>(getOauthCallbackBaseUrl(provider),
-  {
+export const oauthCallbackBase = async (
+  provider: "poe" | "twitch" | "discord",
+  oauthCallbackBaseBody: OauthCallbackBaseBody,
+  options?: RequestInit,
+): Promise<CallbackResponse> => {
+  return customFetch<CallbackResponse>(getOauthCallbackBaseUrl(provider), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      oauthCallbackBaseBody,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(oauthCallbackBaseBody),
+  });
+};
 
+export const getOauthCallbackBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof oauthCallbackBase>>,
+    TError,
+    { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof oauthCallbackBase>>,
+  TError,
+  { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+  TContext
+> => {
+  const mutationKey = ["oauthCallbackBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof oauthCallbackBase>>,
+    { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody }
+  > = (props) => {
+    const { provider, data } = props ?? {};
 
+    return oauthCallbackBase(provider, data, requestOptions);
+  };
 
-export const getOauthCallbackBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof oauthCallbackBase>>, TError,{provider: 'poe' | 'twitch' | 'discord';data: OauthCallbackBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof oauthCallbackBase>>, TError,{provider: 'poe' | 'twitch' | 'discord';data: OauthCallbackBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['oauthCallbackBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type OauthCallbackBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof oauthCallbackBase>>
+>;
+export type OauthCallbackBaseMutationBody = OauthCallbackBaseBody;
+export type OauthCallbackBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof oauthCallbackBase>>, {provider: 'poe' | 'twitch' | 'discord';data: OauthCallbackBaseBody}> = (props) => {
-          const {provider,data} = props ?? {};
-
-          return  oauthCallbackBase(provider,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OauthCallbackBaseMutationResult = NonNullable<Awaited<ReturnType<typeof oauthCallbackBase>>>
-    export type OauthCallbackBaseMutationBody = OauthCallbackBaseBody
-    export type OauthCallbackBaseMutationError = unknown
-
-    export const useOauthCallbackBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof oauthCallbackBase>>, TError,{provider: 'poe' | 'twitch' | 'discord';data: OauthCallbackBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof oauthCallbackBase>>,
-        TError,
-        {provider: 'poe' | 'twitch' | 'discord';data: OauthCallbackBaseBody},
-        TContext
-      > => {
-      return useMutation(getOauthCallbackBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useOauthCallbackBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof oauthCallbackBase>>,
+      TError,
+      { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof oauthCallbackBase>>,
+  TError,
+  { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+  TContext
+> => {
+  return useMutation(getOauthCallbackBaseMutationOptions(options), queryClient);
+};
+/**
  * Redirects to an oauth provider
  */
-export const getOauthRedirectBaseUrl = (provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams,) => {
+export const getOauthRedirectBaseUrl = (
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/oauth2/${provider}/redirect?${stringifiedParams}` : `/oauth2/${provider}/redirect`
-}
+  return stringifiedParams.length > 0
+    ? `/oauth2/${provider}/redirect?${stringifiedParams}`
+    : `/oauth2/${provider}/redirect`;
+};
 
-export const oauthRedirectBase = async (provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams, options?: RequestInit): Promise<string> => {
-
-  return customFetch<string>(getOauthRedirectBaseUrl(provider,params),
-  {
+export const oauthRedirectBase = async (
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+  options?: RequestInit,
+): Promise<string> => {
+  return customFetch<string>(getOauthRedirectBaseUrl(provider, params), {
     ...options,
-    method: 'GET'
+    method: "GET",
+  });
+};
 
-
-  }
-);}
-
-
-
-
-
-export const getOauthRedirectBaseQueryKey = (provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams,) => {
-    return [
-    `/oauth2/${provider}/redirect`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getOauthRedirectBaseQueryOptions = <TData = Awaited<ReturnType<typeof oauthRedirectBase>>, TError = unknown>(provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getOauthRedirectBaseQueryKey = (
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
 ) => {
+  return [`/oauth2/${provider}/redirect`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getOauthRedirectBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof oauthRedirectBase>>,
+  TError = unknown,
+>(
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof oauthRedirectBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getOauthRedirectBaseQueryKey(provider,params);
+  const queryKey =
+    queryOptions?.queryKey ?? getOauthRedirectBaseQueryKey(provider, params);
 
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof oauthRedirectBase>>
+  > = ({ signal }) =>
+    oauthRedirectBase(provider, params, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!provider,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof oauthRedirectBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof oauthRedirectBase>>> = ({ signal }) => oauthRedirectBase(provider,params, { signal, ...requestOptions });
+export type OauthRedirectBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof oauthRedirectBase>>
+>;
+export type OauthRedirectBaseQueryError = unknown;
 
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(provider), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type OauthRedirectBaseQueryResult = NonNullable<Awaited<ReturnType<typeof oauthRedirectBase>>>
-export type OauthRedirectBaseQueryError = unknown
-
-
-export function useOauthRedirectBase<TData = Awaited<ReturnType<typeof oauthRedirectBase>>, TError = unknown>(
- provider: 'poe' | 'twitch' | 'discord',
-    params: undefined |  OauthRedirectBaseParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData>> & Pick<
+export function useOauthRedirectBase<
+  TData = Awaited<ReturnType<typeof oauthRedirectBase>>,
+  TError = unknown,
+>(
+  provider: "poe" | "twitch" | "discord",
+  params: undefined | OauthRedirectBaseParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof oauthRedirectBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof oauthRedirectBase>>,
           TError,
           Awaited<ReturnType<typeof oauthRedirectBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOauthRedirectBase<TData = Awaited<ReturnType<typeof oauthRedirectBase>>, TError = unknown>(
- provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useOauthRedirectBase<
+  TData = Awaited<ReturnType<typeof oauthRedirectBase>>,
+  TError = unknown,
+>(
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof oauthRedirectBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof oauthRedirectBase>>,
           TError,
           Awaited<ReturnType<typeof oauthRedirectBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useOauthRedirectBase<TData = Awaited<ReturnType<typeof oauthRedirectBase>>, TError = unknown>(
- provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useOauthRedirectBase<
+  TData = Awaited<ReturnType<typeof oauthRedirectBase>>,
+  TError = unknown,
+>(
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof oauthRedirectBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useOauthRedirectBase<TData = Awaited<ReturnType<typeof oauthRedirectBase>>, TError = unknown>(
- provider: 'poe' | 'twitch' | 'discord',
-    params?: OauthRedirectBaseParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof oauthRedirectBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useOauthRedirectBase<
+  TData = Awaited<ReturnType<typeof oauthRedirectBase>>,
+  TError = unknown,
+>(
+  provider: "poe" | "twitch" | "discord",
+  params?: OauthRedirectBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof oauthRedirectBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getOauthRedirectBaseQueryOptions(
+    provider,
+    params,
+    options,
+  );
 
-  const queryOptions = getOauthRedirectBaseQueryOptions(provider,params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
-

@@ -1,4 +1,3 @@
-
 export interface Character {
   ascendancy: string;
   ascendancy_points: number;

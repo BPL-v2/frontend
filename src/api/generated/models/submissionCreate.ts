@@ -1,4 +1,3 @@
-
 export interface SubmissionCreate {
   comment?: string;
   id?: number;

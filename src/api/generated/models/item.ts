@@ -1,13 +1,13 @@
-import type { GemSocket } from './gemSocket';
-import type { ItemExtended } from './itemExtended';
-import type { ItemHybrid } from './itemHybrid';
-import type { ItemIncubatedItem } from './itemIncubatedItem';
-import type { ItemInfluences } from './itemInfluences';
-import type { ItemLogbookMod } from './itemLogbookMod';
-import type { ItemProperty } from './itemProperty';
-import type { ItemReward } from './itemReward';
-import type { ItemSocket } from './itemSocket';
-import type { ItemUltimatumMod } from './itemUltimatumMod';
+import type { GemSocket } from "./gemSocket";
+import type { ItemExtended } from "./itemExtended";
+import type { ItemHybrid } from "./itemHybrid";
+import type { ItemIncubatedItem } from "./itemIncubatedItem";
+import type { ItemInfluences } from "./itemInfluences";
+import type { ItemLogbookMod } from "./itemLogbookMod";
+import type { ItemProperty } from "./itemProperty";
+import type { ItemReward } from "./itemReward";
+import type { ItemSocket } from "./itemSocket";
+import type { ItemUltimatumMod } from "./itemUltimatumMod";
 
 export interface Item {
   abyssJewel?: boolean;

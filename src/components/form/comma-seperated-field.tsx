@@ -15,7 +15,8 @@ export function CommaSeperatedField<T>({
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<T[]>();
   const [editedValue, setEditedValue] = useState<string | undefined>(undefined);
-  const stringValue = editedValue ?? (field.state.value?.map(toString).join(",") || "");
+  const stringValue =
+    editedValue ?? (field.state.value?.map(toString).join(",") || "");
 
   return (
     <label

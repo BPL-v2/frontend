@@ -1,4 +1,4 @@
-import type { Permission } from './permission';
+import type { Permission } from "./permission";
 
 export interface User {
   account_name?: string;

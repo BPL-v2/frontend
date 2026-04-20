@@ -1,5 +1,5 @@
-import type { Difftype } from './difftype';
-import type { Score } from './score';
+import type { Difftype } from "./difftype";
+import type { Score } from "./score";
 
 export interface ScoreDiff {
   diff_type: Difftype;

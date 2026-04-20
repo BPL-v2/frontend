@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,8 +11,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   AtlasProgression,
@@ -23,714 +20,1070 @@ import type {
   GetUsersForEventBase200,
   RemoveAuthBaseParams,
   UpdateUserBaseBody,
-  User
-} from '../models';
+  User,
+} from "../models";
 
-import { customFetch } from '../../fetcher';
-
+import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
 
 /**
  * Fetches all users for an event
  */
-export const getGetUsersForEventBaseUrl = (eventId: number,) => {
+export const getGetUsersForEventBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/users`;
+};
 
+export const getUsersForEventBase = async (
+  eventId: number,
+  options?: RequestInit,
+): Promise<GetUsersForEventBase200> => {
+  return customFetch<GetUsersForEventBase200>(
+    getGetUsersForEventBaseUrl(eventId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
+export const getGetUsersForEventBaseQueryKey = (eventId: number) => {
+  return [`/events/${eventId}/users`] as const;
+};
 
-
-  return `/events/${eventId}/users`
-}
-
-export const getUsersForEventBase = async (eventId: number, options?: RequestInit): Promise<GetUsersForEventBase200> => {
-
-  return customFetch<GetUsersForEventBase200>(getGetUsersForEventBaseUrl(eventId),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getGetUsersForEventBaseQueryKey = (eventId: number,) => {
-    return [
-    `/events/${eventId}/users`
-    ] as const;
-    }
-
-
-export const getGetUsersForEventBaseQueryOptions = <TData = Awaited<ReturnType<typeof getUsersForEventBase>>, TError = unknown>(eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetUsersForEventBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUsersForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUsersForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetUsersForEventBaseQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUsersForEventBaseQueryKey(eventId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getUsersForEventBase>>
+  > = ({ signal }) =>
+    getUsersForEventBase(eventId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUsersForEventBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetUsersForEventBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUsersForEventBase>>
+>;
+export type GetUsersForEventBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersForEventBase>>> = ({ signal }) => getUsersForEventBase(eventId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUsersForEventBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersForEventBase>>>
-export type GetUsersForEventBaseQueryError = unknown
-
-
-export function useGetUsersForEventBase<TData = Awaited<ReturnType<typeof getUsersForEventBase>>, TError = unknown>(
- eventId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData>> & Pick<
+export function useGetUsersForEventBase<
+  TData = Awaited<ReturnType<typeof getUsersForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUsersForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUsersForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getUsersForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUsersForEventBase<TData = Awaited<ReturnType<typeof getUsersForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUsersForEventBase<
+  TData = Awaited<ReturnType<typeof getUsersForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUsersForEventBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUsersForEventBase>>,
           TError,
           Awaited<ReturnType<typeof getUsersForEventBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUsersForEventBase<TData = Awaited<ReturnType<typeof getUsersForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUsersForEventBase<
+  TData = Awaited<ReturnType<typeof getUsersForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUsersForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUsersForEventBase<TData = Awaited<ReturnType<typeof getUsersForEventBase>>, TError = unknown>(
- eventId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersForEventBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUsersForEventBase<
+  TData = Awaited<ReturnType<typeof getUsersForEventBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUsersForEventBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUsersForEventBaseQueryOptions(eventId, options);
 
-  const queryOptions = getGetUsersForEventBaseQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Fetches the atlas progression for a user in an event
  */
-export const getGetAtlasProgressionBaseUrl = (eventId: number,
-    userId: number,) => {
-
-
-
-
-  return `/events/${eventId}/users/${userId}/atlas`
-}
-
-export const getAtlasProgressionBase = async (eventId: number,
-    userId: number, options?: RequestInit): Promise<AtlasProgression[]> => {
-
-  return customFetch<AtlasProgression[]>(getGetAtlasProgressionBaseUrl(eventId,userId),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
-
-export const getGetAtlasProgressionBaseQueryKey = (eventId: number,
-    userId: number,) => {
-    return [
-    `/events/${eventId}/users/${userId}/atlas`
-    ] as const;
-    }
-
-
-export const getGetAtlasProgressionBaseQueryOptions = <TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError = unknown>(eventId: number,
-    userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetAtlasProgressionBaseUrl = (
+  eventId: number,
+  userId: number,
 ) => {
+  return `/events/${eventId}/users/${userId}/atlas`;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getAtlasProgressionBase = async (
+  eventId: number,
+  userId: number,
+  options?: RequestInit,
+): Promise<AtlasProgression[]> => {
+  return customFetch<AtlasProgression[]>(
+    getGetAtlasProgressionBaseUrl(eventId, userId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAtlasProgressionBaseQueryKey(eventId,userId);
+export const getGetAtlasProgressionBaseQueryKey = (
+  eventId: number,
+  userId: number,
+) => {
+  return [`/events/${eventId}/users/${userId}/atlas`] as const;
+};
 
+export const getGetAtlasProgressionBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetAtlasProgressionBaseQueryKey(eventId, userId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAtlasProgressionBase>>> = ({ signal }) => getAtlasProgressionBase(eventId,userId, { signal, ...requestOptions });
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAtlasProgressionBase>>
+  > = ({ signal }) =>
+    getAtlasProgressionBase(eventId, userId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!(eventId && userId),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAtlasProgressionBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAtlasProgressionBase>>
+>;
+export type GetAtlasProgressionBaseQueryError = unknown;
 
-
-
-   return  { queryKey, queryFn, enabled: !!(eventId && userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAtlasProgressionBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getAtlasProgressionBase>>>
-export type GetAtlasProgressionBaseQueryError = unknown
-
-
-export function useGetAtlasProgressionBase<TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError = unknown>(
- eventId: number,
-    userId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData>> & Pick<
+export function useGetAtlasProgressionBase<
+  TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAtlasProgressionBase>>,
           TError,
           Awaited<ReturnType<typeof getAtlasProgressionBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAtlasProgressionBase<TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError = unknown>(
- eventId: number,
-    userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAtlasProgressionBase<
+  TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAtlasProgressionBase>>,
           TError,
           Awaited<ReturnType<typeof getAtlasProgressionBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAtlasProgressionBase<TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError = unknown>(
- eventId: number,
-    userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAtlasProgressionBase<
+  TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAtlasProgressionBase<TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError = unknown>(
- eventId: number,
-    userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAtlasProgressionBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAtlasProgressionBase<
+  TData = Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAtlasProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAtlasProgressionBaseQueryOptions(
+    eventId,
+    userId,
+    options,
+  );
 
-  const queryOptions = getGetAtlasProgressionBaseQueryOptions(eventId,userId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Fetches all users
  */
 export const getGetAllUsersBaseUrl = () => {
+  return `/users`;
+};
 
-
-
-
-  return `/users`
-}
-
-export const getAllUsersBase = async ( options?: RequestInit): Promise<User[]> => {
-
-  return customFetch<User[]>(getGetAllUsersBaseUrl(),
-  {
+export const getAllUsersBase = async (
+  options?: RequestInit,
+): Promise<User[]> => {
+  return customFetch<User[]>(getGetAllUsersBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetAllUsersBaseQueryKey = () => {
-    return [
-    `/users`
-    ] as const;
-    }
+  return [`/users`] as const;
+};
 
+export const getGetAllUsersBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllUsersBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetAllUsersBaseQueryOptions = <TData = Awaited<ReturnType<typeof getAllUsersBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetAllUsersBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsersBase>>> = ({
+    signal,
+  }) => getAllUsersBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllUsersBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllUsersBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetAllUsersBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllUsersBase>>
+>;
+export type GetAllUsersBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsersBase>>> = ({ signal }) => getAllUsersBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllUsersBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUsersBase>>>
-export type GetAllUsersBaseQueryError = unknown
-
-
-export function useGetAllUsersBase<TData = Awaited<ReturnType<typeof getAllUsersBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>> & Pick<
+export function useGetAllUsersBase<
+  TData = Awaited<ReturnType<typeof getAllUsersBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUsersBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsersBase>>,
           TError,
           Awaited<ReturnType<typeof getAllUsersBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsersBase<TData = Awaited<ReturnType<typeof getAllUsersBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsersBase<
+  TData = Awaited<ReturnType<typeof getAllUsersBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUsersBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsersBase>>,
           TError,
           Awaited<ReturnType<typeof getAllUsersBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsersBase<TData = Awaited<ReturnType<typeof getAllUsersBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsersBase<
+  TData = Awaited<ReturnType<typeof getAllUsersBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUsersBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllUsersBase<TData = Awaited<ReturnType<typeof getAllUsersBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsersBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllUsersBase<
+  TData = Awaited<ReturnType<typeof getAllUsersBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUsersBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllUsersBaseQueryOptions(options);
 
-  const queryOptions = getGetAllUsersBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
  * Removes an authentication provider from the authenticated user
  */
-export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams,) => {
+export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/users/remove-auth?${stringifiedParams}` : `/users/remove-auth`
-}
+  return stringifiedParams.length > 0
+    ? `/users/remove-auth?${stringifiedParams}`
+    : `/users/remove-auth`;
+};
 
-export const removeAuthBase = async (params: RemoveAuthBaseParams, options?: RequestInit): Promise<User> => {
-
-  return customFetch<User>(getRemoveAuthBaseUrl(params),
-  {
+export const removeAuthBase = async (
+  params: RemoveAuthBaseParams,
+  options?: RequestInit,
+): Promise<User> => {
+  return customFetch<User>(getRemoveAuthBaseUrl(params), {
     ...options,
-    method: 'POST'
+    method: "POST",
+  });
+};
 
+export const getRemoveAuthBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof removeAuthBase>>,
+    TError,
+    { params: RemoveAuthBaseParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof removeAuthBase>>,
+  TError,
+  { params: RemoveAuthBaseParams },
+  TContext
+> => {
+  const mutationKey = ["removeAuthBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-  }
-);}
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof removeAuthBase>>,
+    { params: RemoveAuthBaseParams }
+  > = (props) => {
+    const { params } = props ?? {};
 
+    return removeAuthBase(params, requestOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type RemoveAuthBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof removeAuthBase>>
+>;
 
-export const getRemoveAuthBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAuthBase>>, TError,{params: RemoveAuthBaseParams}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof removeAuthBase>>, TError,{params: RemoveAuthBaseParams}, TContext> => {
+export type RemoveAuthBaseMutationError = unknown;
 
-const mutationKey = ['removeAuthBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof removeAuthBase>>, {params: RemoveAuthBaseParams}> = (props) => {
-          const {params} = props ?? {};
-
-          return  removeAuthBase(params,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type RemoveAuthBaseMutationResult = NonNullable<Awaited<ReturnType<typeof removeAuthBase>>>
-
-    export type RemoveAuthBaseMutationError = unknown
-
-    export const useRemoveAuthBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeAuthBase>>, TError,{params: RemoveAuthBaseParams}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof removeAuthBase>>,
-        TError,
-        {params: RemoveAuthBaseParams},
-        TContext
-      > => {
-      return useMutation(getRemoveAuthBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useRemoveAuthBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof removeAuthBase>>,
+      TError,
+      { params: RemoveAuthBaseParams },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof removeAuthBase>>,
+  TError,
+  { params: RemoveAuthBaseParams },
+  TContext
+> => {
+  return useMutation(getRemoveAuthBaseMutationOptions(options), queryClient);
+};
+/**
  * Fetches the authenticated user
  */
 export const getGetUserBaseUrl = () => {
+  return `/users/self`;
+};
 
-
-
-
-  return `/users/self`
-}
-
-export const getUserBase = async ( options?: RequestInit): Promise<User> => {
-
-  return customFetch<User>(getGetUserBaseUrl(),
-  {
+export const getUserBase = async (options?: RequestInit): Promise<User> => {
+  return customFetch<User>(getGetUserBaseUrl(), {
     ...options,
-    method: 'GET'
-
-
-  }
-);}
-
-
-
-
+    method: "GET",
+  });
+};
 
 export const getGetUserBaseQueryKey = () => {
-    return [
-    `/users/self`
-    ] as const;
-    }
+  return [`/users/self`] as const;
+};
 
+export const getGetUserBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserBase>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getGetUserBaseQueryOptions = <TData = Awaited<ReturnType<typeof getUserBase>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetUserBaseQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserBase>>> = ({
+    signal,
+  }) => getUserBase({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserBaseQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUserBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetUserBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserBase>>
+>;
+export type GetUserBaseQueryError = unknown;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserBase>>> = ({ signal }) => getUserBase({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserBase>>>
-export type GetUserBaseQueryError = unknown
-
-
-export function useGetUserBase<TData = Awaited<ReturnType<typeof getUserBase>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>> & Pick<
+export function useGetUserBase<
+  TData = Awaited<ReturnType<typeof getUserBase>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserBase>>,
           TError,
           Awaited<ReturnType<typeof getUserBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserBase<TData = Awaited<ReturnType<typeof getUserBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserBase<
+  TData = Awaited<ReturnType<typeof getUserBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserBase>>,
           TError,
           Awaited<ReturnType<typeof getUserBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserBase<TData = Awaited<ReturnType<typeof getUserBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserBase<
+  TData = Awaited<ReturnType<typeof getUserBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUserBase<TData = Awaited<ReturnType<typeof getUserBase>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUserBase<
+  TData = Awaited<ReturnType<typeof getUserBase>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserBase>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserBaseQueryOptions(options);
 
-  const queryOptions = getGetUserBaseQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
-
-
-
-
 
 /**
  * Updates the authenticated users display name
  */
 export const getUpdateUserBaseUrl = () => {
+  return `/users/self`;
+};
 
-
-
-
-  return `/users/self`
-}
-
-export const updateUserBase = async (updateUserBaseBody: UpdateUserBaseBody, options?: RequestInit): Promise<User> => {
-
-  return customFetch<User>(getUpdateUserBaseUrl(),
-  {
+export const updateUserBase = async (
+  updateUserBaseBody: UpdateUserBaseBody,
+  options?: RequestInit,
+): Promise<User> => {
+  return customFetch<User>(getUpdateUserBaseUrl(), {
     ...options,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      updateUserBaseBody,)
-  }
-);}
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateUserBaseBody),
+  });
+};
 
+export const getUpdateUserBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateUserBase>>,
+    TError,
+    { data: UpdateUserBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateUserBase>>,
+  TError,
+  { data: UpdateUserBaseBody },
+  TContext
+> => {
+  const mutationKey = ["updateUserBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateUserBase>>,
+    { data: UpdateUserBaseBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return updateUserBase(data, requestOptions);
+  };
 
-export const getUpdateUserBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['updateUserBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type UpdateUserBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateUserBase>>
+>;
+export type UpdateUserBaseMutationBody = UpdateUserBaseBody;
+export type UpdateUserBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUserBase>>, {data: UpdateUserBaseBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  updateUserBase(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateUserBaseMutationResult = NonNullable<Awaited<ReturnType<typeof updateUserBase>>>
-    export type UpdateUserBaseMutationBody = UpdateUserBaseBody
-    export type UpdateUserBaseMutationError = unknown
-
-    export const useUpdateUserBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserBase>>, TError,{data: UpdateUserBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateUserBase>>,
-        TError,
-        {data: UpdateUserBaseBody},
-        TContext
-      > => {
-      return useMutation(getUpdateUserBaseMutationOptions(options), queryClient);
-    }
-    /**
+export const useUpdateUserBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateUserBase>>,
+      TError,
+      { data: UpdateUserBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateUserBase>>,
+  TError,
+  { data: UpdateUserBaseBody },
+  TContext
+> => {
+  return useMutation(getUpdateUserBaseMutationOptions(options), queryClient);
+};
+/**
  * Fetches a user by ID
  */
-export const getGetUserByIdBaseUrl = (userId: number,) => {
+export const getGetUserByIdBaseUrl = (userId: number) => {
+  return `/users/${userId}`;
+};
 
-
-
-
-  return `/users/${userId}`
-}
-
-export const getUserByIdBase = async (userId: number, options?: RequestInit): Promise<User> => {
-
-  return customFetch<User>(getGetUserByIdBaseUrl(userId),
-  {
+export const getUserByIdBase = async (
+  userId: number,
+  options?: RequestInit,
+): Promise<User> => {
+  return customFetch<User>(getGetUserByIdBaseUrl(userId), {
     ...options,
-    method: 'GET'
+    method: "GET",
+  });
+};
 
+export const getGetUserByIdBaseQueryKey = (userId: number) => {
+  return [`/users/${userId}`] as const;
+};
 
-  }
-);}
-
-
-
-
-
-export const getGetUserByIdBaseQueryKey = (userId: number,) => {
-    return [
-    `/users/${userId}`
-    ] as const;
-    }
-
-
-export const getGetUserByIdBaseQueryOptions = <TData = Awaited<ReturnType<typeof getUserByIdBase>>, TError = unknown>(userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+export const getGetUserByIdBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserByIdBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserByIdBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUserByIdBaseQueryKey(userId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserByIdBaseQueryKey(userId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserByIdBase>>> = ({
+    signal,
+  }) => getUserByIdBase(userId, { signal, ...requestOptions });
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!userId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUserByIdBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetUserByIdBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserByIdBase>>
+>;
+export type GetUserByIdBaseQueryError = unknown;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserByIdBase>>> = ({ signal }) => getUserByIdBase(userId, { signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserByIdBaseQueryResult = NonNullable<Awaited<ReturnType<typeof getUserByIdBase>>>
-export type GetUserByIdBaseQueryError = unknown
-
-
-export function useGetUserByIdBase<TData = Awaited<ReturnType<typeof getUserByIdBase>>, TError = unknown>(
- userId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData>> & Pick<
+export function useGetUserByIdBase<
+  TData = Awaited<ReturnType<typeof getUserByIdBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserByIdBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserByIdBase>>,
           TError,
           Awaited<ReturnType<typeof getUserByIdBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserByIdBase<TData = Awaited<ReturnType<typeof getUserByIdBase>>, TError = unknown>(
- userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserByIdBase<
+  TData = Awaited<ReturnType<typeof getUserByIdBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserByIdBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserByIdBase>>,
           TError,
           Awaited<ReturnType<typeof getUserByIdBase>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserByIdBase<TData = Awaited<ReturnType<typeof getUserByIdBase>>, TError = unknown>(
- userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserByIdBase<
+  TData = Awaited<ReturnType<typeof getUserByIdBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserByIdBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUserByIdBase<TData = Awaited<ReturnType<typeof getUserByIdBase>>, TError = unknown>(
- userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserByIdBase>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUserByIdBase<
+  TData = Awaited<ReturnType<typeof getUserByIdBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUserByIdBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserByIdBaseQueryOptions(userId, options);
 
-  const queryOptions = getGetUserByIdBaseQueryOptions(userId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-
-
-
-
-
 /**
  * Changes the permissions of a user
  */
-export const getChangePermissionsBaseUrl = (userId: number,) => {
+export const getChangePermissionsBaseUrl = (userId: number) => {
+  return `/users/${userId}`;
+};
 
-
-
-
-  return `/users/${userId}`
-}
-
-export const changePermissionsBase = async (userId: number,
-    changePermissionsBaseBody: ChangePermissionsBaseBody, options?: RequestInit): Promise<User> => {
-
-  return customFetch<User>(getChangePermissionsBaseUrl(userId),
-  {
+export const changePermissionsBase = async (
+  userId: number,
+  changePermissionsBaseBody: ChangePermissionsBaseBody,
+  options?: RequestInit,
+): Promise<User> => {
+  return customFetch<User>(getChangePermissionsBaseUrl(userId), {
     ...options,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      changePermissionsBaseBody,)
-  }
-);}
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(changePermissionsBaseBody),
+  });
+};
 
+export const getChangePermissionsBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof changePermissionsBase>>,
+    TError,
+    { userId: number; data: ChangePermissionsBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof changePermissionsBase>>,
+  TError,
+  { userId: number; data: ChangePermissionsBaseBody },
+  TContext
+> => {
+  const mutationKey = ["changePermissionsBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof changePermissionsBase>>,
+    { userId: number; data: ChangePermissionsBaseBody }
+  > = (props) => {
+    const { userId, data } = props ?? {};
 
+    return changePermissionsBase(userId, data, requestOptions);
+  };
 
-export const getChangePermissionsBaseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext> => {
+  return { mutationFn, ...mutationOptions };
+};
 
-const mutationKey = ['changePermissionsBase'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+export type ChangePermissionsBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof changePermissionsBase>>
+>;
+export type ChangePermissionsBaseMutationBody = ChangePermissionsBaseBody;
+export type ChangePermissionsBaseMutationError = unknown;
 
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePermissionsBase>>, {userId: number;data: ChangePermissionsBaseBody}> = (props) => {
-          const {userId,data} = props ?? {};
-
-          return  changePermissionsBase(userId,data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ChangePermissionsBaseMutationResult = NonNullable<Awaited<ReturnType<typeof changePermissionsBase>>>
-    export type ChangePermissionsBaseMutationBody = ChangePermissionsBaseBody
-    export type ChangePermissionsBaseMutationError = unknown
-
-    export const useChangePermissionsBase = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePermissionsBase>>, TError,{userId: number;data: ChangePermissionsBaseBody}, TContext>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof changePermissionsBase>>,
-        TError,
-        {userId: number;data: ChangePermissionsBaseBody},
-        TContext
-      > => {
-      return useMutation(getChangePermissionsBaseMutationOptions(options), queryClient);
-    }
+export const useChangePermissionsBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof changePermissionsBase>>,
+      TError,
+      { userId: number; data: ChangePermissionsBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof changePermissionsBase>>,
+  TError,
+  { userId: number; data: ChangePermissionsBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getChangePermissionsBaseMutationOptions(options),
+    queryClient,
+  );
+};

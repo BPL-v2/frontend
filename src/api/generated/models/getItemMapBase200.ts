@@ -1,2 +1,1 @@
-
-export type GetItemMapBase200 = {[key: string]: {[key: string]: number}};
+export type GetItemMapBase200 = { [key: string]: { [key: string]: number } };

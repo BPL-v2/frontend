@@ -1,4 +1,3 @@
-
 export interface NonSensitiveUser {
   account_name?: string;
   discord_id?: string;
