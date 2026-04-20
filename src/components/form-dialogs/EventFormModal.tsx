@@ -47,7 +47,7 @@ export function EventFormModal({
     if (existingEvent) {
       setFormValues(form, existingEvent);
     }
-  }, [isOpen, existingEvent]);
+  }, [isOpen, existingEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

@@ -11,7 +11,7 @@ dayjs.extend(customParseFormat);
 
 const formatDateForInput = (date?: Date) => {
   if (!date) return "";
-  const tzOffset = 2 * date.getTimezoneOffset() * 60000;
+  const tzOffset = date.getTimezoneOffset() * 60000;
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
 };
 
@@ -78,6 +78,7 @@ export function RecurringJobFormModal({
           />
           <label className="label">End Date</label>
           <input
+            key={selectedEvent?.id}
             id="endDate"
             name="endDate"
             type="datetime-local"

@@ -57,7 +57,7 @@ export function customPoPoints(char: LadderEntry) {
 
 type POPolicies = Partial<Record<keyof LadderEntry, (number | null)[]>>;
 
-var policies: POPolicies = {
+const policies: POPolicies = {
   armour: [30000, 60000, 90000],
   evasion: [30000, 60000, 90000],
   level: [null, 95, 98],

@@ -56,7 +56,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
     if (onChange && date && time) {
       onChange(toIsoString(time, date));
     }
-  }, [date, time]);
+  }, [date, time]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <label

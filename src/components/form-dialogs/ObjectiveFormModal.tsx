@@ -101,7 +101,7 @@ export function ObjectiveFormModal({
         existingObjective.scoring_presets.map((p) => p.id),
       );
     }
-  }, [isOpen, existingObjective]);
+  }, [isOpen, existingObjective]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

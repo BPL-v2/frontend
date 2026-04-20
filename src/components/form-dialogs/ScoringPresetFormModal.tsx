@@ -53,7 +53,7 @@ export function ScoringPresetFormModal({
     if (existingPreset) {
       setFormValues(form, existingPreset);
     }
-  }, [isOpen, existingPreset]);
+  }, [isOpen, existingPreset]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

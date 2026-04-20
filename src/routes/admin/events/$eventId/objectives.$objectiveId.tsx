@@ -116,7 +116,7 @@ export function ScoringCategoryPage(): JSX.Element {
   const event = events?.find((event) => event.id === eventId);
   const path = getPath(rules, objectiveId);
 
-  const objectiveColumns: ColumnDef<Objective>[] = [
+  const objectiveColumns = useMemo<ColumnDef<Objective>[]>(() => [
     {
       header: "",
       accessorKey: "id",
@@ -331,7 +331,7 @@ export function ScoringCategoryPage(): JSX.Element {
         );
       },
     },
-  ];
+  ], [event?.game_version, validationMap, scoringPresets, createObjective, deleteObjective, duplicateObjective, eventId]);
 
   const table = useMemo(() => {
     return (

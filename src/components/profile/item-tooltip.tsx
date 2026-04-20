@@ -28,8 +28,9 @@ export function ItemTooltip({ item, itemX, itemY }: Props) {
     if (window.innerWidth < rect.right) {
       left = window.innerWidth - el.offsetWidth - 30;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPosition({ left, top });
-  }, [itemX, itemY, item?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [itemX, itemY, item?.id]);
 
   if (!item) return null;
 

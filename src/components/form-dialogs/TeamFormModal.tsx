@@ -45,7 +45,7 @@ export function TeamFormModal({
     } else {
       form.reset();
     }
-  }, [isOpen, existingTeam]);
+  }, [isOpen, existingTeam]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const poe2Classes = [
     "Warbringer",

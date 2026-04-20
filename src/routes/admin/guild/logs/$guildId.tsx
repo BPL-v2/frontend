@@ -137,7 +137,7 @@ function RouteComponent() {
   const mutation = usePreloadGuildLogs(currentEvent.id, guildId, 200, qc);
   useEffect(() => {
     mutation.mutate();
-  }, [currentEvent.id, guildId]);
+  }, [currentEvent.id, guildId]); // eslint-disable-line react-hooks/exhaustive-deps
   const processedLogs = useMemo(
     () => filterMovementsAndProcessQuantities(logs),
     [logs],

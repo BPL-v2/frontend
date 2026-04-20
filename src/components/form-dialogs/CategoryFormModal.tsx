@@ -61,7 +61,7 @@ export function CategoryFormModal({
         existingCategory.scoring_presets.map((p) => p.id),
       );
     }
-  }, [isOpen, existingCategory]);
+  }, [isOpen, existingCategory]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

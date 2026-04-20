@@ -145,7 +145,7 @@ function LadderTab(): JSX.Element {
     [filteredLadder],
   );
 
-  const showAlwaysLadder = ["Stream"];
+  const showAlwaysLadder = useMemo(() => ["Stream"], []);
   const streamsByUser = streams.reduce(
     (acc, stream) => {
       if (stream.backend_user_id) {

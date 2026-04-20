@@ -138,14 +138,6 @@ function EventPage(): JSX.Element {
     [event],
   );
 
-  const userMap = useMemo(
-    () =>
-      users.reduce((acc: { [userId: number]: (typeof users)[0] }, user) => {
-        acc[user.id] = user;
-        return acc;
-      }, {}),
-    [users],
-  );
 
   const getTeam = useMemo(() => {
     const userToTeam =
@@ -393,7 +385,7 @@ function EventPage(): JSX.Element {
         preferences.ladder[col.id as keyof typeof preferences.ladder] ||
         col.id === "Rank",
     );
-  }, [isMobile, event, preferences, userMap, getTeam]);
+  }, [isMobile, event, preferences, getTeam]);
 
   const categoryNames = scores?.children.map((c) => c.name) || [];
   const scoreRows = (event?.teams || []).map((team) => ({

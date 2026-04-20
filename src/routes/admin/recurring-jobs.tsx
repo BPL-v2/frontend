@@ -67,7 +67,26 @@ function RecurringJobsPage() {
                 {new Date(job.end_date) < new Date() ? "Stopped" : "Running"}
               </td>
               <td className="flex gap-2">
-                {new Date(job.end_date) < new Date() ? null : (
+                {new Date(job.end_date) < new Date() ? (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      const event = events.find((e) => e.id === job.event_id);
+                      if (!event) return;
+                      startJob({
+                        event_id: job.event_id,
+                        job_type: job.job_type,
+                        end_date: event.event_end_time,
+                      });
+                    }}
+                    disabled={startJobPending}
+                  >
+                    {startJobPending && (
+                      <span className="loading loading-xs loading-spinner" />
+                    )}
+                    Start
+                  </button>
+                ) : (
                   <button
                     className="btn btn-secondary"
                     onClick={() => stopJob(job)}

@@ -63,7 +63,7 @@ export function SignupFormModal({
         partner_account_name: signup.partnerWish ?? "",
       });
     }
-  }, [isOpen, signup]);
+  }, [isOpen, signup]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog title="Apply for Event" open={isOpen} setOpen={setIsOpen}>

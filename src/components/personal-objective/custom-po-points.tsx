@@ -6,7 +6,7 @@ import {
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-var policyKeys: Partial<Record<keyof LadderEntry, string>> = {
+const policyKeys: Partial<Record<keyof LadderEntry, string>> = {
   armour: "Armor",
   evasion: "Evasion",
   level: "Level",

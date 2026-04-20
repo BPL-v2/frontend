@@ -117,7 +117,7 @@ function RootComponent() {
     ) {
       addEngagementBase({ name: document.referrer });
     }
-  }, [document.referrer]);
+  }, []);
 
   useEffect(() => {
     if (hello) {

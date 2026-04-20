@@ -330,6 +330,7 @@ export function ItemTable({
       ];
     }
     return columns;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentEvent,
     objective,

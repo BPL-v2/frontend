@@ -42,7 +42,7 @@ export function ReleaseDatesFormModal({
     form.reset();
     form.setFieldValue("valid_from", objective.valid_from ?? "");
     form.setFieldValue("valid_to", objective.valid_to ?? "");
-  }, [isOpen, objective]);
+  }, [isOpen, objective]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

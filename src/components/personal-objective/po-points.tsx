@@ -14,7 +14,7 @@ export default function PoPoints(): React.JSX.Element {
     useQueryClient(),
     currentEvent.id,
   );
-  let char = ladder
+  const char = ladder
     ?.sort((a, b) => b.level - a.level)
     .find((c) => c.user_id === user?.id);
   return (
