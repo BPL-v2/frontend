@@ -21,8 +21,8 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
   const pad = (n: number) => (n < 10 ? `0${n}` : n);
 
   const getTime = (d: Date | undefined) => {
-    if (!d) return "00:00";
-    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    if (!d) return "00:00:00";
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   };
   const getDate = (d: Date | undefined) => {
     if (!d) return "";
@@ -30,7 +30,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
   };
 
   const defaultDate = useMemo(() => {
-    if (!defaultValue) return { date: "", time: "00:00" };
+    if (!defaultValue) return { date: "", time: "00:00:00" };
     const d = typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue;
     return { date: getDate(d), time: getTime(d) };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,6 +76,7 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
         />
         <input
           type="time"
+          step="1"
           className="input rounded-r-field"
           name={`${name}-time`}
           value={time}
