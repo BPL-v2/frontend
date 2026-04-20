@@ -16,6 +16,7 @@ export default defineConfig({
       mode: "tags-split",
       clean: true,
       override: {
+        header: false,
         useDates: true,
         fetch: {
           includeHttpResponseReturnType: false,
