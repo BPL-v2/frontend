@@ -1,4 +1,4 @@
-import { ScoringMethod, Team, TeamSuggestion } from "@api";
+import { ScoringRuleType, Team, TeamSuggestion } from "@api";
 import {
   useAddTeamSuggestion,
   useDeleteTeamSuggestion,
@@ -332,16 +332,16 @@ function TeamSuggestionsPage() {
 
   const relevantCategories = containers.filter(
     (category) =>
-      category.scoring_presets[0]?.scoring_method ===
-        ScoringMethod.RANKED_COMPLETION_TIME &&
+      category.scoring_rules[0]?.scoring_rule ===
+        ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME &&
       eventStatus.team_id !== undefined &&
       !category.team_score[eventStatus.team_id].isFinished(),
   );
 
   const relevantObjectives = leaves.filter(
     (objective) =>
-      objective.scoring_presets[0]?.scoring_method ===
-        ScoringMethod.RANKED_TIME &&
+      objective.scoring_rules[0]?.scoring_rule ===
+        ScoringRuleType.RANK_BY_COMPLETION_TIME &&
       !objective.team_score[eventStatus.team_id!].isFinished() &&
       (!objective.valid_from || new Date(objective.valid_from) < new Date()),
   );

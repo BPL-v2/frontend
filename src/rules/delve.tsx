@@ -1,6 +1,6 @@
 import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { NumberField, ScoringMethod } from "@api";
+import { TrackedValue, ScoringRuleType } from "@api";
 
 function racePointsToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {
@@ -44,7 +44,7 @@ export function DelveTabRules() {
   );
 
   const cumulativeDepthObjective = delveCategory?.children.find(
-    (c) => c.number_field === NumberField.PROGRESSIVE_DELVE_DEPTH,
+    (c) => c.tracked_value === TrackedValue.WEIGHTED_DELVE_DEPTH,
   );
 
   const delveRace = delveCategory?.children.find(
@@ -61,7 +61,7 @@ export function DelveTabRules() {
             amount of each of the {fossilRaceCategory.children.length} Fossils
             has to be collected.{" "}
             {racePointsToText(
-              fossilRaceCategory.scoring_presets[0]?.points || [],
+              fossilRaceCategory.scoring_rules[0]?.points || [],
             )}
           </p>
         </>
@@ -104,7 +104,7 @@ export function DelveTabRules() {
           </ul>
           <p>
             {racePointsToText(
-              fossilFuelRaceCategory.scoring_presets[0]?.points || [],
+              fossilFuelRaceCategory.scoring_rules[0]?.points || [],
             )}
           </p>
         </>
@@ -119,9 +119,9 @@ export function DelveTabRules() {
             progress up to a cap of{" "}
             <b className="text-info">
               {
-                cumulativeDepthObjective.scoring_presets?.find(
+                cumulativeDepthObjective.scoring_rules?.find(
                   (preset) =>
-                    preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+                    preset.scoring_rule === ScoringRuleType.POINTS_BY_VALUE,
                 )?.point_cap
               }
             </b>{" "}

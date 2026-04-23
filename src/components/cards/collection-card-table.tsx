@@ -32,8 +32,8 @@ function getPlace(score: ScoreClass) {
 function finishTooltip(objective: ScoreObjective, score: ScoreClass) {
   const place = getPlace(score);
   return `${place} ${
-    objective.scoring_presets.length > 0 &&
-    `${score.totalPoints()}/${Math.max(...objective.scoring_presets[0].points)} points`
+    objective.scoring_rules.length > 0 &&
+    `${score.totalPoints()}/${Math.max(...objective.scoring_rules[0].points)} points`
   }`;
 }
 
@@ -62,8 +62,8 @@ export function CollectionCardTable({
       .map((team) => team.name.length),
   );
   const canGrantPoints =
-    objective.scoring_presets.length > 0 &&
-    objective.scoring_presets.some((preset) =>
+    objective.scoring_rules.length > 0 &&
+    objective.scoring_rules.some((preset) =>
       preset.points.some((point) => point > 0),
     );
   showPoints = showPoints && canGrantPoints;

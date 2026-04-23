@@ -1,4 +1,4 @@
-import { ObjectiveType, ScoringMethod, Team, Completion } from "@api";
+import { ObjectiveType, ScoringRuleType, Team, Completion } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
@@ -107,8 +107,8 @@ function RouteComponent() {
   for (const scoreRow of scoreRows
     .filter(
       (s) =>
-        s.objective.scoring_presets.find((preset) => preset.id === s.preset_id)
-          ?.scoring_method != ScoringMethod.POINTS_FROM_VALUE,
+        s.objective.scoring_rules.find((rule) => rule.id === s.preset_id)
+          ?.scoring_rule != ScoringRuleType.POINTS_BY_VALUE,
     )
     .sort((a, b) => a.timestamp - b.timestamp)) {
     if (!scoreRow.team) continue;

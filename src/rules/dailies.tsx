@@ -1,6 +1,6 @@
 import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ScoringMethod } from "@api";
+import { ScoringRuleType } from "@api";
 
 function convertArrayToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {
@@ -38,15 +38,15 @@ export function DailyTabRules() {
   const basePoints =
     dailyCategory?.children?.find(
       (objective) =>
-        objective.scoring_presets[0]?.scoring_method === ScoringMethod.PRESENCE,
-    )?.scoring_presets[0]?.points || [];
+        objective.scoring_rules[0]?.scoring_rule === ScoringRuleType.FIXED_POINTS_ON_COMPLETION,
+    )?.scoring_rules[0]?.points || [];
 
   const racePoints =
     dailyCategory?.children?.find(
       (objective) =>
-        objective.scoring_presets[0]?.scoring_method ===
-        ScoringMethod.RANKED_TIME,
-    )?.scoring_presets[0]?.points || [];
+        objective.scoring_rules[0]?.scoring_rule ===
+        ScoringRuleType.RANK_BY_COMPLETION_TIME,
+    )?.scoring_rules[0]?.points || [];
 
   const hoursForCompletion = (
     dailyCategory?.children?.map(

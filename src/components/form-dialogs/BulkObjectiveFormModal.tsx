@@ -1,13 +1,13 @@
-import { AggregationType, ItemField } from "@api";
+import { CountingMethod, ItemField } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateBulkObjectives, useGetScoringPresetsForEvent } from "@api";
+import { useCreateBulkObjectives, useGetScoringRulesForEvent } from "@api";
 
 export type BulkObjectiveCreate = {
   nameList: string;
-  scoring_preset_ids: number[];
-  aggregation_method: AggregationType;
+  scoring_rule_ids: number[];
+  counting_method: CountingMethod;
   item_field: ItemField;
 };
 
@@ -25,7 +25,7 @@ export function BulkObjectiveFormModal({
   categoryId,
 }: BulkObjectiveFormModalProps) {
   const qc = useQueryClient();
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
 
   const form = useAppForm({
     defaultValues: {} as BulkObjectiveCreate,
@@ -67,26 +67,26 @@ export function BulkObjectiveFormModal({
           )}
         />
         <form.AppField
-          name="scoring_preset_ids"
+          name="scoring_rule_ids"
           children={(field) => (
             <field.MultiSelectField
-              label="Scoring Presets"
+              label="Scoring Rules"
               className="w-full"
-              options={scoringPresets.map((preset) => ({
-                label: preset.name,
-                value: preset.id,
+              options={scoringRules.map((rule) => ({
+                label: rule.name,
+                value: rule.id,
               }))}
             />
           )}
         />
         <form.AppField
-          name="aggregation_method"
+          name="counting_method"
           children={(field) => (
             <field.SelectField
-              label="Aggregation Method"
+              label="Counting Method"
               className="w-full"
               required
-              options={Object.values(AggregationType)}
+              options={Object.values(CountingMethod)}
             />
           )}
         />

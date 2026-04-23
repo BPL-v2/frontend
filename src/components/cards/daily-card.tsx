@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { ScoreObjective } from "@mytypes/score";
-import { ObjectiveType, ScoringMethod } from "@api";
+import { ObjectiveType, ScoringRuleType } from "@api";
 import { twMerge } from "tailwind-merge";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
@@ -68,7 +68,7 @@ export function DailyCard({ daily }: DailyCardProps) {
   );
 
   const isRace =
-    daily.scoring_presets[0]?.scoring_method === ScoringMethod.RANKED_TIME;
+    daily.scoring_rules[0]?.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME;
   const isAvailable = daily.valid_to && new Date(daily.valid_to) > new Date();
   const canSubmit =
     daily.objective_type === ObjectiveType.SUBMISSION &&

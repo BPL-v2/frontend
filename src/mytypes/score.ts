@@ -4,8 +4,8 @@ import {
   ScoreDiff,
   Team,
   Score,
-  ScoringMethod,
-  AggregationType,
+  ScoringRuleType,
+  CountingMethod,
 } from "@api";
 import { getSubObjective } from "./scoring-objective";
 
@@ -34,8 +34,8 @@ export function getMetaInfo(
   meta.objective = getSubObjective(scores, scoreDiff.objective_id);
   if (meta.objective) {
     meta.parent = getSubObjective(scores, meta.objective.parent_id);
-    const bonusPerCompletionPreset = meta.parent?.scoring_presets.find(
-      (preset) => preset.scoring_method === "BONUS_PER_COMPLETION",
+    const bonusPerCompletionPreset = meta.parent?.scoring_rules.find(
+      (preset) => preset.scoring_rule === "BONUS_PER_CHILD_COMPLETION",
     );
     if (meta.parent && bonusPerCompletionPreset) {
       const finishedObjectives = Math.min(
@@ -149,8 +149,8 @@ export type ScoreObjective = Omit<Objective, "children"> & {
 
 export function isWinnable(category: ScoreObjective): boolean {
   if (
-    category.scoring_presets.some(
-      (preset) => preset.scoring_method === "BONUS_PER_COMPLETION",
+    category.scoring_rules.some(
+      (preset) => preset.scoring_rule === "BONUS_PER_CHILD_COMPLETION",
     ) ||
     category.children.length === 0
   ) {
@@ -169,8 +169,8 @@ export function hasEnded(objective: ScoreObjective, teamId?: number): boolean {
     return false;
   }
   if (
-    objective.scoring_presets.some(
-      (preset) => preset.scoring_method === "BONUS_PER_COMPLETION",
+    objective.scoring_rules.some(
+      (preset) => preset.scoring_rule === "BONUS_PER_CHILD_COMPLETION",
     )
   ) {
     const finishedObjectives = objective.children.filter((objective) =>
@@ -188,10 +188,10 @@ export function hasEnded(objective: ScoreObjective, teamId?: number): boolean {
 
 export function canBeFinished(objective: ScoreObjective): boolean {
   return (
-    objective.scoring_presets[0]?.scoring_method !==
-      ScoringMethod.CHILD_NUMBER_SUM ||
+    objective.scoring_rules[0]?.scoring_rule !==
+      ScoringRuleType.RANK_BY_CHILD_VALUE_SUM ||
     !objective.children.some(
-      (child) => child.aggregation === AggregationType.MAXIMUM,
+      (child) => child.counting_method === CountingMethod.HIGHEST_VALUE,
     )
   );
 }

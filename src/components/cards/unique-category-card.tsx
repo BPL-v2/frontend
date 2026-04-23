@@ -1,4 +1,4 @@
-import { ScoringMethod } from "@api";
+import { ScoringRuleType } from "@api";
 import { Countdown } from "@components/countdown";
 import { CategoryIcon } from "@icons/category-icons";
 import { Medal } from "@icons/medal";
@@ -17,14 +17,14 @@ type UniqueCategoryCardProps = {
 };
 
 function isRepeatable(objective: ScoreObjective): boolean {
-  return objective.scoring_presets.some(
-    (preset) => preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+  return objective.scoring_rules.some(
+    (preset) => preset.scoring_rule === ScoringRuleType.POINTS_BY_VALUE,
   );
 }
 
 function getSubmissionCap(objective: ScoreObjective): number {
-  const preset = objective.scoring_presets.find(
-    (preset) => preset.scoring_method === ScoringMethod.POINTS_FROM_VALUE,
+  const preset = objective.scoring_rules.find(
+    (preset) => preset.scoring_rule === ScoringRuleType.POINTS_BY_VALUE,
   );
   if (!preset) {
     return 0;

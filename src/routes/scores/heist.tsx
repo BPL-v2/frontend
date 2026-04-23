@@ -2,7 +2,7 @@ import { JSX, useContext, useEffect } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import TeamScoreDisplay from "@components/team/team-score";
 import { ItemTable } from "@components/table/item-table";
-import { GameVersion, ScoringMethod } from "@api";
+import { GameVersion, ScoringRuleType } from "@api";
 import { Ranking } from "@components/ranking";
 import { createFileRoute } from "@tanstack/react-router";
 import { HeistTabRules } from "@rules/heist";
@@ -28,7 +28,7 @@ function HeistTab(): JSX.Element {
 
   const heistItemRaces = heistCategory.children.filter(
     (category) =>
-      category.scoring_presets[0]?.scoring_method === ScoringMethod.RANKED_TIME,
+      category.scoring_rules[0]?.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME,
   );
 
   const heistMultiItemRaces = heistCategory.children.filter(
@@ -64,10 +64,10 @@ function HeistTab(): JSX.Element {
           {heistMultiItemRaces.map((category) => (
             <div key={category.id} className="rounded-box bg-base-200 p-8 pt-2">
               <div className="divider divider-primary">{category.name}</div>
-              {(category.scoring_presets[0]?.scoring_method ===
-                ScoringMethod.RANKED_TIME ||
-                category.scoring_presets[0]?.scoring_method ===
-                  ScoringMethod.RANKED_COMPLETION_TIME) && (
+              {(category.scoring_rules[0]?.scoring_rule ===
+                ScoringRuleType.RANK_BY_COMPLETION_TIME ||
+                category.scoring_rules[0]?.scoring_rule ===
+                  ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME) && (
                 <Ranking
                   objective={category}
                   maximum={category.children.length}

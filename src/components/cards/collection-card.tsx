@@ -48,7 +48,7 @@ function parseMultiscoreCollection(objective: ScoreObjective): ScoreObjective {
             finished: false,
             number: teamNumberMap.get(Number(teamId)) || 0,
             points: teamPointMap.get(Number(teamId)) || 0,
-            preset_id: objective.children[0].scoring_presets[0]?.id || 0,
+            preset_id: objective.children[0].scoring_rules[0]?.id || 0,
             rank: 0,
             timestamp: Date.now(),
             user_id: undefined,
@@ -58,7 +58,7 @@ function parseMultiscoreCollection(objective: ScoreObjective): ScoreObjective {
     ]),
   );
   newObjective.required_number = 0;
-  newObjective.scoring_presets = objective.children[0].scoring_presets;
+  newObjective.scoring_rules = objective.children[0].scoring_rules;
   return newObjective;
 }
 

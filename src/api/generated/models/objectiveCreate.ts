@@ -1,21 +1,21 @@
-import type { AggregationType } from "./aggregationType";
 import type { Condition } from "./condition";
-import type { NumberField } from "./numberField";
+import type { CountingMethod } from "./countingMethod";
 import type { ObjectiveType } from "./objectiveType";
+import type { TrackedValue } from "./trackedValue";
 
 export interface ObjectiveCreate {
-  aggregation: AggregationType;
   conditions: Condition[];
+  counting_method: CountingMethod;
   extra?: string;
   hide_progress?: boolean;
   id?: number;
   name: string;
-  number_field: NumberField;
-  number_field_explanation?: string;
   objective_type: ObjectiveType;
   parent_id: number;
   required_number: number;
-  scoring_preset_ids: number[];
+  scoring_rule_ids: number[];
+  tracked_value: TrackedValue;
+  tracked_value_explanation?: string;
   valid_from?: Date;
   valid_to?: Date;
 }

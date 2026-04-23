@@ -18,7 +18,7 @@ import {
   useGetEvents,
   useGetObjectiveValidations,
   useGetRules,
-  useGetScoringPresetsForEvent,
+  useGetScoringRulesForEvent,
 } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import {
@@ -94,7 +94,7 @@ export function ScoringCategoryPage(): JSX.Element {
     useState<Objective | null>(null);
 
   const { events } = useGetEvents();
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
   const { rules } = useGetRules(eventId);
   const { objectiveValidations } = useGetObjectiveValidations(eventId);
   const validationMap = objectiveValidations.reduce(
@@ -188,11 +188,11 @@ export function ScoringCategoryPage(): JSX.Element {
     {
       header: "Scoring Method",
       cell: ({ row }) => {
-        return scoringPresets
-          .filter((preset) =>
-            row.original.scoring_presets.map((p) => p.id).includes(preset.id),
+        return scoringRules
+          .filter((rule) =>
+            row.original.scoring_rules.map((r) => r.id).includes(rule.id),
           )
-          .map((preset) => preset.name)
+          .map((rule) => rule.name)
           .join(", ");
       },
     },
@@ -228,8 +228,8 @@ export function ScoringCategoryPage(): JSX.Element {
                       onClick={() =>
                         createObjective({
                           ...row.original,
-                          scoring_preset_ids: row.original.scoring_presets.map(
-                            (preset) => preset.id,
+                          scoring_rule_ids: row.original.scoring_rules.map(
+                            (rule) => rule.id,
                           ),
                           conditions: row.original.conditions.filter(
                             (c) => c !== condition,
@@ -331,7 +331,7 @@ export function ScoringCategoryPage(): JSX.Element {
         );
       },
     },
-  ], [event?.game_version, validationMap, scoringPresets, createObjective, deleteObjective, duplicateObjective, eventId]);
+  ], [event?.game_version, validationMap, scoringRules, createObjective, deleteObjective, duplicateObjective, eventId]);
 
   const table = useMemo(() => {
     return (

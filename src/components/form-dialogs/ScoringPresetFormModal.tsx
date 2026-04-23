@@ -1,51 +1,51 @@
 import { useEffect } from "react";
-import { ScoringMethod, ScoringPreset, ScoringPresetCreate } from "@api";
+import { ScoringRuleType, ScoringRule, ScoringRuleCreate } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAddScoringPreset } from "@api";
+import { useAddScoringRule } from "@api";
 
-interface ScoringPresetFormModalProps {
+interface ScoringRuleFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   eventId: number;
-  existingPreset?: ScoringPreset | null;
+  existingPreset?: ScoringRule | null;
 }
 
-export function ScoringPresetFormModal({
+export function ScoringRuleFormModal({
   isOpen,
   setIsOpen,
   eventId,
   existingPreset,
-}: ScoringPresetFormModalProps) {
+}: ScoringRuleFormModalProps) {
   const qc = useQueryClient();
 
   const form = useAppForm({
     defaultValues: {
       points: [] as number[],
       extra: {},
-    } as ScoringPresetCreate,
+    } as ScoringRuleCreate,
     onSubmit: (data) => {
       const create = JSON.parse(
         JSON.stringify(data.value),
-      ) as ScoringPresetCreate;
+      ) as ScoringRuleCreate;
       if (typeof data.value.points === "string") {
         create.points = (data.value.points as never as string)
           .split(",")
           .filter((p) => p.trim())
           .map((point: string) => parseFloat(point.trim()));
       }
-      addScoringPreset(create);
+      addScoringRule(create);
     },
   });
 
-  const { addScoringPreset } = useAddScoringPreset(qc, eventId, () => {
+  const { addScoringRule } = useAddScoringRule(qc, eventId, () => {
     setIsOpen(false);
     form.reset();
   });
 
-  const { scoring_method } = useStore(form.store, (state) => state.values);
+  const { scoring_rule } = useStore(form.store, (state) => state.values);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -78,48 +78,48 @@ export function ScoringPresetFormModal({
           children={(field) => <field.TextField label="Points" required />}
         />
         <form.AppField
-          name="scoring_method"
+          name="scoring_rule"
           children={(field) => (
             <field.SelectField
               label="Scoring Method"
-              options={Object.values(ScoringMethod)}
+              options={Object.values(ScoringRuleType)}
               required
             />
           )}
         />
         <form.AppField
-          name="extra.required_number_of_bingos"
+          name="extra.required_bingo_count"
           children={(field) => (
             <field.TextField
               label="Required Number of Bingos"
-              hidden={scoring_method !== ScoringMethod.BINGO_BOARD}
+              hidden={scoring_rule !== ScoringRuleType.BINGO_BOARD_RANKING}
             />
           )}
         />
-        {scoring_method === ScoringMethod.RANKED_COMPLETION_TIME && (
+        {scoring_rule === ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME && (
           <div className="flex flex-col gap-1 rounded-lg border border-highlight p-2">
             <p className="px-2 text-left text-neutral-content/40">
               Required child completions
             </p>
             <div className="flex flex-row">
               <form.AppField
-                name="extra.required_child_completions"
+                name="extra.required_completed_children"
                 children={(field) => (
                   <field.TextField
                     label="Number"
                     hidden={
-                      scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME
+                      scoring_rule !== ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
                     }
                   />
                 )}
               />
               <form.AppField
-                name="extra.required_child_completions_percent"
+                name="extra.required_completed_children_percent"
                 children={(field) => (
                   <field.TextField
                     label="Percentage"
                     hidden={
-                      scoring_method !== ScoringMethod.RANKED_COMPLETION_TIME
+                      scoring_rule !== ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
                     }
                   />
                 )}
@@ -132,8 +132,8 @@ export function ScoringPresetFormModal({
           children={(field) => (
             <field.NumberField
               label="Point Cap"
-              required={scoring_method === ScoringMethod.POINTS_FROM_VALUE}
-              hidden={scoring_method !== ScoringMethod.POINTS_FROM_VALUE}
+              required={scoring_rule === ScoringRuleType.POINTS_BY_VALUE}
+              hidden={scoring_rule !== ScoringRuleType.POINTS_BY_VALUE}
             />
           )}
         />

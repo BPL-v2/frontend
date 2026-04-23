@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { ScoringMethod } from "@api";
+import { ScoringRuleType } from "@api";
 import { pointsToGroup } from "@utils/text-utils";
 
 function convertArrayToText(points: number[] | undefined) {
@@ -56,8 +56,8 @@ export function UniqueTabRules() {
     .find((c) => c.children.length >= 2);
 
   const ubersCategory = uniqueCategory.children.find((c) =>
-    c.scoring_presets.some(
-      (preset) => preset.scoring_method === ScoringMethod.BONUS_PER_COMPLETION,
+    c.scoring_rules.some(
+      (rule) => rule.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION,
     ),
   );
 
@@ -120,7 +120,7 @@ export function UniqueTabRules() {
             not grant any additional points and the more uniques that are found,
             the less points they award.{" "}
             {convertArrayToText(
-              ubersCategory.scoring_presets[0]?.points?.map(
+              ubersCategory.scoring_rules[0]?.points?.map(
                 (p) => p + uniquePoints,
               ),
             )}

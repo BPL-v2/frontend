@@ -1,4 +1,4 @@
-import { Objective, ScoringMethod, ScoringPreset, Score } from "@api";
+import { Objective, ScoringRuleType, ScoringRule, Score } from "@api";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 
 type TeamScores = { [teamId: number]: ScoreClass };
@@ -51,11 +51,11 @@ export function totalPoints(score?: Score): number {
   return points;
 }
 
-const nullPreset: ScoringPreset[] = [
+const nullRule: ScoringRule[] = [
   {
     id: 0,
     name: "NULL",
-    scoring_method: ScoringMethod.PRESENCE,
+    scoring_rule: ScoringRuleType.FIXED_POINTS_ON_COMPLETION,
     description: "",
     points: [0],
   },
@@ -71,10 +71,10 @@ export function mergeScores(
     children: objective.children.map((subObjective) =>
       mergeScores(subObjective, scores, teamsIds),
     ),
-    scoring_presets:
-      objective.scoring_presets.length > 0
-        ? objective.scoring_presets
-        : nullPreset,
+    scoring_rules:
+      objective.scoring_rules.length > 0
+        ? objective.scoring_rules
+        : nullRule,
     team_score: teamsIds.reduce((acc: TeamScores, teamId) => {
       if (scores[teamId] && scores[teamId][objective.id]) {
         acc[teamId] = new ScoreClass(scores[teamId][objective.id]);
@@ -156,7 +156,7 @@ function getPotentialPointsForScoringMethod(
   objective: ScoreObjective,
 ): PotentialPoints {
   const potentialPoints: PotentialPoints = {};
-  for (const preset of objective.scoring_presets || []) {
+  for (const preset of objective.scoring_rules || []) {
     const presetPoints = getPotentialPointsForSinglePreset(objective, preset);
     for (const [teamId, teamPoints] of Object.entries(presetPoints)) {
       if (!potentialPoints[parseInt(teamId)]) {
@@ -170,26 +170,26 @@ function getPotentialPointsForScoringMethod(
 
 function getPotentialPointsForSinglePreset(
   objective: ScoreObjective,
-  preset: ScoringPreset,
+  preset: ScoringRule,
 ): PotentialPoints {
-  switch (preset.scoring_method) {
-    case ScoringMethod.PRESENCE:
+  switch (preset.scoring_rule) {
+    case ScoringRuleType.FIXED_POINTS_ON_COMPLETION:
       return potentialPointsPresence(objective, preset);
-    case ScoringMethod.RANKED_COMPLETION_TIME:
+    case ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME:
       return getPotentialPointsRanked(objective, preset);
-    case ScoringMethod.RANKED_TIME:
+    case ScoringRuleType.RANK_BY_COMPLETION_TIME:
       return getPotentialPointsRanked(objective, preset);
-    case ScoringMethod.RANKED_REVERSE:
+    case ScoringRuleType.RANK_BY_LOWEST_VALUE:
       return getPotentialPointsRanked(objective, preset);
-    case ScoringMethod.RANKED_VALUE:
+    case ScoringRuleType.RANK_BY_HIGHEST_VALUE:
       return getPotentialPointsRanked(objective, preset);
-    case ScoringMethod.POINTS_FROM_VALUE:
+    case ScoringRuleType.POINTS_BY_VALUE:
       return getPotentialPointsValue(objective, preset);
-    case ScoringMethod.BONUS_PER_COMPLETION:
+    case ScoringRuleType.BONUS_PER_CHILD_COMPLETION:
       return getPotentialBonusPointsPerChild(objective, preset);
-    case ScoringMethod.BINGO_BOARD:
+    case ScoringRuleType.BINGO_BOARD_RANKING:
       return getPotentialPointsRanked(objective, preset);
-    case ScoringMethod.CHILD_NUMBER_SUM:
+    case ScoringRuleType.RANK_BY_CHILD_VALUE_SUM:
       return getPotentialPointsRanked(objective, preset);
     default:
       return {};
@@ -198,7 +198,7 @@ function getPotentialPointsForSinglePreset(
 
 export function potentialPointsPresence(
   objective: ScoreObjective,
-  preset: ScoringPreset,
+  preset: ScoringRule,
 ): PotentialPoints {
   return Object.keys(objective.team_score).reduce((acc, team_id) => {
     acc[parseInt(team_id)] = preset.points[0];
@@ -208,7 +208,7 @@ export function potentialPointsPresence(
 
 export function getPotentialPointsValue(
   objective: ScoreObjective,
-  preset: ScoringPreset,
+  preset: ScoringRule,
 ): PotentialPoints {
   return Object.keys(objective.team_score).reduce((acc, team_id) => {
     if (preset.point_cap == 0) {
@@ -222,7 +222,7 @@ export function getPotentialPointsValue(
 
 export function getPotentialPointsRanked(
   objective: ScoreObjective,
-  preset: ScoringPreset,
+  preset: ScoringRule,
 ): PotentialPoints {
   let rankPossible = 0;
   for (const teamScore of Object.values(objective.team_score)) {
@@ -255,7 +255,7 @@ export function getPotentialPointsRanked(
 
 function getPotentialBonusPointsPerChild(
   objective: ScoreObjective,
-  preset: ScoringPreset,
+  preset: ScoringRule,
 ): PotentialPoints {
   const presetPoints = preset.points;
   const childCount = objective.children.filter(

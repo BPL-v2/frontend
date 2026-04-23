@@ -39,7 +39,7 @@ export function ConditionFormModal({
       ];
       const objectiveCreate: ObjectiveCreate = {
         ...objective,
-        scoring_preset_ids: objective.scoring_presets.map((p) => p.id),
+        scoring_rule_ids: objective.scoring_rules.map((r) => r.id),
         conditions: updatedConditions,
       };
       createObjective(objectiveCreate);

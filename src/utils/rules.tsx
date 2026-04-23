@@ -1,4 +1,4 @@
-import { ScoringMethod } from "@api";
+import { ScoringRuleType } from "@api";
 import { ScoreObjective } from "@mytypes/score";
 
 function convertRacePointsToText(points: number[]) {
@@ -75,27 +75,27 @@ function convertBonusPointsToText(points: number[]) {
 }
 
 function getRacePointsRules(category: ScoreObjective) {
-  const preset = category?.scoring_presets[0];
+  const preset = category?.scoring_rules[0];
   if (!preset)
     return (
       <p>Finishing this category first does not award additional points.</p>
     );
-  if (preset.scoring_method === ScoringMethod.RANKED_COMPLETION_TIME) {
+  if (preset.scoring_rule === ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME) {
     return <p> {convertRacePointsToText(preset.points)}</p>;
   }
-  if (preset.scoring_method === ScoringMethod.BONUS_PER_COMPLETION) {
+  if (preset.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION) {
     return <p> {convertBonusPointsToText(preset.points)}</p>;
   }
   return null;
 }
 
 function getItemPointsRules(category: ScoreObjective) {
-  const preset = category?.children?.[0]?.scoring_presets[0];
+  const preset = category?.children?.[0]?.scoring_rules[0];
   if (!preset) return null;
   if (preset.points.length === 1 && preset.points[0] === 0) {
     return null;
   }
-  if (preset.scoring_method === ScoringMethod.PRESENCE) {
+  if (preset.scoring_rule === ScoringRuleType.FIXED_POINTS_ON_COMPLETION) {
     return (
       <p>
         Every item collected will award{" "}

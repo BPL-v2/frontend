@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
-  AggregationType,
-  NumberField,
+  CountingMethod,
+  TrackedValue,
   Objective,
   ObjectiveCreate,
   ObjectiveType,
@@ -9,7 +9,7 @@ import {
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateObjective, useGetScoringPresetsForEvent } from "@api";
+import { useCreateObjective, useGetScoringRulesForEvent } from "@api";
 
 interface CategoryFormModalProps {
   isOpen: boolean;
@@ -27,21 +27,20 @@ export function CategoryFormModal({
   existingCategory,
 }: CategoryFormModalProps) {
   const qc = useQueryClient();
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
 
   const form = useAppForm({
     defaultValues: {
-      aggregation: null,
-      scoring_preset_id: null,
+      counting_method: null,
       name: "",
       extra: "",
-      number_field: NumberField.FINISHED_OBJECTIVES,
-      number_field_explanation: null,
+      tracked_value: TrackedValue.COMPLETED_CHILD_OBJECTIVE_COUNT,
+      tracked_value_explanation: null,
       required_number: 1,
       conditions: [],
       parent_id: parentId,
       objective_type: ObjectiveType.CATEGORY,
-      scoring_preset_ids: [],
+      scoring_rule_ids: [],
     } as unknown as ObjectiveCreate,
     onSubmit: (data) => createObjective(data.value),
   });
@@ -57,8 +56,8 @@ export function CategoryFormModal({
     if (existingCategory) {
       setFormValues(form, existingCategory);
       form.setFieldValue(
-        "scoring_preset_ids",
-        existingCategory.scoring_presets.map((p) => p.id),
+        "scoring_rule_ids",
+        existingCategory.scoring_rules.map((r) => r.id),
       );
     }
   }, [isOpen, existingCategory]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -86,23 +85,23 @@ export function CategoryFormModal({
           children={(field) => <field.TextField label="Extra" />}
         />
         <form.AppField
-          name="aggregation"
+          name="counting_method"
           children={(field) => (
             <field.SelectField
-              label="Aggregation"
-              options={Object.values(AggregationType)}
+              label="Counting Method"
+              options={Object.values(CountingMethod)}
               required
             />
           )}
         />
         <form.AppField
-          name="scoring_preset_ids"
+          name="scoring_rule_ids"
           children={(field) => (
             <field.MultiSelectField
-              label="Scoring Presets"
-              options={scoringPresets.map((preset) => ({
-                label: preset.name,
-                value: preset.id,
+              label="Scoring Rules"
+              options={scoringRules.map((rule) => ({
+                label: rule.name,
+                value: rule.id,
               }))}
             />
           )}

@@ -1,4 +1,4 @@
-import { ScoringMethod } from "@api";
+import { ScoringRuleType } from "@api";
 import { preloadLadderData, useGetEventStatus, useGetTeamGoals } from "@api";
 import ProgressCard from "@components/cards/progress-card";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
@@ -45,8 +45,8 @@ function ForYouTab() {
   const relevantCategories = objectives
     .filter(
       (category) =>
-        category.scoring_presets[0]?.scoring_method ===
-          ScoringMethod.RANKED_COMPLETION_TIME &&
+        category.scoring_rules[0]?.scoring_rule ===
+          ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME &&
         eventStatus.team_id !== undefined &&
         !category.team_score[eventStatus.team_id].isFinished(),
     )
@@ -66,8 +66,8 @@ function ForYouTab() {
   const relevantObjectives = objectives
     .filter(
       (objective) =>
-        objective.scoring_presets[0]?.scoring_method ===
-          ScoringMethod.RANKED_TIME &&
+        objective.scoring_rules[0]?.scoring_rule ===
+          ScoringRuleType.RANK_BY_COMPLETION_TIME &&
         !objective.team_score[eventStatus.team_id!].isFinished() &&
         (!objective.valid_from || new Date(objective.valid_from) < new Date()),
     )

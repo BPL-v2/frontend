@@ -79,10 +79,10 @@ import {
 } from "./generated/objective/objective";
 import { useGetLatestScoresForEventBase } from "./generated/scores/scores";
 import {
-  getGetScoringPresetsForEventBaseQueryKey,
-  useCreateScoringPresetBase,
-  useDeleteScoringPresetBase,
-  useGetScoringPresetsForEventBase,
+  getGetScoringRulesForEventBaseQueryKey,
+  useCreateScoringRuleBase,
+  useDeleteScoringRuleBase,
+  useGetScoringRulesForEventBase,
 } from "./generated/scoring/scoring";
 import {
   getGetPersonalSignupBaseQueryKey,
@@ -130,12 +130,12 @@ import {
   EventCreate,
   ItemField,
   JobCreate,
-  NumberField,
+  TrackedValue,
   Objective,
   ObjectiveCreate,
   ObjectiveType,
   Operator,
-  ScoringPresetCreate,
+  ScoringRuleCreate,
   SignupCreate,
   SubmissionCreate,
   SubmissionReview,
@@ -497,9 +497,9 @@ export function useGetValidConditionMappings(eventId: number) {
       },
       {} as { [key in ItemField]: Operator[] },
     ),
-    numberFieldsForObjectiveType: query.data
-      ?.objective_type_to_number_fields as {
-      [key in ObjectiveType]: NumberField[];
+    trackedValuesForObjectiveType: query.data
+      ?.objective_type_to_tracked_values as {
+      [key in ObjectiveType]: TrackedValue[];
     },
   };
 }
@@ -571,8 +571,8 @@ async function duplicateObjective(
   const dupe = JSON.parse(JSON.stringify(objective)) as ObjectiveCreate;
   dupe.id = undefined;
   dupe.parent_id = parentId;
-  dupe.scoring_preset_ids = objective.scoring_presets.map(
-    (preset) => preset.id,
+  dupe.scoring_rule_ids = objective.scoring_rules.map(
+    (rule) => rule.id,
   );
   const newObjective = await createObjectiveBase(eventId, dupe);
   if (objective.children.length > 0) {
@@ -600,9 +600,9 @@ export function useCreateBulkObjectives(
           name: name.trim(),
           required_number: 1,
           objective_type: ObjectiveType.ITEM,
-          aggregation: bulkObjective.aggregation_method,
-          number_field: NumberField.STACK_SIZE,
-          scoring_preset_ids: bulkObjective.scoring_preset_ids,
+          counting_method: bulkObjective.counting_method,
+          tracked_value: TrackedValue.STACK_SIZE,
+          scoring_rule_ids: bulkObjective.scoring_rule_ids,
           parent_id: categoryId,
           conditions: [
             {
@@ -660,58 +660,58 @@ export function useChangeCategoryReleaseDates(
   };
 }
 
-// --- Scoring presets ---
+// --- Scoring rules ---
 
-export function useGetScoringPresets(eventId: number) {
-  const query = useGetScoringPresetsForEventBase(eventId);
-  return { ...query, scoringPresets: query.data };
+export function useGetScoringRules(eventId: number) {
+  const query = useGetScoringRulesForEventBase(eventId);
+  return { ...query, scoringRules: query.data };
 }
 
-export function useGetScoringPresetsForEvent(eventId: number) {
-  const query = useGetScoringPresetsForEventBase(eventId, {
+export function useGetScoringRulesForEvent(eventId: number) {
+  const query = useGetScoringRulesForEventBase(eventId, {
     query: {
       enabled: !!eventId,
       select: (data) => data.sort((a, b) => a.id - b.id),
     },
   });
-  return { ...query, scoringPresets: query.data ?? [] };
+  return { ...query, scoringRules: query.data ?? [] };
 }
 
-export function useAddScoringPreset(
+export function useAddScoringRule(
   qc: QueryClient,
   eventId: number,
   callback?: () => void,
 ) {
-  const m = useCreateScoringPresetBase({
+  const m = useCreateScoringRuleBase({
     mutation: {
       onSuccess: () => {
         qc.invalidateQueries({
-          queryKey: getGetScoringPresetsForEventBaseQueryKey(eventId),
+          queryKey: getGetScoringRulesForEventBaseQueryKey(eventId),
         });
         callback?.();
       },
     },
   });
   return {
-    addScoringPreset: (data: ScoringPresetCreate) =>
+    addScoringRule: (data: ScoringRuleCreate) =>
       m.mutate({ eventId, data }),
-    addScoringPresetPending: m.isPending,
+    addScoringRulePending: m.isPending,
   };
 }
 
-export function useDeleteScoringPreset(qc: QueryClient, eventId: number) {
-  const m = useDeleteScoringPresetBase({
+export function useDeleteScoringRule(qc: QueryClient, eventId: number) {
+  const m = useDeleteScoringRuleBase({
     mutation: {
       onSuccess: () => {
         qc.invalidateQueries({
-          queryKey: getGetScoringPresetsForEventBaseQueryKey(eventId),
+          queryKey: getGetScoringRulesForEventBaseQueryKey(eventId),
         });
       },
     },
   });
   return {
-    deleteScoringPreset: (id: number) => m.mutate({ eventId, id }),
-    deleteScoringPresetPending: m.isPending,
+    deleteScoringRule: (id: number) => m.mutate({ eventId, id }),
+    deleteScoringRulePending: m.isPending,
   };
 }
 
@@ -1159,8 +1159,8 @@ function toObjectiveCreate(
     ...objective,
     valid_from: start ?? undefined,
     valid_to: end ?? undefined,
-    scoring_preset_ids:
-      objective.scoring_presets?.map((preset) => preset.id) ?? [],
+    scoring_rule_ids:
+      objective.scoring_rules?.map((rule) => rule.id) ?? [],
   };
 }
 

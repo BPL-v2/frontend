@@ -5,7 +5,7 @@ import {
   Objective,
   ObjectiveCreate,
   ObjectiveType,
-  AggregationType,
+  CountingMethod,
   Operator,
 } from "@api";
 import { Dialog } from "@components/dialog";
@@ -14,7 +14,7 @@ import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useCreateObjective,
-  useGetScoringPresetsForEvent,
+  useGetScoringRulesForEvent,
   useGetValidConditionMappings,
 } from "@api";
 
@@ -39,8 +39,8 @@ export function ObjectiveFormModal({
   existingObjective,
 }: ObjectiveFormModalProps) {
   const qc = useQueryClient();
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
-  const { numberFieldsForObjectiveType } =
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
+  const { trackedValuesForObjectiveType } =
     useGetValidConditionMappings(eventId);
 
   const form = useAppForm({
@@ -49,7 +49,7 @@ export function ObjectiveFormModal({
       conditions: [],
       parent_id: parentId,
       hide_progress: false,
-      scoring_preset_ids: [],
+      scoring_rule_ids: [],
     } as unknown as ExtendedObjectiveCreate,
     onSubmit: (data) => {
       if (data.value.item_name) {
@@ -97,8 +97,8 @@ export function ObjectiveFormModal({
         )?.value,
       );
       form.setFieldValue(
-        "scoring_preset_ids",
-        existingObjective.scoring_presets.map((p) => p.id),
+        "scoring_rule_ids",
+        existingObjective.scoring_rules.map((r) => r.id),
       );
     }
   }, [isOpen, existingObjective]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -136,23 +136,23 @@ export function ObjectiveFormModal({
             )}
           />
           <form.AppField
-            name="aggregation"
+            name="counting_method"
             children={(field) => (
               <field.SelectField
-                label="Aggregation"
-                options={Object.values(AggregationType)}
+                label="Counting Method"
+                options={Object.values(CountingMethod)}
                 required
               />
             )}
           />
           <form.AppField
-            name="number_field"
+            name="tracked_value"
             children={(field) => (
               <field.SelectField
-                label="Number Field"
+                label="Tracked Value"
                 options={
-                  numberFieldsForObjectiveType && objective_type
-                    ? numberFieldsForObjectiveType[
+                  trackedValuesForObjectiveType && objective_type
+                    ? trackedValuesForObjectiveType[
                         objective_type as ObjectiveType
                       ]
                     : []
@@ -163,10 +163,10 @@ export function ObjectiveFormModal({
             )}
           />
           <form.AppField
-            name="number_field_explanation"
+            name="tracked_value_explanation"
             children={(field) => (
               <field.TextField
-                label="Submission Value Explanation"
+                label="Tracked Value Explanation"
                 hidden={!objective_type}
               />
             )}
@@ -204,13 +204,13 @@ export function ObjectiveFormModal({
             children={(field) => <field.DateTimeField label="Valid From" />}
           />
           <form.AppField
-            name="scoring_preset_ids"
+            name="scoring_rule_ids"
             children={(field) => (
               <field.MultiSelectField
-                label="Scoring Presets"
-                options={scoringPresets.map((preset) => ({
-                  label: preset.name,
-                  value: preset.id,
+                label="Scoring Rules"
+                options={scoringRules.map((rule) => ({
+                  label: rule.name,
+                  value: rule.id,
                 }))}
               />
             )}

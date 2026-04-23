@@ -1,0 +1,12 @@
+export type CountingMethod =
+  (typeof CountingMethod)[keyof typeof CountingMethod];
+
+export const CountingMethod = {
+  LATEST_VALUE: "LATEST_VALUE",
+  FIRST_COMPLETION: "FIRST_COMPLETION",
+  FIRST_FRESH_COMPLETION: "FIRST_FRESH_COMPLETION",
+  HIGHEST_VALUE: "HIGHEST_VALUE",
+  LOWEST_VALUE: "LOWEST_VALUE",
+  VALUE_CHANGE_IN_WINDOW: "VALUE_CHANGE_IN_WINDOW",
+  CHILD_RESULT: "CHILD_RESULT",
+} as const;

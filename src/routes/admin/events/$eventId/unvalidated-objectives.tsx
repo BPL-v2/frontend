@@ -9,7 +9,7 @@ import {
   useGetEvents,
   useGetObjectiveValidations,
   useGetRules,
-  useGetScoringPresetsForEvent,
+  useGetScoringRulesForEvent,
 } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
@@ -39,7 +39,7 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const { eventId } = useParams({ from: Route.id });
   const { events } = useGetEvents();
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
   const { rules } = useGetRules(eventId);
   const { objectiveValidations } = useGetObjectiveValidations(eventId);
   const event = events?.find((ev) => ev.id === eventId);
@@ -94,11 +94,11 @@ function RouteComponent() {
       {
         header: "Scoring Method",
         cell: ({ row }) => {
-          return scoringPresets
-            .filter((preset) =>
-              row.original.scoring_presets.map((p) => p.id).includes(preset.id),
+          return scoringRules
+            .filter((rule) =>
+              row.original.scoring_rules.map((r) => r.id).includes(rule.id),
             )
-            .map((preset) => preset.name)
+            .map((rule) => rule.name)
             .join(", ");
         },
       },
@@ -138,7 +138,7 @@ function RouteComponent() {
         },
       },
     ],
-    [scoringPresets, event],
+    [scoringRules, event],
   );
   const unvalidatedItems = flatMap(rules).filter(
     (objective) =>

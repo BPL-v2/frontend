@@ -4,7 +4,7 @@ import { useSubmitBounty } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useRef } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
-import { AggregationType, SubmissionCreate } from "@api";
+import { CountingMethod, SubmissionCreate } from "@api";
 import { DateTimePicker } from "@components/form/datetime-picker";
 
 type SubmissionFormModalProps = {
@@ -57,11 +57,11 @@ export function SubmissionFormModal({
       >
         <fieldset className="fieldset rounded-box bg-base-300 p-6">
           <DateTimePicker label="Time (in your timezone)" name="timestamp" />
-          {(objective?.aggregation == AggregationType.MAXIMUM ||
-            objective?.aggregation == AggregationType.MINIMUM) && (
+          {(objective?.counting_method == CountingMethod.HIGHEST_VALUE ||
+            objective?.counting_method == CountingMethod.LOWEST_VALUE) && (
             <>
               <label className="label">
-                {objective?.number_field_explanation || "Submission Value"}
+                {objective?.tracked_value_explanation || "Submission Value"}
               </label>
               <input
                 type="number"

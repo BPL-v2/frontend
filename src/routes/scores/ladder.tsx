@@ -565,10 +565,10 @@ function LadderTab(): JSX.Element {
     (category) => category.name === "Personal Objectives",
   )?.children;
   const totalObjective = objs?.find(
-    (obj) => obj.scoring_presets[0]?.point_cap || 0 > 0,
+    (obj) => obj.scoring_rules[0]?.point_cap || 0 > 0,
   );
   const checkPoints = objs
-    ?.filter((obj) => !obj.scoring_presets[0]?.point_cap)
+    ?.filter((obj) => !obj.scoring_rules[0]?.point_cap)
     .sort(
       (a, b) => (a.valid_from?.getTime() || 0) - (b.valid_from?.getTime() || 0),
     );
@@ -634,7 +634,7 @@ function LadderTab(): JSX.Element {
                         extra.push(points);
                       }
                       const cap =
-                        totalObjective?.scoring_presets[0]?.point_cap || 0;
+                        totalObjective?.scoring_rules[0]?.point_cap || 0;
                       const current = Math.min(
                         totalObjective?.team_score[team.id].number() || 0,
                         cap,

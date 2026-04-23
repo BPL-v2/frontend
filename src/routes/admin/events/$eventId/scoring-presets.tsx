@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Permission, ScoringPreset } from "@api";
+import { Permission, ScoringRule } from "@api";
 import {
-  useDeleteScoringPreset,
+  useDeleteScoringRule,
   useGetEvents,
-  useGetScoringPresetsForEvent,
+  useGetScoringRulesForEvent,
 } from "@api";
-import { ScoringPresetFormModal } from "@components/form-dialogs/ScoringPresetFormModal";
+import { ScoringRuleFormModal } from "@components/form-dialogs/ScoringPresetFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ import { renderConditionally } from "@utils/token";
 import { useState } from "react";
 
 export const Route = createFileRoute("/admin/events/$eventId/scoring-presets")({
-  component: renderConditionally(ScoringPresetsPage, [
+  component: renderConditionally(ScoringRulesPage, [
     Permission.admin,
     Permission.objective_designer,
   ]),
@@ -50,21 +50,21 @@ function pointsRenderer(points: number[]) {
   return out.slice(0, -2) + "]";
 }
 
-function ScoringPresetsPage() {
+function ScoringRulesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [presetToEdit, setPresetToEdit] = useState<ScoringPreset | null>(null);
+  const [ruleToEdit, setRuleToEdit] = useState<ScoringRule | null>(null);
   const { eventId } = useParams({ from: Route.id });
   const { events } = useGetEvents();
   const event = events?.find((event) => event.id === eventId);
-  const { scoringPresets } = useGetScoringPresetsForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(eventId);
   const qc = useQueryClient();
-  const { deleteScoringPreset } = useDeleteScoringPreset(qc, eventId);
+  const { deleteScoringRule } = useDeleteScoringRule(qc, eventId);
 
   if (!eventId || !event) {
     return <div>Event not found</div>;
   }
 
-  const presetColumns: ColumnDef<ScoringPreset>[] = [
+  const presetColumns: ColumnDef<ScoringRule>[] = [
     {
       header: "ID",
       accessorKey: "id",
@@ -95,8 +95,8 @@ function ScoringPresetsPage() {
     },
     {
       header: "Scoring Method",
-      accessorKey: "scoring_method",
-      cell: (info) => info.row.original.scoring_method,
+      accessorKey: "scoring_rule",
+      cell: (info) => info.row.original.scoring_rule,
       size: 250,
     },
     {
@@ -105,14 +105,14 @@ function ScoringPresetsPage() {
         <div className="flex flex-row gap-2">
           <button
             className="btn btn-sm btn-error"
-            onClick={() => deleteScoringPreset(info.row.original.id)}
+            onClick={() => deleteScoringRule(info.row.original.id)}
           >
             <TrashIcon className="size-4" />
           </button>
           <button
             className="btn btn-sm btn-warning"
             onClick={() => {
-              setPresetToEdit(info.row.original);
+              setRuleToEdit(info.row.original);
               setIsDialogOpen(true);
             }}
           >
@@ -127,19 +127,19 @@ function ScoringPresetsPage() {
   return (
     <div className="flex flex-col gap-2">
       <h1>{`Scoring Presets for Event "${event.name}"`}</h1>
-      <ScoringPresetFormModal
+      <ScoringRuleFormModal
         isOpen={isDialogOpen}
-        setIsOpen={(open) => {
+        setIsOpen={(open: boolean) => {
           setIsDialogOpen(open);
-          if (!open) setPresetToEdit(null);
+          if (!open) setRuleToEdit(null);
         }}
         eventId={eventId}
-        existingPreset={presetToEdit}
+        existingPreset={ruleToEdit}
       />
       <button
         className="btn self-center btn-primary"
         onClick={() => {
-          setPresetToEdit(null);
+          setRuleToEdit(null);
           setIsDialogOpen(true);
         }}
       >
@@ -147,7 +147,7 @@ function ScoringPresetsPage() {
       </button>
       <VirtualizedTable
         columns={presetColumns}
-        data={scoringPresets}
+        data={scoringRules}
         sortable={false}
         className="h-[80vh] w-full"
       />
@@ -155,4 +155,4 @@ function ScoringPresetsPage() {
   );
 }
 
-export default ScoringPresetsPage;
+export default ScoringRulesPage;

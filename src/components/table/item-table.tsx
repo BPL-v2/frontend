@@ -1,4 +1,4 @@
-import { AggregationType, GameVersion, ScoringMethod, Team } from "@api";
+import { CountingMethod, GameVersion, ScoringRuleType, Team } from "@api";
 import { useGetEventStatus, useGetUsers } from "@api";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
@@ -92,7 +92,7 @@ export function ItemTable({
         </div>
       );
     }
-    if (objective.aggregation === AggregationType.MAXIMUM) {
+    if (objective.counting_method === CountingMethod.HIGHEST_VALUE) {
       return (
         <span className="text-base font-extrabold text-secondary">
           {objective.name}
@@ -260,8 +260,8 @@ export function ItemTable({
                   const number = score?.number() || 0;
                   const user = users?.find((u) => score?.userId() === u.id);
                   const canBeScoredMultipleTimes =
-                    info.row.original.scoring_presets[0]?.scoring_method ===
-                    ScoringMethod.POINTS_FROM_VALUE;
+                    info.row.original.scoring_rules[0]?.scoring_rule ===
+                    ScoringRuleType.POINTS_BY_VALUE;
                   if (canBeScoredMultipleTimes) {
                     return score.number() > 0 ? (
                       <span className="w-full text-center font-mono text-xl text-success">
@@ -274,7 +274,7 @@ export function ItemTable({
                     );
                   }
                   if (
-                    info.row.original.aggregation === AggregationType.MAXIMUM
+                    info.row.original.counting_method === CountingMethod.HIGHEST_VALUE
                   ) {
                     return (
                       <span
@@ -363,13 +363,13 @@ export function ItemTable({
             .filter((obj) => (filter ? filter(obj) : true))
             .sort((a, b) => {
               if (
-                a.aggregation === AggregationType.MAXIMUM &&
-                b.aggregation !== AggregationType.MAXIMUM
+                a.counting_method === CountingMethod.HIGHEST_VALUE &&
+                b.counting_method !== CountingMethod.HIGHEST_VALUE
               ) {
                 return -1;
               } else if (
-                b.aggregation === AggregationType.MAXIMUM &&
-                a.aggregation !== AggregationType.MAXIMUM
+                b.counting_method === CountingMethod.HIGHEST_VALUE &&
+                a.counting_method !== CountingMethod.HIGHEST_VALUE
               ) {
                 return 1;
               }
