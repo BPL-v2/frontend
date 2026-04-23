@@ -81,7 +81,7 @@ export function ScoringRuleFormModal({
           name="scoring_rule"
           children={(field) => (
             <field.SelectField
-              label="Scoring Method"
+              label="Scoring Rule"
               options={Object.values(ScoringRuleType)}
               required
             />

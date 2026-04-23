@@ -136,16 +136,6 @@ function SubmissionPage() {
         header: "Value",
         accessorKey: "number",
         cell: (info) => {
-          // const scoringMethod =
-          //   getObjective(info).scoring_presets[0]?.scoring_method;
-          // console.log(getObjective(info).scoring_preset_id);
-          // if (
-          //   !scoringMethod ||
-          //   (scoringMethod !== ScoringMethod.RANKED_VALUE &&
-          //     scoringMethod !== ScoringMethod.RANKED_REVERSE)
-          // ) {
-          //   return;
-          // }
           return info.getValue();
         },
         size: 100,

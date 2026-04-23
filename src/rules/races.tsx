@@ -34,13 +34,6 @@ export function RaceTabRules() {
   const raceCategory = scores?.children.find(
     (category) => category.name === "Races",
   );
-  // const scoringPresets = Object.entries(
-  //   raceCategory?.children.reduce((acc, objective) => {
-  //     if (objective.scoring_preset)
-  //       acc[objective.scoring_preset.name] = objective.scoring_preset;
-  //     return acc;
-  //   }, {} as Record<string, ScoringPreset | undefined>) || {}
-  // );
   const racePoints = raceCategory?.children[0].scoring_rules[0]?.points || [];
   return (
     <>

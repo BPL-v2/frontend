@@ -94,7 +94,7 @@ function ScoringRulesPage() {
       size: 50,
     },
     {
-      header: "Scoring Method",
+      header: "Scoring Rule",
       accessorKey: "scoring_rule",
       cell: (info) => info.row.original.scoring_rule,
       size: 250,

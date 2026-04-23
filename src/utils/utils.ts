@@ -86,34 +86,7 @@ export function mergeScores(
   };
 }
 
-// todo: do this in a better way
 export function hidePOTotal(score: ScoreObjective): ScoreObjective {
-  // for (const child of score.children) {
-  //   if (child.name === "Personal Objectives") {
-  //     const firstCheckpoint = child.children.sort(
-  //       (a, b) =>
-  //         new Date(a.valid_to!).getTime() - new Date(b.valid_to!).getTime(),
-  //     )[0];
-  //     for (const childChild of child.children) {
-  //       if (
-  //         childChild.aggregation === AggregationType.MAXIMUM &&
-  //         Date.now() < new Date(firstCheckpoint.valid_to!).getTime()
-  //       ) {
-  //         childChild.team_score = Object.fromEntries(
-  //           Object.entries(childChild.team_score).map(([teamId, score]) => [
-  //             parseInt(teamId),
-  //             {
-  //               ...score,
-  //               points: 0,
-  //               number: 0,
-  //             },
-  //           ]),
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
-
   return score;
 }
 

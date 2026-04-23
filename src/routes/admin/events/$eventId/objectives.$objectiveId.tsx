@@ -181,12 +181,12 @@ export function ScoringCategoryPage(): JSX.Element {
       size: 100,
     },
     {
-      header: "Aggregation",
-      accessorKey: "aggregation",
+      header: "Counting Method",
+      accessorKey: "counting_method",
       size: 180,
     },
     {
-      header: "Scoring Method",
+      header: "Scoring Rule",
       cell: ({ row }) => {
         return scoringRules
           .filter((rule) =>
