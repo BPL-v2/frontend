@@ -2,7 +2,8 @@ export type TrackedValue = (typeof TrackedValue)[keyof typeof TrackedValue];
 
 export const TrackedValue = {
   STACK_SIZE: "STACK_SIZE",
-  FOSSIL_FUEL: "FOSSIL_FUEL",
+  FOSSIL_FUEL_HIGH: "FOSSIL_FUEL_HIGH",
+  FOSSIL_FUEL_MID: "FOSSIL_FUEL_MID",
   CHARACTER_LEVEL: "CHARACTER_LEVEL",
   DELVE_DEPTH: "DELVE_DEPTH",
   DELVE_DEPTH_AFTER_100: "DELVE_DEPTH_AFTER_100",

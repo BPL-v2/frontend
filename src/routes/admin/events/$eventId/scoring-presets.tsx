@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Permission, ScoringRule } from "@api";
 import {
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/admin/events/$eventId/scoring-presets")({
   component: renderConditionally(ScoringRulesPage, [
     Permission.admin,
     Permission.objective_designer,
+    Permission.manager,
   ]),
 
   params: {
@@ -126,7 +127,16 @@ function ScoringRulesPage() {
 
   return (
     <div className="flex flex-col gap-2">
-      <h1>{`Scoring Presets for Event "${event.name}"`}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1>{`Scoring Rules for Event "${event.name}"`}</h1>
+        <Link
+          to="/admin/events/$eventId/objective-help"
+          params={{ eventId }}
+          className="btn btn-accent"
+        >
+          Objective Help
+        </Link>
+      </div>
       <ScoringRuleFormModal
         isOpen={isDialogOpen}
         setIsOpen={(open: boolean) => {
@@ -134,17 +144,17 @@ function ScoringRulesPage() {
           if (!open) setRuleToEdit(null);
         }}
         eventId={eventId}
-        existingPreset={ruleToEdit}
+        existingRule={ruleToEdit}
       />
-      <button
-        className="btn self-center btn-primary"
-        onClick={() => {
-          setRuleToEdit(null);
-          setIsDialogOpen(true);
-        }}
-      >
-        Create Preset
-      </button>
+        <button
+          className="btn self-center btn-primary"
+          onClick={() => {
+            setRuleToEdit(null);
+            setIsDialogOpen(true);
+          }}
+        >
+          Create Scoring Rule
+        </button>
       <VirtualizedTable
         columns={presetColumns}
         data={scoringRules}

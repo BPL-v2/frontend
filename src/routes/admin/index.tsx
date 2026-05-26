@@ -45,6 +45,8 @@ function RouteComponent() {
   const { currentEvent } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const permissions = getPermissions();
+  const currentEventId =
+    typeof currentEvent.id === "number" ? currentEvent.id : undefined;
   if (permissions.length === 0 && !eventStatus?.is_team_lead) {
     return "You do not have permission to view this page.";
   }
@@ -58,6 +60,40 @@ function RouteComponent() {
           link="/admin/events"
           permissions={[Permission.admin, Permission.objective_designer]}
         />
+        {currentEventId && (
+          <>
+            <AdminRouteCard
+              title="Objective Authoring"
+              description="Create and edit objectives for the currently selected event."
+              link={`/admin/events/${currentEventId}/objectives`}
+              permissions={[
+                Permission.admin,
+                Permission.objective_designer,
+                Permission.manager,
+              ]}
+            />
+            <AdminRouteCard
+              title="Scoring Rules"
+              description="Manage the scoring rules used by objectives in the selected event."
+              link={`/admin/events/${currentEventId}/scoring-presets`}
+              permissions={[
+                Permission.admin,
+                Permission.objective_designer,
+                Permission.manager,
+              ]}
+            />
+            <AdminRouteCard
+              title="Objective Help"
+              description="Read what objective fields mean and follow example setups while authoring."
+              link={`/admin/events/${currentEventId}/objective-help`}
+              permissions={[
+                Permission.admin,
+                Permission.objective_designer,
+                Permission.manager,
+              ]}
+            />
+          </>
+        )}
         <AdminRouteCard
           title="Recurring Jobs"
           description="Manage recurring jobs during the event like fetching stash tabs or player characters."

@@ -6,11 +6,13 @@ export function MultiSelectField<T>({
   label,
   options,
   className,
+  helperText,
   ...props
 }: {
   label: string;
   options: SelectOption<T>[];
   className?: string;
+  helperText?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<T[]>();
   return (
@@ -27,6 +29,11 @@ export function MultiSelectField<T>({
           onChange={(value) => field.handleChange(value)}
           required={!props.hidden && props.required}
         />
+        {helperText && (
+          <span className="px-2 text-left text-sm text-base-content/70">
+            {helperText}
+          </span>
+        )}
       </label>
     </div>
   );

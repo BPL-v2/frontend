@@ -14,6 +14,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ObjectiveIcon } from "../objective-icon";
 import VirtualizedTable from "./virtualized-table";
+import { TeamName } from "@components/team/team-name";
 
 export type ItemTableProps = {
   objective: ScoreObjective;
@@ -243,7 +244,7 @@ export function ItemTable({
                   ).length;
                   return (
                     <div>
-                      <div>{team.name || "Team"}</div>
+                      <TeamName team={team} />
                       <div className="text-sm text-info">
                         {canBeFinished(objective)
                           ? `${numberOfFinishes} / ${numberOfChildren}`
@@ -274,7 +275,8 @@ export function ItemTable({
                     );
                   }
                   if (
-                    info.row.original.counting_method === CountingMethod.HIGHEST_VALUE
+                    info.row.original.counting_method ===
+                    CountingMethod.HIGHEST_VALUE
                   ) {
                     return (
                       <span

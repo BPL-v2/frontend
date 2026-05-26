@@ -1,10 +1,7 @@
 # Stage 1: Build the application
-FROM node:24-alpine3.21 AS builder
+FROM node:25-alpine3.22 AS builder
 
 WORKDIR /app
-
-# Add `/app/node_modules/.bin` to $PATH
-ENV PATH=/app/node_modules/.bin:$PATH
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
@@ -14,21 +11,17 @@ RUN npm install
 
 # Copy the rest of the application code
 COPY . .
-## used for enumerating public images - but not really needed
-# RUN ./generate_file_structure.sh
 
 # Build the application
 ARG VITE_PUBLIC_BPL_BACKEND_URL
 ENV VITE_PUBLIC_BPL_BACKEND_URL=${VITE_PUBLIC_BPL_BACKEND_URL}
 RUN npm run build
-# RUN apk add python3
-# RUN python3 crazy-hackzz.py
 
 # Remove the dev dependencies
 RUN npm prune --omit=dev
 
 # Stage 2: Serve the application
-FROM nginx:1.27.4-alpine
+FROM nginx:1.29.8-alpine
 
 WORKDIR /app
 

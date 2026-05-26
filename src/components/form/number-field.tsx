@@ -4,10 +4,12 @@ import { twMerge } from "tailwind-merge";
 export function NumberField({
   label,
   className,
+  helperText,
   ...props
 }: {
   label: string;
   className?: string;
+  helperText?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<number>();
   return (
@@ -26,6 +28,11 @@ export function NumberField({
         className={twMerge("input w-full", className)}
         {...props}
       />
+      {helperText && (
+        <span className="px-2 text-left text-sm text-base-content/70">
+          {helperText}
+        </span>
+      )}
     </label>
   );
 }

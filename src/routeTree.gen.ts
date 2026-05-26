@@ -62,6 +62,8 @@ import { Route as AdminGuildLogsGuildIdRouteImport } from './routes/admin/guild/
 import { Route as AdminEventsEventIdUnvalidatedObjectivesRouteImport } from './routes/admin/events/$eventId/unvalidated-objectives'
 import { Route as AdminEventsEventIdTeamsRouteImport } from './routes/admin/events/$eventId/teams'
 import { Route as AdminEventsEventIdScoringPresetsRouteImport } from './routes/admin/events/$eventId/scoring-presets'
+import { Route as AdminEventsEventIdObjectivesRouteImport } from './routes/admin/events/$eventId/objectives'
+import { Route as AdminEventsEventIdObjectiveHelpRouteImport } from './routes/admin/events/$eventId/objective-help'
 import { Route as AdminEventsEventIdObjectivesObjectiveIdRouteImport } from './routes/admin/events/$eventId/objectives.$objectiveId'
 
 const SubmissionsRoute = SubmissionsRouteImport.update({
@@ -334,11 +336,23 @@ const AdminEventsEventIdScoringPresetsRoute =
     path: '/admin/events/$eventId/scoring-presets',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminEventsEventIdObjectivesRoute =
+  AdminEventsEventIdObjectivesRouteImport.update({
+    id: '/admin/events/$eventId/objectives',
+    path: '/admin/events/$eventId/objectives',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminEventsEventIdObjectiveHelpRoute =
+  AdminEventsEventIdObjectiveHelpRouteImport.update({
+    id: '/admin/events/$eventId/objective-help',
+    path: '/admin/events/$eventId/objective-help',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminEventsEventIdObjectivesObjectiveIdRoute =
   AdminEventsEventIdObjectivesObjectiveIdRouteImport.update({
-    id: '/admin/events/$eventId/objectives/$objectiveId',
-    path: '/admin/events/$eventId/objectives/$objectiveId',
-    getParentRoute: () => rootRouteImport,
+    id: '/$objectiveId',
+    path: '/$objectiveId',
+    getParentRoute: () => AdminEventsEventIdObjectivesRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -389,6 +403,8 @@ export interface FileRoutesByFullPath {
   '/team/stashes/$stashId': typeof TeamStashesStashIdRoute
   '/admin/events/': typeof AdminEventsIndexRoute
   '/admin/guild/': typeof AdminGuildIndexRoute
+  '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
+  '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
   '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
@@ -445,6 +461,8 @@ export interface FileRoutesByTo {
   '/team/stashes/$stashId': typeof TeamStashesStashIdRoute
   '/admin/events': typeof AdminEventsIndexRoute
   '/admin/guild': typeof AdminGuildIndexRoute
+  '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
+  '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
   '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
@@ -502,6 +520,8 @@ export interface FileRoutesById {
   '/team/stashes/$stashId': typeof TeamStashesStashIdRoute
   '/admin/events/': typeof AdminEventsIndexRoute
   '/admin/guild/': typeof AdminGuildIndexRoute
+  '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
+  '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
   '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
@@ -560,6 +580,8 @@ export interface FileRouteTypes {
     | '/team/stashes/$stashId'
     | '/admin/events/'
     | '/admin/guild/'
+    | '/admin/events/$eventId/objective-help'
+    | '/admin/events/$eventId/objectives'
     | '/admin/events/$eventId/scoring-presets'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
@@ -616,6 +638,8 @@ export interface FileRouteTypes {
     | '/team/stashes/$stashId'
     | '/admin/events'
     | '/admin/guild'
+    | '/admin/events/$eventId/objective-help'
+    | '/admin/events/$eventId/objectives'
     | '/admin/events/$eventId/scoring-presets'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
@@ -672,6 +696,8 @@ export interface FileRouteTypes {
     | '/team/stashes/$stashId'
     | '/admin/events/'
     | '/admin/guild/'
+    | '/admin/events/$eventId/objective-help'
+    | '/admin/events/$eventId/objectives'
     | '/admin/events/$eventId/scoring-presets'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
@@ -708,10 +734,11 @@ export interface RootRouteChildren {
   AuthTwitchCallbackRoute: typeof AuthTwitchCallbackRoute
   AdminEventsIndexRoute: typeof AdminEventsIndexRoute
   AdminGuildIndexRoute: typeof AdminGuildIndexRoute
+  AdminEventsEventIdObjectiveHelpRoute: typeof AdminEventsEventIdObjectiveHelpRoute
+  AdminEventsEventIdObjectivesRoute: typeof AdminEventsEventIdObjectivesRouteWithChildren
   AdminEventsEventIdScoringPresetsRoute: typeof AdminEventsEventIdScoringPresetsRoute
   AdminEventsEventIdTeamsRoute: typeof AdminEventsEventIdTeamsRoute
   AdminEventsEventIdUnvalidatedObjectivesRoute: typeof AdminEventsEventIdUnvalidatedObjectivesRoute
-  AdminEventsEventIdObjectivesObjectiveIdRoute: typeof AdminEventsEventIdObjectivesObjectiveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1087,12 +1114,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsEventIdScoringPresetsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/events/$eventId/objectives': {
+      id: '/admin/events/$eventId/objectives'
+      path: '/admin/events/$eventId/objectives'
+      fullPath: '/admin/events/$eventId/objectives'
+      preLoaderRoute: typeof AdminEventsEventIdObjectivesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/events/$eventId/objective-help': {
+      id: '/admin/events/$eventId/objective-help'
+      path: '/admin/events/$eventId/objective-help'
+      fullPath: '/admin/events/$eventId/objective-help'
+      preLoaderRoute: typeof AdminEventsEventIdObjectiveHelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/events/$eventId/objectives/$objectiveId': {
       id: '/admin/events/$eventId/objectives/$objectiveId'
-      path: '/admin/events/$eventId/objectives/$objectiveId'
+      path: '/$objectiveId'
       fullPath: '/admin/events/$eventId/objectives/$objectiveId'
       preLoaderRoute: typeof AdminEventsEventIdObjectivesObjectiveIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminEventsEventIdObjectivesRoute
     }
   }
 }
@@ -1214,6 +1255,21 @@ const AdminGuildStashesRouteRouteWithChildren =
     AdminGuildStashesRouteRouteChildren,
   )
 
+interface AdminEventsEventIdObjectivesRouteChildren {
+  AdminEventsEventIdObjectivesObjectiveIdRoute: typeof AdminEventsEventIdObjectivesObjectiveIdRoute
+}
+
+const AdminEventsEventIdObjectivesRouteChildren: AdminEventsEventIdObjectivesRouteChildren =
+  {
+    AdminEventsEventIdObjectivesObjectiveIdRoute:
+      AdminEventsEventIdObjectivesObjectiveIdRoute,
+  }
+
+const AdminEventsEventIdObjectivesRouteWithChildren =
+  AdminEventsEventIdObjectivesRoute._addFileChildren(
+    AdminEventsEventIdObjectivesRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ScoresRouteRoute: ScoresRouteRouteWithChildren,
@@ -1241,12 +1297,13 @@ const rootRouteChildren: RootRouteChildren = {
   AuthTwitchCallbackRoute: AuthTwitchCallbackRoute,
   AdminEventsIndexRoute: AdminEventsIndexRoute,
   AdminGuildIndexRoute: AdminGuildIndexRoute,
+  AdminEventsEventIdObjectiveHelpRoute: AdminEventsEventIdObjectiveHelpRoute,
+  AdminEventsEventIdObjectivesRoute:
+    AdminEventsEventIdObjectivesRouteWithChildren,
   AdminEventsEventIdScoringPresetsRoute: AdminEventsEventIdScoringPresetsRoute,
   AdminEventsEventIdTeamsRoute: AdminEventsEventIdTeamsRoute,
   AdminEventsEventIdUnvalidatedObjectivesRoute:
     AdminEventsEventIdUnvalidatedObjectivesRoute,
-  AdminEventsEventIdObjectivesObjectiveIdRoute:
-    AdminEventsEventIdObjectivesObjectiveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

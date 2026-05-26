@@ -1,10 +1,10 @@
-export function getDeltaTimeBetween(to?: number, from?: string | Date) {
+export function getDeltaTimeBetween(to?: number, from?: number) {
   // If either timestamp or league
   if (!to || !from) {
     return "";
   }
   const ts = to * 1000;
-  const fromDate = new Date(from).getTime();
+  const fromDate = from * 1000;
   const milliseconds = ts - fromDate;
   const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
   const hours = Math.floor(

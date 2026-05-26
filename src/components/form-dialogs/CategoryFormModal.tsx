@@ -10,6 +10,7 @@ import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateObjective, useGetScoringRulesForEvent } from "@api";
+import { Link } from "@tanstack/react-router";
 
 interface CategoryFormModalProps {
   isOpen: boolean;
@@ -76,9 +77,22 @@ export function CategoryFormModal({
           form.handleSubmit();
         }}
       >
+        <div className="rounded-box border border-info/20 bg-info/10 p-3 text-left text-sm">
+          Need category examples?{" "}
+          <Link
+            to="/admin/events/$eventId/objective-help"
+            params={{ eventId }}
+            className="link link-primary"
+          >
+            Open the objective help page
+          </Link>
+          .
+        </div>
         <form.AppField
           name="name"
-          children={(field) => <field.TextField label="Name" required />}
+          children={(field) => (
+            <field.TextField label="Objective name" required />
+          )}
         />
         <form.AppField
           name="extra"
@@ -88,7 +102,7 @@ export function CategoryFormModal({
           name="counting_method"
           children={(field) => (
             <field.SelectField
-              label="Counting Method"
+              label="How it counts"
               options={Object.values(CountingMethod)}
               required
             />
@@ -98,7 +112,7 @@ export function CategoryFormModal({
           name="scoring_rule_ids"
           children={(field) => (
             <field.MultiSelectField
-              label="Scoring Rules"
+              label="How it gives points"
               options={scoringRules.map((rule) => ({
                 label: rule.name,
                 value: rule.id,

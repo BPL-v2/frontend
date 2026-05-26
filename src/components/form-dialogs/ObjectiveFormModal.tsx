@@ -12,6 +12,7 @@ import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import {
   useCreateObjective,
   useGetScoringRulesForEvent,
@@ -117,10 +118,23 @@ export function ObjectiveFormModal({
           form.handleSubmit();
         }}
       >
+        <div className="rounded-box border border-info/20 bg-info/10 p-3 text-left text-sm">
+          Need a refresher before saving?{" "}
+          <Link
+            to="/admin/events/$eventId/objective-help"
+            params={{ eventId }}
+            className="link link-primary"
+          >
+            Open the objective help page
+          </Link>{" "}
+          for field explanations and examples.
+        </div>
         <div className="grid grid-cols-2 gap-4">
           <form.AppField
             name="name"
-            children={(field) => <field.TextField label="Name" required />}
+            children={(field) => (
+              <field.TextField label="Objective name" required />
+            )}
           />
           <form.AppField
             name="extra"
@@ -130,7 +144,7 @@ export function ObjectiveFormModal({
             name="objective_type"
             children={(field) => (
               <field.SelectField
-                label="Objective Type"
+                label="Objective kind"
                 options={Object.values(ObjectiveType)}
               />
             )}
@@ -139,7 +153,7 @@ export function ObjectiveFormModal({
             name="counting_method"
             children={(field) => (
               <field.SelectField
-                label="Counting Method"
+                label="How it counts"
                 options={Object.values(CountingMethod)}
                 required
               />
@@ -149,7 +163,7 @@ export function ObjectiveFormModal({
             name="tracked_value"
             children={(field) => (
               <field.SelectField
-                label="Tracked Value"
+                label="What to track"
                 options={
                   trackedValuesForObjectiveType && objective_type
                     ? trackedValuesForObjectiveType[
@@ -165,17 +179,14 @@ export function ObjectiveFormModal({
           <form.AppField
             name="tracked_value_explanation"
             children={(field) => (
-              <field.TextField
-                label="Tracked Value Explanation"
-                hidden={!objective_type}
-              />
+              <field.TextField label="Tracking note" hidden={!objective_type} />
             )}
           />
           <form.AppField
             name="required_number"
             children={(field) => (
               <field.NumberField
-                label="Required Number"
+                label="Target amount"
                 required
                 hidden={!objective_type}
               />
@@ -185,7 +196,7 @@ export function ObjectiveFormModal({
             name="item_base_type"
             children={(field) => (
               <field.TextField
-                label="Base Type"
+                label="Base type filter"
                 hidden={objective_type !== ObjectiveType.ITEM}
               />
             )}
@@ -194,20 +205,20 @@ export function ObjectiveFormModal({
             name="item_name"
             children={(field) => (
               <field.TextField
-                label="Item Name"
+                label="Item name filter"
                 hidden={objective_type !== ObjectiveType.ITEM}
               />
             )}
           />
           <form.AppField
             name="valid_from"
-            children={(field) => <field.DateTimeField label="Valid From" />}
+            children={(field) => <field.DateTimeField label="Start time" />}
           />
           <form.AppField
             name="scoring_rule_ids"
             children={(field) => (
               <field.MultiSelectField
-                label="Scoring Rules"
+                label="How it gives points"
                 options={scoringRules.map((rule) => ({
                   label: rule.name,
                   value: rule.id,
@@ -217,13 +228,13 @@ export function ObjectiveFormModal({
           />
           <form.AppField
             name="valid_to"
-            children={(field) => <field.DateTimeField label="Valid To" />}
+            children={(field) => <field.DateTimeField label="End time" />}
           />
           <form.AppField
             name="hide_progress"
             children={(field) => (
               <field.BooleanField
-                label="Hide Progress"
+                label="Hide progress from players"
                 className="checkbox-xl checkbox-primary"
               />
             )}

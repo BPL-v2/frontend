@@ -10,6 +10,7 @@ import { Countdown } from "@components/countdown";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { CollectionCardTable } from "./collection-card-table";
+import { ConditionDescription } from "@components/conditions/condition-description";
 
 export type DailyCardProps = {
   daily: ScoreObjective;
@@ -68,7 +69,8 @@ export function DailyCard({ daily }: DailyCardProps) {
   );
 
   const isRace =
-    daily.scoring_rules[0]?.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME;
+    daily.scoring_rules[0]?.scoring_rule ===
+    ScoringRuleType.RANK_BY_COMPLETION_TIME;
   const isAvailable = daily.valid_to && new Date(daily.valid_to) > new Date();
   const canSubmit =
     daily.objective_type === ObjectiveType.SUBMISSION &&
@@ -84,59 +86,67 @@ export function DailyCard({ daily }: DailyCardProps) {
           setShowModal={setShowModal}
         />
       )}
-      <div
-        className={twMerge(
-          "card bborder bg-card shadow-xl",
-          isRace && isAvailable ? "outline-4 outline-info" : "",
-        )}
-        key={daily.id}
-      >
-        <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
-          {canSubmit ? (
-            <div
-              className="tooltip tooltip-left lg:tooltip-top"
-              data-tip="Submit Bounty"
-            >
-              <button
-                className="rounded-full"
-                onClick={() => {
-                  setShowModal(true);
-                }}
-              >
-                <PlusCircleIcon className="size-8 cursor-pointer" />
-              </button>
-            </div>
-          ) : (
-            <ObjectiveIcon
-              objective={daily}
-              gameVersion={currentEvent.game_version}
-            />
+      <ConditionDescription objective={daily}>
+        <div
+          className={twMerge(
+            "card bborder bg-card shadow-xl",
+            isRace && isAvailable ? "outline-4 outline-info" : "",
           )}
-          <div className={daily.extra ? "tooltip tooltip-primary" : undefined}>
-            <div className="tooltip-content max-w-75 text-xl">
-              {daily.extra}
-            </div>
+          key={daily.id}
+        >
+          <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
+            {canSubmit ? (
+              <div
+                className="tooltip tooltip-left lg:tooltip-top"
+                data-tip="Submit Bounty"
+              >
+                <button
+                  className="rounded-full"
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                >
+                  <PlusCircleIcon className="size-8 cursor-pointer" />
+                </button>
+              </div>
+            ) : (
+              <ObjectiveIcon
+                objective={daily}
+                gameVersion={currentEvent.game_version}
+              />
+            )}
+            <div
+              className={daily.extra ? "tooltip tooltip-primary" : undefined}
+            >
+              <div className="tooltip-content max-w-75 text-xl">
+                {daily.extra}
+              </div>
 
-            <h3 className="mx-4 grow text-center text-lg font-medium">
-              {isRace ? <b className="font-extrabold text-info">Race: </b> : ""}
-              {daily.name}
-              {daily.extra ? <i className="text-error">*</i> : null}
-            </h3>
+              <h3 className="mx-4 grow text-center text-lg font-medium">
+                {isRace ? (
+                  <b className="font-extrabold text-info">Race: </b>
+                ) : (
+                  ""
+                )}
+                {daily.name}
+                {daily.extra ? <i className="text-error">*</i> : null}
+              </h3>
+            </div>
           </div>
-        </div>
-        <div className={finished ? "rounded-b-box" : ""}>
-          <CollectionCardTable objective={daily} />
-        </div>
-        {!finished && (
-          <div className="flex min-h-15 items-center justify-center rounded-b-box">
-            {bonusAvailableCounter(daily.valid_to, () => {
-              qc.refetchQueries({
-                queryKey: ["rules", currentEvent.id],
-              });
-            })}
+          <div className={finished ? "rounded-b-box" : ""}>
+            <CollectionCardTable objective={daily} />
           </div>
-        )}
-      </div>
+          {!finished && (
+            <div className="flex min-h-15 items-center justify-center rounded-b-box">
+              {bonusAvailableCounter(daily.valid_to, () => {
+                qc.refetchQueries({
+                  queryKey: ["rules", currentEvent.id],
+                });
+              })}
+            </div>
+          )}
+        </div>{" "}
+      </ConditionDescription>
     </>
   );
 }

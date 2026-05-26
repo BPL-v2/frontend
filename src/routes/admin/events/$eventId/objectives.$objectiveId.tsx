@@ -49,14 +49,13 @@ export const Route = createFileRoute(
   component: renderConditionally(ScoringCategoryPage, [
     Permission.admin,
     Permission.objective_designer,
+    Permission.manager,
   ]),
   params: {
     parse: (params) => ({
-      eventId: Number(params.eventId),
       objectiveId: Number(params.objectiveId),
     }),
     stringify: (params) => ({
-      eventId: params.eventId.toString(),
       objectiveId: params.objectiveId.toString(),
     }),
   },
@@ -475,6 +474,20 @@ export function ScoringCategoryPage(): JSX.Element {
         >
           Create Objectives in bulk
         </button>
+        <Link
+          to="/admin/events/$eventId/scoring-presets"
+          params={{ eventId }}
+          className="btn btn-info"
+        >
+          Scoring Rules
+        </Link>
+        <Link
+          to="/admin/events/$eventId/objective-help"
+          params={{ eventId }}
+          className="btn btn-accent"
+        >
+          Objective Help
+        </Link>
         <button
           className="btn btn-success"
           onClick={() =>

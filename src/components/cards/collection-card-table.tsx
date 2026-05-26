@@ -5,6 +5,7 @@ import { useContext, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import { ProgressBar } from "../progress-bar";
 import { renderScore } from "@utils/score";
+import { TeamName } from "@components/team/team-name";
 
 type CollectionCardTableProps = {
   objective: ScoreObjective;
@@ -156,7 +157,11 @@ export function CollectionCardTable({
                   )}
                   style={{ minWidth: `${longestTeamName + 2}ch` }}
                 >
-                  {currentEvent?.teams.find((team) => team.id === teamId)?.name}
+                  <TeamName
+                    team={currentEvent?.teams.find(
+                      (team) => team.id === teamId,
+                    )}
+                  />
                 </td>
               </tr>
             );

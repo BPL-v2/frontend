@@ -5,11 +5,13 @@ export function TextField({
   label,
   className,
   options,
+  helperText,
   ...props
 }: {
   label: string;
   className?: string;
   options?: string[];
+  helperText?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<string>();
   return (
@@ -29,6 +31,11 @@ export function TextField({
         className={twMerge("input w-full", className)}
         {...props}
       />
+      {helperText && (
+        <span className="px-2 text-left text-sm text-base-content/70">
+          {helperText}
+        </span>
+      )}
       <datalist id={`${label}-options`}>
         {options?.map((option) => (
           <option key={option} value={option} />

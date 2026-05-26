@@ -1,5 +1,6 @@
 import { Score } from "@api";
 import { CollectionCardTable } from "@components/cards/collection-card-table";
+import { ConditionDescription } from "@components/conditions/condition-description";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
@@ -71,42 +72,46 @@ export function CollectionCard({
   const { currentEvent } = useContext(GlobalStateContext);
   const actualObjective = parseMultiscoreCollection(objective);
   return (
-    <div
-      key={actualObjective.id}
-      {...props}
-      className={twMerge("card bborder bg-card shadow-xl", props.className)}
-    >
-      <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
-        <ObjectiveIcon
-          objective={actualObjective}
-          gameVersion={currentEvent.game_version}
-        />
-        <div
-          className={twMerge(
-            "w-full",
-            actualObjective.extra && !ignoreExtra && "tooltip tooltip-primary",
-          )}
-        >
-          {actualObjective.extra && !ignoreExtra ? (
-            <div className="tooltip-content max-w-75 text-xl">
-              {actualObjective.extra}
-            </div>
-          ) : null}
-          <h3 className="grow text-center text-xl font-medium">
-            {`${actualObjective.required_number ? actualObjective.required_number.toLocaleString() : ""} ${actualObjective.name}`}
+    <ConditionDescription objective={actualObjective}>
+      <div
+        key={actualObjective.id}
+        {...props}
+        className={twMerge("card bborder bg-card shadow-xl", props.className)}
+      >
+        <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
+          <ObjectiveIcon
+            objective={actualObjective}
+            gameVersion={currentEvent.game_version}
+          />
+          <div
+            className={twMerge(
+              "w-full",
+              actualObjective.extra &&
+                !ignoreExtra &&
+                "tooltip tooltip-primary",
+            )}
+          >
             {actualObjective.extra && !ignoreExtra ? (
-              <i className="text-red-600">*</i>
+              <div className="tooltip-content max-w-75 text-xl">
+                {actualObjective.extra}
+              </div>
             ) : null}
-          </h3>
+            <h3 className="grow text-center text-xl font-medium">
+              {`${actualObjective.required_number ? actualObjective.required_number.toLocaleString() : ""} ${actualObjective.name}`}
+              {actualObjective.extra && !ignoreExtra ? (
+                <i className="text-red-600">*</i>
+              ) : null}
+            </h3>
+          </div>
+        </div>
+        <div className="mb-0 rounded-b-box">
+          <CollectionCardTable
+            objective={actualObjective}
+            showPoints={showPoints}
+            roundedBottom
+          />
         </div>
       </div>
-      <div className="mb-0 rounded-b-box">
-        <CollectionCardTable
-          objective={actualObjective}
-          showPoints={showPoints}
-          roundedBottom
-        />
-      </div>
-    </div>
+    </ConditionDescription>
   );
 }

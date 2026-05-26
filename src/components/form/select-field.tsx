@@ -5,11 +5,13 @@ export function SelectField<T>({
   label,
   options,
   className,
+  helperText,
   ...props
 }: {
   label: string;
   options: T[] | SelectOption<T>[];
   className?: string;
+  helperText?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<T>();
   return (
@@ -26,6 +28,11 @@ export function SelectField<T>({
           onChange={(value) => field.handleChange(value as T)}
           required={!props.hidden && props.required}
         />
+        {helperText && (
+          <span className="px-2 text-left text-sm text-base-content/70">
+            {helperText}
+          </span>
+        )}
       </label>
     </div>
   );

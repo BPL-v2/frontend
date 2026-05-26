@@ -3,10 +3,12 @@ import { twMerge } from "tailwind-merge";
 export function BooleanField({
   label,
   className,
+  helperText,
   ...props
 }: {
   label: string;
   className?: string;
+  helperText?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const field = useFieldContext<boolean>();
   return (
@@ -22,6 +24,11 @@ export function BooleanField({
         className={twMerge("checkbox", className)}
         {...props}
       />
+      {helperText && (
+        <span className="px-2 text-left text-sm text-base-content/70">
+          {helperText}
+        </span>
+      )}
     </label>
   );
 }

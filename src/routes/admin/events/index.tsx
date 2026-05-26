@@ -1,5 +1,4 @@
 import { Event, Permission } from "@api";
-import { getObjectiveTreeForEventBase } from "@api";
 import { useDeleteEvent, useDuplicateEvent, useGetEvents } from "@api";
 import { DeleteButton } from "@components/form/delete-button";
 import { EventFormModal } from "@components/form-dialogs/EventFormModal";
@@ -10,7 +9,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
 import { useState } from "react";
@@ -26,7 +25,6 @@ function EventPage() {
   const { events, isPending, isError } = useGetEvents();
   const [isOpen, setIsOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { duplicateEvent } = useDuplicateEvent(queryClient);
   const { deleteEvent } = useDeleteEvent(queryClient);
@@ -170,26 +168,15 @@ function EventPage() {
             params={{ eventId: info.row.original.id }}
             className="btn btn-xs"
           >
-            Scoring Presets
+            Scoring Rules
           </Link>
-          <button
-            onClick={() => {
-              getObjectiveTreeForEventBase(info.row.original.id).then(
-                (baseObjective) => {
-                  navigate({
-                    to: "/admin/events/$eventId/objectives/$objectiveId",
-                    params: {
-                      eventId: info.row.original.id,
-                      objectiveId: baseObjective.id,
-                    },
-                  });
-                },
-              );
-            }}
+          <Link
+            to="/admin/events/$eventId/objectives"
+            params={{ eventId: info.row.original.id }}
             className="btn btn-xs"
           >
             Objectives
-          </button>
+          </Link>
         </div>
       ),
       enableSorting: false,

@@ -1,6 +1,7 @@
 import { ApprovalStatus, Submission, Team } from "@api";
 import { useGetEventStatus, useGetSubmissions, useGetUsers } from "@api";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
+import { TeamName } from "@components/team/team-name";
 import {
   CheckCircleIcon,
   EyeSlashIcon,
@@ -261,7 +262,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
                         )}
                       >
                         <div className="flex items-center justify-end gap-2 rounded-br-xl">
-                          <span className="">{teamMap[teamId]?.name}</span>
+                          <TeamName team={teamMap[teamId]} />
                           <VideoButton submissions={s} />
                           <SubmissionStatus submissions={s} userMap={userMap} />
                         </div>

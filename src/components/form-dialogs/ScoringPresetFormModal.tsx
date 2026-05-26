@@ -4,20 +4,21 @@ import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useAddScoringRule } from "@api";
 
 interface ScoringRuleFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   eventId: number;
-  existingPreset?: ScoringRule | null;
+  existingRule?: ScoringRule | null;
 }
 
 export function ScoringRuleFormModal({
   isOpen,
   setIsOpen,
   eventId,
-  existingPreset,
+  existingRule,
 }: ScoringRuleFormModalProps) {
   const qc = useQueryClient();
 
@@ -50,15 +51,15 @@ export function ScoringRuleFormModal({
   useEffect(() => {
     if (!isOpen) return;
     form.reset();
-    if (existingPreset) {
-      setFormValues(form, existingPreset);
+    if (existingRule) {
+      setFormValues(form, existingRule);
     }
-  }, [isOpen, existingPreset]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isOpen, existingRule]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog
       open={isOpen}
-      title={existingPreset ? "Edit Preset" : "Create Preset"}
+      title={existingRule ? "Edit Scoring Rule" : "Create Scoring Rule"}
       setOpen={setIsOpen}
       className="max-w-md"
     >
@@ -69,9 +70,20 @@ export function ScoringRuleFormModal({
           form.handleSubmit();
         }}
       >
+        <div className="rounded-box border border-info/20 bg-info/10 p-3 text-left text-sm">
+          Need help choosing a rule?{" "}
+          <Link
+            to="/admin/events/$eventId/objective-help"
+            params={{ eventId }}
+            className="link link-primary"
+          >
+            Open the objective help page
+          </Link>
+          .
+        </div>
         <form.AppField
           name="name"
-          children={(field) => <field.TextField label="Name" required />}
+          children={(field) => <field.TextField label="Rule name" required />}
         />
         <form.AppField
           name="points"
@@ -146,7 +158,7 @@ export function ScoringRuleFormModal({
             Cancel
           </button>
           <button type="submit" className="btn btn-primary">
-            Submit
+            Save
           </button>
         </div>
       </form>

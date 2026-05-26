@@ -260,7 +260,7 @@ function RouteComponent() {
       header: "",
       size: 300,
       cell: ({ row }) => (
-        <div className="flex min-h-[3rem] max-w-[280px] flex-col gap-1 overflow-hidden py-3">
+        <div className="flex min-h-12 max-w-70 flex-col gap-1 overflow-hidden py-3">
           <span className="truncate whitespace-nowrap">
             {row.original.objective.name}
           </span>
@@ -324,7 +324,7 @@ function RouteComponent() {
             <span>
               {getDeltaTimeBetween(
                 row.original.timestamp,
-                currentEvent.event_start_time,
+                currentEvent.event_start_time.getTime() / 1000,
               )}
             </span>
           );
