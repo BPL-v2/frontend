@@ -15,14 +15,13 @@ import { PoB } from "@components/profile/pob";
 import PoBSlider from "@components/profile/pob-slider";
 import { ScoreObjective } from "@mytypes/score";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { GlobalStateContext } from "@utils/context-provider";
 import {
   decodePoBExport,
   determineDifferences,
   PathOfBuilding,
 } from "@utils/pob";
 import { flatMap, mergeScores } from "@utils/utils";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export const Route = createFileRoute("/profile/$userId/$eventId/$characterId")({
   component: RouteComponent,
@@ -54,7 +53,6 @@ export const Route = createFileRoute("/profile/$userId/$eventId/$characterId")({
 });
 
 function RouteComponent() {
-  const { currentEvent } = useContext(GlobalStateContext);
   const { userId, characterId, eventId } = useParams({ from: Route.id });
   const { user } = useGetUser();
   const { events = [] } = useGetEvents();
@@ -75,7 +73,7 @@ function RouteComponent() {
 
   const { pobs = [] } = useGetPoBs(userId, characterId);
   const { data: baseTypes = [] } = useFile<string[]>(
-    `/assets/${currentEvent.game_version}/items/basetypes.json`,
+    `/assets/${event?.game_version}/items/basetypes.json`,
   );
   const [decodedPobs, setDecodedPobs] = useState<PathOfBuilding[]>([]);
 
@@ -83,7 +81,6 @@ function RouteComponent() {
     if (!baseTypes || baseTypes.length === 0 || pobs.length === 0) {
       return;
     }
-
     (async () => {
       const decoded: PathOfBuilding[] = [];
       for (const pob of pobs) {
