@@ -4,6 +4,7 @@ import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateTeam } from "@api";
+import { poe2Mapping } from "@mytypes/ascendancy";
 
 interface TeamFormModalProps {
   isOpen: boolean;
@@ -47,21 +48,7 @@ export function TeamFormModal({
     }
   }, [isOpen, existingTeam]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const poe2Classes = [
-    "Warbringer",
-    "Titan",
-    "Chronomancer",
-    "Stormweaver",
-    "Witchhunter",
-    "Gemling Legionnaire",
-    "Invoker",
-    "Acolyte of Chayula",
-    "Deadeye",
-    "Pathfinder",
-    "Blood Mage",
-    "Infernalist",
-  ];
-
+  const poe2Classes = Object.values(poe2Mapping);
   const poe1Classes = [
     "Ascendant",
     "Assassin",

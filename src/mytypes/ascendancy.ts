@@ -13,31 +13,6 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe2/ascendancies/Warrior.webp",
       classColor: "text-red-500",
     },
-    Sorceress: {
-      thumbnail: "/assets/poe2/ascendancies/thumbnails/Sorceress.webp",
-      image: "/assets/poe2/ascendancies/Sorceress.webp",
-      classColor: "text-cyan-500",
-    },
-    Mercenary: {
-      thumbnail: "/assets/poe2/ascendancies/thumbnails/Mercenary.webp",
-      image: "/assets/poe2/ascendancies/Mercenary.webp",
-      classColor: "text-orange-500",
-    },
-    Monk: {
-      thumbnail: "/assets/poe2/ascendancies/thumbnails/Monk.webp",
-      image: "/assets/poe2/ascendancies/Monk.webp",
-      classColor: "text-purple-500",
-    },
-    Huntress: {
-      thumbnail: "/assets/poe2/ascendancies/thumbnails/Huntress.webp",
-      image: "/assets/poe2/ascendancies/Huntress.webp",
-      classColor: "text-green-500",
-    },
-    Witch: {
-      thumbnail: "/assets/poe2/ascendancies/thumbnails/Witch.webp",
-      image: "/assets/poe2/ascendancies/Witch.webp",
-      classColor: "text-blue-500",
-    },
     Warbringer: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Warbringer.webp",
       image: "/assets/poe2/ascendancies/Warbringer.webp",
@@ -53,6 +28,12 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe2/ascendancies/Smith_of_Kitava.webp",
       classColor: "text-red-700",
     },
+
+    Sorceress: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Sorceress.webp",
+      image: "/assets/poe2/ascendancies/Sorceress.webp",
+      classColor: "text-cyan-500",
+    },
     Chronomancer: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Chronomancer.webp",
       image: "/assets/poe2/ascendancies/Chronomancer.webp",
@@ -62,6 +43,18 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Stormweaver.webp",
       image: "/assets/poe2/ascendancies/Stormweaver.webp",
       classColor: "text-cyan-600",
+    },
+    "Disciple of Varashta": {
+      thumbnail:
+        "/assets/poe2/ascendancies/thumbnails/Disciple_of_Varashta.webp",
+      image: "/assets/poe2/ascendancies/Disciple_of_Varashta.webp",
+      classColor: "text-cyan-700",
+    },
+
+    Mercenary: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Mercenary.webp",
+      image: "/assets/poe2/ascendancies/Mercenary.webp",
+      classColor: "text-orange-500",
     },
     Witchhunter: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Witchhunter.webp",
@@ -79,16 +72,28 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe2/ascendancies/Tactician.webp",
       classColor: "text-orange-700",
     },
+
+    Monk: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Monk.webp",
+      image: "/assets/poe2/ascendancies/Monk.webp",
+      classColor: "text-purple-500",
+    },
     Invoker: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Invoker.webp",
       image: "/assets/poe2/ascendancies/Invoker.webp",
-      classColor: "text-purple-500",
+      classColor: "text-purple-600",
     },
     "Acolyte of Chayula": {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Acolyte_of_Chayula.webp",
       image: "/assets/poe2/ascendancies/Acolyte_of_Chayula.webp",
-      classColor: "text-purple-600",
+      classColor: "text-purple-700",
     },
+    "Martial Artist": {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Martial_Artist.webp",
+      image: "/assets/poe2/ascendancies/Martial_Artist.webp",
+      classColor: "text-purple-800",
+    },
+
     Deadeye: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Deadeye.webp",
       image: "/assets/poe2/ascendancies/Deadeye.webp",
@@ -99,20 +104,37 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe2/ascendancies/Pathfinder.webp",
       classColor: "text-green-600",
     },
+
+    Witch: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Witch.webp",
+      image: "/assets/poe2/ascendancies/Witch.webp",
+      classColor: "text-blue-500",
+    },
     "Blood Mage": {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Blood_Mage.webp",
       image: "/assets/poe2/ascendancies/Blood_Mage.webp",
-      classColor: "text-blue-500",
+      classColor: "text-blue-600",
     },
     Infernalist: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Infernalist.webp",
       image: "/assets/poe2/ascendancies/Infernalist.webp",
-      classColor: "text-blue-600",
+      classColor: "text-blue-700",
     },
     Lich: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Lich.webp",
       image: "/assets/poe2/ascendancies/Lich.webp",
-      classColor: "text-blue-700",
+      classColor: "text-blue-800",
+    },
+
+    Huntress: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Huntress.webp",
+      image: "/assets/poe2/ascendancies/Huntress.webp",
+      classColor: "text-green-500",
+    },
+    "Spirit Walker": {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Spirit_Walker.webp",
+      image: "/assets/poe2/ascendancies/Spirit_Walker.webp",
+      classColor: "text-green-600",
     },
     Amazon: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Amazon.webp",
@@ -123,6 +145,22 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Ritualist.webp",
       image: "/assets/poe2/ascendancies/Ritualist.webp",
       classColor: "text-green-600",
+    },
+
+    Druid: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Druid.webp",
+      image: "/assets/poe2/ascendancies/Druid.webp",
+      classColor: "text-lime-500",
+    },
+    Oracle: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Oracle.webp",
+      image: "/assets/poe2/ascendancies/Oracle.webp",
+      classColor: "text-lime-600",
+    },
+    Shaman: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Shaman.webp",
+      image: "/assets/poe2/ascendancies/Shaman.webp",
+      classColor: "text-lime-700",
     },
   },
   [GameVersion.poe1]: {
@@ -209,12 +247,12 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
     Deadeye: {
       thumbnail: "/assets/poe1/ascendancies/thumbnails/Deadeye.png",
       image: "/assets/poe1/ascendancies/Deadeye.png",
-      classColor: "text-green-500",
+      classColor: "text-green-600",
     },
     Pathfinder: {
       thumbnail: "/assets/poe1/ascendancies/thumbnails/Pathfinder.png",
       image: "/assets/poe1/ascendancies/Pathfinder.png",
-      classColor: "text-green-600",
+      classColor: "text-green-700",
     },
     Warden: {
       thumbnail: "/assets/poe1/ascendancies/thumbnails/Warden.png",
@@ -297,9 +335,11 @@ export const poe2Mapping: Record<string, string> = {
   Warrior3: "Smith of Kitava",
   Sorceress1: "Stormweaver",
   Sorceress2: "Chronomancer",
+  Sorceress3: "Disciple of Varashta",
   Mercenary1: "Tactician",
   Mercenary2: "Witchhunter",
   Mercenary3: "Gemling Legionnaire",
+  Monk1: "Martial Artist",
   Monk2: "Invoker",
   Monk3: "Acolyte of Chayula",
   Witch1: "Infernalist",
@@ -309,4 +349,7 @@ export const poe2Mapping: Record<string, string> = {
   Ranger3: "Pathfinder",
   Huntress1: "Amazon",
   Huntress2: "Ritualist",
+  Huntress3: "Spirit Walker",
+  Druid1: "Oracle",
+  Druid2: "Shaman",
 };
