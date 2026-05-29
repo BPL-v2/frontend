@@ -94,6 +94,11 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       classColor: "text-purple-800",
     },
 
+    Ranger: {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Ranger.webp",
+      image: "/assets/poe2/ascendancies/Ranger.webp",
+      classColor: "text-green-500",
+    },
     Deadeye: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Deadeye.webp",
       image: "/assets/poe2/ascendancies/Deadeye.webp",
