@@ -2,8 +2,15 @@ import { Item, PathOfBuilding } from "@utils/pob";
 import { ItemDisplay } from "./item-display";
 import { ItemTooltip } from "./item-tooltip";
 import { useState } from "react";
+import { GameVersion } from "@api/generated/models/gameVersion";
 
-export function CharacterItems({ pob }: { pob: PathOfBuilding }) {
+export function CharacterItems({
+  pob,
+  gameVersion,
+}: {
+  pob: PathOfBuilding;
+  gameVersion: GameVersion;
+}) {
   const [selectedItemId, setSelectedItemId] = useState<
     string | number | undefined
   >();
@@ -70,6 +77,7 @@ export function CharacterItems({ pob }: { pob: PathOfBuilding }) {
         key={item?.id + "-" + slot}
         item={item}
         slot={slot}
+        gameVersion={gameVersion}
         selectionSetter={setSelectedItem}
         setMousePosition={setItemPosition}
       />

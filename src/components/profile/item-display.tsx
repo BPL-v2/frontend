@@ -1,3 +1,4 @@
+import { GameVersion } from "@api";
 import { encode } from "@mytypes/scoring-objective";
 import { Item, Rarity } from "@utils/pob";
 import { useRef } from "react";
@@ -6,11 +7,12 @@ import { twMerge } from "tailwind-merge";
 type ItemDisplayProps = {
   item?: Item;
   slot: string | null;
+  gameVersion: GameVersion;
   selectionSetter: (item?: Item) => void;
   setMousePosition: (pos?: { x: number; y: number }) => void;
 };
-function getLink(item: Item) {
-  let link = "/assets/poe1/items/";
+function getLink(item: Item, gameVersion: GameVersion) {
+  let link = `/assets/${gameVersion}/items/`;
   if (item.rarity === Rarity.Unique) {
     link +=
       "uniques/" + encode(item.name.replaceAll("Foulborn ", "")) + ".webp";
@@ -22,6 +24,7 @@ function getLink(item: Item) {
 
 export function ItemDisplay({
   item,
+  gameVersion,
   slot,
   selectionSetter,
   setMousePosition,
@@ -66,7 +69,7 @@ export function ItemDisplay({
       {item && (
         <img
           className="flex aspect-square h-full w-full items-center object-contain p-1"
-          src={getLink(item)}
+          src={getLink(item, gameVersion)}
           alt={item?.name}
         />
       )}

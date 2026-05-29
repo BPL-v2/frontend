@@ -8,6 +8,7 @@ import Tree from "./tree";
 import { CharacterItems } from "./character-items";
 import { CharacterSkills } from "./character-skills";
 import { CharacterStats } from "./character-stats";
+import { GameVersion, useGetEvents } from "@api";
 
 type Props = {
   pob?: PathOfBuilding;
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function PoB({ pob, userId, characterId, pobId, eventId }: Props) {
+  const { events = [] } = useGetEvents();
   const [treeExpanded, setTreeExpanded] = useState(false);
   const passiveTree = useMemo(() => {
     if (!pob) return null;
@@ -53,7 +55,13 @@ export function PoB({ pob, userId, characterId, pobId, eventId }: Props) {
         </div>
       )}
       <div className="flex min-h-170 flex-col gap-4 text-left lg:flex-row">
-        <CharacterItems pob={pob} />
+        <CharacterItems
+          pob={pob}
+          gameVersion={
+            events.find((e) => e.id === eventId)?.game_version ||
+            GameVersion.poe1
+          }
+        ></CharacterItems>
         <div className="flex flex-1 flex-col gap-4">
           <div className="flex flex-row gap-4">
             {!treeExpanded && (
