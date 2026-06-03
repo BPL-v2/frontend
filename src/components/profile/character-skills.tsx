@@ -62,9 +62,9 @@ export function CharacterSkills({
         }
         return skillB.gems.length - skillA.gems.length;
       })
-      .map((skill) => {
+      .map((skill, id) => {
         return {
-          slot: "",
+          slot: id.toString(),
           skills: [skill],
         };
       });
