@@ -43,33 +43,45 @@ def get_base_name(gem) -> Optional[str]:
     return None
 
 
-def get_gem_dict() -> dict[str, list[Gem]]:
-    response = request.urlopen(
-        "https://repoe-fork.github.io/gems_minimal.min.json")
-    full_gems: list = json.loads(response.read())
+def get_gem_dict(version: str) -> dict[str, list[Gem]]:
+    url = "https://repoe-fork.github.io/gems.min.json"
+    if (version == "poe2"):
+        url = "https://repoe-fork.github.io/poe2/skill_gems.min.json"
+    response = request.urlopen(url)
+    full_gems: list = json.loads(response.read()).values()
     gems: dict[str, list[Gem]] = {}
     gem_colors = {"r": set(), "g": set(), "b": set(), "w": set()}
     for gem in full_gems:
+        display_name = ""
+        if "active_skill" in gem:
+            display_name = gem["active_skill"]["display_name"]
+        elif "base_item" in gem:
+            display_name = gem["base_item"]["display_name"]
+        else: 
+            continue
+        
+        if "DNT" in display_name or "DO NOT USE" in display_name or "UNUSED" in display_name:
+            continue
         base_name = get_base_name(gem)
         if base_name is not None:
             if base_name not in gems:
                 gems[base_name] = []
             if "color" in gem and gem["color"] is not None:
-                gem_colors[gem["color"]].add(gem["display_name"])
+                gem_colors[gem["color"]].add(display_name)
             gems[base_name].append({
-                "display_name": gem["display_name"],
+                "display_name": display_name,
                 "discriminator": gem.get("discriminator"),
                 "color": gem.get("color")
             })
-    with open(f"public/assets/poe1/items/gem_colors.json", "w") as file:
+    with open(f"public/assets/{version}/items/gem_colors.json", "w") as file:
         json.dump({k: sorted(v)
                    for k, v in gem_colors.items()}, file, indent=4)
     return gems
 
 
 def download():
-    gems = get_gem_dict()
     for version in ["poe1", "poe2"]:
+        gems = get_gem_dict(version)
         if not os.path.exists(f"public/assets/{version}/items/uniques"):
             os.makedirs(f"public/assets/{version}/items/uniques")
         if not os.path.exists(f"public/assets/{version}/items/basetypes"):
@@ -97,8 +109,7 @@ def download():
         for base in base_items.values():
             if "[DNT" in base["name"] or "DO NOT USE" in base["name"] or "UNUSED" in base["name"]:
                 continue
-            save_image(base, f"public/assets/{version}/items/basetypes",
-                        baseUrl, gems if version == "poe1" else {})
+            save_image(base, f"public/assets/{version}/items/basetypes", baseUrl, gems if version == "poe1" else {})
 
 def save_basetypes(filename: str, base_items: ItemDict):
     names = [

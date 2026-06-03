@@ -1,14 +1,20 @@
-import { useFile } from "@api";
+import { GameVersion, useFile } from "@api";
 import { InventoryIcon } from "@icons/inventory-icons";
 import { Gem, PathOfBuilding, Skill } from "@utils/pob";
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 
-export function CharacterSkills({ pob }: { pob: PathOfBuilding }) {
+export function CharacterSkills({
+  pob,
+  gameVersion,
+}: {
+  pob: PathOfBuilding;
+  gameVersion: GameVersion;
+}) {
   const { data: gemColors } = useFile<Record<"r" | "g" | "b" | "w", string[]>>(
-    "/assets/poe1/items/gem_colors.json",
+    `/assets/${gameVersion}/items/gem_colors.json`,
   );
-  const equipmentSlots = [
+  var equipmentSlots = [
     "Helmet",
     "Body Armour",
     "Gloves",
@@ -19,61 +25,83 @@ export function CharacterSkills({ pob }: { pob: PathOfBuilding }) {
     "Ring 2",
     "Weapon 1",
     "Weapon 2",
-  ];
+  ].sort((slotA, slotB) => {
+    const mainGroup =
+      pob.skills.skillSets[0].skills[pob.build.mainSocketGroup - 1];
+    if (mainGroup?.slot == slotA) return -1;
+    if (mainGroup?.slot == slotB) return 1;
+    const skillsA = pob.skills.skillSets[0].skills.filter(
+      (skill) => skill.slot === slotA,
+    );
+    const skillsB = pob.skills.skillSets[0].skills.filter(
+      (skill) => skill.slot === slotB,
+    );
+    return (
+      skillsB.flatMap((skill) => skill.gems).length -
+      skillsA.flatMap((skill) => skill.gems).length
+    );
+  });
+
+  var slotSkills = equipmentSlots
+    .filter((slot) =>
+      pob.skills.skillSets[0].skills.some((skill) => skill.slot === slot),
+    )
+    .map((slot) => {
+      return {
+        slot: slot,
+        skills: pob.skills.skillSets[0].skills.filter(
+          (skill) => skill.slot === slot,
+        ),
+      };
+    });
+  if (gameVersion === GameVersion.poe2) {
+    slotSkills = pob.skills.skillSets[0].skills
+      .sort((skillA, skillB) => {
+        if (skillB.gems.length === skillA.gems.length) {
+          return skillA.gems[0].nameSpec.localeCompare(skillB.gems[0].nameSpec);
+        }
+        return skillB.gems.length - skillA.gems.length;
+      })
+      .map((skill) => {
+        return {
+          slot: "",
+          skills: [skill],
+        };
+      });
+  }
   return (
     <div className="h-full columns-2 gap-2 overflow-visible rounded-box bg-base-300 p-4 text-sm md:p-8">
-      {equipmentSlots
-        .sort((slotA, slotB) => {
-          const mainGroup =
-            pob.skills.skillSets[0].skills[pob.build.mainSocketGroup - 1];
-          if (mainGroup?.slot == slotA) return -1;
-          if (mainGroup?.slot == slotB) return 1;
-          const skillsA = pob.skills.skillSets[0].skills.filter(
-            (skill) => skill.slot === slotA,
-          );
-          const skillsB = pob.skills.skillSets[0].skills.filter(
-            (skill) => skill.slot === slotB,
-          );
-          return (
-            skillsB.flatMap((skill) => skill.gems).length -
-            skillsA.flatMap((skill) => skill.gems).length
-          );
-        })
-        .map((slot) => {
-          const skills = pob.skills.skillSets[0].skills.filter(
-            (skill) => skill.slot === slot,
-          );
-          if (skills.length === 0) return null;
-          return (
-            <div
-              className="relative mb-2 flex break-inside-avoid flex-col overflow-visible rounded-xl bg-base-200 px-3 py-2.5"
-              key={`skill-${slot}`}
-            >
-              <InventoryIcon slot={slot} className="absolute top-2 right-2" />
-              <div key={slot} className="flex flex-col gap-2">
-                {skills.map((skill, skillId) => {
-                  return (
-                    <div
-                      key={`skill-${slot}-${skillId}`}
-                      className="flex flex-col"
-                    >
-                      {skill.gems.map((gem, gemId) => (
-                        <SkillGem
-                          key={`gem-${slot}-${skillId}-${gemId}`}
-                          id={gemId}
-                          gem={gem}
-                          skillGroup={skill}
-                          pob={pob}
-                          gemColors={gemColors}
-                        />
-                      ))}
-                    </div>
-                  );
-                })}
-              </div>
+      {slotSkills.map(({ slot, skills }) => {
+        return (
+          <div
+            className="relative mb-2 flex break-inside-avoid flex-col overflow-visible rounded-xl bg-base-200 px-3 py-2.5"
+            key={`skill-${slot}`}
+          >
+            <InventoryIcon slot={slot} className="absolute top-2 right-2" />
+            <div key={slot} className="flex flex-col gap-2">
+              {skills.map((skill, skillId) => {
+                return (
+                  <div
+                    key={`skill-${slot}-${skillId}`}
+                    className="flex flex-col"
+                  >
+                    {skill.gems.map((gem, gemId) => (
+                      <SkillGem
+                        key={`gem-${slot}-${skillId}-${gemId}`}
+                        id={gemId}
+                        gem={gem}
+                        skill={skill}
+                        pob={pob}
+                        gemColors={gemColors}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -81,13 +109,13 @@ export function CharacterSkills({ pob }: { pob: PathOfBuilding }) {
 function SkillGem({
   id,
   gem,
-  skillGroup: skill,
+  skill,
   pob,
   gemColors,
 }: {
   id: number;
   gem: Gem;
-  skillGroup: Skill;
+  skill: Skill;
   pob: PathOfBuilding;
   gemColors?: Record<"r" | "g" | "b" | "w", string[]>;
 }) {

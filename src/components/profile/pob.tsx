@@ -21,6 +21,7 @@ type Props = {
 export function PoB({ pob, userId, characterId, pobId, eventId }: Props) {
   const { events = [] } = useGetEvents();
   const [treeExpanded, setTreeExpanded] = useState(false);
+  const event = events.find((e) => e.id === eventId);
   const passiveTree = useMemo(() => {
     if (!pob) return null;
     return (
@@ -80,7 +81,10 @@ export function PoB({ pob, userId, characterId, pobId, eventId }: Props) {
               eventId={eventId}
             />
           </div>
-          <CharacterSkills pob={pob} />
+          <CharacterSkills
+            pob={pob}
+            gameVersion={event?.game_version || GameVersion.poe1}
+          />
         </div>
       </div>
     </div>
