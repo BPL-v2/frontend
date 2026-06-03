@@ -17,7 +17,10 @@ function getLink(item: Item, gameVersion: GameVersion) {
     link +=
       "uniques/" + encode(item.name.replaceAll("Foulborn ", "")) + ".webp";
   } else {
-    link += "basetypes/" + encode(item.base.split(" (")[0]) + ".webp";
+    link +=
+      "basetypes/" +
+      encode(item.base.split(" (")[0].replace("Runeforged ", "")) +
+      ".webp";
   }
   return link;
 }
