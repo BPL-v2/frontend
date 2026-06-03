@@ -130,6 +130,11 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
       image: "/assets/poe2/ascendancies/Lich.webp",
       classColor: "text-blue-800",
     },
+    "Abyssal Lich": {
+      thumbnail: "/assets/poe2/ascendancies/thumbnails/Abyssal_Lich.webp",
+      image: "/assets/poe2/ascendancies/Abyssal_Lich.webp",
+      classColor: "text-blue-800",
+    },
 
     Huntress: {
       thumbnail: "/assets/poe2/ascendancies/thumbnails/Huntress.webp",
@@ -350,6 +355,7 @@ export const poe2Mapping: Record<string, string> = {
   Witch1: "Infernalist",
   Witch2: "Blood Mage",
   Witch3: "Lich",
+  Witch3b: "Abyssal Lich",
   Ranger1: "Deadeye",
   Ranger3: "Pathfinder",
   Huntress1: "Amazon",
