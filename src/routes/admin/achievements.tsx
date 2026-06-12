@@ -4,21 +4,27 @@ import {
   useCreateAchievement,
   useUpdateAchievement,
   useDeleteAchievement,
+  useUploadAchievementIcon,
 } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { DeleteButton } from "@components/form/delete-button";
-import VirtualizedTable from "@components/table/virtualized-table";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import Table from "@components/table/table";
+import { PencilSquareIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/admin/achievements")({
   component: renderConditionally(AchievementsPage, [Permission.admin]),
 });
+
+function iconDataUrl(achievement: AchievementResponse): string | null {
+  if (!achievement.icon) return null;
+  return `data:${achievement.icon_mime_type};base64,${achievement.icon}`;
+}
 
 interface AchievementFormModalProps {
   isOpen: boolean;
@@ -58,7 +64,10 @@ function AchievementFormModal({
     if (!isOpen) return;
     form.reset();
     if (existing) {
-      setFormValues(form, { name: existing.name ?? "", description: existing.description ?? "" });
+      setFormValues(form, {
+        name: existing.name ?? "",
+        description: existing.description ?? "",
+      });
     }
   }, [isOpen, existing]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -101,6 +110,43 @@ function AchievementFormModal({
   );
 }
 
+function IconUploadButton({
+  achievement,
+}: {
+  achievement: AchievementResponse;
+}) {
+  const qc = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploadIcon, uploadIconPending } = useUploadAchievementIcon(qc);
+
+  return (
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) uploadIcon(achievement.id!, file);
+          e.target.value = "";
+        }}
+      />
+      <button
+        className="btn btn-info btn-xs"
+        disabled={uploadIconPending}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        {uploadIconPending ? (
+          <span className="loading loading-xs loading-spinner" />
+        ) : (
+          <PhotoIcon className="size-4" />
+        )}
+      </button>
+    </>
+  );
+}
+
 function AchievementsPage() {
   const { achievements, isPending, isError } = useGetAchievements();
   const [isOpen, setIsOpen] = useState(false);
@@ -110,35 +156,34 @@ function AchievementsPage() {
 
   const columns: ColumnDef<AchievementResponse>[] = [
     {
-      header: "ID",
-      accessorKey: "id",
-      size: 60,
+      header: "Icon",
       enableSorting: false,
+      cell: (info) => {
+        const url = iconDataUrl(info.row.original);
+        return url ? (
+          <img src={url} alt="" className="size-8 object-contain" />
+        ) : null;
+      },
     },
     {
       header: "Name",
       accessorKey: "name",
-      enableSorting: false,
     },
     {
       header: "Description",
       accessorKey: "description",
-      enableSorting: false,
     },
     {
       header: "Custom",
       accessorKey: "is_custom",
-      size: 80,
-      enableSorting: false,
       cell: (info) => (info.row.original.is_custom ? "Yes" : "No"),
     },
     {
       header: "Actions",
-      size: 120,
       enableSorting: false,
-      cell: (info) =>
-        info.row.original.is_custom ? (
-          <div className="flex gap-1">
+      cell: (info) => (
+        <div className="flex gap-1">
+          <div className="tooltip" data-tip="Edit">
             <button
               className="btn btn-xs btn-warning"
               onClick={() => {
@@ -148,13 +193,17 @@ function AchievementsPage() {
             >
               <PencilSquareIcon className="size-4" />
             </button>
-            <DeleteButton
-              onDelete={() => deleteAchievement(info.row.original.id!)}
-              requireConfirmation
-              className="btn-xs"
-            />
           </div>
-        ) : null,
+          <div className="tooltip tooltip-info" data-tip="Upload icon">
+            <IconUploadButton achievement={info.row.original} />
+          </div>
+          <DeleteButton
+            onDelete={() => deleteAchievement(info.row.original.id!)}
+            requireConfirmation
+            className="btn-xs"
+          />
+        </div>
+      ),
     },
   ];
 
@@ -171,13 +220,9 @@ function AchievementsPage() {
         }}
         existing={toEdit}
       />
-      <VirtualizedTable
-        columns={columns}
-        data={achievements}
-        className="h-[70vh]"
-      />
+      <Table columns={columns} data={achievements} />
       <button
-        className="btn btn-success self-center"
+        className="btn self-center btn-success"
         onClick={() => {
           setToEdit(null);
           setIsOpen(true);

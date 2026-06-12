@@ -31,12 +31,14 @@ export function DeleteButton({
 
   if (!requireConfirmation) {
     return (
-      <button
-        className={twMerge("btn btn-error", props.className)}
-        onClick={onDelete}
-      >
-        <TrashIcon className="size-6" />
-      </button>
+      <div className="tooltip tooltip-error" data-tip="Delete">
+        <button
+          className={twMerge("btn btn-error", props.className)}
+          onClick={onDelete}
+        >
+          <TrashIcon className="size-6" />
+        </button>
+      </div>
     );
   }
 
@@ -74,12 +76,14 @@ export function DeleteButton({
   }
 
   return (
-    <button
-      {...props}
-      className={twMerge("btn btn-error", props.className)}
-      onClick={() => setIsConfirmed(true)}
-    >
-      <TrashIcon className="size-6" />
-    </button>
+    <div className="tooltip tooltip-error" data-tip="Delete">
+      <button
+        {...props}
+        className={twMerge("btn btn-error", props.className)}
+        onClick={() => setIsConfirmed(true)}
+      >
+        <TrashIcon className="size-6" />
+      </button>
+    </div>
   );
 }

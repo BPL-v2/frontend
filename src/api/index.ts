@@ -115,6 +115,7 @@ import {
 } from "./generated/timing/timing";
 import {
   getGetAchievementsBaseQueryKey,
+  getUploadIconBaseUrl,
   useCreateAchievementBase,
   useDeleteAchievementBase,
   useGetAchievementsBase,
@@ -157,7 +158,7 @@ import {
 import type { ScoreMap } from "@utils/utils";
 import { flatMap } from "@utils/utils";
 import { isLoggedIn } from "@utils/token";
-import { HttpError } from "./fetcher";
+import { customFetch, HttpError } from "./fetcher";
 
 // --- Events ---
 
@@ -1184,6 +1185,26 @@ export function useDeleteAchievement(qc: QueryClient) {
   return {
     deleteAchievement: (achievementId: number) => m.mutate({ achievementId }),
     deleteAchievementPending: m.isPending,
+  };
+}
+
+export function useUploadAchievementIcon(qc: QueryClient) {
+  const m = useMutation({
+    mutationFn: ({ achievementId, file }: { achievementId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append("icon", file);
+      return customFetch<void>(getUploadIconBaseUrl(achievementId), {
+        method: "PUT",
+        body: formData,
+      });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+    },
+  });
+  return {
+    uploadIcon: (achievementId: number, file: File) => m.mutate({ achievementId, file }),
+    uploadIconPending: m.isPending,
   };
 }
 
