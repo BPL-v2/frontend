@@ -95,6 +95,12 @@ function RouteComponent() {
           </>
         )}
         <AdminRouteCard
+          title="Achievements"
+          description="Create and manage custom achievements that can be granted to users."
+          link="/admin/achievements"
+          permissions={[Permission.admin]}
+        />
+        <AdminRouteCard
           title="Recurring Jobs"
           description="Manage recurring jobs during the event like fetching stash tabs or player characters."
           link="/admin/recurring-jobs"

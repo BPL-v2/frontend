@@ -46,6 +46,7 @@ import { Route as AdminTeamSortRouteImport } from './routes/admin/team-sort'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin/submissions'
 import { Route as AdminRecurringJobsRouteImport } from './routes/admin/recurring-jobs'
 import { Route as AdminActivityRouteImport } from './routes/admin/activity'
+import { Route as AdminAchievementsRouteImport } from './routes/admin/achievements'
 import { Route as TeamStashesRouteRouteImport } from './routes/team/stashes/route'
 import { Route as ProfileUserIdRouteRouteImport } from './routes/profile/$userId/route'
 import { Route as AdminGuildIndexRouteImport } from './routes/admin/guild/index'
@@ -252,6 +253,11 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
   path: '/admin/activity',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAchievementsRoute = AdminAchievementsRouteImport.update({
+  id: '/admin/achievements',
+  path: '/admin/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamStashesRouteRoute = TeamStashesRouteRouteImport.update({
   id: '/stashes',
   path: '/stashes',
@@ -366,6 +372,7 @@ export interface FileRoutesByFullPath {
   '/submissions': typeof SubmissionsRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
+  '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByTo {
   '/submissions': typeof SubmissionsRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
+  '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -483,6 +491,7 @@ export interface FileRoutesById {
   '/submissions': typeof SubmissionsRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
+  '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
@@ -543,6 +552,7 @@ export interface FileRouteTypes {
     | '/submissions'
     | '/profile/$userId'
     | '/team/stashes'
+    | '/admin/achievements'
     | '/admin/activity'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
@@ -601,6 +611,7 @@ export interface FileRouteTypes {
     | '/submissions'
     | '/profile/$userId'
     | '/team/stashes'
+    | '/admin/achievements'
     | '/admin/activity'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
@@ -659,6 +670,7 @@ export interface FileRouteTypes {
     | '/submissions'
     | '/profile/$userId'
     | '/team/stashes'
+    | '/admin/achievements'
     | '/admin/activity'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
@@ -717,6 +729,7 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SubmissionsRoute: typeof SubmissionsRoute
   ProfileUserIdRouteRoute: typeof ProfileUserIdRouteRouteWithChildren
+  AdminAchievementsRoute: typeof AdminAchievementsRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminRecurringJobsRoute: typeof AdminRecurringJobsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
@@ -1002,6 +1015,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/achievements': {
+      id: '/admin/achievements'
+      path: '/admin/achievements'
+      fullPath: '/admin/achievements'
+      preLoaderRoute: typeof AdminAchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team/stashes': {
       id: '/team/stashes'
       path: '/stashes'
@@ -1280,6 +1300,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SubmissionsRoute: SubmissionsRoute,
   ProfileUserIdRouteRoute: ProfileUserIdRouteRouteWithChildren,
+  AdminAchievementsRoute: AdminAchievementsRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminRecurringJobsRoute: AdminRecurringJobsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
