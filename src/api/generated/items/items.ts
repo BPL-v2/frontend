@@ -17,13 +17,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Returns a map of item types to item-name-to-ID maps
- */
 export const getGetItemMapBaseUrl = () => {
   return `/items/map`;
 };
 
+/**
+ * Returns a map of item types to item-name-to-ID maps
+ */
 export const getItemMapBase = async (
   options?: RequestInit,
 ): Promise<GetItemMapBase200> => {

@@ -1,4 +1,4 @@
-import type { GuildStashChangeResponseEntriesItemAccount } from "./guildStashChangeResponseEntriesItemAccount";
+import type { GuildStashChangeResponseEntriesItemAccount } from "./guildStashChangeResponseEntriesItemAccount.ts";
 
 export type GuildStashChangeResponseEntriesItem = {
   account?: GuildStashChangeResponseEntriesItemAccount;

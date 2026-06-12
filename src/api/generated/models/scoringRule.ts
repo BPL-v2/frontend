@@ -1,5 +1,5 @@
-import type { ScoringRuleExtra } from "./scoringRuleExtra";
-import type { ScoringRuleType } from "./scoringRuleType";
+import type { ScoringRuleExtra } from "./scoringRuleExtra.ts";
+import type { ScoringRuleType } from "./scoringRuleType.ts";
 
 export interface ScoringRule {
   description: string;

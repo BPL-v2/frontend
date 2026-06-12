@@ -25,13 +25,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all events
- */
 export const getGetEventsBaseUrl = () => {
   return `/events`;
 };
 
+/**
+ * Fetches all events
+ */
 export const getEventsBase = async (
   options?: RequestInit,
 ): Promise<Event[]> => {
@@ -157,13 +157,13 @@ export function useGetEventsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Creates or updates an event
- */
 export const getCreateEventBaseUrl = () => {
   return `/events`;
 };
 
+/**
+ * Creates or updates an event
+ */
 export const createEventBase = async (
   createEventBaseBody: CreateEventBaseBody,
   options?: RequestInit,
@@ -239,13 +239,13 @@ export const useCreateEventBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getCreateEventBaseMutationOptions(options), queryClient);
 };
-/**
- * Deletes an event
- */
 export const getDeleteEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}`;
 };
 
+/**
+ * Deletes an event
+ */
 export const deleteEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -319,13 +319,13 @@ export const useDeleteEventBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getDeleteEventBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches an event by id
- */
 export const getGetEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}`;
 };
 
+/**
+ * Fetches an event by id
+ */
 export const getEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -363,7 +363,7 @@ export const getGetEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEventBase>>,
@@ -464,13 +464,13 @@ export function useGetEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Duplicates an event's configuration
- */
 export const getDuplicateEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/duplicate`;
 };
 
+/**
+ * Duplicates an event's configuration
+ */
 export const duplicateEventBase = async (
   eventId: number,
   duplicateEventBaseBody: DuplicateEventBaseBody,
@@ -550,13 +550,13 @@ export const useDuplicateEventBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Gets the status for an event including the user's application status
- */
 export const getGetEventStatusBaseUrl = (eventId: number) => {
   return `/events/${eventId}/status`;
 };
 
+/**
+ * Gets the status for an event including the user's application status
+ */
 export const getEventStatusBase = async (
   eventId: number,
   options?: RequestInit,
@@ -600,7 +600,7 @@ export const getGetEventStatusBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEventStatusBase>>,

@@ -17,9 +17,6 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get atlas trees for your team for an event
- */
 export const getGetTeamAtlasesForEventBaseUrl = (
   eventId: number,
   teamId: number,
@@ -27,6 +24,9 @@ export const getGetTeamAtlasesForEventBaseUrl = (
   return `/events/${eventId}/team/${teamId}/atlas`;
 };
 
+/**
+ * Get atlas trees for your team for an event
+ */
 export const getTeamAtlasesForEventBase = async (
   eventId: number,
   teamId: number,
@@ -79,7 +79,11 @@ export const getGetTeamAtlasesForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTeamAtlasesForEventBase>>,

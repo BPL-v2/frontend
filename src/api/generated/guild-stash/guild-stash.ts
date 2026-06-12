@@ -30,13 +30,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get all guilds for current event with their respective team ids
- */
 export const getGetGuildsBaseUrl = (eventId: number) => {
   return `/${eventId}/guilds`;
 };
 
+/**
+ * Get all guilds for current event with their respective team ids
+ */
 export const getGuildsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -74,7 +74,7 @@ export const getGetGuildsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getGuildsBase>>,
@@ -175,13 +175,13 @@ export function useGetGuildsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Saves a guild for the current event
- */
 export const getSaveGuildBaseUrl = (eventId: number, guildId: number) => {
   return `/${eventId}/guilds/${guildId}`;
 };
 
+/**
+ * Saves a guild for the current event
+ */
 export const saveGuildBase = async (
   eventId: number,
   guildId: number,
@@ -259,9 +259,6 @@ export const useSaveGuildBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getSaveGuildBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches log entries for a guild in an event
- */
 export const getGetLogEntriesForGuildBaseUrl = (
   eventId: number,
   guildId: number,
@@ -271,7 +268,7 @@ export const getGetLogEntriesForGuildBaseUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -282,6 +279,9 @@ export const getGetLogEntriesForGuildBaseUrl = (
     : `/${eventId}/guilds/${guildId}/stash-history`;
 };
 
+/**
+ * Fetches log entries for a guild in an event
+ */
 export const getLogEntriesForGuildBase = async (
   eventId: number,
   guildId: number,
@@ -343,7 +343,11 @@ export const getGetLogEntriesForGuildBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && guildId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      guildId !== null &&
+      guildId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getLogEntriesForGuildBase>>,
@@ -473,9 +477,6 @@ export function useGetLogEntriesForGuildBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Adds a new entry to the guild stash history
- */
 export const getAddGuildstashHistoryBaseUrl = (
   eventId: number,
   guildId: number,
@@ -483,6 +484,9 @@ export const getAddGuildstashHistoryBaseUrl = (
   return `/${eventId}/guilds/${guildId}/stash-history`;
 };
 
+/**
+ * Adds a new entry to the guild stash history
+ */
 export const addGuildstashHistoryBase = async (
   eventId: number,
   guildId: number,
@@ -569,9 +573,6 @@ export const useAddGuildstashHistoryBase = <
     queryClient,
   );
 };
-/**
- * Fetches the latest timestamp for a user's guild stash history
- */
 export const getGetLatestTimestampForUserBaseUrl = (
   eventId: number,
   guildId: number,
@@ -579,6 +580,9 @@ export const getGetLatestTimestampForUserBaseUrl = (
   return `/${eventId}/guilds/${guildId}/stash-history/latest_timestamp`;
 };
 
+/**
+ * Fetches the latest timestamp for a user's guild stash history
+ */
 export const getLatestTimestampForUserBase = async (
   eventId: number,
   guildId: number,
@@ -636,7 +640,11 @@ export const getGetLatestTimestampForUserBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && guildId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      guildId !== null &&
+      guildId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getLatestTimestampForUserBase>>,
@@ -761,9 +769,6 @@ export function useGetLatestTimestampForUserBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches all guild stash tabs for a user
- */
 export const getGetGuildStashForUserBaseUrl = (
   eventId: number,
   teamId: number,
@@ -771,6 +776,9 @@ export const getGetGuildStashForUserBaseUrl = (
   return `/${eventId}/teams/${teamId}/guild-stash`;
 };
 
+/**
+ * Fetches all guild stash tabs for a user
+ */
 export const getGuildStashForUserBase = async (
   eventId: number,
   teamId: number,
@@ -823,7 +831,11 @@ export const getGetGuildStashForUserBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getGuildStashForUserBase>>,
@@ -948,9 +960,6 @@ export function useGetGuildStashForUserBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches a specific guild stash tab
- */
 export const getGetGuildStashTabBaseUrl = (
   eventId: number,
   teamId: number,
@@ -959,6 +968,9 @@ export const getGetGuildStashTabBaseUrl = (
   return `/${eventId}/teams/${teamId}/guild-stash/${stashId}`;
 };
 
+/**
+ * Fetches a specific guild stash tab
+ */
 export const getGuildStashTabBase = async (
   eventId: number,
   teamId: number,
@@ -1017,7 +1029,13 @@ export const getGetGuildStashTabBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId && stashId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined &&
+      stashId !== null &&
+      stashId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getGuildStashTabBase>>,
@@ -1147,9 +1165,6 @@ export function useGetGuildStashTabBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Enables fetching for a specific guild stash tab
- */
 export const getSwitchStashFetchingBaseUrl = (
   eventId: number,
   teamId: number,
@@ -1158,6 +1173,9 @@ export const getSwitchStashFetchingBaseUrl = (
   return `/${eventId}/teams/${teamId}/guild-stash/${stashId}`;
 };
 
+/**
+ * Enables fetching for a specific guild stash tab
+ */
 export const switchStashFetchingBase = async (
   eventId: number,
   teamId: number,
@@ -1261,9 +1279,6 @@ export const useSwitchStashFetchingBase = <
     queryClient,
   );
 };
-/**
- * Fetches current items for specific guild stash tab
- */
 export const getUpdateStashTabBaseUrl = (
   eventId: number,
   teamId: number,
@@ -1272,6 +1287,9 @@ export const getUpdateStashTabBaseUrl = (
   return `/${eventId}/teams/${teamId}/guild-stash/${stashId}/update`;
 };
 
+/**
+ * Fetches current items for specific guild stash tab
+ */
 export const updateStashTabBase = async (
   eventId: number,
   teamId: number,

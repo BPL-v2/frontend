@@ -27,13 +27,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all users for an event
- */
 export const getGetUsersForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/users`;
 };
 
+/**
+ * Fetches all users for an event
+ */
 export const getUsersForEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -80,7 +80,7 @@ export const getGetUsersForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getUsersForEventBase>>,
@@ -197,9 +197,6 @@ export function useGetUsersForEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches the atlas progression for a user in an event
- */
 export const getGetAtlasProgressionBaseUrl = (
   eventId: number,
   userId: number,
@@ -207,6 +204,9 @@ export const getGetAtlasProgressionBaseUrl = (
   return `/events/${eventId}/users/${userId}/atlas`;
 };
 
+/**
+ * Fetches the atlas progression for a user in an event
+ */
 export const getAtlasProgressionBase = async (
   eventId: number,
   userId: number,
@@ -259,7 +259,11 @@ export const getGetAtlasProgressionBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && userId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      userId !== null &&
+      userId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getAtlasProgressionBase>>,
@@ -384,13 +388,13 @@ export function useGetAtlasProgressionBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches all users
- */
 export const getGetAllUsersBaseUrl = () => {
   return `/users`;
 };
 
+/**
+ * Fetches all users
+ */
 export const getAllUsersBase = async (
   options?: RequestInit,
 ): Promise<User[]> => {
@@ -532,15 +536,12 @@ export function useGetAllUsersBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Removes an authentication provider from the authenticated user
- */
 export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -551,6 +552,9 @@ export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams) => {
     : `/users/remove-auth`;
 };
 
+/**
+ * Removes an authentication provider from the authenticated user
+ */
 export const removeAuthBase = async (
   params: RemoveAuthBaseParams,
   options?: RequestInit,
@@ -624,13 +628,13 @@ export const useRemoveAuthBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getRemoveAuthBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches the authenticated user
- */
 export const getGetUserBaseUrl = () => {
   return `/users/self`;
 };
 
+/**
+ * Fetches the authenticated user
+ */
 export const getUserBase = async (options?: RequestInit): Promise<User> => {
   return customFetch<User>(getGetUserBaseUrl(), {
     ...options,
@@ -754,13 +758,13 @@ export function useGetUserBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Updates the authenticated users display name
- */
 export const getUpdateUserBaseUrl = () => {
   return `/users/self`;
 };
 
+/**
+ * Updates the authenticated users display name
+ */
 export const updateUserBase = async (
   updateUserBaseBody: UpdateUserBaseBody,
   options?: RequestInit,
@@ -836,13 +840,13 @@ export const useUpdateUserBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getUpdateUserBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches a user by ID
- */
 export const getGetUserByIdBaseUrl = (userId: number) => {
   return `/users/${userId}`;
 };
 
+/**
+ * Fetches a user by ID
+ */
 export const getUserByIdBase = async (
   userId: number,
   options?: RequestInit,
@@ -884,7 +888,7 @@ export const getGetUserByIdBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!userId,
+    enabled: userId !== null && userId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getUserByIdBase>>,
@@ -1001,13 +1005,13 @@ export function useGetUserByIdBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Changes the permissions of a user
- */
 export const getChangePermissionsBaseUrl = (userId: number) => {
   return `/users/${userId}`;
 };
 
+/**
+ * Changes the permissions of a user
+ */
 export const changePermissionsBase = async (
   userId: number,
   changePermissionsBaseBody: ChangePermissionsBaseBody,

@@ -1,4 +1,4 @@
-import type { ApprovalStatus } from "./approvalStatus";
+import type { ApprovalStatus } from "./approvalStatus.ts";
 
 export interface SubmissionReview {
   approval_status: ApprovalStatus;

@@ -1,8 +1,8 @@
-import type { Condition } from "./condition";
-import type { CountingMethod } from "./countingMethod";
-import type { ObjectiveType } from "./objectiveType";
-import type { ScoringRule } from "./scoringRule";
-import type { TrackedValue } from "./trackedValue";
+import type { Condition } from "./condition.ts";
+import type { CountingMethod } from "./countingMethod.ts";
+import type { ObjectiveType } from "./objectiveType.ts";
+import type { ScoringRule } from "./scoringRule.ts";
+import type { TrackedValue } from "./trackedValue.ts";
 
 export interface Objective {
   children: Objective[];

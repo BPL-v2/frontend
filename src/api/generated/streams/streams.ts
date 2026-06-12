@@ -17,13 +17,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all twitch streams for the current event
- */
 export const getGetStreamsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/streams`;
 };
 
+/**
+ * Fetches all twitch streams for the current event
+ */
 export const getStreamsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -61,7 +61,7 @@ export const getGetStreamsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getStreamsBase>>,

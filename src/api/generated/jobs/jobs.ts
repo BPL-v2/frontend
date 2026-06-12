@@ -20,13 +20,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get all recurring jobs
- */
 export const getGetJobsBaseUrl = () => {
   return `/jobs`;
 };
 
+/**
+ * Get all recurring jobs
+ */
 export const getJobsBase = async (
   options?: RequestInit,
 ): Promise<RecurringJob[]> => {
@@ -152,13 +152,13 @@ export function useGetJobsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Start a recurring job
- */
 export const getStartJobBaseUrl = () => {
   return `/jobs`;
 };
 
+/**
+ * Start a recurring job
+ */
 export const startJobBase = async (
   startJobBaseBody: StartJobBaseBody,
   options?: RequestInit,

@@ -1,4 +1,4 @@
-import type { TimingKey } from "./timingKey";
+import type { TimingKey } from "./timingKey.ts";
 
 export interface Timing {
   description: string;

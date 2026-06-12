@@ -20,13 +20,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get all characters for an event
- */
 export const getGetCharactersForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/characters`;
 };
 
+/**
+ * Get all characters for an event
+ */
 export const getCharactersForEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -70,7 +70,7 @@ export const getGetCharactersForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getCharactersForEventBase>>,
@@ -190,13 +190,13 @@ export function useGetCharactersForEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches all event characters for a user
- */
 export const getGetUserCharactersBaseUrl = (userId: number) => {
   return `/users/${userId}/characters`;
 };
 
+/**
+ * Fetches all event characters for a user
+ */
 export const getUserCharactersBase = async (
   userId: number,
   options?: RequestInit,
@@ -240,7 +240,7 @@ export const getGetUserCharactersBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!userId,
+    enabled: userId !== null && userId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getUserCharactersBase>>,
@@ -357,9 +357,6 @@ export function useGetUserCharactersBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Get all character data for an event for a user
- */
 export const getGetCharacterHistoryBaseUrl = (
   userId: number,
   characterId: string,
@@ -367,6 +364,9 @@ export const getGetCharacterHistoryBaseUrl = (
   return `/users/${userId}/characters/${characterId}`;
 };
 
+/**
+ * Get all character data for an event for a user
+ */
 export const getCharacterHistoryBase = async (
   userId: number,
   characterId: string,
@@ -419,7 +419,11 @@ export const getGetCharacterHistoryBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(userId && characterId),
+    enabled:
+      userId !== null &&
+      userId !== undefined &&
+      characterId !== null &&
+      characterId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getCharacterHistoryBase>>,
@@ -544,9 +548,6 @@ export function useGetCharacterHistoryBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Update character details
- */
 export const getUpdateCharacterBaseUrl = (
   userId: number,
   characterId: string,
@@ -554,6 +555,9 @@ export const getUpdateCharacterBaseUrl = (
   return `/users/${userId}/characters/${characterId}`;
 };
 
+/**
+ * Update character details
+ */
 export const updateCharacterBase = async (
   userId: number,
   characterId: string,
@@ -634,13 +638,13 @@ export const useUpdateCharacterBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Get all PoB exports for a character
- */
 export const getGetPoBsBaseUrl = (userId: number, characterId: string) => {
   return `/users/${userId}/characters/${characterId}/pobs`;
 };
 
+/**
+ * Get all PoB exports for a character
+ */
 export const getPoBsBase = async (
   userId: number,
   characterId: string,
@@ -681,7 +685,11 @@ export const getGetPoBsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(userId && characterId),
+    enabled:
+      userId !== null &&
+      userId !== undefined &&
+      characterId !== null &&
+      characterId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getPoBsBase>>,
@@ -786,9 +794,6 @@ export function useGetPoBsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Delete a PoB export for a character
- */
 export const getDeletePoBExportBaseUrl = (
   userId: number,
   characterId: string,
@@ -797,6 +802,9 @@ export const getDeletePoBExportBaseUrl = (
   return `/users/${userId}/characters/${characterId}/pobs/${pobId}`;
 };
 
+/**
+ * Delete a PoB export for a character
+ */
 export const deletePoBExportBase = async (
   userId: number,
   characterId: string,

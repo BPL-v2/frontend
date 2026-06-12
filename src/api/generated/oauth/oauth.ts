@@ -24,13 +24,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Logs in the discord bot (only for internal use)
- */
 export const getLoginDiscordBotBaseUrl = () => {
   return `/oauth2/discord/bot-login`;
 };
 
+/**
+ * Logs in the discord bot (only for internal use)
+ */
 export const loginDiscordBotBase = async (
   options?: RequestInit,
 ): Promise<string> => {
@@ -104,15 +104,15 @@ export const useLoginDiscordBotBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Callback handler for oauth
- */
 export const getOauthCallbackBaseUrl = (
   provider: "poe" | "twitch" | "discord",
 ) => {
   return `/oauth2/${provider}/callback`;
 };
 
+/**
+ * Callback handler for oauth
+ */
 export const oauthCallbackBase = async (
   provider: "poe" | "twitch" | "discord",
   oauthCallbackBaseBody: OauthCallbackBaseBody,
@@ -189,9 +189,6 @@ export const useOauthCallbackBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getOauthCallbackBaseMutationOptions(options), queryClient);
 };
-/**
- * Redirects to an oauth provider
- */
 export const getOauthRedirectBaseUrl = (
   provider: "poe" | "twitch" | "discord",
   params?: OauthRedirectBaseParams,
@@ -200,7 +197,7 @@ export const getOauthRedirectBaseUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -211,6 +208,9 @@ export const getOauthRedirectBaseUrl = (
     : `/oauth2/${provider}/redirect`;
 };
 
+/**
+ * Redirects to an oauth provider
+ */
 export const oauthRedirectBase = async (
   provider: "poe" | "twitch" | "discord",
   params?: OauthRedirectBaseParams,
@@ -259,7 +259,7 @@ export const getOauthRedirectBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!provider,
+    enabled: provider !== null && provider !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof oauthRedirectBase>>,

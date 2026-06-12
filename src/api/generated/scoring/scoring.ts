@@ -24,13 +24,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches the scoring rules for the current event
- */
 export const getGetScoringRulesForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/scoring-rules`;
 };
 
+/**
+ * Fetches the scoring rules for the current event
+ */
 export const getScoringRulesForEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -77,7 +77,7 @@ export const getGetScoringRulesForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getScoringRulesForEventBase>>,
@@ -197,13 +197,13 @@ export function useGetScoringRulesForEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Creates a new scoring rule
- */
 export const getCreateScoringRuleBaseUrl = (eventId: number) => {
   return `/events/${eventId}/scoring-rules`;
 };
 
+/**
+ * Creates a new scoring rule
+ */
 export const createScoringRuleBase = async (
   eventId: number,
   createScoringRuleBaseBody: CreateScoringRuleBaseBody,
@@ -283,13 +283,13 @@ export const useCreateScoringRuleBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Deletes a scoring rule by id
- */
 export const getDeleteScoringRuleBaseUrl = (eventId: number, id: number) => {
   return `/events/${eventId}/scoring-rules/${id}`;
 };
 
+/**
+ * Deletes a scoring rule by id
+ */
 export const deleteScoringRuleBase = async (
   eventId: number,
   id: number,

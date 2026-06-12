@@ -1,13 +1,13 @@
-import type { GemSocket } from "./gemSocket";
-import type { ItemExtended } from "./itemExtended";
-import type { ItemHybrid } from "./itemHybrid";
-import type { ItemIncubatedItem } from "./itemIncubatedItem";
-import type { ItemInfluences } from "./itemInfluences";
-import type { ItemLogbookMod } from "./itemLogbookMod";
-import type { ItemProperty } from "./itemProperty";
-import type { ItemReward } from "./itemReward";
-import type { ItemSocket } from "./itemSocket";
-import type { ItemUltimatumMod } from "./itemUltimatumMod";
+import type { GemSocket } from "./gemSocket.ts";
+import type { ItemExtended } from "./itemExtended.ts";
+import type { ItemHybrid } from "./itemHybrid.ts";
+import type { ItemIncubatedItem } from "./itemIncubatedItem.ts";
+import type { ItemInfluences } from "./itemInfluences.ts";
+import type { ItemLogbookMod } from "./itemLogbookMod.ts";
+import type { ItemProperty } from "./itemProperty.ts";
+import type { ItemReward } from "./itemReward.ts";
+import type { ItemSocket } from "./itemSocket.ts";
+import type { ItemUltimatumMod } from "./itemUltimatumMod.ts";
 
 export interface Item {
   abyssJewel?: boolean;
@@ -35,7 +35,7 @@ export interface Item {
   foreseeing?: boolean;
   fractured?: boolean;
   fracturedMods?: string[];
-  frameType?: number;
+  frameTypeId?: string;
   gemSockets?: GemSocket[];
   /** PoE2 only */
   grantedSkills?: ItemProperty[];

@@ -1,4 +1,4 @@
-import type { TeamUserCreate } from "./teamUserCreate";
+import type { TeamUserCreate } from "./teamUserCreate.ts";
 
 export type AddUsersToTeamsBaseBody =
   | { [key: string]: unknown }

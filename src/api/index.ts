@@ -114,6 +114,13 @@ import {
   useSetTimingsBase,
 } from "./generated/timing/timing";
 import {
+  getGetAchievementsBaseQueryKey,
+  useCreateAchievementBase,
+  useDeleteAchievementBase,
+  useGetAchievementsBase,
+  useUpdateAchievementBase,
+} from "./generated/achievement/achievement";
+import {
   getGetUserBaseQueryKey,
   getAtlasProgressionBase,
   getGetAtlasProgressionBaseQueryKey,
@@ -126,6 +133,7 @@ import {
 } from "./generated/user/user";
 import type { BulkObjectiveCreate } from "@components/form-dialogs/BulkObjectiveFormModal";
 import {
+  AchievementCreate,
   CreateItemWish,
   EventCreate,
   ItemField,
@@ -1124,6 +1132,58 @@ export function useDeleteItemWish(
     deleteItemWish: (wishId: number) =>
       m.mutate({ eventId, teamId: teamId!, wishId }),
     deleteItemWishPending: m.isPending,
+  };
+}
+
+// --- Achievements ---
+
+export function useGetAchievements() {
+  const query = useGetAchievementsBase();
+  return { ...query, achievements: query.data ?? [] };
+}
+
+export function useCreateAchievement(qc: QueryClient, callback?: () => void) {
+  const m = useCreateAchievementBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+        callback?.();
+      },
+    },
+  });
+  return {
+    createAchievement: (data: AchievementCreate) => m.mutate({ data }),
+    createAchievementPending: m.isPending,
+  };
+}
+
+export function useUpdateAchievement(qc: QueryClient, callback?: () => void) {
+  const m = useUpdateAchievementBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+        callback?.();
+      },
+    },
+  });
+  return {
+    updateAchievement: (achievementId: number, data: AchievementCreate) =>
+      m.mutate({ achievementId, data }),
+    updateAchievementPending: m.isPending,
+  };
+}
+
+export function useDeleteAchievement(qc: QueryClient) {
+  const m = useDeleteAchievementBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+      },
+    },
+  });
+  return {
+    deleteAchievement: (achievementId: number) => m.mutate({ achievementId }),
+    deleteAchievementPending: m.isPending,
   };
 }
 

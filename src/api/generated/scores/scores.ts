@@ -17,13 +17,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches the latest scores for the current event
- */
 export const getGetLatestScoresForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/scores/latest`;
 };
 
+/**
+ * Fetches the latest scores for the current event
+ */
 export const getLatestScoresForEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -67,7 +67,7 @@ export const getGetLatestScoresForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getLatestScoresForEventBase>>,
@@ -187,13 +187,13 @@ export function useGetLatestScoresForEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Websocket for simple score updates.
- */
 export const getSimpleScoreWebSocketBaseUrl = (eventId: number) => {
   return `/events/${eventId}/scores/simple/ws`;
 };
 
+/**
+ * Websocket for simple score updates.
+ */
 export const simpleScoreWebSocketBase = async (
   eventId: number,
   options?: RequestInit,
@@ -240,7 +240,7 @@ export const getSimpleScoreWebSocketBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof simpleScoreWebSocketBase>>,
@@ -360,13 +360,13 @@ export function useSimpleScoreWebSocketBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Websocket for score updates. Once connected, the client will receive score updates in real-time.
- */
 export const getScoreWebSocketBaseUrl = (eventId: number) => {
   return `/events/${eventId}/scores/ws`;
 };
 
+/**
+ * Websocket for score updates. Once connected, the client will receive score updates in real-time.
+ */
 export const scoreWebSocketBase = async (
   eventId: number,
   options?: RequestInit,
@@ -410,7 +410,7 @@ export const getScoreWebSocketBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof scoreWebSocketBase>>,

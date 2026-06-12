@@ -1,7 +1,7 @@
-import type { PassivesJewelData } from "./passivesJewelData";
-import type { PassivesMasteryEffects } from "./passivesMasteryEffects";
-import type { PassivesSkillOverrides } from "./passivesSkillOverrides";
-import type { Specialisations } from "./specialisations";
+import type { PassivesJewelData } from "./passivesJewelData.ts";
+import type { PassivesMasteryEffects } from "./passivesMasteryEffects.ts";
+import type { PassivesSkillOverrides } from "./passivesSkillOverrides.ts";
+import type { Specialisations } from "./specialisations.ts";
 
 export interface Passives {
   alternate_ascendancy?: string;
@@ -12,6 +12,8 @@ export interface Passives {
   mastery_effects?: PassivesMasteryEffects;
   pantheon_major?: string;
   pantheon_minor?: string;
+  /** PoE2 only; passives granted via quests */
+  quest_stats?: string[];
   skill_overrides?: PassivesSkillOverrides;
   specialisation?: Specialisations;
 }

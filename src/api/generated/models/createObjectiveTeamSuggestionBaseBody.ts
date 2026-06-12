@@ -1,4 +1,4 @@
-import type { TeamSuggestion } from "./teamSuggestion";
+import type { TeamSuggestion } from "./teamSuggestion.ts";
 
 export type CreateObjectiveTeamSuggestionBaseBody =
   | { [key: string]: unknown }

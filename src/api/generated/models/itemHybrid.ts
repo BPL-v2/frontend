@@ -1,4 +1,4 @@
-import type { ItemProperty } from "./itemProperty";
+import type { ItemProperty } from "./itemProperty.ts";
 
 export interface ItemHybrid {
   baseTypeName?: string;

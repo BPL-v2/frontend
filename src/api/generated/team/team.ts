@@ -28,13 +28,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all teams for an event
- */
 export const getGetTeamsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/teams`;
 };
 
+/**
+ * Fetches all teams for an event
+ */
 export const getTeamsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -72,7 +72,7 @@ export const getGetTeamsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTeamsBase>>,
@@ -173,13 +173,13 @@ export function useGetTeamsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Creates a team for an event
- */
 export const getCreateTeamBaseUrl = (eventId: number) => {
   return `/events/${eventId}/teams`;
 };
 
+/**
+ * Creates a team for an event
+ */
 export const createTeamBase = async (
   eventId: number,
   createTeamBaseBody: CreateTeamBaseBody,
@@ -256,13 +256,13 @@ export const useCreateTeamBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getCreateTeamBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches all users of an event sorted by team and role
- */
 export const getGetSortedUsersBaseUrl = (eventId: number) => {
   return `/events/${eventId}/teams/users`;
 };
 
+/**
+ * Fetches all users of an event sorted by team and role
+ */
 export const getSortedUsersBase = async (
   eventId: number,
   options?: RequestInit,
@@ -306,7 +306,7 @@ export const getGetSortedUsersBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getSortedUsersBase>>,
@@ -423,13 +423,13 @@ export function useGetSortedUsersBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Adds users to teams
- */
 export const getAddUsersToTeamsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/teams/users`;
 };
 
+/**
+ * Adds users to teams
+ */
 export const addUsersToTeamsBase = async (
   eventId: number,
   addUsersToTeamsBaseBody: AddUsersToTeamsBaseBody,
@@ -509,13 +509,13 @@ export const useAddUsersToTeamsBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Deletes a team
- */
 export const getDeleteTeamBaseUrl = (eventId: number, teamId: number) => {
   return `/events/${eventId}/teams/${teamId}`;
 };
 
+/**
+ * Deletes a team
+ */
 export const deleteTeamBase = async (
   eventId: number,
   teamId: number,
@@ -590,13 +590,13 @@ export const useDeleteTeamBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getDeleteTeamBaseMutationOptions(options), queryClient);
 };
-/**
- * Fetches a team by id
- */
 export const getGetTeamBaseUrl = (eventId: number, teamId: number) => {
   return `/events/${eventId}/teams/${teamId}`;
 };
 
+/**
+ * Fetches a team by id
+ */
 export const getTeamBase = async (
   eventId: number,
   teamId: number,
@@ -637,7 +637,11 @@ export const getGetTeamBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTeamBase>>,
@@ -742,9 +746,6 @@ export function useGetTeamBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches all suggestions for your team for an event
- */
 export const getGetTeamSuggestionsBaseUrl = (
   eventId: number,
   teamId: number,
@@ -752,6 +753,9 @@ export const getGetTeamSuggestionsBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/suggestions`;
 };
 
+/**
+ * Fetches all suggestions for your team for an event
+ */
 export const getTeamSuggestionsBase = async (
   eventId: number,
   teamId: number,
@@ -804,7 +808,11 @@ export const getGetTeamSuggestionsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getTeamSuggestionsBase>>,
@@ -929,9 +937,6 @@ export function useGetTeamSuggestionsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Deletes a suggestion for an objective for your team for an event
- */
 export const getDeleteObjectiveTeamSuggestionBaseUrl = (
   eventId: number,
   teamId: number,
@@ -940,6 +945,9 @@ export const getDeleteObjectiveTeamSuggestionBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/suggestions/${objectiveId}`;
 };
 
+/**
+ * Deletes a suggestion for an objective for your team for an event
+ */
 export const deleteObjectiveTeamSuggestionBase = async (
   eventId: number,
   teamId: number,
@@ -1029,9 +1037,6 @@ export const useDeleteObjectiveTeamSuggestionBase = <
     queryClient,
   );
 };
-/**
- * Creates a suggestion for an objective for your team for an event
- */
 export const getCreateObjectiveTeamSuggestionBaseUrl = (
   eventId: number,
   teamId: number,
@@ -1040,6 +1045,9 @@ export const getCreateObjectiveTeamSuggestionBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/suggestions/${objectiveId}`;
 };
 
+/**
+ * Creates a suggestion for an objective for your team for an event
+ */
 export const createObjectiveTeamSuggestionBase = async (
   eventId: number,
   teamId: number,

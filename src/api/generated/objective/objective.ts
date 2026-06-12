@@ -26,13 +26,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Gets all objectives for an event
- */
 export const getGetObjectiveTreeForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives`;
 };
 
+/**
+ * Gets all objectives for an event
+ */
 export const getObjectiveTreeForEventBase = async (
   eventId: number,
   options?: RequestInit,
@@ -76,7 +76,7 @@ export const getGetObjectiveTreeForEventBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getObjectiveTreeForEventBase>>,
@@ -196,13 +196,13 @@ export function useGetObjectiveTreeForEventBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Creates a new objective
- */
 export const getCreateObjectiveBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives`;
 };
 
+/**
+ * Creates a new objective
+ */
 export const createObjectiveBase = async (
   eventId: number,
   createObjectiveBaseBody: CreateObjectiveBaseBody,
@@ -282,13 +282,13 @@ export const useCreateObjectiveBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Get valid mappings for conditions
- */
 export const getGetValidMappingsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives/valid-mappings`;
 };
 
+/**
+ * Get valid mappings for conditions
+ */
 export const getValidMappingsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -332,7 +332,7 @@ export const getGetValidMappingsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getValidMappingsBase>>,
@@ -449,13 +449,13 @@ export function useGetValidMappingsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Gets objective validations for an event
- */
 export const getGetObjectiveValidationsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives/validations`;
 };
 
+/**
+ * Gets objective validations for an event
+ */
 export const getObjectiveValidationsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -502,7 +502,7 @@ export const getGetObjectiveValidationsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getObjectiveValidationsBase>>,
@@ -622,13 +622,13 @@ export function useGetObjectiveValidationsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Validates item objectives for an event seeing if there are completions on trade
- */
 export const getValidateObjectivesBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives/validations`;
 };
 
+/**
+ * Validates item objectives for an event seeing if there are completions on trade
+ */
 export const validateObjectivesBase = async (
   eventId: number,
   validateObjectivesBaseBody: ValidateObjectivesBaseBody,
@@ -708,13 +708,13 @@ export const useValidateObjectivesBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Deletes an objective
- */
 export const getDeleteObjectiveBaseUrl = (eventId: number, id: number) => {
   return `/events/${eventId}/objectives/${id}`;
 };
 
+/**
+ * Deletes an objective
+ */
 export const deleteObjectiveBase = async (
   eventId: number,
   id: number,
@@ -792,13 +792,13 @@ export const useDeleteObjectiveBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Gets an objective by id
- */
 export const getGetObjectiveBaseUrl = (eventId: number, id: number) => {
   return `/events/${eventId}/objectives/${id}`;
 };
 
+/**
+ * Gets an objective by id
+ */
 export const getObjectiveBase = async (
   eventId: number,
   id: number,
@@ -844,7 +844,11 @@ export const getGetObjectiveBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && id),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      id !== null &&
+      id !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getObjectiveBase>>,

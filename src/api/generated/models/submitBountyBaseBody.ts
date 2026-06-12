@@ -1,4 +1,4 @@
-import type { SubmissionCreate } from "./submissionCreate";
+import type { SubmissionCreate } from "./submissionCreate.ts";
 
 export type SubmitBountyBaseBody =
   | { [key: string]: unknown }

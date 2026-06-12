@@ -1,5 +1,5 @@
-import type { Item } from "./item";
-import type { StashTabMetadata } from "./stashTabMetadata";
+import type { Item } from "./item.ts";
+import type { StashTabMetadata } from "./stashTabMetadata.ts";
 
 export interface StashTab {
   children?: StashTab[];

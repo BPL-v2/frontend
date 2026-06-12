@@ -20,13 +20,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all signups for the event
- */
 export const getGetEventSignupsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/signups`;
 };
 
+/**
+ * Fetches all signups for the event
+ */
 export const getEventSignupsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -70,7 +70,7 @@ export const getGetEventSignupsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEventSignupsBase>>,
@@ -187,13 +187,13 @@ export function useGetEventSignupsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Fetches an authenticated user's signup for the event
- */
 export const getGetPersonalSignupBaseUrl = (eventId: number) => {
   return `/events/${eventId}/signups/self`;
 };
 
+/**
+ * Fetches an authenticated user's signup for the event
+ */
 export const getPersonalSignupBase = async (
   eventId: number,
   options?: RequestInit,
@@ -237,7 +237,7 @@ export const getGetPersonalSignupBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getPersonalSignupBase>>,
@@ -354,13 +354,13 @@ export function useGetPersonalSignupBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Creates a signup for the authenticated user
- */
 export const getCreateSignupBaseUrl = (eventId: number) => {
   return `/events/${eventId}/signups/self`;
 };
 
+/**
+ * Creates a signup for the authenticated user
+ */
 export const createSignupBase = async (
   eventId: number,
   createSignupBaseBody: CreateSignupBaseBody,
@@ -437,13 +437,13 @@ export const useCreateSignupBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getCreateSignupBaseMutationOptions(options), queryClient);
 };
-/**
- * Deletes a user's signup for the event
- */
 export const getDeleteSignupBaseUrl = (eventId: number, userId: number) => {
   return `/events/${eventId}/signups/${userId}`;
 };
 
+/**
+ * Deletes a user's signup for the event
+ */
 export const deleteSignupBase = async (
   eventId: number,
   userId: number,

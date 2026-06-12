@@ -25,13 +25,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Fetches all submissions for an event
- */
 export const getGetSubmissionsBaseUrl = (eventId: number) => {
   return `/events/${eventId}/submissions`;
 };
 
+/**
+ * Fetches all submissions for an event
+ */
 export const getSubmissionsBase = async (
   eventId: number,
   options?: RequestInit,
@@ -75,7 +75,7 @@ export const getGetSubmissionsBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getSubmissionsBase>>,
@@ -192,13 +192,13 @@ export function useGetSubmissionsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Submits a bounty for an event
- */
 export const getSubmitBountyBaseUrl = (eventId: number) => {
   return `/events/${eventId}/submissions`;
 };
 
+/**
+ * Submits a bounty for an event
+ */
 export const submitBountyBase = async (
   eventId: number,
   submitBountyBaseBody: SubmitBountyBaseBody,
@@ -275,13 +275,13 @@ export const useSubmitBountyBase = <TError = unknown, TContext = unknown>(
 > => {
   return useMutation(getSubmitBountyBaseMutationOptions(options), queryClient);
 };
-/**
- * Sets submissions for teams
- */
 export const getSetBulkSubmissionForAdminBaseUrl = (eventId: number) => {
   return `/events/${eventId}/submissions/admin`;
 };
 
+/**
+ * Sets submissions for teams
+ */
 export const setBulkSubmissionForAdminBase = async (
   eventId: number,
   setBulkSubmissionForAdminBaseBody: SetBulkSubmissionForAdminBaseBody,
@@ -368,9 +368,6 @@ export const useSetBulkSubmissionForAdminBase = <
     queryClient,
   );
 };
-/**
- * Deletes a submission
- */
 export const getDeleteSubmissionBaseUrl = (
   eventId: number,
   submissionId: number,
@@ -378,6 +375,9 @@ export const getDeleteSubmissionBaseUrl = (
   return `/events/${eventId}/submissions/${submissionId}`;
 };
 
+/**
+ * Deletes a submission
+ */
 export const deleteSubmissionBase = async (
   eventId: number,
   submissionId: number,
@@ -455,9 +455,6 @@ export const useDeleteSubmissionBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Reviews a submission
- */
 export const getReviewSubmissionBaseUrl = (
   eventId: number,
   submissionId: number,
@@ -465,6 +462,9 @@ export const getReviewSubmissionBaseUrl = (
   return `/events/${eventId}/submissions/${submissionId}/review`;
 };
 
+/**
+ * Reviews a submission
+ */
 export const reviewSubmissionBase = async (
   eventId: number,
   submissionId: number,

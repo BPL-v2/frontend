@@ -12,13 +12,13 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Add a new engagement or increment existing engagement number
- */
 export const getAddEngagementBaseUrl = () => {
   return `/engagement`;
 };
 
+/**
+ * Add a new engagement or increment existing engagement number
+ */
 export const addEngagementBase = async (
   addEngagementBaseBody: AddEngagementBaseBody,
   options?: RequestInit,

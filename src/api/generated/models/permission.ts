@@ -5,4 +5,5 @@ export const Permission = {
   manager: "manager",
   objective_designer: "objective_designer",
   submission_judge: "submission_judge",
+  achievement_assigner: "achievement_assigner",
 } as const;

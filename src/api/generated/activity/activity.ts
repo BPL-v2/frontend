@@ -21,9 +21,6 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get calculated active times for all users in an event
- */
 export const getGetEventActivitiesBaseUrl = (
   eventId: number,
   params?: GetEventActivitiesBaseParams,
@@ -32,7 +29,7 @@ export const getGetEventActivitiesBaseUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -43,6 +40,9 @@ export const getGetEventActivitiesBaseUrl = (
     : `/events/${eventId}/activity`;
 };
 
+/**
+ * Get calculated active times for all users in an event
+ */
 export const getEventActivitiesBase = async (
   eventId: number,
   params?: GetEventActivitiesBaseParams,
@@ -95,7 +95,7 @@ export const getGetEventActivitiesBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEventActivitiesBase>>,
@@ -220,9 +220,6 @@ export function useGetEventActivitiesBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Get calculated active times for a user in an event
- */
 export const getGetEventActivitiesForUserBaseUrl = (
   eventId: number,
   userId: number,
@@ -232,7 +229,7 @@ export const getGetEventActivitiesForUserBaseUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -243,6 +240,9 @@ export const getGetEventActivitiesForUserBaseUrl = (
     : `/events/${eventId}/activity/${userId}`;
 };
 
+/**
+ * Get calculated active times for a user in an event
+ */
 export const getEventActivitiesForUserBase = async (
   eventId: number,
   userId: number,
@@ -304,7 +304,11 @@ export const getGetEventActivitiesForUserBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && userId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      userId !== null &&
+      userId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getEventActivitiesForUserBase>>,

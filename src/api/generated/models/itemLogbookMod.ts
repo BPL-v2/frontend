@@ -1,4 +1,4 @@
-import type { ItemLogbookModFaction } from "./itemLogbookModFaction";
+import type { ItemLogbookModFaction } from "./itemLogbookModFaction.ts";
 
 export interface ItemLogbookMod {
   faction?: ItemLogbookModFaction;

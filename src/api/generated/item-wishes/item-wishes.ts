@@ -24,9 +24,6 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get item wishes for a team in an event
- */
 export const getGetItemWishesForTeamBaseUrl = (
   eventId: number,
   teamId: number,
@@ -34,6 +31,9 @@ export const getGetItemWishesForTeamBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/item_wishes`;
 };
 
+/**
+ * Get item wishes for a team in an event
+ */
 export const getItemWishesForTeamBase = async (
   eventId: number,
   teamId: number,
@@ -86,7 +86,11 @@ export const getGetItemWishesForTeamBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!(eventId && teamId),
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getItemWishesForTeamBase>>,
@@ -211,13 +215,13 @@ export function useGetItemWishesForTeamBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Create an item wish for a user in a team
- */
 export const getCreateItemWishBaseUrl = (eventId: number, teamId: number) => {
   return `/events/${eventId}/teams/${teamId}/item_wishes`;
 };
 
+/**
+ * Create an item wish for a user in a team
+ */
 export const createItemWishBase = async (
   eventId: number,
   teamId: number,
@@ -298,9 +302,6 @@ export const useCreateItemWishBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Delete an item wish for a user in a team
- */
 export const getDeleteItemWishBaseUrl = (
   eventId: number,
   teamId: number,
@@ -309,6 +310,9 @@ export const getDeleteItemWishBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/item_wishes/${wishId}`;
 };
 
+/**
+ * Delete an item wish for a user in a team
+ */
 export const deleteItemWishBase = async (
   eventId: number,
   teamId: number,
@@ -387,9 +391,6 @@ export const useDeleteItemWishBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
-/**
- * Change an item wish for a user in a team
- */
 export const getChangeItemWishBaseUrl = (
   eventId: number,
   teamId: number,
@@ -398,6 +399,9 @@ export const getChangeItemWishBaseUrl = (
   return `/events/${eventId}/teams/${teamId}/item_wishes/${wishId}`;
 };
 
+/**
+ * Change an item wish for a user in a team
+ */
 export const changeItemWishBase = async (
   eventId: number,
   teamId: number,

@@ -20,14 +20,14 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Retrieve the current timing configurations for various operations.
- * @summary Get timing configurations
- */
 export const getGetTimingsBaseUrl = () => {
   return `/timings`;
 };
 
+/**
+ * Retrieve the current timing configurations for various operations.
+ * @summary Get timing configurations
+ */
 export const getTimingsBase = async (
   options?: RequestInit,
 ): Promise<Timing[]> => {
@@ -156,14 +156,14 @@ export function useGetTimingsBase<
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
-/**
- * Update the timing configurations for various operations.
- * @summary Set timing configurations
- */
 export const getSetTimingsBaseUrl = () => {
   return `/timings`;
 };
 
+/**
+ * Update the timing configurations for various operations.
+ * @summary Set timing configurations
+ */
 export const setTimingsBase = async (
   setTimingsBaseBody: SetTimingsBaseBody,
   options?: RequestInit,

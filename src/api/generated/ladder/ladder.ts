@@ -17,9 +17,6 @@ import { customFetch } from "../../fetcher";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-/**
- * Get the ladder for an event
- */
 export const getGetLadderBaseUrl = (
   eventId: number,
   params?: GetLadderBaseParams,
@@ -28,7 +25,7 @@ export const getGetLadderBaseUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? "null" : String(value));
     }
   });
 
@@ -39,6 +36,9 @@ export const getGetLadderBaseUrl = (
     : `/events/${eventId}/ladder`;
 };
 
+/**
+ * Get the ladder for an event
+ */
 export const getLadderBase = async (
   eventId: number,
   params?: GetLadderBaseParams,
@@ -82,7 +82,7 @@ export const getGetLadderBaseQueryOptions = <
   return {
     queryKey,
     queryFn,
-    enabled: !!eventId,
+    enabled: eventId !== null && eventId !== undefined,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof getLadderBase>>,

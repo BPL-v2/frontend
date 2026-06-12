@@ -1,6 +1,6 @@
-import type { ConditionMappingsFieldToType } from "./conditionMappingsFieldToType";
-import type { ConditionMappingsObjectiveTypeToTrackedValues } from "./conditionMappingsObjectiveTypeToTrackedValues";
-import type { ConditionMappingsValidOperators } from "./conditionMappingsValidOperators";
+import type { ConditionMappingsFieldToType } from "./conditionMappingsFieldToType.ts";
+import type { ConditionMappingsObjectiveTypeToTrackedValues } from "./conditionMappingsObjectiveTypeToTrackedValues.ts";
+import type { ConditionMappingsValidOperators } from "./conditionMappingsValidOperators.ts";
 
 export interface ConditionMappings {
   field_to_type: ConditionMappingsFieldToType;

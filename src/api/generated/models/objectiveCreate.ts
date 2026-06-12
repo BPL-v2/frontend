@@ -1,7 +1,7 @@
-import type { Condition } from "./condition";
-import type { CountingMethod } from "./countingMethod";
-import type { ObjectiveType } from "./objectiveType";
-import type { TrackedValue } from "./trackedValue";
+import type { Condition } from "./condition.ts";
+import type { CountingMethod } from "./countingMethod.ts";
+import type { ObjectiveType } from "./objectiveType.ts";
+import type { TrackedValue } from "./trackedValue.ts";
 
 export interface ObjectiveCreate {
   conditions: Condition[];
