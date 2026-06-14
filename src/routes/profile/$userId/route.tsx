@@ -7,6 +7,7 @@ import { usePageSEO } from "@utils/use-seo";
 import { useEffect } from "react";
 import { router } from "../../../main";
 import { ProfileCarousel } from "@components/carousel/profile-carousel";
+import { AchievementsSection } from "@components/achievements/achievements-section";
 
 export const Route = createFileRoute("/profile/$userId")({
   component: ProfilePage,
@@ -54,6 +55,7 @@ function ProfilePage() {
       <h1 className="text-center text-4xl font-bold">
         {user.display_name.split("#")[0]}
       </h1>
+      <AchievementsSection userId={userId} />
       {userCharacters.length > 0 && (
         <div>
           <ProfileCarousel userCharacters={userCharacters} userId={userId} />

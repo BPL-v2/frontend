@@ -1,20 +1,19 @@
-import { useContext } from "react";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
-import { GlobalStateContext } from "@utils/context-provider";
 import { GameVersion } from "@api";
 import { twMerge } from "tailwind-merge";
 
 interface AscendancyProps extends React.HTMLAttributes<HTMLDivElement> {
   character_class: string;
+  game_version: GameVersion;
 }
 
-export function AscendancyName({ character_class, ...props }: AscendancyProps) {
-  const { currentEvent } = useContext(GlobalStateContext);
+export function AscendancyName({ character_class, game_version, ...props }: AscendancyProps) {
+  const version = game_version;
   const class_name =
     phreciaMapping[character_class] ||
     poe2Mapping[character_class] ||
     character_class;
-  const ascendancy = ascendancies[currentEvent.game_version];
+  const ascendancy = ascendancies[version];
   if (!ascendancy || !ascendancy[class_name]) {
     return character_class;
   }
@@ -27,7 +26,7 @@ export function AscendancyName({ character_class, ...props }: AscendancyProps) {
         props.className,
       )}
     >
-      {currentEvent.game_version === GameVersion.poe1
+      {version === GameVersion.poe1
         ? character_class
         : class_name}
     </span>

@@ -1,8 +1,6 @@
-import { LadderEntry, Team } from "@api";
+import { Event, LadderEntry, Team } from "@api";
 import { getSkillColor } from "@utils/gems";
 import { Link } from "@tanstack/react-router";
-import { GlobalStateContext } from "@utils/context-provider";
-import { useContext } from "react";
 import { AscendancyName } from "./ascendancy-name";
 import { AscendancyPortrait } from "./ascendancy-portrait";
 import { ExperienceBar } from "./experience-bar";
@@ -10,10 +8,10 @@ import { ExperienceBar } from "./experience-bar";
 interface Props {
   entry: LadderEntry;
   team?: Team;
+  event: Event;
 }
 
-export function LadderPortrait({ entry, team }: Props) {
-  const { currentEvent } = useContext(GlobalStateContext);
+export function LadderPortrait({ entry, team, event }: Props) {
   return (
     <Link
       className="flex w-100 flex-row items-center gap-5"
@@ -21,11 +19,12 @@ export function LadderPortrait({ entry, team }: Props) {
       params={{
         userId: entry.user_id || 0,
         characterId: entry.character_id || "",
-        eventId: currentEvent.id,
+        eventId: event.id,
       }}
     >
       <AscendancyPortrait
         character_class={entry.ascendancy}
+        game_version={event.game_version}
         className="size-20 rounded-full object-cover"
       />
       <div className="flex w-full flex-col">
@@ -37,6 +36,7 @@ export function LadderPortrait({ entry, team }: Props) {
         </span>
         <AscendancyName
           character_class={entry.ascendancy}
+          game_version={event.game_version}
           className="font-bold"
         />
         <div className="flex items-center gap-1">

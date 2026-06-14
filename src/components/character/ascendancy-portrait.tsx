@@ -1,17 +1,17 @@
-import { useContext } from "react";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
-import { GlobalStateContext } from "@utils/context-provider";
+import { GameVersion } from "@api";
 
 interface AscendancyProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   character_class: string;
+  game_version: GameVersion;
 }
 
 export function AscendancyPortrait({
   character_class,
+  game_version,
   ...props
 }: AscendancyProps) {
-  const { currentEvent } = useContext(GlobalStateContext);
-  const asc = ascendancies[currentEvent.game_version];
+  const asc = ascendancies[game_version];
   if (!asc) {
     return null;
   }

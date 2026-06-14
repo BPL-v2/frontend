@@ -283,6 +283,8 @@ function GrantAchievementsPage() {
             onChange={(v) => {
               setEventId(v);
               setRowSelection({});
+              setNameFilter("");
+              setTeamFilter(null);
             }}
             options={(events ?? [])
               .sort(

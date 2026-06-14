@@ -332,6 +332,7 @@ function LadderTab(): JSX.Element {
               <div className="flex items-center gap-2">
                 <AscendancyPortrait
                   character_class={info.row.original.ascendancy}
+                  game_version={currentEvent.game_version}
                   className="size-10 rounded-full object-cover"
                 />
                 <div className="flex flex-col">
@@ -341,6 +342,7 @@ function LadderTab(): JSX.Element {
                   </span>
                   <AscendancyName
                     character_class={info.row.original.ascendancy}
+                    game_version={currentEvent.game_version}
                   />
                 </div>
               </div>
@@ -479,6 +481,7 @@ function LadderTab(): JSX.Element {
             <LadderPortrait
               entry={info.row.original}
               team={getTeam(info.row.original.user_id)}
+              event={currentEvent}
             />
           ),
           enableSorting: false,

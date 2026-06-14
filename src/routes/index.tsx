@@ -180,6 +180,7 @@ function Home() {
                               >
                                 <AscendancyPortrait
                                   character_class={character_class}
+                                  game_version={nextEvent.game_version}
                                   className="size-14 rounded-full object-cover xl:size-18"
                                 ></AscendancyPortrait>
                               </div>

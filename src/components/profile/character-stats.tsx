@@ -1,4 +1,4 @@
-import { useDeletePoB, useGetEvents, useGetUser } from "@api";
+import { GameVersion, useDeletePoB, useGetEvents, useGetUser } from "@api";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import {
   ClipboardDocumentListIcon,
@@ -28,6 +28,7 @@ export function CharacterStats({
   const { user } = useGetUser();
   const [showEhpTooltip, setShowEhpTooltip] = useState(false);
   const event = events?.find((e) => e.id === eventId);
+  const gameVersion = event?.game_version ?? GameVersion.poe1;
   const characterClass =
     pob.build.ascendClassName != "None"
       ? pob.build.ascendClassName
@@ -48,10 +49,11 @@ export function CharacterStats({
   return (
     <div className="flex w-full flex-row justify-between gap-3 rounded-box bg-base-300 p-4 md:p-8">
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-center justify-between">
+        <div className="flex flex-col items-start justify-between">
           <div className="mb-1 flex items-center gap-4 text-xl">
             <AscendancyPortrait
               character_class={characterClass}
+              game_version={gameVersion}
               className="size-14 rounded-full object-cover"
             />
             <h1>

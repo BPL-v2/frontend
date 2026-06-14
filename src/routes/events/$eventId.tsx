@@ -237,6 +237,7 @@ function EventPage(): JSX.Element {
             <div className="flex items-center gap-2">
               <AscendancyPortrait
                 character_class={info.row.original.ascendancy}
+                game_version={event.game_version}
                 className="size-10 rounded-full object-cover"
               />
               <div className="flex flex-col">
@@ -245,6 +246,7 @@ function EventPage(): JSX.Element {
                 </span>
                 <AscendancyName
                   character_class={info.row.original.ascendancy}
+                  game_version={event.game_version}
                 />
               </div>
             </div>
@@ -372,6 +374,7 @@ function EventPage(): JSX.Element {
             <LadderPortrait
               entry={info.row.original}
               team={getTeam(info.row.original.user_id)}
+              event={event}
             />
           ),
           enableSorting: false,
