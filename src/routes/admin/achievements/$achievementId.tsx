@@ -3,7 +3,6 @@ import {
   AchievementResponse,
   useGetAchievements,
   useGetUserAchievements,
-  useGetEvents,
   useRevokeAchievement,
   useGetAllUsers,
 } from "@api";
@@ -41,7 +40,6 @@ function AchievementDetailPage() {
   const qc = useQueryClient();
   const { achievements } = useGetAchievements();
   const { userAchievements } = useGetUserAchievements();
-  const { events } = useGetEvents();
   const { revokeAchievement } = useRevokeAchievement(qc);
 
   const { usersById } = useGetAllUsers();
