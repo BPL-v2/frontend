@@ -98,7 +98,7 @@ function RouteComponent() {
           title="Achievements"
           description="Create and manage custom achievements that can be granted to users."
           link="/admin/achievements"
-          permissions={[Permission.admin]}
+          permissions={[Permission.admin, Permission.objective_designer]}
         />
         <AdminRouteCard
           title="Grant Achievements"

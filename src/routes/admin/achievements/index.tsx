@@ -5,19 +5,25 @@ import {
   useUpdateAchievement,
   useDeleteAchievement,
   useUploadAchievementIcon,
+  useDeleteAchievementIcon,
+  useGetUserAchievements,
 } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { DeleteButton } from "@components/form/delete-button";
 import Table from "@components/table/table";
-import { PencilSquareIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import {
+  PencilSquareIcon,
+  PhotoIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-export const Route = createFileRoute("/admin/achievements")({
+export const Route = createFileRoute("/admin/achievements/")({
   component: renderConditionally(AchievementsPage, [Permission.admin]),
 });
 
@@ -147,12 +153,47 @@ function IconUploadButton({
   );
 }
 
+function IconDeleteButton({
+  achievement,
+}: {
+  achievement: AchievementResponse;
+}) {
+  const qc = useQueryClient();
+  const { deleteIcon, deleteIconPending } = useDeleteAchievementIcon(qc);
+
+  if (!achievement.icon) return null;
+
+  return (
+    <button
+      className="btn btn-warning btn-xs"
+      disabled={deleteIconPending}
+      onClick={() => deleteIcon(achievement.id!)}
+    >
+      {deleteIconPending ? (
+        <span className="loading loading-xs loading-spinner" />
+      ) : (
+        <TrashIcon className="size-4" />
+      )}
+    </button>
+  );
+}
+
 function AchievementsPage() {
   const { achievements, isPending, isError } = useGetAchievements();
+  const { userAchievements } = useGetUserAchievements();
   const [isOpen, setIsOpen] = useState(false);
   const [toEdit, setToEdit] = useState<AchievementResponse | null>(null);
   const qc = useQueryClient();
   const { deleteAchievement } = useDeleteAchievement(qc);
+
+  const playerCountById = useMemo(() => {
+    const counts: Record<number, number> = {};
+    userAchievements.forEach((ua) => {
+      if (ua.achievement_id === undefined) return;
+      counts[ua.achievement_id] = (counts[ua.achievement_id] ?? 0) + 1;
+    });
+    return counts;
+  }, [userAchievements]);
 
   const columns: ColumnDef<AchievementResponse>[] = [
     {
@@ -179,6 +220,19 @@ function AchievementsPage() {
       cell: (info) => (info.row.original.is_custom ? "Yes" : "No"),
     },
     {
+      header: "Players",
+      id: "players",
+      cell: (info) => (
+        <Link
+          to="/admin/achievements/$achievementId"
+          params={{ achievementId: info.row.original.id! }}
+          className="hover:text-primary underline"
+        >
+          {playerCountById[info.row.original.id!] ?? 0}
+        </Link>
+      ),
+    },
+    {
       header: "Actions",
       enableSorting: false,
       cell: (info) => (
@@ -196,6 +250,9 @@ function AchievementsPage() {
           </div>
           <div className="tooltip tooltip-info" data-tip="Upload icon">
             <IconUploadButton achievement={info.row.original} />
+          </div>
+          <div className="tooltip tooltip-warning" data-tip="Remove icon">
+            <IconDeleteButton achievement={info.row.original} />
           </div>
           <DeleteButton
             onDelete={() => deleteAchievement(info.row.original.id!)}

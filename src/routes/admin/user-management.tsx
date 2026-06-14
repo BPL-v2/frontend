@@ -1,13 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Permission, User } from "@api";
-import { getAllUsersBase, changePermissionsBase } from "@api";
+import {
+  Permission,
+  useChangeUserPermissions,
+  useGetAllUsers,
+  User,
+} from "@api";
 import Select from "@components/form/select";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
 import { renderConditionally } from "@utils/token";
-import React, { useEffect } from "react";
+import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/admin/user-management")({
   component: renderConditionally(UserPage, [Permission.admin]),
@@ -23,10 +28,9 @@ function copyDiscordId(value: string | undefined) {
 function UserPage() {
   const [nameFilter, setNameFilter] = React.useState<string>("");
   const [roleFilter, setRoleFilter] = React.useState<Permission | "">("");
-  const [users, setUsers] = React.useState<User[]>([]);
-  useEffect(() => {
-    getAllUsersBase().then((users) => setUsers(users));
-  }, []);
+  const { usersById } = useGetAllUsers();
+  const qc = useQueryClient();
+  const { changeUserPermissions } = useChangeUserPermissions(qc);
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "id",
@@ -90,18 +94,7 @@ function UserPage() {
                 } else {
                   newPermissions.push(permission);
                 }
-                changePermissionsBase(
-                  info.row.original.id,
-                  newPermissions,
-                ).then(() => {
-                  setUsers((prev) =>
-                    prev.map((user) =>
-                      user.id === info.row.original.id
-                        ? { ...user, permissions: newPermissions }
-                        : user,
-                    ),
-                  );
-                });
+                changeUserPermissions(info.row.original.id, newPermissions);
               }}
             >
               {permission}
@@ -113,6 +106,9 @@ function UserPage() {
       size: 200,
     },
   ];
+  if (!usersById) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={{ marginTop: "20px" }}>
@@ -134,7 +130,7 @@ function UserPage() {
         ></Select>
       </div>
       <VirtualizedTable<User>
-        data={users.filter(
+        data={Object.values(usersById).filter(
           (user) =>
             !!(
               user.display_name?.toLowerCase().includes(nameFilter) ||

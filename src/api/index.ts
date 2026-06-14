@@ -118,6 +118,7 @@ import {
   getGetAchievementsBaseQueryKey,
   getGetUserAchievementsBaseQueryKey,
   getUploadIconBaseUrl,
+  getGetIconBaseUrl,
   useCreateAchievementBase,
   useDeleteAchievementBase,
   useGetAchievementsBase,
@@ -137,6 +138,10 @@ import {
   useGetUsersForEventBase,
   useRemoveAuthBase,
   useUpdateUserBase,
+  useGetAllUsersBase,
+  useChangePermissionsBase,
+  getGetAllUsersBaseQueryKey,
+  getGetUserByIdBaseQueryKey,
 } from "./generated/user/user";
 import type { BulkObjectiveCreate } from "@components/form-dialogs/BulkObjectiveFormModal";
 import {
@@ -160,6 +165,7 @@ import {
   TeamUserCreate,
   TimingCreate,
   UpdateItemWish,
+  ChangePermissionsBaseBody,
 } from "./generated/models";
 import type { ScoreMap } from "@utils/utils";
 import { flatMap } from "@utils/utils";
@@ -586,9 +592,7 @@ async function duplicateObjective(
   const dupe = JSON.parse(JSON.stringify(objective)) as ObjectiveCreate;
   dupe.id = undefined;
   dupe.parent_id = parentId;
-  dupe.scoring_rule_ids = objective.scoring_rules.map(
-    (rule) => rule.id,
-  );
+  dupe.scoring_rule_ids = objective.scoring_rules.map((rule) => rule.id);
   const newObjective = await createObjectiveBase(eventId, dupe);
   if (objective.children.length > 0) {
     const children = await Promise.all(
@@ -708,8 +712,7 @@ export function useAddScoringRule(
     },
   });
   return {
-    addScoringRule: (data: ScoringRuleCreate) =>
-      m.mutate({ eventId, data }),
+    addScoringRule: (data: ScoringRuleCreate) => m.mutate({ eventId, data }),
     addScoringRulePending: m.isPending,
   };
 }
@@ -1157,7 +1160,9 @@ export function useGetAchievements() {
 }
 
 export function useGetUserAchievements(userId?: number) {
-  const query = useGetUserAchievementsBase(userId ? { user_id: userId } : undefined);
+  const query = useGetUserAchievementsBase(
+    userId ? { user_id: userId } : undefined,
+  );
   return { ...query, userAchievements: query.data ?? [] };
 }
 
@@ -1211,7 +1216,9 @@ export function useGrantAchievement(qc: QueryClient, callback?: () => void) {
     mutation: {
       onSuccess: () => {
         qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
-        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+        qc.invalidateQueries({
+          queryKey: getGetUserAchievementsBaseQueryKey(),
+        });
         callback?.();
       },
     },
@@ -1228,7 +1235,9 @@ export function useRevokeAchievement(qc: QueryClient) {
     mutation: {
       onSuccess: () => {
         qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
-        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+        qc.invalidateQueries({
+          queryKey: getGetUserAchievementsBaseQueryKey(),
+        });
       },
     },
   });
@@ -1243,7 +1252,9 @@ export function useSyncAchievements(qc: QueryClient) {
   const m = useSyncAchievementsBase({
     mutation: {
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+        qc.invalidateQueries({
+          queryKey: getGetUserAchievementsBaseQueryKey(),
+        });
       },
     },
   });
@@ -1255,7 +1266,13 @@ export function useSyncAchievements(qc: QueryClient) {
 
 export function useUploadAchievementIcon(qc: QueryClient) {
   const m = useMutation({
-    mutationFn: ({ achievementId, file }: { achievementId: number; file: File }) => {
+    mutationFn: ({
+      achievementId,
+      file,
+    }: {
+      achievementId: number;
+      file: File;
+    }) => {
       const formData = new FormData();
       formData.append("icon", file);
       return customFetch<void>(getUploadIconBaseUrl(achievementId), {
@@ -1268,8 +1285,23 @@ export function useUploadAchievementIcon(qc: QueryClient) {
     },
   });
   return {
-    uploadIcon: (achievementId: number, file: File) => m.mutate({ achievementId, file }),
+    uploadIcon: (achievementId: number, file: File) =>
+      m.mutate({ achievementId, file }),
     uploadIconPending: m.isPending,
+  };
+}
+
+export function useDeleteAchievementIcon(qc: QueryClient) {
+  const m = useMutation({
+    mutationFn: ({ achievementId }: { achievementId: number }) =>
+      customFetch<void>(getGetIconBaseUrl(achievementId), { method: "DELETE" }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+    },
+  });
+  return {
+    deleteIcon: (achievementId: number) => m.mutate({ achievementId }),
+    deleteIconPending: m.isPending,
   };
 }
 
@@ -1305,8 +1337,7 @@ function toObjectiveCreate(
     ...objective,
     valid_from: start ?? undefined,
     valid_to: end ?? undefined,
-    scoring_rule_ids:
-      objective.scoring_rules?.map((rule) => rule.id) ?? [],
+    scoring_rule_ids: objective.scoring_rules?.map((rule) => rule.id) ?? [],
   };
 }
 
@@ -1340,4 +1371,41 @@ export function preloadCharacterData(
         data.sort((a, b) => a.timestamp - b.timestamp),
       ),
   });
+}
+
+export function useGetAllUsers() {
+  const query = useGetAllUsersBase({
+    query: {
+      refetchOnMount: false,
+      select: (data) =>
+        data.reduce(
+          (acc, user) => {
+            acc[user.id] = user;
+            return acc;
+          },
+          {} as { [userId: number]: (typeof data)[number] },
+        ),
+    },
+  });
+  return { ...query, usersById: query.data };
+}
+
+export function useChangeUserPermissions(qc: QueryClient) {
+  const m = useChangePermissionsBase({
+    mutation: {
+      onSuccess: (_, { userId }) => {
+        qc.invalidateQueries({
+          queryKey: getGetAllUsersBaseQueryKey(),
+        });
+        qc.invalidateQueries({
+          queryKey: getGetUserByIdBaseQueryKey(userId),
+        });
+      },
+    },
+  });
+  return {
+    changeUserPermissions: (userId: number, data: ChangePermissionsBaseBody) =>
+      m.mutate({ userId, data }),
+    changeUserPermissionsPending: m.isPending,
+  };
 }
