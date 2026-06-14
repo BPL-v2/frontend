@@ -193,48 +193,43 @@ function Home() {
               </div>
             </div>
           )}
-          {pastEvents.length > 0 && (
-            <div className="card max-w-full bg-card">
-              <div className="card-body p-12">
-                <div className="card-title text-4xl">Past Events</div>
-                <div className="mt-4 flex flex-col gap-2">
-                  {pastEvents.slice(0, 3).map((event) => (
-                    <div
-                      key={event.id}
-                      className="flex items-center justify-between rounded-box bg-base-200 px-6 py-4"
-                    >
-                      <div>
-                        <span className="text-xl font-semibold">
-                          {event.name}
-                        </span>
-                        <span className="ml-4 opacity-60">
-                          {new Date(
-                            event.event_start_time,
-                          ).toLocaleDateString()}{" "}
-                          –{" "}
-                          {new Date(event.event_end_time).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <Link
-                        to="/events/$eventId"
-                        params={{ eventId: String(event.id) }}
-                        className="btn btn-sm btn-primary"
-                      >
-                        View Ladder
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 text-right">
-                  <Link to="/events" className="link link-primary">
-                    View all events →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
         </>
       ) : null}
+      {pastEvents.length > 0 && (
+        <div className="card max-w-full bg-card">
+          <div className="card-body p-12">
+            <div className="card-title text-4xl">Past Events</div>
+            <div className="mt-4 flex flex-col gap-2">
+              {pastEvents.slice(0, 3).map((event) => (
+                <div
+                  key={event.id}
+                  className="flex items-center justify-between rounded-box bg-base-200 px-6 py-4"
+                >
+                  <div>
+                    <span className="text-xl font-semibold">{event.name}</span>
+                    <span className="ml-4 opacity-60">
+                      {new Date(event.event_start_time).toLocaleDateString()} –{" "}
+                      {new Date(event.event_end_time).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <Link
+                    to="/events/$eventId"
+                    params={{ eventId: String(event.id) }}
+                    className="btn btn-sm btn-primary"
+                  >
+                    View Ladder
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-right">
+              <Link to="/events" className="link link-primary">
+                View all events →
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -26,6 +26,7 @@ import {
   useGetCharacterHistoryBase,
   useGetPoBsBase,
   useGetUserCharactersBase,
+  useGetCharactersForEventBase,
   updateCharacterBase,
 } from "./generated/characters/characters";
 import {
@@ -115,10 +116,15 @@ import {
 } from "./generated/timing/timing";
 import {
   getGetAchievementsBaseQueryKey,
+  getGetUserAchievementsBaseQueryKey,
   getUploadIconBaseUrl,
   useCreateAchievementBase,
   useDeleteAchievementBase,
   useGetAchievementsBase,
+  useGetUserAchievementsBase,
+  useGrantAchievementBase,
+  useRevokeAchievementBase,
+  useSyncAchievementsBase,
   useUpdateAchievementBase,
 } from "./generated/achievement/achievement";
 import {
@@ -882,6 +888,13 @@ export function useGetGuilds(eventId: number) {
 
 // --- Characters ---
 
+export function useGetCharactersForEvent(eventId: number) {
+  const query = useGetCharactersForEventBase(eventId, {
+    query: { enabled: !!eventId },
+  });
+  return { ...query, characters: query.data ?? [] };
+}
+
 export function useGetUserCharacters(userId: number) {
   const query = useGetUserCharactersBase(userId, {
     query: {
@@ -1143,6 +1156,11 @@ export function useGetAchievements() {
   return { ...query, achievements: query.data ?? [] };
 }
 
+export function useGetUserAchievements(userId?: number) {
+  const query = useGetUserAchievementsBase(userId ? { user_id: userId } : undefined);
+  return { ...query, userAchievements: query.data ?? [] };
+}
+
 export function useCreateAchievement(qc: QueryClient, callback?: () => void) {
   const m = useCreateAchievementBase({
     mutation: {
@@ -1185,6 +1203,53 @@ export function useDeleteAchievement(qc: QueryClient) {
   return {
     deleteAchievement: (achievementId: number) => m.mutate({ achievementId }),
     deleteAchievementPending: m.isPending,
+  };
+}
+
+export function useGrantAchievement(qc: QueryClient, callback?: () => void) {
+  const m = useGrantAchievementBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+        callback?.();
+      },
+    },
+  });
+  return {
+    grantAchievement: (userId: number, achievementId: number) =>
+      m.mutate({ data: { user_id: userId, achievement_id: achievementId } }),
+    grantAchievementPending: m.isPending,
+  };
+}
+
+export function useRevokeAchievement(qc: QueryClient) {
+  const m = useRevokeAchievementBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetAchievementsBaseQueryKey() });
+        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+      },
+    },
+  });
+  return {
+    revokeAchievement: (userId: number, achievementId: number) =>
+      m.mutate({ userId, achievementId }),
+    revokeAchievementPending: m.isPending,
+  };
+}
+
+export function useSyncAchievements(qc: QueryClient) {
+  const m = useSyncAchievementsBase({
+    mutation: {
+      onSuccess: () => {
+        qc.invalidateQueries({ queryKey: getGetUserAchievementsBaseQueryKey() });
+      },
+    },
+  });
+  return {
+    syncAchievements: () => m.mutate(),
+    syncAchievementsPending: m.isPending,
   };
 }
 

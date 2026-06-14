@@ -45,6 +45,7 @@ import { Route as AdminTeamSuggestionsRouteImport } from './routes/admin/team-su
 import { Route as AdminTeamSortRouteImport } from './routes/admin/team-sort'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin/submissions'
 import { Route as AdminRecurringJobsRouteImport } from './routes/admin/recurring-jobs'
+import { Route as AdminGrantAchievementsRouteImport } from './routes/admin/grant-achievements'
 import { Route as AdminActivityRouteImport } from './routes/admin/activity'
 import { Route as AdminAchievementsRouteImport } from './routes/admin/achievements'
 import { Route as TeamStashesRouteRouteImport } from './routes/team/stashes/route'
@@ -248,6 +249,11 @@ const AdminRecurringJobsRoute = AdminRecurringJobsRouteImport.update({
   path: '/admin/recurring-jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminGrantAchievementsRoute = AdminGrantAchievementsRouteImport.update({
+  id: '/admin/grant-achievements',
+  path: '/admin/grant-achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminActivityRoute = AdminActivityRouteImport.update({
   id: '/admin/activity',
   path: '/admin/activity',
@@ -374,6 +380,7 @@ export interface FileRoutesByFullPath {
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
@@ -433,6 +440,7 @@ export interface FileRoutesByTo {
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
@@ -493,6 +501,7 @@ export interface FileRoutesById {
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/achievements': typeof AdminAchievementsRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
@@ -554,6 +563,7 @@ export interface FileRouteTypes {
     | '/team/stashes'
     | '/admin/achievements'
     | '/admin/activity'
+    | '/admin/grant-achievements'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
@@ -613,6 +623,7 @@ export interface FileRouteTypes {
     | '/team/stashes'
     | '/admin/achievements'
     | '/admin/activity'
+    | '/admin/grant-achievements'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
@@ -672,6 +683,7 @@ export interface FileRouteTypes {
     | '/team/stashes'
     | '/admin/achievements'
     | '/admin/activity'
+    | '/admin/grant-achievements'
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
@@ -731,6 +743,7 @@ export interface RootRouteChildren {
   ProfileUserIdRouteRoute: typeof ProfileUserIdRouteRouteWithChildren
   AdminAchievementsRoute: typeof AdminAchievementsRoute
   AdminActivityRoute: typeof AdminActivityRoute
+  AdminGrantAchievementsRoute: typeof AdminGrantAchievementsRoute
   AdminRecurringJobsRoute: typeof AdminRecurringJobsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTeamSortRoute: typeof AdminTeamSortRoute
@@ -1006,6 +1019,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/recurring-jobs'
       fullPath: '/admin/recurring-jobs'
       preLoaderRoute: typeof AdminRecurringJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/grant-achievements': {
+      id: '/admin/grant-achievements'
+      path: '/admin/grant-achievements'
+      fullPath: '/admin/grant-achievements'
+      preLoaderRoute: typeof AdminGrantAchievementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/activity': {
@@ -1302,6 +1322,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileUserIdRouteRoute: ProfileUserIdRouteRouteWithChildren,
   AdminAchievementsRoute: AdminAchievementsRoute,
   AdminActivityRoute: AdminActivityRoute,
+  AdminGrantAchievementsRoute: AdminGrantAchievementsRoute,
   AdminRecurringJobsRoute: AdminRecurringJobsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTeamSortRoute: AdminTeamSortRoute,

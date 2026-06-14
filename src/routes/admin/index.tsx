@@ -101,6 +101,12 @@ function RouteComponent() {
           permissions={[Permission.admin]}
         />
         <AdminRouteCard
+          title="Grant Achievements"
+          description="Manually grant achievements to players of an event."
+          link="/admin/grant-achievements"
+          permissions={[Permission.admin, Permission.achievement_assigner]}
+        />
+        <AdminRouteCard
           title="Recurring Jobs"
           description="Manage recurring jobs during the event like fetching stash tabs or player characters."
           link="/admin/recurring-jobs"
