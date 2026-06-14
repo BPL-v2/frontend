@@ -42,6 +42,11 @@ export const DateTimePicker: React.FC<DateTimePickerProps> = ({
   const date = dateOverride ?? defaultDate.date;
   const time = timeOverride ?? defaultDate.time;
 
+  useEffect(() => {
+    setDate(undefined);
+    setTime(undefined);
+  }, [defaultValue]);
+
   const toIsoString = (time: string, date?: string) => {
     if (!date || !time) {
       return "";
