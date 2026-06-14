@@ -5,6 +5,25 @@ import { AscendancyName } from "./ascendancy-name";
 import { AscendancyPortrait } from "./ascendancy-portrait";
 import { ExperienceBar } from "./experience-bar";
 
+export const ACTIVE_THRESHOLD_SECONDS = 10 * 60;
+
+export function ActivityDot({
+  last_active,
+  className,
+}: {
+  last_active: number;
+  className?: string;
+}) {
+  const isActive =
+    last_active > 0 &&
+    Date.now() / 1000 - last_active < ACTIVE_THRESHOLD_SECONDS;
+  return (
+    <span
+      className={`rounded-full border-2 border-base-300 ${isActive ? "bg-success" : "bg-error"} ${className ?? ""}`}
+    />
+  );
+}
+
 interface Props {
   entry: LadderEntry;
   team?: Team;
@@ -22,11 +41,17 @@ export function LadderPortrait({ entry, team, event }: Props) {
         eventId: event.id,
       }}
     >
-      <AscendancyPortrait
-        character_class={entry.ascendancy}
-        game_version={event.game_version}
-        className="size-20 rounded-full object-cover"
-      />
+      <div className="relative shrink-0">
+        <AscendancyPortrait
+          character_class={entry.ascendancy}
+          game_version={event.game_version}
+          className="size-20 rounded-full object-cover"
+        />
+        <ActivityDot
+          last_active={entry.last_active}
+          className="absolute top-0 right-0 size-4"
+        />
+      </div>
       <div className="flex w-full flex-col">
         <span className="font-bold" style={{ color: team?.color || "inherit" }}>
           {entry.character_name}

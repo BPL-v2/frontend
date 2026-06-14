@@ -29,7 +29,7 @@ import { POPointRules } from "@rules/po-points";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getSkillColor } from "@utils/gems";
 import { totalPoPoints } from "@utils/personal-points";
-import { LadderPortrait } from "@components/character/ladder-portrait";
+import { ActivityDot, ACTIVE_THRESHOLD_SECONDS, LadderPortrait } from "@components/character/ladder-portrait";
 import { twMerge } from "tailwind-merge";
 import { defaultPreferences } from "@mytypes/preferences";
 import { TwitchFilled } from "@icons/twitch";
@@ -113,15 +113,17 @@ function LadderTab(): JSX.Element {
   const { streams = [] } = useGetStreams(currentEvent.id);
   const { itemMapping = {} } = useGetItemMapping();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [filterActive, setFilterActive] = useState(false);
 
   const filteredLadder = useMemo(() => {
     if (!ladder) {
       return [];
     }
-    if (selectedItems.length === 0) {
-      return ladder;
-    }
-    return ladder?.filter((entry) => {
+    const now = Date.now() / 1000;
+    return ladder.filter((entry) => {
+      if (filterActive && !(entry.last_active > 0 && now - entry.last_active < ACTIVE_THRESHOLD_SECONDS)) {
+        return false;
+      }
       for (const itemIdx of selectedItems) {
         if (!entry.item_indexes?.includes(itemIdx)) {
           return false;
@@ -129,7 +131,7 @@ function LadderTab(): JSX.Element {
       }
       return true;
     });
-  }, [ladder, selectedItems]);
+  }, [ladder, selectedItems, filterActive]);
 
   const percentagePlayersWithItem = useMemo(
     () =>
@@ -330,11 +332,14 @@ function LadderTab(): JSX.Element {
           cell: (info) => {
             return (
               <div className="flex items-center gap-2">
-                <AscendancyPortrait
-                  character_class={info.row.original.ascendancy}
-                  game_version={currentEvent.game_version}
-                  className="size-10 rounded-full object-cover"
-                />
+                <div className="relative shrink-0">
+                  <AscendancyPortrait
+                    character_class={info.row.original.ascendancy}
+                    game_version={currentEvent.game_version}
+                    className="size-10 rounded-full object-cover"
+                  />
+                  <ActivityDot last_active={info.row.original.last_active} className="absolute right-0 top-0 size-2.5" />
+                </div>
                 <div className="flex flex-col">
                   <span className={getSkillColor(info.row.original.main_skill)}>
                     {" "}
@@ -729,6 +734,15 @@ function LadderTab(): JSX.Element {
               values={selectedItems}
               className="w-100"
             />
+            <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
+              <input
+                type="checkbox"
+                className="checkbox checkbox-sm"
+                checked={filterActive}
+                onChange={(e) => setFilterActive(e.target.checked)}
+              />
+              Active only
+            </label>
           </div>
           {getTimeSelectOptions(currentEvent).length > 0 && (
             <Select
