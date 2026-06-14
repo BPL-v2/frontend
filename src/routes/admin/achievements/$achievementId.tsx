@@ -15,7 +15,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 export const Route = createFileRoute("/admin/achievements/$achievementId")({
-  component: renderConditionally(AchievementDetailPage, [Permission.admin]),
+  component: renderConditionally(AchievementDetailPage, [
+    Permission.admin,
+    Permission.objective_designer,
+  ]),
   params: {
     parse: (params) => ({ achievementId: Number(params.achievementId) }),
     stringify: (params) => ({ achievementId: String(params.achievementId) }),

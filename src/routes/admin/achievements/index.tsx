@@ -24,7 +24,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export const Route = createFileRoute("/admin/achievements/")({
-  component: renderConditionally(AchievementsPage, [Permission.admin]),
+  component: renderConditionally(AchievementsPage, [
+    Permission.admin,
+    Permission.objective_designer,
+  ]),
 });
 
 function iconDataUrl(achievement: AchievementResponse): string | null {
@@ -139,7 +142,7 @@ function IconUploadButton({
         }}
       />
       <button
-        className="btn btn-info btn-xs"
+        className="btn btn-xs btn-info"
         disabled={uploadIconPending}
         onClick={() => fileInputRef.current?.click()}
       >
@@ -165,7 +168,7 @@ function IconDeleteButton({
 
   return (
     <button
-      className="btn btn-warning btn-xs"
+      className="btn btn-xs btn-warning"
       disabled={deleteIconPending}
       onClick={() => deleteIcon(achievement.id!)}
     >
@@ -226,7 +229,7 @@ function AchievementsPage() {
         <Link
           to="/admin/achievements/$achievementId"
           params={{ achievementId: info.row.original.id! }}
-          className="hover:text-primary underline"
+          className="underline hover:text-primary"
         >
           {playerCountById[info.row.original.id!] ?? 0}
         </Link>
