@@ -107,12 +107,12 @@ export function SignupFormModal({
               <field.BooleanField label="I'm experienced and would like to help others" />
             )}
           />
-          <form.AppField
+          {/* <form.AppField
             name="partner_account_name"
             children={(field) => (
               <field.TextField label="Partner Wish (account name)" />
             )}
-          />
+          /> */}
           <label className="fieldset-label">
             <input
               type="checkbox"
