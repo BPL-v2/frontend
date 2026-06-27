@@ -72,7 +72,7 @@ export function GuildStashSelect({ path }: { path: path }) {
         </button>
         {isAdmin() && (
           <select
-            className="select-bordered select"
+            className="select grid"
             value={teamId}
             onChange={(e) => setTeamId(Number(e.target.value))}
           >

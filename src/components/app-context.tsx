@@ -59,7 +59,7 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  if (rules && initialScore && currentEvent.teams.length > 0) {
+  if (rules && currentEvent.teams.length > 0) {
     const mergedScore = { ...initialScore };
     for (const entry of Object.entries(scoreDiffs)) {
       const teamId = Number(entry[0]);
