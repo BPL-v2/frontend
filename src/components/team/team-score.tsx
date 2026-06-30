@@ -30,7 +30,6 @@ const TeamScoreDisplay = ({
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const teamScores = objective ? getTotalPoints(objective) : nullScore;
   const potentialScores = objective ? getPotentialPoints(objective) : nullScore;
-  console.log(objective?.children[0]?.children[0].team_score[104].totalPoints())
   if (!currentEvent || !currentEvent.teams) {
     return <></>;
   }

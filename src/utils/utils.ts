@@ -226,16 +226,26 @@ export function getPotentialPointsRanked(
   );
 }
 
+function getAllLeafObjectives(objective: ScoreObjective): ScoreObjective[] {
+  const leafObjectives: ScoreObjective[] = [];
+  if (objective.children.length === 0) {
+    leafObjectives.push(objective);
+  } else {
+    for (const child of objective.children) {
+      leafObjectives.push(...getAllLeafObjectives(child));
+    }
+  }
+  return leafObjectives;
+}
+
 function getPotentialBonusPointsPerChild(
   objective: ScoreObjective,
   preset: ScoringRule,
 ): PotentialPoints {
   const presetPoints = preset.points;
-  const childCount = objective.children.filter(
-    (child) => child.children.length === 0,
-  ).length;
+  const leafs = getAllLeafObjectives(objective);
   let potential = 0;
-  for (let i = 0; i < childCount; i++) {
+  for (let i = 0; i < leafs.length; i++) {
     potential +=
       i < presetPoints.length
         ? presetPoints[i]
