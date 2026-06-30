@@ -190,7 +190,7 @@ function ScoringPage() {
     },
     ...scoringTabs.filter(
       (tab) =>
-        tab.visible && categories?.children.find((c) => c.name === tab.name),
+        tab.visible && categories?.children?.find((c) => c.name === tab.name),
     ),
     ...(categories?.children
       .filter(
@@ -204,42 +204,50 @@ function ScoringPage() {
         visible: true,
       })) || []),
   ];
-  // return <h1> Work in progress</h1>;
   return (
     <>
-      <div className="mb-4 flex items-center justify-between rounded-b-box bg-base-300 shadow-xl">
-        <ul className="menu menu-horizontal md:gap-1">
-          {tabs.map((tab) => (
-            <li key={tab.key}>
-              <Link
-                to={`/scores/${tab.key}`}
-                search={{ rules: rules }}
-                className={"btn text-base btn-xs"}
-                activeProps={{
-                  className: "btn-primary",
-                }}
-                inactiveProps={{
-                  className: "btn-ghost hover:btn-primary",
-                }}
-              >
-                {tab.shortName || tab.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link
-          to={"/scores/" + selected}
-          className={twMerge(
-            "btn mx-2 w-14 justify-between border border-secondary md:w-36",
-            rules ? "bg-secondary text-secondary-content" : "text-secondary",
-          )}
-          search={{ rules: !rules }}
-        >
-          <BookOpenIcon className="size-6" />
-          <span className="hidden md:block">
-            {rules ? "Hide" : "Show"} Rules
-          </span>
-        </Link>
+      <div className="sticky top-13 z-40 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
+        <div className="flex items-center">
+          <div className="flex-1 overflow-x-auto scrollbar-none">
+            <ul className="flex min-w-max items-end">
+              {tabs.map((tab) => (
+                <li key={tab.key}>
+                  <Link
+                    to={`/scores/${tab.key}`}
+                    search={{ rules: rules }}
+                    className="inline-block border-b-2 border-transparent px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors duration-150"
+                    activeProps={{
+                      className: "border-primary text-primary",
+                    }}
+                    inactiveProps={{
+                      className:
+                        "text-base-content/75 hover:text-base-content",
+                    }}
+                  >
+                    {tab.shortName || tab.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="shrink-0 px-3">
+            <Link
+              to={"/scores/" + selected}
+              className={twMerge(
+                "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150",
+                rules
+                  ? "bg-primary/8 text-primary"
+                  : "text-base-content/65 hover:text-base-content",
+              )}
+              search={{ rules: !rules }}
+            >
+              <BookOpenIcon className="size-4" />
+              <span className="hidden md:block text-base-content/85">
+                {rules ? "Hide" : "Show"} Rules
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
       <Outlet />
     </>
