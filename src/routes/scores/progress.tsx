@@ -341,12 +341,12 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <fieldset className="fieldset flex w-80 flex-row gap-10 rounded-box border border-base-300 bg-base-200 p-4 text-highlight-content">
+      <fieldset className="fieldset flex w-80 flex-row gap-10 rounded-box border border-base-300 bg-base-200 p-4 text-highlight-content select-none">
         <legend className="fieldset-legend"></legend>
         <label className="label w-30">
           <input
             type="checkbox"
-            className="toggle"
+            className="toggle toggle-md toggle-primary"
             onChange={(e) =>
               setTimeFormat(e.target.checked ? "relative" : "absolute")
             }
@@ -357,7 +357,7 @@ function RouteComponent() {
         </label>
         <label className="label">
           <input
-            className="checkbox"
+            className="checkbox checkbox-primary"
             type="checkbox"
             onChange={(e) => setOnlyShowRanked(e.target.checked)}
           />
