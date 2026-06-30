@@ -129,47 +129,52 @@ function RootComponent() {
   return (
     <>
       <div className="mx-auto max-w-360 text-center">
-        <div className="flex h-screen flex-col justify-between gap-8">
-          <div>
-            <div
-              className={twMerge(
-                "navbar bg-base-300",
-                selected != "scores" &&
-                  selected != "team" &&
-                  "rounded-b-box shadow-xl",
-              )}
-            >
-              <ul className="justify-left flex flex-1 gap-1 sm:gap-2 xl:gap-4">
+        <div className="flex min-h-screen flex-col">
+          <header className="sticky top-0 z-50 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
+            <nav className="flex h-13 items-center justify-between px-3 sm:px-5">
+              <ul className="flex items-center gap-1">
                 {menu.map((item) => (
                   <li key={item.url}>
                     <Link
-                      aria-label={item.label.toString()}
+                      aria-label={
+                        typeof item.label === "string"
+                          ? item.label
+                          : item.path || "home"
+                      }
                       to={item.url}
                       className={twMerge(
-                        "btn flex h-10 items-center gap-2 text-xl font-semibold btn-xs lg:h-16",
+                        "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xl font-medium transition-colors duration-150",
+                        item.path === "" && "mr-3",
                         selected === item.path
-                          ? "btn-primary"
-                          : "btn-ghost hover:btn-primary",
+                          ? "text-primary"
+                          : "text-base-content/85 hover:text-base-content",
                       )}
                     >
                       {item.icon}
-                      <div className="hidden lg:block">{item.label}</div>
+                      {item.path === "" ? (
+                        <span className="text-3xl font-bold tracking-wide text-base-content hover:text-primary transition-colors">
+                          BPL
+                        </span>
+                      ) : (
+                        <span className="hidden sm:block">{item.label}</span>
+                      )}
                     </Link>
                   </li>
                 ))}
               </ul>
               <AuthButton />
+            </nav>
+          </header>
+          {user && !user.account_name && (
+            <div className="border-b border-warning/20 bg-warning/6 px-4 py-2 text-sm text-base-content/70">
+              Connect your PoE account via the top-right button to track your
+              characters.
             </div>
-            {user && !user.account_name && (
-              <div className="bg-error p-4 text-lg text-error-content">
-                Looks like you haven't connected your PoE Account yet, make sure
-                to connect by logging in in the top right corner to connect your
-                account so that we can track your characters progress.
-              </div>
-            )}
+          )}
+          <main className="flex-1">
             <Outlet />
-          </div>
-          <Footer></Footer>
+          </main>
+          <Footer />
         </div>
       </div>
     </>
