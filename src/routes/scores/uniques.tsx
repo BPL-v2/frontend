@@ -144,6 +144,15 @@ function UniqueTab(): JSX.Element {
   const uniqueCategory = scores?.children.find(
     (category) => category.name === "Uniques",
   );
+  const hasStandard = useMemo(
+    () => uniqueCategory?.children.some((category) => !isTimed(category)) ?? false,
+    [uniqueCategory],
+  );
+  const hasTimed = useMemo(
+    () => uniqueCategory?.children.some((category) => isTimed(category)) ?? false,
+    [uniqueCategory],
+  );
+  const effectiveType = type ?? (!hasStandard && hasTimed ? "timed" : "standard");
   const handleCategoryClick = (objective: ScoreObjective) => {
     if (objective.id === selectedCategory?.id) {
       setSelectedCategory(undefined);
@@ -160,10 +169,10 @@ function UniqueTab(): JSX.Element {
     return uniqueCategory.children
       .filter((category) => {
         const timed = isTimed(category);
-        if (type === "timed" && !timed) {
+        if (effectiveType === "timed" && !timed) {
           return false;
         }
-        if (type !== "timed" && timed) {
+        if (effectiveType !== "timed" && timed) {
           return false;
         }
         if (timed && category.name === "") {
@@ -195,7 +204,7 @@ function UniqueTab(): JSX.Element {
     itemFilter,
     preferences,
     selectedTeam,
-    type,
+    effectiveType,
   ]);
 
   const effectiveSelectedCategory = useMemo(() => {
@@ -314,43 +323,43 @@ function UniqueTab(): JSX.Element {
           </fieldset>
         </div>
         <div className="flex flex-col">
-          <div className="join rounded-b-none bg-base-100">
-            {[
-              ["standard", "Permanent Unique Collection"],
-              ["timed", "Temporary Unique Collection"],
-            ].map(([value, label]) => (
-              <input
-                key={value}
-                type="radio"
-                name="tab"
-                className="btn join-item rounded-b-none border-2 btn-outline btn-lg btn-primary"
-                aria-label={label}
-                checked={
-                  value === type || (type === undefined && value === "standard")
-                }
-                onChange={() => {
-                  setSelectedCategory(undefined);
-                  if (value === type) {
-                    router.navigate({
-                      to: Route.fullPath,
-                      search: (prev) => ({
-                        rules: prev.rules ?? false,
-                        type: undefined,
-                      }),
-                    });
-                  } else {
-                    router.navigate({
-                      to: Route.fullPath,
-                      search: (prev) => ({
-                        rules: prev.rules ?? false,
-                        type: value as "standard" | "timed",
-                      }),
-                    });
-                  }
-                }}
-              />
-            ))}
-          </div>
+          {hasStandard && hasTimed ? (
+            <div className="join rounded-b-none bg-base-100">
+              {[
+                ["standard", "Permanent Unique Collection"],
+                ["timed", "Temporary Unique Collection"],
+              ].map(([value, label]) => (
+                <input
+                  key={value}
+                  type="radio"
+                  name="tab"
+                  className="btn join-item rounded-b-none border-2 btn-outline btn-lg btn-primary"
+                  aria-label={label}
+                  checked={value === effectiveType}
+                  onChange={() => {
+                    setSelectedCategory(undefined);
+                    if (value === type) {
+                      router.navigate({
+                        to: Route.fullPath,
+                        search: (prev) => ({
+                          rules: prev.rules ?? false,
+                          type: undefined,
+                        }),
+                      });
+                    } else {
+                      router.navigate({
+                        to: Route.fullPath,
+                        search: (prev) => ({
+                          rules: prev.rules ?? false,
+                          type: value as "standard" | "timed",
+                        }),
+                      });
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          ) : null}
           <CategoryGrid
             categories={shownCategories}
             selectedCategory={effectiveSelectedCategory}
