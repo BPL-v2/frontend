@@ -26,7 +26,7 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
         }}
       >
         <div
-          className="text-center text-2xl font-bold"
+          className="wrap-break-word text-center text-xs font-bold leading-tight"
           style={{
             color:
               team.color && team.color !== "#000000"

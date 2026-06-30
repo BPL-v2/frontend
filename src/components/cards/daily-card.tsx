@@ -116,9 +116,9 @@ export function DailyCard({ daily }: DailyCardProps) {
               />
             )}
             <div
-              className={daily.extra ? "tooltip tooltip-primary" : undefined}
+              className={daily.extra ? "tooltip" : undefined}
             >
-              <div className="tooltip-content max-w-75 text-xl">
+              <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
                 {daily.extra}
               </div>
 

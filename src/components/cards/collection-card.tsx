@@ -88,11 +88,11 @@ export function CollectionCard({
               "w-full",
               actualObjective.extra &&
                 !ignoreExtra &&
-                "tooltip tooltip-primary",
+                "tooltip",
             )}
           >
             {actualObjective.extra && !ignoreExtra ? (
-              <div className="tooltip-content max-w-75 text-xl">
+              <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
                 {actualObjective.extra}
               </div>
             ) : null}
