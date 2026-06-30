@@ -185,10 +185,10 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
           <div
             className={twMerge(
               "w-full",
-              objective.extra && "tooltip tooltip-primary",
+              objective.extra && "tooltip",
             )}
           >
-            <div className="tooltip-content max-w-75 text-xl">
+            <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
               {objective.extra}
             </div>
             <h3 className="mr-4 grow text-center text-xl font-medium">
