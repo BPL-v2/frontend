@@ -391,7 +391,7 @@ function RouteComponent() {
             <span className="label-text">Show Deviation from Average</span>
           </label>
         </fieldset>
-        <div ref={plotRef} className="h-full">
+        <div ref={plotRef} className="h-full select-none">
           <UplotReact
             options={options}
             data={data}
