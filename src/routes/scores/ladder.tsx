@@ -330,6 +330,7 @@ function LadderTab(): JSX.Element {
           size: 200,
           filterFn: "includesString",
           meta: {
+            align: "left",
             filterVariant: "enum",
             filterPlaceholder: "Team",
             options: currentEvent.teams.map((team) => team.name),
@@ -559,6 +560,7 @@ function LadderTab(): JSX.Element {
       cell: ({ row }) => (
         <TeamName className="font-semibold" team={row.original?.team} />
       ),
+      meta: { align: "left" },
     },
     {
       accessorKey: "total",
