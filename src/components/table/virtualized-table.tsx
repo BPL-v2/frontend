@@ -84,7 +84,7 @@ function VirtualizedTable<T>({
     <div
       ref={tableRef}
       className={twMerge(
-        "overflow-auto rounded-box border border-base-content/20 shadow-xl",
+        "overflow-auto rounded-box border border-base-content/20 shadow-xl select-none",
         className,
       )}
     >
@@ -106,7 +106,13 @@ function VirtualizedTable<T>({
                   <th
                     key={header.id}
                     style={{ width: header.getSize() }}
-                    className="flex items-center overflow-clip"
+                    className={twMerge(
+                      "flex items-center overflow-clip",
+                      (() => {
+                        const align = (header.column.columnDef.meta as ColumnDefMeta<T>)?.align;
+                        return align === "left" ? "justify-start" : align === "right" ? "justify-end" : "justify-center";
+                      })(),
+                    )}
                   >
                     <div
                       className={
@@ -164,10 +170,14 @@ function VirtualizedTable<T>({
                 key={row.id}
               >
                 {row.getVisibleCells().map((cell) => {
+                  const align = (cell.column.columnDef.meta as ColumnDefMeta<T>)?.align;
                   return (
                     <td
                       key={cell.id}
-                      className="flex items-center self-stretch"
+                      className={twMerge(
+                        "flex items-center self-stretch",
+                        align === "left" ? "justify-start text-left" : align === "right" ? "justify-end text-right" : "justify-center text-center",
+                      )}
                       style={{ width: cell.column.getSize() }}
                     >
                       {flexRender(
@@ -192,6 +202,7 @@ type ColumnDefMeta<T> = {
   filterVariant?: "string" | "enum" | "boolean";
   filterPlaceholder?: string;
   options?: T[] | SelectOption<T>[];
+  align?: "left" | "center" | "right";
 };
 
 function Filter<T>({ column }: { column: Column<T, unknown> }) {
