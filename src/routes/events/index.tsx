@@ -1,50 +1,11 @@
 import { Event } from "@api";
 import { useGetEvents } from "@api";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { contrastColor } from "@utils/color";
 
 export const Route = createFileRoute("/events/")({
   component: EventsPage,
 });
-
-function contrastColor(hex: string): string {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
-
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-  const d = max - min;
-  let h = 0,
-    s = 0;
-  if (d !== 0) {
-    s = d / (1 - Math.abs(2 * l - 1));
-    if (max === r) h = ((g - b) / d + 6) % 6;
-    else if (max === g) h = (b - r) / d + 2;
-    else h = (r - g) / d + 4;
-    h = h / 6;
-  }
-
-  const perceived = 0.299 * r + 0.587 * g + 0.114 * b;
-  const newL = perceived > 0.5 ? 0.15 : 0.9;
-  const c = (1 - Math.abs(2 * newL - 1)) * s;
-  const x = c * (1 - Math.abs(((h * 6) % 2) - 1));
-  const m = newL - c / 2;
-  let [r2, g2, b2] = [0, 0, 0];
-  const hi = Math.floor(h * 6);
-  if (hi === 0) [r2, g2, b2] = [c, x, 0];
-  else if (hi === 1) [r2, g2, b2] = [x, c, 0];
-  else if (hi === 2) [r2, g2, b2] = [0, c, x];
-  else if (hi === 3) [r2, g2, b2] = [0, x, c];
-  else if (hi === 4) [r2, g2, b2] = [x, 0, c];
-  else [r2, g2, b2] = [c, 0, x];
-
-  const toHex = (v: number) =>
-    Math.round((v + m) * 255)
-      .toString(16)
-      .padStart(2, "0");
-  return `#${toHex(r2)}${toHex(g2)}${toHex(b2)}`;
-}
 
 function EventCard({ event }: { event: Event }) {
   const start = new Date(event.event_start_time);

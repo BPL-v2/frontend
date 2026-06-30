@@ -1,4 +1,5 @@
 import { Team } from "@api";
+import { contrastColor } from "@utils/color";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -24,7 +25,15 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
             team.color !== "#000000" ? team.color : "var(--color-highlight)",
         }}
       >
-        <div className="text-center text-2xl font-bold text-base-100">
+        <div
+          className="text-center text-2xl font-bold"
+          style={{
+            color:
+              team.color && team.color !== "#000000"
+                ? contrastColor(team.color)
+                : undefined,
+          }}
+        >
           {team.name}
         </div>
       </div>
