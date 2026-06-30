@@ -106,7 +106,7 @@ function ForYouTab() {
                 Your team leads have selected objectives that are urgent for you
                 to do.
               </h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {relevantCategories
                   .filter((category) => teamGoalMap[category.id] != undefined)
                   .map((category) => (
@@ -124,7 +124,7 @@ function ForYouTab() {
       )}
       <div>
         <h3>{teamGoals ? "Remaining Objectives" : "To do"}</h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {relevantCategories
             .filter((category) => teamGoalMap[category.id] == undefined)
             .map((category) => (
