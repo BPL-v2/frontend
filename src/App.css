@@ -9,17 +9,17 @@
   default: false;
   prefersdark: true;
   color-scheme: "dark";
-  --color-base-100: oklch(10% 0.034 265);
-  --color-base-200: oklch(20% 0.034 265);
-  --color-base-300: oklch(30% 0.034 265);
-  --color-base-content: oklch(84.153% 0.007 265.754);
-  --color-primary: oklch(60% 0.262 276.966);
-  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-base-100: oklch(8% 0.02 265);
+  --color-base-200: oklch(13% 0.025 265);
+  --color-base-300: oklch(19% 0.025 265);
+  --color-base-content: oklch(86% 0.006 265.754);
+  --color-primary: oklch(62% 0.27 276.966);
+  --color-primary-content: oklch(97% 0.016 272.314);
   --color-secondary: oklch(60% 0.35 300);
   --color-secondary-content: oklch(97% 0.014 308.299);
   --color-accent: oklch(72.36% 0.176 350.048);
   --color-accent-content: oklch(14.472% 0.035 350.048);
-  --color-neutral: oklch(27.949% 0.036 260.03);
+  --color-neutral: oklch(22% 0.03 260.03);
   --color-neutral-content: oklch(100% 0 0);
   --color-info: oklch(70% 0.15 240);
   --color-info-content: oklch(15% 0.1 20);
@@ -29,9 +29,9 @@
   --color-warning-content: oklch(15% 0.1 80);
   --color-error: oklch(70% 0.2 0);
   --color-error-content: oklch(15% 0.1 0);
-  --radius-selector: 1rem;
-  --radius-field: 1rem;
-  --radius-box: 1rem;
+  --radius-selector: 0.375rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
@@ -45,11 +45,11 @@
   prefersdark: false;
   color-scheme: "light";
   --color-base-100: oklch(100% 0 0);
-  --color-base-200: oklch(97% 0.015 265);
-  --color-base-300: oklch(93% 0.015 265);
-  --color-base-content: oklch(41.886% 0.053 255.824);
-  --color-primary: oklch(60% 0.262 276.966);
-  --color-primary-content: oklch(91.372% 0.051 257.57);
+  --color-base-200: oklch(97% 0.012 265);
+  --color-base-300: oklch(93% 0.012 265);
+  --color-base-content: oklch(38% 0.05 255.824);
+  --color-primary: oklch(58% 0.262 276.966);
+  --color-primary-content: oklch(97% 0.016 272.314);
   --color-secondary: oklch(60% 0.35 300);
   --color-secondary-content: oklch(88.51% 0.032 282.339);
   --color-accent: oklch(59.939% 0.191 335.171);
@@ -64,9 +64,9 @@
   --color-warning-content: oklch(15% 0.1 80);
   --color-error: oklch(70% 0.2 0);
   --color-error-content: oklch(15% 0.1 0);
-  --radius-selector: 1rem;
-  --radius-field: 1rem;
-  --radius-box: 1rem;
+  --radius-selector: 0.375rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
@@ -133,19 +133,17 @@
 }
 
 @utility bg-card {
-  @apply bg-gradient-to-t;
-  @apply from-base-200;
-  @apply to-base-300;
-  @apply border-highlight;
-  @apply shadow-xl;
+  @apply bg-base-200;
+  @apply border;
+  @apply border-base-content/8;
+  @apply shadow-sm;
 }
 
 @utility bg-card-highlight {
-  @apply bg-gradient-to-t;
-  @apply from-base-300;
-  @apply to-highlight;
-  @apply border-highlight;
-  @apply shadow-xl;
+  @apply bg-base-200;
+  @apply border;
+  @apply border-primary/30;
+  @apply shadow-sm;
 }
 
 @utility input {
@@ -162,7 +160,7 @@ html {
 }
 
 #root {
-  font-family: "Roboto", sans-serif;
+  font-family: "Outfit", sans-serif;
 }
 
 .bg-discord {
