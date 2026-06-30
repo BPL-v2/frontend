@@ -252,82 +252,10 @@ function UniqueTab(): JSX.Element {
         selectedTeam={selectedTeam}
         setSelectedTeam={setTeamOverride}
       />
-      <div className="mt-4 flex flex-col gap-4">
-        <div className="flex justify-center">
-          <fieldset className="fieldset flex w-3xl flex-row justify-center gap-12 rounded-box bg-base-200 p-2 md:p-4">
-            <div>
-              <legend className="fieldset-legend">Category</legend>
-              <input
-                type="search"
-                className="input input-sm"
-                placeholder=""
-                onInput={(e) => setCategoryFilter(e.currentTarget.value)}
-              />
-            </div>
-            <div>
-              <legend className="fieldset-legend">Item Search</legend>
-              <label className="fieldset-label">
-                <input
-                  type="search"
-                  className="input input-sm"
-                  placeholder=""
-                  value={itemFilter}
-                  onPaste={(e) => {
-                    const paste = e.clipboardData.getData("text");
-                    if (paste.split("\n").length > 2) {
-                      setItemfilter(paste.split("\n")[2].trim());
-                      e.preventDefault();
-                    }
-                  }}
-                  onChange={(e) => {
-                    setItemfilter(e.target.value);
-                  }}
-                />
-              </label>
-            </div>
-            <div className="flex flex-col items-center">
-              <legend className="fieldset-legend">Show finished</legend>
-              <label className="fieldset-label">
-                <input
-                  type="checkbox"
-                  checked={preferences.uniqueSets.showCompleted}
-                  className="toggle toggle-md toggle-primary"
-                  onChange={(e) =>
-                    setPreferences({
-                      ...preferences,
-                      uniqueSets: {
-                        ...preferences.uniqueSets,
-                        showCompleted: e.target.checked,
-                      },
-                    })
-                  }
-                />
-              </label>
-            </div>
-            <div className="flex flex-col items-center">
-              <legend className="fieldset-legend">Show unwinnable</legend>
-              <label className="fieldset-label">
-                <input
-                  type="checkbox"
-                  checked={preferences.uniqueSets.showFirstAvailable}
-                  className="toggle toggle-md toggle-primary"
-                  onChange={(e) => {
-                    setPreferences({
-                      ...preferences,
-                      uniqueSets: {
-                        ...preferences.uniqueSets,
-                        showFirstAvailable: e.target.checked,
-                      },
-                    });
-                  }}
-                />
-              </label>
-            </div>
-          </fieldset>
-        </div>
-        <div className="flex flex-col">
-          {hasStandard && hasTimed ? (
-            <div className="join rounded-b-none bg-base-100">
+      <div className="mt-4 flex flex-col gap-4 select-none">
+        <div className="flex flex-col rounded-box border border-primary overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-base-200 px-4 py-3">
+            <div className="join">
               {[
                 ["standard", "Permanent Unique Collection"],
                 ["timed", "Temporary Unique Collection"],
@@ -336,9 +264,11 @@ function UniqueTab(): JSX.Element {
                   key={value}
                   type="radio"
                   name="tab"
-                  className="btn join-item rounded-b-none border-2 btn-outline btn-lg btn-primary"
+                  className="btn join-item border-2 btn-outline btn-md btn-primary"
                   aria-label={label}
-                  checked={value === effectiveType}
+                  checked={
+                    value === type || (type === undefined && value === "standard")
+                  }
                   onChange={() => {
                     setSelectedCategory(undefined);
                     if (value === type) {
@@ -362,7 +292,40 @@ function UniqueTab(): JSX.Element {
                 />
               ))}
             </div>
-          ) : null}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs opacity-60">Category</span>
+                <input type="search" className="input input-sm" placeholder="" onInput={(e) => setCategoryFilter(e.currentTarget.value)} />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs opacity-60">Item Search</span>
+                <input
+                  type="search"
+                  className="input input-sm"
+                  placeholder=""
+                  value={itemFilter}
+                  onPaste={(e) => {
+                    const paste = e.clipboardData.getData("text");
+                    if (paste.split("\n").length > 2) {
+                      setItemfilter(paste.split("\n")[2].trim());
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => setItemfilter(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-xs opacity-60">Show finished</span>
+                <input type="checkbox" checked={preferences.uniqueSets.showCompleted} className="toggle toggle-md toggle-primary"
+                  onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showCompleted: e.target.checked } })} />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-xs opacity-60">Show unwinnable</span>
+                <input type="checkbox" checked={preferences.uniqueSets.showFirstAvailable} className="toggle toggle-md toggle-primary"
+                  onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showFirstAvailable: e.target.checked } })} />
+              </div>
+            </div>
+          </div>
           <CategoryGrid
             categories={shownCategories}
             selectedCategory={effectiveSelectedCategory}

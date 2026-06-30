@@ -120,7 +120,7 @@ export const UniqueCategoryCard = ({
           </div>
         </div>
         <div className="flex h-full min-h-2 flex-col justify-between px-4">
-          <div className="flex h-full flex-row items-start justify-between p-0 pt-2">
+          <div className="flex h-full flex-row items-center justify-between p-0 py-2">
             <div className="flex w-full flex-col">
               <div
                 className={twMerge(
