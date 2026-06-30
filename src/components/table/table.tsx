@@ -74,7 +74,7 @@ function Table<T>({
   return (
     <div
       className={twMerge(
-        "overflow-auto rounded-box border border-base-content/20 shadow-xl",
+        "overflow-auto rounded-box border border-base-content/20 shadow-xl select-none",
         className,
       )}
     >
@@ -145,11 +145,20 @@ function Table<T>({
               style={rowStyle ? rowStyle(row) : undefined}
               key={row.id}
             >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="align-middle">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+              {row.getVisibleCells().map((cell) => {
+                const align = (cell.column.columnDef.meta as ColumnDefMeta<T>)?.align;
+                return (
+                  <td
+                    key={cell.id}
+                    className={twMerge(
+                      "align-middle",
+                      align === "left" ? "text-left" : align === "right" ? "text-right" : "text-center",
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
@@ -164,6 +173,7 @@ type ColumnDefMeta<T> = {
   filterVariant?: "string" | "enum" | "boolean";
   filterPlaceholder?: string;
   options?: T[] | SelectOption<T>[];
+  align?: "left" | "center" | "right";
 };
 
 function Filter<T>({ column }: { column: Column<T, unknown> }) {
