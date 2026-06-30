@@ -285,13 +285,13 @@ function UniqueTab(): JSX.Element {
                 />
               </label>
             </div>
-            <div>
+            <div className="flex flex-col items-center">
               <legend className="fieldset-legend">Show finished</legend>
               <label className="fieldset-label">
                 <input
                   type="checkbox"
                   checked={preferences.uniqueSets.showCompleted}
-                  className="toggle toggle-lg"
+                  className="toggle toggle-md toggle-primary"
                   onChange={(e) =>
                     setPreferences({
                       ...preferences,
@@ -304,13 +304,13 @@ function UniqueTab(): JSX.Element {
                 />
               </label>
             </div>
-            <div>
+            <div className="flex flex-col items-center">
               <legend className="fieldset-legend">Show unwinnable</legend>
               <label className="fieldset-label">
                 <input
                   type="checkbox"
                   checked={preferences.uniqueSets.showFirstAvailable}
-                  className="toggle toggle-lg"
+                  className="toggle toggle-md toggle-primary"
                   onChange={(e) => {
                     setPreferences({
                       ...preferences,
