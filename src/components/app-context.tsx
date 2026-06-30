@@ -9,6 +9,7 @@ import {
 } from "@api";
 import { initPreferences } from "@mytypes/preferences";
 import { ScoreObjective } from "@mytypes/score";
+import { normalizeTeamColor } from "@utils/color";
 import { ContextProvider } from "@utils/context-provider";
 import { hidePOTotal, mergeScores, ScoreMap } from "@utils/utils";
 import { useEffect, useState } from "react";
@@ -33,8 +34,15 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
     teams: [],
     uses_medals: false,
   } as unknown as Event;
-  const currentEvent =
+  const rawEvent =
     currentEventOverride ?? events?.find((e) => e.is_current) ?? dummyEvent;
+  const currentEvent = {
+    ...rawEvent,
+    teams: rawEvent.teams.map((team) => ({
+      ...team,
+      color: team.color ? normalizeTeamColor(team.color) : team.color,
+    })),
+  };
   const { rules } = useGetRules(currentEvent.id);
   const { score: initialScore = {} } = useGetScore(currentEvent.id);
   useGetUsers(currentEvent.id);
