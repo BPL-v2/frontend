@@ -252,7 +252,7 @@ function UniqueTab(): JSX.Element {
         selectedTeam={selectedTeam}
         setSelectedTeam={setTeamOverride}
       />
-      <div className="mt-4 flex flex-col gap-4 select-none">
+      <div className="mt-4 flex flex-col gap-4 caret-transparent">
         <div className="flex flex-col rounded-box border border-primary overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-base-200 px-4 py-3">
             <div className="join">
