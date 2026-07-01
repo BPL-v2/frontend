@@ -180,7 +180,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
         showModal={showModal}
         setShowModal={setShowModal}
       />
-      <div className="card bborder bg-card shadow-xl" key={objective.id}>
+      <div className="card bborder bg-card shadow-xl overflow-hidden select-text caret-transparent" key={objective.id}>
         <div className="flex h-full min-h-22 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <div
             className={twMerge(
@@ -188,9 +188,11 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
               objective.extra && "tooltip",
             )}
           >
-            <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
-              {objective.extra}
-            </div>
+            {objective.extra && (
+              <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
+                {objective.extra}
+              </div>
+            )}
             <h3 className="mr-4 grow text-center text-xl font-medium">
               {objective.name}
               {objective.extra ? <i className="text-error">*</i> : null}
@@ -253,7 +255,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
                           getPotentialPoints(objective)[teamId],
                           currentEvent?.uses_medals,
                         )}
-                        {score.number() > 1 && `(${score.number()})`}
+                        {score.number() > 1 && ` (${score.number()})`}
                       </td>
                       <td
                         className={twMerge(
