@@ -50,7 +50,7 @@ export function DailyCard({ daily }: DailyCardProps) {
 
   if (!isReleased) {
     return (
-      <div className="card bborder bg-card shadow-xl" key={daily.id}>
+      <div className="card bborder bg-card shadow-xl overflow-hidden select-none cursor-default" key={daily.id}>
         <div className="h-full min-h-25 rounded-t-box p-8 pb-0 text-center text-xl font-semibold">
           Daily not yet available
         </div>
@@ -89,7 +89,7 @@ export function DailyCard({ daily }: DailyCardProps) {
       <ConditionDescription objective={daily}>
         <div
           className={twMerge(
-            "card bborder bg-card shadow-xl",
+            "card bborder bg-card shadow-xl overflow-hidden select-none *:cursor-default",
             isRace && isAvailable ? "outline-4 outline-info" : "",
           )}
           key={daily.id}
@@ -118,9 +118,11 @@ export function DailyCard({ daily }: DailyCardProps) {
             <div
               className={daily.extra ? "tooltip" : undefined}
             >
-              <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
-                {daily.extra}
-              </div>
+              {daily.extra && (
+                <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
+                  {daily.extra}
+                </div>
+              )}
 
               <h3 className="mx-4 grow text-center text-lg font-medium">
                 {isRace ? (

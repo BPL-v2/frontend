@@ -14,7 +14,7 @@ function SubmissionTab({ category }: SubmissionTabProps) {
     return <></>;
   }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 caret-transparent">
       <TeamScoreDisplay objective={category}></TeamScoreDisplay>
       <h1 className="text-xl">
         Click to see all{" "}
