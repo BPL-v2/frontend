@@ -104,7 +104,10 @@ export const UniqueCategoryCard = ({
             selected ? "border-0" : "",
           )}
         >
-          <div className="shrink-0">
+          <div className="flex shrink-0 items-center gap-2 pl-2">
+            <div className="hidden sm:block">
+              <CategoryIcon name={objective.name} />
+            </div>
             <Medal rank={objective.team_score[teamId].rank()} size={28} />
           </div>
           <div>
@@ -120,45 +123,40 @@ export const UniqueCategoryCard = ({
           </div>
         </div>
         <div className="flex h-full min-h-2 flex-col justify-between px-4">
-          <div className="flex h-full flex-row items-center justify-between p-0 py-2">
-            <div className="flex w-full flex-col">
+          <div className="flex h-full flex-col items-center justify-center gap-1 py-2">
+            <div
+              className={twMerge(
+                "text-4xl font-extrabold",
+                numItems === totalItems ? "text-success" : "text-warning",
+                !finishable && "text-base-content",
+              )}
+            >
+              {finishable ? `${numItems} / ${totalItems}` : numItems}
+            </div>
+            {!!totalVariants && (
               <div
                 className={twMerge(
-                  "text-4xl font-extrabold",
-                  numItems === totalItems ? "text-success" : "text-error",
-                  !finishable && "text-base-content",
+                  "text-lg",
+                  numVariants === totalVariants
+                    ? "text-success"
+                    : "text-base-content/70",
                 )}
               >
-                {finishable ? `${numItems} / ${totalItems}` : numItems}
+                {`Variants: ${numVariants} / ${totalVariants}`}
               </div>
-              {!!totalVariants && (
-                <div
-                  className={twMerge(
-                    "text-lg font-bold",
-                    numVariants === totalVariants
-                      ? "text-success"
-                      : "text-error",
-                  )}
-                >
-                  {`Variants: ${numVariants} / ${totalVariants}`}
-                </div>
-              )}
-              {multiUnique && (
-                <div
-                  className={twMerge(
-                    "text-lg font-bold",
-                    multiUniqueCurrentNum >= multiUniqueCap
-                      ? "text-success"
-                      : "text-error",
-                  )}
-                >
-                  {`Repeatable: ${multiUniqueCurrentNum} / ${multiUniqueCap}`}
-                </div>
-              )}
-            </div>
-            <div className="hidden self-center sm:block">
-              <CategoryIcon name={objective.name} />
-            </div>
+            )}
+            {multiUnique && (
+              <div
+                className={twMerge(
+                  "text-lg",
+                  multiUniqueCurrentNum >= multiUniqueCap
+                    ? "text-success"
+                    : "text-base-content/70",
+                )}
+              >
+                {`Repeatable: ${multiUniqueCurrentNum} / ${multiUniqueCap}`}
+              </div>
+            )}
           </div>
           {finishable && (
             <progress
