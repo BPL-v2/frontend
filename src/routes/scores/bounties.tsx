@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import SubmissionTab from "@components/submission-tab";
 import { BountyTabRules } from "@rules/bounties";
-import { JSX } from "react";
+import { JSX, useContext } from "react";
+import { GlobalStateContext } from "@utils/context-provider";
 
 export const Route = createFileRoute("/scores/bounties")({
   component: BountiesPage,
@@ -9,6 +10,13 @@ export const Route = createFileRoute("/scores/bounties")({
 
 function BountiesPage(): JSX.Element {
   const { rules } = Route.useSearch();
+  const { scores } = useContext(GlobalStateContext);
+  const category = scores?.children.find(
+    (category) => category.name === "Bounties",
+  );
+  if (!category) {
+    return <></>;
+  }
   return (
     <>
       {rules ? (
@@ -18,7 +26,7 @@ function BountiesPage(): JSX.Element {
           </article>
         </div>
       ) : null}
-      <SubmissionTab categoryName="Bounties" />
+      <SubmissionTab category={category} />
     </>
   );
 }

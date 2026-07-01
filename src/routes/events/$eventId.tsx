@@ -138,7 +138,6 @@ function EventPage(): JSX.Element {
     [event],
   );
 
-
   const getTeam = useMemo(() => {
     const userToTeam =
       users.reduce(

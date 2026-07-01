@@ -115,222 +115,233 @@ export function ScoringCategoryPage(): JSX.Element {
   const event = events?.find((event) => event.id === eventId);
   const path = getPath(rules, objectiveId);
 
-  const objectiveColumns = useMemo<ColumnDef<Objective>[]>(() => [
-    {
-      header: "",
-      accessorKey: "id",
-      cell: ({ row }) => {
-        return (
-          <ObjectiveIcon
-            objective={row.original}
-            gameVersion={event?.game_version ?? GameVersion.poe1}
-          />
-        );
+  const objectiveColumns = useMemo<ColumnDef<Objective>[]>(
+    () => [
+      {
+        header: "",
+        accessorKey: "id",
+        cell: ({ row }) => {
+          return (
+            <ObjectiveIcon
+              objective={row.original}
+              gameVersion={event?.game_version ?? GameVersion.poe1}
+            />
+          );
+        },
+        size: 80,
       },
-      size: 80,
-    },
-    {
-      header: "Valid",
-      cell: ({ row }) => {
-        if (row.original.children.length > 0) {
-          return areAllChildrenValidated(row.original, validationMap) ? (
-            <span className="text-success">✓</span>
+      {
+        header: "Valid",
+        cell: ({ row }) => {
+          if (row.original.children.length > 0) {
+            return areAllChildrenValidated(row.original, validationMap) ? (
+              <span className="text-success">✓</span>
+            ) : (
+              <span className="text-error">✗</span>
+            );
+          }
+          if (row.original.objective_type !== ObjectiveType.ITEM) {
+            return <span className="text-success">✓</span>;
+          }
+
+          const validation = validationMap[row.original.id];
+          return validation ? (
+            <ClipboardDocumentListIcon
+              className="size-6 cursor-pointer text-success transition-transform duration-100 select-none hover:text-primary active:scale-110 active:text-secondary"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  JSON.stringify(validation.item, null, 2),
+                )
+              }
+            />
           ) : (
             <span className="text-error">✗</span>
           );
-        }
-        if (row.original.objective_type !== ObjectiveType.ITEM) {
-          return <span className="text-success">✓</span>;
-        }
-
-        const validation = validationMap[row.original.id];
-        return validation ? (
-          <ClipboardDocumentListIcon
-            className="size-6 cursor-pointer text-success transition-transform duration-100 select-none hover:text-primary active:scale-110 active:text-secondary"
-            onClick={() =>
-              navigator.clipboard.writeText(
-                JSON.stringify(validation.item, null, 2),
-              )
-            }
-          />
-        ) : (
-          <span className="text-error">✗</span>
-        );
+        },
+        size: 60,
       },
-      size: 60,
-    },
-    {
-      header: "Name",
-      accessorKey: "name",
-      size: 200,
-    },
-    {
-      header: "Extra",
-      accessorKey: "extra",
-      size: 190,
-    },
-    {
-      header: "Num",
-      accessorKey: "required_number",
-      size: 50,
-    },
-    {
-      header: "Type",
-      accessorKey: "objective_type",
-      size: 100,
-    },
-    {
-      header: "Counting Method",
-      accessorKey: "counting_method",
-      size: 180,
-    },
-    {
-      header: "Scoring Rule",
-      cell: ({ row }) => {
-        return scoringRules
-          .filter((rule) =>
-            row.original.scoring_rules.map((r) => r.id).includes(rule.id),
-          )
-          .map((rule) => rule.name)
-          .join(", ");
+      {
+        header: "Name",
+        accessorKey: "name",
+        size: 200,
       },
-    },
-    {
-      header: "Conditions",
-      accessorKey: "conditions",
-      size: 150,
-      cell: ({ row }) => {
-        return (
-          <div className="flex flex-col gap-1">
-            {row.original.conditions.map((condition) => {
-              return (
-                <div
-                  className="tooltip"
-                  key={
-                    "condition-" +
-                    condition.field +
-                    "-" +
-                    condition.operator +
-                    "-" +
-                    condition.value
-                  }
-                >
-                  <span className="tooltip-content flex flex-row items-center gap-1">
-                    <span className="text-success">{condition.field}</span>
-                    <span className="text-info">{condition.operator}</span>
-                    <span className="text-error">{condition.value}</span>
-                  </span>
-                  <div className="badge pr-px badge-sm whitespace-nowrap badge-primary select-none">
-                    {condition.field}
-                    <XCircleIcon
-                      className="size-4 cursor-pointer"
-                      onClick={() =>
-                        createObjective({
-                          ...row.original,
-                          scoring_rule_ids: row.original.scoring_rules.map(
-                            (rule) => rule.id,
-                          ),
-                          conditions: row.original.conditions.filter(
-                            (c) => c !== condition,
-                          ),
-                        })
-                      }
-                    />
+      {
+        header: "Extra",
+        accessorKey: "extra",
+        size: 190,
+      },
+      {
+        header: "Num",
+        accessorKey: "required_number",
+        size: 50,
+      },
+      {
+        header: "Type",
+        accessorKey: "objective_type",
+        size: 100,
+      },
+      {
+        header: "Counting Method",
+        accessorKey: "counting_method",
+        size: 180,
+      },
+      {
+        header: "Scoring Rule",
+        cell: ({ row }) => {
+          return scoringRules
+            .filter((rule) =>
+              row.original.scoring_rules.map((r) => r.id).includes(rule.id),
+            )
+            .map((rule) => rule.name)
+            .join(", ");
+        },
+      },
+      {
+        header: "Conditions",
+        accessorKey: "conditions",
+        size: 150,
+        cell: ({ row }) => {
+          return (
+            <div className="flex flex-col gap-1">
+              {row.original.conditions.map((condition) => {
+                return (
+                  <div
+                    className="tooltip"
+                    key={
+                      "condition-" +
+                      condition.field +
+                      "-" +
+                      condition.operator +
+                      "-" +
+                      condition.value
+                    }
+                  >
+                    <span className="tooltip-content flex flex-row items-center gap-1">
+                      <span className="text-success">{condition.field}</span>
+                      <span className="text-info">{condition.operator}</span>
+                      <span className="text-error">{condition.value}</span>
+                    </span>
+                    <div className="badge pr-px badge-sm whitespace-nowrap badge-primary select-none">
+                      {condition.field}
+                      <XCircleIcon
+                        className="size-4 cursor-pointer"
+                        onClick={() =>
+                          createObjective({
+                            ...row.original,
+                            scoring_rule_ids: row.original.scoring_rules.map(
+                              (rule) => rule.id,
+                            ),
+                            conditions: row.original.conditions.filter(
+                              (c) => c !== condition,
+                            ),
+                          })
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        );
+                );
+              })}
+            </div>
+          );
+        },
       },
-    },
-    {
-      header: "Actions",
-      cell: ({ row }) => {
-        return (
-          <div className="flex flex-row gap-2">
-            <div
-              className="tooltip tooltip-bottom tooltip-warning"
-              data-tip="Edit"
-            >
-              <button
-                className="btn btn-xs btn-warning"
-                onClick={() => {
-                  setObjectiveToEdit(row.original);
-                  setIsObjectiveModalOpen(true);
-                }}
+      {
+        header: "Actions",
+        cell: ({ row }) => {
+          return (
+            <div className="flex flex-row gap-2">
+              <div
+                className="tooltip tooltip-bottom tooltip-warning"
+                data-tip="Edit"
               >
-                <PencilSquareIcon className="size-4" />
-              </button>
-            </div>
-            <div
-              className="tooltip tooltip-bottom tooltip-warning"
-              data-tip="Release Dates"
-            >
-              <button
-                className="btn btn-xs btn-warning"
-                onClick={() => {
-                  setReleaseDatesObjective(row.original);
-                  setIsReleaseDatesModalOpen(true);
-                }}
+                <button
+                  className="btn btn-xs btn-warning"
+                  onClick={() => {
+                    setObjectiveToEdit(row.original);
+                    setIsObjectiveModalOpen(true);
+                  }}
+                >
+                  <PencilSquareIcon className="size-4" />
+                </button>
+              </div>
+              <div
+                className="tooltip tooltip-bottom tooltip-warning"
+                data-tip="Release Dates"
               >
-                <ClockIcon className="size-4" />
-              </button>
-            </div>
-            <div
-              className="tooltip tooltip-bottom tooltip-error"
-              data-tip="Delete"
-            >
-              <button
-                className="btn btn-xs btn-error"
-                onClick={() => deleteObjective(row.original.id)}
+                <button
+                  className="btn btn-xs btn-warning"
+                  onClick={() => {
+                    setReleaseDatesObjective(row.original);
+                    setIsReleaseDatesModalOpen(true);
+                  }}
+                >
+                  <ClockIcon className="size-4" />
+                </button>
+              </div>
+              <div
+                className="tooltip tooltip-bottom tooltip-error"
+                data-tip="Delete"
               >
-                <TrashIcon className="size-4" />
-              </button>
-            </div>
-            <div
-              className="tooltip tooltip-bottom tooltip-info"
-              data-tip="Duplicate"
-            >
-              <button
-                className="btn btn-xs btn-info"
-                onClick={() => duplicateObjective(row.original)}
+                <button
+                  className="btn btn-xs btn-error"
+                  onClick={() => deleteObjective(row.original.id)}
+                >
+                  <TrashIcon className="size-4" />
+                </button>
+              </div>
+              <div
+                className="tooltip tooltip-bottom tooltip-info"
+                data-tip="Duplicate"
               >
-                <DocumentDuplicateIcon className="size-4" />
-              </button>
-            </div>
-            <div
-              className="tooltip tooltip-bottom tooltip-success"
-              data-tip="Add Condition"
-            >
-              <button
-                className="btn btn-xs btn-success"
-                onClick={() => {
-                  setConditionObjective(row.original);
-                  setIsConditionModalOpen(true);
-                }}
+                <button
+                  className="btn btn-xs btn-info"
+                  onClick={() => duplicateObjective(row.original)}
+                >
+                  <DocumentDuplicateIcon className="size-4" />
+                </button>
+              </div>
+              <div
+                className="tooltip tooltip-bottom tooltip-success"
+                data-tip="Add Condition"
               >
-                <PlusIcon className="size-4" />
-              </button>
-            </div>
+                <button
+                  className="btn btn-xs btn-success"
+                  onClick={() => {
+                    setConditionObjective(row.original);
+                    setIsConditionModalOpen(true);
+                  }}
+                >
+                  <PlusIcon className="size-4" />
+                </button>
+              </div>
 
-            <div
-              className="tooltip tooltip-bottom tooltip-secondary"
-              data-tip="Open as Category"
-            >
-              <Link
-                to={"/admin/events/$eventId/objectives/$objectiveId"}
-                params={{ eventId: eventId!, objectiveId: row.original.id }}
-                className="btn btn-xs btn-secondary"
+              <div
+                className="tooltip tooltip-bottom tooltip-secondary"
+                data-tip="Open as Category"
               >
-                <FolderOpenIcon className="size-4" />
-              </Link>
+                <Link
+                  to={"/admin/events/$eventId/objectives/$objectiveId"}
+                  params={{ eventId: eventId!, objectiveId: row.original.id }}
+                  className="btn btn-xs btn-secondary"
+                >
+                  <FolderOpenIcon className="size-4" />
+                </Link>
+              </div>
             </div>
-          </div>
-        );
+          );
+        },
       },
-    },
-  ], [event?.game_version, validationMap, scoringRules, createObjective, deleteObjective, duplicateObjective, eventId]);
+    ],
+    [
+      event?.game_version,
+      validationMap,
+      scoringRules,
+      createObjective,
+      deleteObjective,
+      duplicateObjective,
+      eventId,
+    ],
+  );
 
   const table = useMemo(() => {
     return (

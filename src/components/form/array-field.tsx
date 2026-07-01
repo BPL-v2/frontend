@@ -37,7 +37,7 @@ export function ArrayField({
       <span className="label px-2">{label}</span>
       <select
         multiple
-        className={twMerge("select w-full grid", className)}
+        className={twMerge("select grid w-full", className)}
         value={field.state.value}
         onChange={(e) => {
           const selectedOptions = Array.from(e.target.selectedOptions).map(

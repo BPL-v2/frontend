@@ -202,9 +202,7 @@ export function POPointRules() {
             During the event there will be {checkPoints.length} checkpoints,
             awarding the team that has made the most progress in the specified
             time period with extra points.{" "}
-            {convertArrayToText(
-              checkPoints[0].scoring_rules[0]?.points || [],
-            )}
+            {convertArrayToText(checkPoints[0].scoring_rules[0]?.points || [])}
           </p>
         </>
       )}

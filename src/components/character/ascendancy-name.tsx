@@ -7,7 +7,11 @@ interface AscendancyProps extends React.HTMLAttributes<HTMLDivElement> {
   game_version: GameVersion;
 }
 
-export function AscendancyName({ character_class, game_version, ...props }: AscendancyProps) {
+export function AscendancyName({
+  character_class,
+  game_version,
+  ...props
+}: AscendancyProps) {
   const version = game_version;
   const class_name =
     phreciaMapping[character_class] ||
@@ -26,9 +30,7 @@ export function AscendancyName({ character_class, game_version, ...props }: Asce
         props.className,
       )}
     >
-      {version === GameVersion.poe1
-        ? character_class
-        : class_name}
+      {version === GameVersion.poe1 ? character_class : class_name}
     </span>
   );
 }

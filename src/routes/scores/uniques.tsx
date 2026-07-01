@@ -145,14 +145,17 @@ function UniqueTab(): JSX.Element {
     (category) => category.name === "Uniques",
   );
   const hasStandard = useMemo(
-    () => uniqueCategory?.children.some((category) => !isTimed(category)) ?? false,
+    () =>
+      uniqueCategory?.children.some((category) => !isTimed(category)) ?? false,
     [uniqueCategory],
   );
   const hasTimed = useMemo(
-    () => uniqueCategory?.children.some((category) => isTimed(category)) ?? false,
+    () =>
+      uniqueCategory?.children.some((category) => isTimed(category)) ?? false,
     [uniqueCategory],
   );
-  const effectiveType = type ?? (!hasStandard && hasTimed ? "timed" : "standard");
+  const effectiveType =
+    type ?? (!hasStandard && hasTimed ? "timed" : "standard");
   const handleCategoryClick = (objective: ScoreObjective) => {
     if (objective.id === selectedCategory?.id) {
       setSelectedCategory(undefined);

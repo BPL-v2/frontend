@@ -14,7 +14,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useMemo } from "react";
-import { ActivityDot, LadderPortrait } from "@components/character/ladder-portrait";
+import {
+  ActivityDot,
+  LadderPortrait,
+} from "@components/character/ladder-portrait";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { getSkillColor } from "@utils/gems";
 import { progressiveDelveDepth } from "@utils/personal-points";
@@ -156,7 +159,10 @@ function DelveTab(): JSX.Element {
                   game_version={currentEvent.game_version}
                   className="size-10 rounded-full object-cover"
                 />
-                <ActivityDot last_active={info.row.original.last_active} className="absolute right-0 top-0 size-2.5" />
+                <ActivityDot
+                  last_active={info.row.original.last_active}
+                  className="absolute top-0 right-0 size-2.5"
+                />
               </div>
               <div className="flex flex-col">
                 <span className={getSkillColor(info.row.original.main_skill)}>

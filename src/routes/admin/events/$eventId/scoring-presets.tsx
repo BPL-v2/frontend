@@ -146,15 +146,15 @@ function ScoringRulesPage() {
         eventId={eventId}
         existingRule={ruleToEdit}
       />
-        <button
-          className="btn self-center btn-primary"
-          onClick={() => {
-            setRuleToEdit(null);
-            setIsDialogOpen(true);
-          }}
-        >
-          Create Scoring Rule
-        </button>
+      <button
+        className="btn self-center btn-primary"
+        onClick={() => {
+          setRuleToEdit(null);
+          setIsDialogOpen(true);
+        }}
+      >
+        Create Scoring Rule
+      </button>
       <VirtualizedTable
         columns={presetColumns}
         data={scoringRules}

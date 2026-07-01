@@ -72,9 +72,7 @@ export function mergeScores(
       mergeScores(subObjective, scores, teamsIds),
     ),
     scoring_rules:
-      objective.scoring_rules.length > 0
-        ? objective.scoring_rules
-        : nullRule,
+      objective.scoring_rules.length > 0 ? objective.scoring_rules : nullRule,
     team_score: teamsIds.reduce((acc: TeamScores, teamId) => {
       if (scores[teamId] && scores[teamId][objective.id]) {
         acc[teamId] = new ScoreClass(scores[teamId][objective.id]);

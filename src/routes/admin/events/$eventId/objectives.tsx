@@ -33,7 +33,8 @@ function RouteComponent() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
-  const isObjectiveIndexPage = pathname === `/admin/events/${eventId}/objectives`;
+  const isObjectiveIndexPage =
+    pathname === `/admin/events/${eventId}/objectives`;
 
   useEffect(() => {
     if (!isObjectiveIndexPage || !rules?.id) {

@@ -38,7 +38,8 @@ export function DailyTabRules() {
   const basePoints =
     dailyCategory?.children?.find(
       (objective) =>
-        objective.scoring_rules[0]?.scoring_rule === ScoringRuleType.FIXED_POINTS_ON_COMPLETION,
+        objective.scoring_rules[0]?.scoring_rule ===
+        ScoringRuleType.FIXED_POINTS_ON_COMPLETION,
     )?.scoring_rules[0]?.points || [];
 
   const racePoints =

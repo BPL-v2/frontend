@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import SubmissionTab from "@components/submission-tab";
-import { JSX } from "react";
+import { JSX, useContext } from "react";
 import { AscendancyChallengeTabRules } from "../../rules-alt/ascendancy-challenges";
+import { GlobalStateContext } from "@utils/context-provider";
 
 export const Route = createFileRoute("/scores/ascendancy-challenges")({
   component: AscendancyChallengePage,
@@ -9,6 +10,13 @@ export const Route = createFileRoute("/scores/ascendancy-challenges")({
 
 function AscendancyChallengePage(): JSX.Element {
   const { rules } = Route.useSearch();
+  const { scores } = useContext(GlobalStateContext);
+  const category = scores?.children.find(
+    (category) => category.name === "Ascendancy Challenges",
+  );
+  if (!category) {
+    return <></>;
+  }
   return (
     <>
       {rules ? (
@@ -18,7 +26,7 @@ function AscendancyChallengePage(): JSX.Element {
           </article>
         </div>
       ) : null}
-      <SubmissionTab categoryName="Ascendancy Challenges" />
+      <SubmissionTab category={category} />
     </>
   );
 }

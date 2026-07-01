@@ -28,7 +28,8 @@ function HeistTab(): JSX.Element {
 
   const heistItemRaces = heistCategory.children.filter(
     (category) =>
-      category.scoring_rules[0]?.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME,
+      category.scoring_rules[0]?.scoring_rule ===
+      ScoringRuleType.RANK_BY_COMPLETION_TIME,
   );
 
   const heistMultiItemRaces = heistCategory.children.filter(

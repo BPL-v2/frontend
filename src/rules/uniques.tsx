@@ -57,7 +57,8 @@ export function UniqueTabRules() {
 
   const ubersCategory = uniqueCategory.children.find((c) =>
     c.scoring_rules.some(
-      (rule) => rule.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION,
+      (rule) =>
+        rule.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION,
     ),
   );
 

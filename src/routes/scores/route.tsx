@@ -38,6 +38,8 @@ type scoringTabKey =
   | "delve"
   | "bingo";
 
+const blackListedRoutes = ["Personal Objectives"];
+
 type ScoreQueryParams = {
   rules: boolean;
 };
@@ -190,6 +192,17 @@ function ScoringPage() {
       (tab) =>
         tab.visible && categories?.children.find((c) => c.name === tab.name),
     ),
+    ...(categories?.children
+      .filter(
+        (c) =>
+          !scoringTabs.find((tab) => tab.name === c.name) &&
+          !blackListedRoutes.includes(c.name),
+      )
+      .map((c) => ({
+        name: c.name,
+        key: c.name.toLowerCase().replace(/\s/g, "-") as scoringTabKey,
+        visible: true,
+      })) || []),
   ];
   // return <h1> Work in progress</h1>;
   return (
@@ -201,7 +214,7 @@ function ScoringPage() {
               <Link
                 to={`/scores/${tab.key}`}
                 search={{ rules: rules }}
-                className={"btn text-base btn-xs md:btn-sm"}
+                className={"btn text-base btn-xs"}
                 activeProps={{
                   className: "btn-primary",
                 }}

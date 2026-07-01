@@ -1,7 +1,8 @@
 import SubmissionTab from "@components/submission-tab";
 import { RaceTabRules } from "@rules/races";
 import { createFileRoute } from "@tanstack/react-router";
-import { JSX } from "react";
+import { GlobalStateContext } from "@utils/context-provider";
+import { JSX, useContext } from "react";
 
 export const Route = createFileRoute("/scores/races")({
   component: RacePage,
@@ -9,6 +10,13 @@ export const Route = createFileRoute("/scores/races")({
 
 function RacePage(): JSX.Element {
   const { rules } = Route.useSearch();
+  const { scores } = useContext(GlobalStateContext);
+  const category = scores?.children.find(
+    (category) => category.name === "Races",
+  );
+  if (!category) {
+    return <></>;
+  }
   return (
     <>
       {rules ? (
@@ -18,7 +26,7 @@ function RacePage(): JSX.Element {
           </article>
         </div>
       ) : null}
-      <SubmissionTab categoryName="Races" />{" "}
+      <SubmissionTab category={category} />{" "}
     </>
   );
 }

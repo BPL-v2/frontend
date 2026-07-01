@@ -120,7 +120,8 @@ export function ScoringRuleFormModal({
                   <field.TextField
                     label="Number"
                     hidden={
-                      scoring_rule !== ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
+                      scoring_rule !==
+                      ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
                     }
                   />
                 )}
@@ -131,7 +132,8 @@ export function ScoringRuleFormModal({
                   <field.TextField
                     label="Percentage"
                     hidden={
-                      scoring_rule !== ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
+                      scoring_rule !==
+                      ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME
                     }
                   />
                 )}

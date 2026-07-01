@@ -1,19 +1,15 @@
 import { ObjectiveType } from "@api";
 import { Link } from "@tanstack/react-router";
-import { GlobalStateContext } from "@utils/context-provider";
-import { useContext } from "react";
 import { SubmissionCard } from "./cards/submission-card";
 import TeamScoreDisplay from "./team/team-score";
 import { CollectionCard } from "./cards/collection-card";
+import { ScoreObjective } from "@mytypes/score";
 
 export type SubmissionTabProps = {
-  categoryName: string;
+  category?: ScoreObjective;
 };
 
-function SubmissionTab({ categoryName }: SubmissionTabProps) {
-  const { scores } = useContext(GlobalStateContext);
-  const category = scores?.children.find((cat) => cat.name === categoryName);
-
+function SubmissionTab({ category }: SubmissionTabProps) {
   if (!category) {
     return <></>;
   }
