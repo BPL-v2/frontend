@@ -68,7 +68,7 @@ const TeamScoreDisplay = ({
                   setSelectedTeam ? setSelectedTeam(team.id) : null
                 }
               >
-                <div className="flex w-full justify-between p-1 md:p-4">
+                <div className="flex w-full justify-around p-1 md:p-4 items-center">
                   <div className="flex flex-col gap-2">
                     <TeamName
                       team={team}
@@ -76,11 +76,15 @@ const TeamScoreDisplay = ({
                     />
                     <div className="text-xl whitespace-nowrap md:text-2xl">
                       <span className="hidden md:inline">
-                        {renderScore(
-                          teamScores[team.id],
-                          potentialScores[team.id],
-                          currentEvent?.uses_medals,
-                        )}
+                        {currentEvent?.uses_medals
+                          ? renderScore(teamScores[team.id], potentialScores[team.id], true)
+                          : potentialScores[team.id] !== undefined && potentialScores[team.id] !== Infinity
+                            ? <>
+                                <span className="font-bold">{teamScores[team.id]}</span>
+                                <span className="text-base-content/50"> · {potentialScores[team.id]}</span>
+                              </>
+                            : teamScores[team.id]
+                        }
                       </span>
                     </div>
                   </div>
