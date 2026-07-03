@@ -100,29 +100,29 @@ export const UniqueCategoryCard = ({
       >
         <div
           className={twMerge(
-            "m-0 card-title flex items-center justify-center rounded-t-box bborder-b bg-base-300/50 p-2 sm:justify-between",
+            "m-0 card-title flex items-center justify-center rounded-t-box bborder-b bg-base-300/50 p-2",
             selected ? "border-0" : "",
           )}
         >
-          <div className="flex shrink-0 items-center gap-2 pl-2">
+          <div className="flex shrink-0 items-center gap-2 pr-2">
             <div className="hidden sm:block">
               <CategoryIcon name={objective.name} />
             </div>
             <Medal rank={objective.team_score[teamId].rank()} size={28} />
           </div>
-          <div>
+          <div className="text-center">
             <h1 className="font-extrabold">{objective.name}</h1>
             <h1 className="font-bold text-info">{objective.extra}</h1>
           </div>
-          <div className="hidden shrink-0 text-sm sm:block">
+        </div>
+        <div className="relative flex h-full min-h-2 flex-col justify-between px-4">
+          <div className="absolute right-2 top-2 text-xs text-base-content/50">
             {renderScore(
               getTotalPoints(objective)[teamId],
               getPotentialPoints(objective)[teamId],
               currentEvent?.uses_medals,
             )}
           </div>
-        </div>
-        <div className="flex h-full min-h-2 flex-col justify-between px-4">
           <div className="flex h-full flex-col items-center justify-center gap-1 py-2">
             <div
               className={twMerge(
