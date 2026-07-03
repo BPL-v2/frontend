@@ -5,7 +5,7 @@ import { AscendancyName } from "./ascendancy-name";
 import { AscendancyPortrait } from "./ascendancy-portrait";
 import { ExperienceBar } from "./experience-bar";
 
-export const ACTIVE_THRESHOLD_SECONDS = 10 * 60;
+export const ACTIVE_THRESHOLD_SECONDS = 20 * 60;
 
 export function ActivityDot({
   last_active,

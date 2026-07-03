@@ -58,21 +58,21 @@ export function customPoPoints(char: LadderEntry) {
 type POPolicies = Partial<Record<keyof LadderEntry, (number | null)[]>>;
 
 const policies: POPolicies = {
-  armour: [30000, 60000, 90000],
-  evasion: [30000, 60000, 90000],
+  armour: [15_000, 30_000, 100_000],
+  evasion: [15_000, 30_000, 100_000],
   level: [null, 95, 98],
   voidstones: [null, null, 4],
   high_level_flasks: [5, null, null],
   movement_speed: [150, 250, 350],
-  es: [9000, 12000, 15000],
-  hp: [5500, 6250, 7000],
-  mana: [8000, 12000, 15000],
-  dps: [5000000, 10000000, 32000000],
-  ehp: [50000, 150000, 400000],
-  attack_block: [75, 80, 83],
-  lowest_ele_res: [84, 90, null],
-  ele_max_hit: [40000, 80000, 120000],
-  phys_max_hit: [12000, 16000, 20000],
+  es: [4_000, 8_000, 15_000],
+  hp: [4_000, 5_000, 7_000],
+  mana: [8_000, 12_000, 15_000],
+  dps: [2_000_000, 5_000_000, 50_000_000],
+  ehp: [50_000, 150_000, 400_000],
+  attack_block: [60, 70 ,80],
+  lowest_ele_res: [80, 85, 90],
+  ele_max_hit: [40_000, 80_000, 120_000],
+  phys_max_hit: [12_000, 16_000, 20_000],
 };
 
 export const maxCustomPoPoints = 8;
