@@ -961,10 +961,14 @@ export function useDeletePoB(qc: QueryClient) {
   };
 }
 
-export function useUpdateCharacter(qc: QueryClient, eventId: number) {
+export function useUpdateCharacter(
+  qc: QueryClient,
+  eventId: number,
+  userId: number,
+) {
   const m = useMutation({
     mutationFn: (characterId: string) =>
-      updateCharacterBase(eventId, characterId).then(async () => {
+      updateCharacterBase(userId, characterId).then(async () => {
         // hopefully this is enough time for the PoB calculation and ladder update
         await new Promise((resolve) => setTimeout(resolve, 10000));
       }),
