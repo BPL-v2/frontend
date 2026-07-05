@@ -1,10 +1,10 @@
-import { LadderEntry, Team } from "@api";
+import { LadderEntry, Team, TrackedValue } from "@api";
 import { preloadLadderData, useGetLadder, useGetUsers } from "@api";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
-// import { CollectionCardTable } from "@components/cards/collection-card-table";
+import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ExperienceBar } from "@components/character/experience-bar";
-// import { ObjectiveIcon } from "@components/objective-icon";
+import { ObjectiveIcon } from "@components/objective-icon";
 import { Ranking } from "@components/ranking";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
@@ -267,7 +267,7 @@ function DelveTab(): JSX.Element {
               }
               maximum={fossilRaceCategory.required_number}
             />
-            {/* <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {fossilRaceCategory.children.map((objective) => {
                 return (
                   <div className="card bg-base-300" key={objective.id}>
@@ -279,7 +279,7 @@ function DelveTab(): JSX.Element {
                       />
 
                       <h3 className="mx-4 grow text-center text-xl font-semibold">
-                        {objective.name}
+                        {objective.name} {objective.tracked_value === TrackedValue.FOSSIL_FUEL_HIGH ? "x10" : objective.tracked_value === TrackedValue.FOSSIL_FUEL_MID ? "x2" : "x1"}
                       </h3>
                     </div>
                     <div className="rounded-b-box">
@@ -288,7 +288,7 @@ function DelveTab(): JSX.Element {
                   </div>
                 );
               })}
-            </div> */}
+            </div>
           </div>
         ) : null}
 

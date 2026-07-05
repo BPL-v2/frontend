@@ -13,6 +13,7 @@ export default function PoPoints(): React.JSX.Element {
   const { updateCharacter, updateCharacterPending } = useUpdateCharacter(
     useQueryClient(),
     currentEvent.id,
+    user?.id ?? 0,
   );
   const char = ladder
     ?.sort((a, b) => b.level - a.level)
