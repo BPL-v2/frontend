@@ -979,7 +979,7 @@ export function useUpdateCharacter(
     },
   });
   return {
-    updateCharacter: (characterId: string) => m.mutate(characterId),
+    updateCharacter: m.mutate,
     updateCharacterPending: m.isPending,
   };
 }

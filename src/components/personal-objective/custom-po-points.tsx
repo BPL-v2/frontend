@@ -24,6 +24,10 @@ const policyKeys: Partial<Record<keyof LadderEntry, string>> = {
   phys_max_hit: "Phys Max Hit",
 };
 
+const explainers: Partial<Record<keyof LadderEntry, string>> = {
+  voidstones: "Voidstones need to be in your inventory while we do a character scan. Put them in your inventory and click the 'Update Character' button to earn points.",
+}
+
 export default function CustomPoPoints({
   char,
 }: {
@@ -51,7 +55,7 @@ export default function CustomPoPoints({
       <div className="grid grid-cols-5 gap-2">
         {entries.map(
           ({ key, thresholds, charValue, segments, earnedPoints }) => {
-            return (
+            const render = (
               <div
                 key={key}
                 className={twMerge(
@@ -95,6 +99,15 @@ export default function CustomPoPoints({
                 </div>
               </div>
             );
+            if (explainers[key]) {
+              return (
+                <div key={key} className="tooltip" >
+                  <div className="tooltip-content text-xl">{explainers[key]}</div>
+                  {render}
+                </div>
+              );
+            }
+            return render;
           },
         )}
       </div>
