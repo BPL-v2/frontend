@@ -139,7 +139,7 @@ function Table<T>({
           {rows.map((row) => (
             <tr
               className={twMerge(
-                "hover:bg-highlight",
+                "hover:bg-base-100",
                 rowClassName ? rowClassName(row) : "",
               )}
               style={rowStyle ? rowStyle(row) : undefined}
