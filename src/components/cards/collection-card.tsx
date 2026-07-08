@@ -76,7 +76,7 @@ export function CollectionCard({
       <div
         key={actualObjective.id}
         {...props}
-        className={twMerge("card bborder bg-card shadow-xl overflow-hidden", props.className)}
+        className={twMerge("card bborder bg-card shadow-xl", props.className)}
       >
         <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <ObjectiveIcon

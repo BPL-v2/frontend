@@ -213,7 +213,7 @@ function RouteComponent() {
       cell: ({ row }) => {
         if (row.original.objective.objective_type == ObjectiveType.ITEM) {
           return (
-            <div className="flex w-full justify-between">
+            <div className="flex w-full justify-center">
               {childIdToUniqueCategory[row.original.objective.id] && (
                 <CategoryIcon
                   name={childIdToUniqueCategory[row.original.objective.id].name}
@@ -248,6 +248,7 @@ function RouteComponent() {
       ),
       filterFn: "includesString",
       meta: {
+        align: "left",
         filterVariant: "enum",
         filterPlaceholder: "Team",
         options: currentEvent.teams.map((team) => team.name),
@@ -303,6 +304,9 @@ function RouteComponent() {
       accessorKey: "points",
       header: "Points",
       enableSorting: false,
+      meta: {
+        align: "center",
+      },
       cell: ({ row }) =>
         renderScore(row.original.points, undefined, currentEvent?.uses_medals),
     },
@@ -314,10 +318,16 @@ function RouteComponent() {
       ),
       size: 100,
       enableSorting: false,
+      meta: {
+        align: "center",
+      },
     },
     {
       accessorKey: "timestamp",
       header: "Timestamp",
+      meta: {
+        align: "center",
+      },
       cell: ({ row }) => {
         if (timeFormat === "relative") {
           return (
@@ -379,8 +389,8 @@ function RouteComponent() {
           .sort((a, b) => b.timestamp - a.timestamp)}
         className="h-[70vh]"
       ></VirtualizedTable>
-      <div className="mt-4 h-250 rounded-box bg-base-300 p-4">
-        <fieldset className="absolute ml-8 fieldset rounded-box bg-base-200 p-2 px-4">
+      <div className="mt-4 h-250 flex flex-col gap-2 rounded-box bg-base-300 p-4">
+        <fieldset className="fieldset rounded-box bg-base-200 p-2 px-4 self-start">
           <label className="label text-highlight-content">
             <input
               type="checkbox"
@@ -391,7 +401,7 @@ function RouteComponent() {
             <span className="label-text">Show Deviation from Average</span>
           </label>
         </fieldset>
-        <div ref={plotRef} className="h-full select-none">
+        <div ref={plotRef} className="flex-1 select-none">
           <UplotReact
             options={options}
             data={data}
