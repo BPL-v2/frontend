@@ -131,7 +131,7 @@ export const Route = createFileRoute("/scores/uniques")({
 
 function UniqueTab(): JSX.Element {
   const { rules, type } = Route.useSearch();
-  const { currentEvent, scores, preferences, setPreferences } =
+  const { currentEvent, scores, preferences, setPreferences, isMobile } =
     useContext(GlobalStateContext);
   const [selectedCategory, setSelectedCategory] = useState<ScoreObjective>();
   const [teamOverride, setTeamOverride] = useState<number>();
@@ -254,18 +254,18 @@ function UniqueTab(): JSX.Element {
       />
       <div className="mt-4 flex flex-col gap-4 caret-transparent">
         <div className="flex flex-col rounded-box border border-primary overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-base-200 px-4 py-3">
-            <div className="join">
+          <div className="flex flex-col gap-3 bg-base-200 px-4 py-3 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-4 md:gap-y-2">
+            <div className="join w-full md:w-auto">
               {[
-                ["standard", "Permanent Unique Collection"],
-                ["timed", "Temporary Unique Collection"],
-              ].map(([value, label]) => (
+                ["standard", "Permanent", "Permanent Unique Collection"],
+                ["timed", "Temporary", "Temporary Unique Collection"],
+              ].map(([value, shortLabel, fullLabel]) => (
                 <input
                   key={value}
                   type="radio"
                   name="tab"
-                  className="btn join-item border-2 btn-outline btn-md btn-primary"
-                  aria-label={label}
+                  className="btn join-item flex-1 border-2 btn-outline btn-md btn-primary md:flex-none"
+                  aria-label={isMobile ? shortLabel : fullLabel}
                   checked={
                     value === type || (type === undefined && value === "standard")
                   }
@@ -292,37 +292,41 @@ function UniqueTab(): JSX.Element {
                 />
               ))}
             </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <div className="flex flex-col gap-1">
-                <span className="text-xs opacity-60">Category</span>
-                <input type="search" className="input input-sm" placeholder="" onInput={(e) => setCategoryFilter(e.currentTarget.value)} />
+            <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
+              <div className="flex gap-2">
+                <div className="flex flex-1 flex-col gap-1">
+                  <span className="text-xs opacity-60">Category</span>
+                  <input type="search" className="input input-sm w-full" placeholder="" onInput={(e) => setCategoryFilter(e.currentTarget.value)} />
+                </div>
+                <div className="flex flex-1 flex-col gap-1">
+                  <span className="text-xs opacity-60">Item Search</span>
+                  <input
+                    type="search"
+                    className="input input-sm w-full"
+                    placeholder=""
+                    value={itemFilter}
+                    onPaste={(e) => {
+                      const paste = e.clipboardData.getData("text");
+                      if (paste.split("\n").length > 2) {
+                        setItemfilter(paste.split("\n")[2].trim());
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => setItemfilter(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs opacity-60">Item Search</span>
-                <input
-                  type="search"
-                  className="input input-sm"
-                  placeholder=""
-                  value={itemFilter}
-                  onPaste={(e) => {
-                    const paste = e.clipboardData.getData("text");
-                    if (paste.split("\n").length > 2) {
-                      setItemfilter(paste.split("\n")[2].trim());
-                      e.preventDefault();
-                    }
-                  }}
-                  onChange={(e) => setItemfilter(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-xs opacity-60">Show finished</span>
-                <input type="checkbox" checked={preferences.uniqueSets.showCompleted} className="toggle toggle-md toggle-primary"
-                  onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showCompleted: e.target.checked } })} />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-xs opacity-60">Show unwinnable</span>
-                <input type="checkbox" checked={preferences.uniqueSets.showFirstAvailable} className="toggle toggle-md toggle-primary"
-                  onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showFirstAvailable: e.target.checked } })} />
+              <div className="flex gap-6">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-xs opacity-60">Show finished</span>
+                  <input type="checkbox" checked={preferences.uniqueSets.showCompleted} className="toggle toggle-md toggle-primary"
+                    onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showCompleted: e.target.checked } })} />
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-xs opacity-60">Show unwinnable</span>
+                  <input type="checkbox" checked={preferences.uniqueSets.showFirstAvailable} className="toggle toggle-md toggle-primary"
+                    onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showFirstAvailable: e.target.checked } })} />
+                </div>
               </div>
             </div>
           </div>

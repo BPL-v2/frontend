@@ -123,10 +123,10 @@ export const UniqueCategoryCard = ({
               currentEvent?.uses_medals,
             )}
           </div>
-          <div className="flex h-full flex-col items-center justify-center gap-1 py-2">
+          <div className="flex h-full flex-col items-center justify-center gap-1 pt-5 pb-2">
             <div
               className={twMerge(
-                "text-4xl font-extrabold",
+                "text-xl font-extrabold whitespace-nowrap sm:text-4xl",
                 numItems === totalItems ? "text-success" : "text-warning",
                 !finishable && "text-base-content",
               )}

@@ -113,15 +113,15 @@ export function ItemTable({
 
     const img_location = getImageLocation(objective, gameVersion);
     if (!img_location) {
-      return <div className="size-20 sm:size-16"></div>;
+      return <div className="size-10 sm:size-16"></div>;
     }
     return (
       <div className="relative flex items-center justify-center">
-        <img src={img_location} className="max-size-20 sm:max-size-16" />
+        <img src={img_location} className="max-h-10 max-w-10 sm:max-h-16 sm:max-w-16" />
         <div
-          className="absolute right-0 left-0 text-center text-lg"
+          className="absolute right-0 left-0 text-center text-sm sm:text-lg"
           style={{
-            textShadow: "2px 2px 4px rgba(0, 0, 0)", // Text shadow for better readability
+            textShadow: "2px 2px 4px rgba(0, 0, 0)",
           }}
         >
           {objectNameRender(objective)}
@@ -131,7 +131,7 @@ export function ItemTable({
   };
 
   const badgeClass = (objective: ExtendedScoreObjective, teamID: number) => {
-    let className = "badge gap-2 w-full font-semibold py-3 ring-2";
+    let className = "badge gap-2 w-full font-semibold py-1 ring-2";
     if (objective.team_score[teamID].isFinished()) {
       className += " bg-success text-success-content";
     } else {
@@ -158,7 +158,7 @@ export function ItemTable({
         {
           accessorKey: "name",
           header: "Name",
-          size: 200,
+          size: 130,
           enableSorting: false,
           cell: (info) => (
             <div className="w-full">
@@ -171,9 +171,9 @@ export function ItemTable({
         },
         {
           header: "Completion",
-          size: windowWidth - 200,
+          size: windowWidth - 130,
           cell: (info) => (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-1.5">
               {teams.map((team) => (
                 <div
                   key={`badge-${objective.id}-${team.id}-${info.row.original.id}`}
