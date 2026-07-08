@@ -203,16 +203,16 @@ function Home() {
                   className="flex items-center justify-between rounded-box bg-base-200 px-6 py-4"
                 >
                   <div>
-                    <span className="text-xl font-semibold">{event.name}</span>
-                    <span className="ml-4 opacity-60">
+                    <div className="text-xl font-semibold">{event.name}</div>
+                    <div className="opacity-60 text-sm">
                       {new Date(event.event_start_time).toLocaleDateString()} –{" "}
                       {new Date(event.event_end_time).toLocaleDateString()}
-                    </span>
+                    </div>
                   </div>
                   <Link
                     to="/events/$eventId"
                     params={{ eventId: String(event.id) }}
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-sm btn-primary shrink-0 ml-4"
                   >
                     View Ladder
                   </Link>
