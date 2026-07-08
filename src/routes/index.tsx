@@ -91,25 +91,21 @@ function Home() {
                 points is the victor!
               </p>
               <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <button className="bg-discord btn h-16">
-                  <a
-                    href="https://discord.com/invite/3weG9JACgb"
-                    target="_blank"
-                    className="flex items-center justify-center gap-2 text-2xl text-white"
-                  >
-                    <DiscordFilled className="size-6" />
-                    Join the Discord
-                  </a>
-                </button>
-                <button className="btn h-16 bg-fuchsia-600">
-                  <a
-                    href="https://ko-fi.com/bpl_poe"
-                    target="_blank"
-                    className="flex items-center justify-center gap-2 text-2xl text-white"
-                  >
-                    <HeartIcon className="size-7" /> Support BPL
-                  </a>
-                </button>
+                <a
+                  href="https://discord.com/invite/3weG9JACgb"
+                  target="_blank"
+                  className="bg-discord btn h-16 items-center justify-center gap-2 text-2xl text-white hover:brightness-90 transition-all"
+                >
+                  <DiscordFilled className="size-6" />
+                  Join the Discord
+                </a>
+                <a
+                  href="https://ko-fi.com/bpl_poe"
+                  target="_blank"
+                  className="btn h-16 bg-fuchsia-600 items-center justify-center gap-2 text-2xl text-white hover:brightness-90 transition-all"
+                >
+                  <HeartIcon className="size-7" /> Support BPL
+                </a>
               </div>
             </div>
             {/* <div className="aspect-video w-full">

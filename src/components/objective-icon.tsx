@@ -18,7 +18,6 @@ export function ObjectiveIcon({
   const itemName = getItemName(objective);
   if (!img_location) {
     return;
-    // return <div className={twMerge("size-14", className)}> </div>;
   }
   let wikilink: string | undefined = undefined;
   if (itemName) {
