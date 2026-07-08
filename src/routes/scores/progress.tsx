@@ -27,7 +27,7 @@ type ScoreRow = {
 } & Completion;
 
 function RouteComponent() {
-  const { currentEvent, scores } = useContext(GlobalStateContext);
+  const { currentEvent, scores, isMobile } = useContext(GlobalStateContext);
   const plotRef = useRef<HTMLDivElement>(null);
   const [timeFormat, setTimeFormat] = useState<"relative" | "absolute">(
     "absolute",
@@ -375,7 +375,35 @@ function RouteComponent() {
         </label>
       </fieldset>
       <VirtualizedTable
-        columns={columns}
+        columns={isMobile ? [
+            {
+              id: "mobile",
+              accessorFn: (row) => (row.team?.name ?? "") + row.objective.name,
+              header: "",
+              enableSorting: false,
+              size: 290,
+              cell: ({ row }) => (
+                <div className="flex min-w-0 flex-col gap-0.5 overflow-hidden py-2">
+                  <TeamName className="text-base font-bold" team={row.original.team} />
+                  <span className="truncate text-sm text-base-content/80">{row.original.objective.name}</span>
+                  {row.original.objective.extra && (
+                    <span className="truncate text-xs text-info">[{row.original.objective.extra}]</span>
+                  )}
+                  <span className="text-xs text-base-content/50">
+                    {getDeltaTimeBetween(row.original.timestamp, currentEvent.event_start_time.getTime() / 1000)}
+                  </span>
+                </div>
+              ),
+              meta: { align: "left" },
+            },
+            {
+              accessorKey: "points",
+              header: "Pts",
+              enableSorting: false,
+              size: 60,
+              cell: ({ row }) => renderScore(row.original.points, undefined, currentEvent?.uses_medals),
+            },
+          ] : columns}
         data={scoreRows
           .filter((s) => {
             if (s.objective.objective_type == ObjectiveType.TEAM) {
