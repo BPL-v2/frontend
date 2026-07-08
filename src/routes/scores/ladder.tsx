@@ -719,7 +719,7 @@ function LadderTab(): JSX.Element {
             })}
           </div>
         )}
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
             <MultiSelectPercentage
               name="uniques"
@@ -733,7 +733,7 @@ function LadderTab(): JSX.Element {
               placeholder="Filter by uniques"
               percentages={percentagePlayersWithItem}
               values={selectedItems}
-              className="w-100"
+              className="w-full md:w-100"
             />
             <MultiSelectPercentage
               name="skills"
@@ -747,7 +747,7 @@ function LadderTab(): JSX.Element {
               placeholder="Filter by gem"
               percentages={percentagePlayersWithItem}
               values={selectedItems}
-              className="w-100"
+              className="w-full md:w-100"
             />
             <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
               <input
@@ -761,7 +761,7 @@ function LadderTab(): JSX.Element {
           </div>
           {getTimeSelectOptions(currentEvent).length > 0 && (
             <Select
-              className=""
+              className="w-full md:w-auto"
               placeholder="Show ladder at..."
               options={getTimeSelectOptions(currentEvent)}
               onChange={(value: unknown) => {
