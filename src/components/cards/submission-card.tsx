@@ -181,7 +181,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
         setShowModal={setShowModal}
       />
       <div className="card bborder bg-card shadow-xl select-text caret-transparent" key={objective.id}>
-        <div className="flex h-full min-h-22 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
+        <div className="flex h-full min-h-16 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <div
             className={twMerge(
               "w-full",
@@ -263,9 +263,9 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
                           idx === teamIds.length - 1 && "rounded-br-xl",
                         )}
                       >
-                        <div className="flex items-center justify-end gap-2 rounded-br-xl">
-                          <TeamName team={teamMap[teamId]} />
-                          <VideoButton submissions={s} />
+                        <div className="flex items-center justify-end gap-5 rounded-br-xl">
+                          <TeamName team={teamMap[teamId]}/>
+                          <VideoButton submissions={s}/>
                           <SubmissionStatus submissions={s} userMap={userMap} />
                         </div>
                       </td>
