@@ -180,7 +180,7 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
         showModal={showModal}
         setShowModal={setShowModal}
       />
-      <div className="card bborder bg-card shadow-xl overflow-hidden select-text caret-transparent" key={objective.id}>
+      <div className="card bborder bg-card shadow-xl select-text caret-transparent" key={objective.id}>
         <div className="flex h-full min-h-22 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <div
             className={twMerge(

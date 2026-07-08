@@ -12,11 +12,11 @@ import {
   useGetStreams,
   useGetUsers,
 } from "@api";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { ExperienceBar } from "@components/character/experience-bar";
 import POProgressBar from "@components/personal-objective/po-progress";
-import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
 import {
@@ -301,13 +301,14 @@ function LadderTab(): JSX.Element {
           size: 250,
           filterFn: "includesString",
           meta: {
+            align: "left",
             filterVariant: "string",
             filterPlaceholder: "Character",
           },
           cell: (info) => (
             <Link
               to={"/profile/$userId/$eventId/$characterId"}
-              className="flex items-center gap-1 hover:text-primary"
+              className="flex items-start gap-1 hover:text-primary"
               params={{
                 userId: info.row.original.user_id || 0,
                 characterId: info.row.original.character_id || "",
@@ -330,7 +331,6 @@ function LadderTab(): JSX.Element {
           size: 200,
           filterFn: "includesString",
           meta: {
-            align: "left",
             filterVariant: "enum",
             filterPlaceholder: "Team",
             options: currentEvent.teams.map((team) => team.name),
@@ -356,7 +356,6 @@ function LadderTab(): JSX.Element {
                 </div>
                 <div className="flex flex-col">
                   <span className={getSkillColor(info.row.original.main_skill)}>
-                    {" "}
                     {info.row.original.main_skill}
                   </span>
                   <AscendancyName
@@ -371,6 +370,7 @@ function LadderTab(): JSX.Element {
           filterFn: "includesString",
           enableSorting: false,
           meta: {
+            align: "left",
             filterVariant: "string",
             filterPlaceholder: "Ascendancy / Skill",
           },
@@ -416,10 +416,10 @@ function LadderTab(): JSX.Element {
             accessorFn: (row: LadderEntry) => row[key] || 0,
             header: () => (
               <div
-                className="tooltip tooltip-bottom w-18 overflow-hidden text-ellipsis"
+                className="tooltip tooltip-bottom overflow-hidden text-ellipsis"
                 data-tip={stat}
               >
-                <span className="">{stat}</span>
+                <span>{stat}</span>
               </div>
             ),
             cell: (info: CellContext<LadderEntry, unknown>) => {
@@ -432,7 +432,7 @@ function LadderTab(): JSX.Element {
               }
               return value.toLocaleString();
             },
-            size: 100,
+            size: 110,
             sortingFn: sortingFns.basic,
             meta: {
               filterVariant: "number",
@@ -612,7 +612,7 @@ function LadderTab(): JSX.Element {
           <Table
             data={rows.sort((a, b) => b.total - a.total)}
             columns={scoreColumns}
-            className="max-h-[30vh]"
+            className="max-h-[35vh]"
           ></Table>
         </>
       )}

@@ -96,10 +96,8 @@ export function normalizeTeamColor(hex: string): string {
   return hslToHex(h, s, hslLForWcagLuminance(h, s, target));
 }
 
-/** Returns a readable text color (same hue/saturation) to place ON TOP of `hex` background. */
+/** Returns white or black, whichever has higher WCAG contrast against `hex`. */
 export function contrastColor(hex: string): string {
   const [r, g, b] = parseHex(hex);
-  const { h, s } = toHsl(r, g, b);
-  const newL = perceivedLuminance(r, g, b) > 0.5 ? 0.15 : 0.9;
-  return hslToHex(h, s, newL);
+  return wcagLuminance(r, g, b) > 0.179 ? "#000000" : "#ffffff";
 }

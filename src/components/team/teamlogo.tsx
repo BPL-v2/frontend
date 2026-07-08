@@ -26,7 +26,10 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
         }}
       >
         <div
-          className="wrap-break-word text-center text-xs font-bold leading-tight"
+          className={twMerge(
+            "wrap-break-word text-center font-bold leading-tight",
+            team.name.length <= 4 ? "text-xl" : team.name.length <= 8 ? "text-sm" : "text-xs",
+          )}
           style={{
             color:
               team.color && team.color !== "#000000"

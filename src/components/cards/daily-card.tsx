@@ -50,7 +50,7 @@ export function DailyCard({ daily }: DailyCardProps) {
 
   if (!isReleased) {
     return (
-      <div className="card bborder bg-card shadow-xl overflow-hidden caret-transparent cursor-default" key={daily.id}>
+      <div className="card bborder bg-card shadow-xl caret-transparent cursor-default" key={daily.id}>
         <div className="h-full min-h-25 rounded-t-box p-8 pb-0 text-center text-xl font-semibold">
           Daily not yet available
         </div>
@@ -89,7 +89,7 @@ export function DailyCard({ daily }: DailyCardProps) {
       <ConditionDescription objective={daily}>
         <div
           className={twMerge(
-            "card bborder bg-card shadow-xl overflow-hidden caret-transparent *:cursor-default",
+            "card bborder bg-card shadow-xl caret-transparent *:cursor-default",
             isRace && isAvailable ? "outline-4 outline-info" : "",
           )}
           key={daily.id}

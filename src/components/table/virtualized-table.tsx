@@ -96,7 +96,7 @@ function VirtualizedTable<T>({
           )}
         >
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="flex w-full overflow-hidden">
+            <tr key={headerGroup.id} className="flex" style={{ width: table.getTotalSize() }}>
               {headerGroup.headers.map((header) => {
                 const canSort = sortable && header.column.getCanSort();
                 const isSorting = !!sorting.find(
@@ -105,12 +105,12 @@ function VirtualizedTable<T>({
                 return (
                   <th
                     key={header.id}
-                    style={{ width: header.getSize() }}
+                    style={{ width: header.getSize(), minWidth: header.getSize() }}
                     className={twMerge(
                       "flex items-center overflow-clip",
                       (() => {
                         const align = (header.column.columnDef.meta as ColumnDefMeta<T>)?.align;
-                        return align === "left" ? "justify-start" : align === "right" ? "justify-end" : "justify-center";
+                        return align === "right" ? "justify-end" : align === "center" ? "justify-center" : "justify-start";
                       })(),
                     )}
                   >
@@ -122,7 +122,7 @@ function VirtualizedTable<T>({
                     >
                       {canSort && (
                         <TableSortIcon
-                          className="size-5 select-none"
+                          className="size-4 select-none"
                           sort={sorting.find((sort) => sort.id === header.id)}
                         ></TableSortIcon>
                       )}
@@ -158,11 +158,12 @@ function VirtualizedTable<T>({
             return (
               <tr
                 className={twMerge(
-                  "absolute flex w-full items-center hover:bg-highlight",
+                  "absolute flex items-center hover:bg-base-100",
                   rowClassName ? rowClassName(row) : "",
                 )}
                 style={{
                   ...(rowStyle ? rowStyle(row) : {}),
+                  width: table.getTotalSize(),
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 data-index={virtualRow.index}
@@ -176,9 +177,9 @@ function VirtualizedTable<T>({
                       key={cell.id}
                       className={twMerge(
                         "flex items-center self-stretch",
-                        align === "left" ? "justify-start text-left" : align === "right" ? "justify-end text-right" : "justify-center text-center",
+                        align === "right" ? "justify-end text-right" : align === "center" ? "justify-center text-center" : "justify-start text-left",
                       )}
-                      style={{ width: cell.column.getSize() }}
+                      style={{ width: cell.column.getSize(), minWidth: cell.column.getSize() }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -213,7 +214,7 @@ function Filter<T>({ column }: { column: Column<T, unknown> }) {
   if (filterVariant === "string") {
     return (
       <input
-        className="input text-lg"
+        className="input text-lg font-medium"
         onChange={(e) => {
           column.setFilterValue(e.target.value);
           e.stopPropagation();

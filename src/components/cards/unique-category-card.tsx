@@ -116,7 +116,7 @@ export const UniqueCategoryCard = ({
           </div>
         </div>
         <div className="relative flex h-full min-h-2 flex-col justify-between px-4">
-          <div className="absolute right-2 top-2 text-xs text-base-content/50">
+          <div className="absolute right-2 top-2 text-xs text-base-content/80">
             {renderScore(
               getTotalPoints(objective)[teamId],
               getPotentialPoints(objective)[teamId],
