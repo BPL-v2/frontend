@@ -37,7 +37,7 @@ const TeamScoreDisplay = ({
     <>
       <div
         className={
-          "grid min-h-20 md:min-h-32 grid-cols-[repeat(auto-fit,minmax(140px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-3 2xl:px-0 mt-4 select-none m-0.5"
+          "grid min-h-20 md:min-h-32 grid-cols-[repeat(auto-fit,minmax(140px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-3 2xl:px-0 mt-4 select-none m-2 md:m-0.5"
         }
       >
         {currentEvent.teams
