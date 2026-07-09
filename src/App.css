@@ -363,6 +363,10 @@ html {
   height: 0.75rem;
 }
 
+.tooltip > .tooltip-content {
+  z-index: 60;
+}
+
 .tooltip-rose {
   --tt-bg: var(--color-rose-400);
   > .tooltip-content,
