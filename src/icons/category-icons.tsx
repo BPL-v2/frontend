@@ -555,7 +555,7 @@ export function SvgForCategory(
 export function CategoryIcon({ ...props }: IconRendererProps) {
   return (
     <div
-      className="size-12"
+      className="size-10"
       {...props}
       dangerouslySetInnerHTML={{
         __html: SvgForCategory(props.name, props.color) || "",
