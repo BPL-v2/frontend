@@ -69,13 +69,13 @@ const TeamScoreDisplay = ({
                 }
               >
                 <div className="flex w-full justify-around p-1 md:p-4 items-center">
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col md:gap-2">
                     <TeamName
                       team={team}
                       className="text-xl font-bold md:text-2xl"
                     />
                     <div className="text-xl whitespace-nowrap md:text-2xl">
-                      <span className="hidden md:inline">
+                      <span>
                         {currentEvent?.uses_medals
                           ? renderScore(teamScores[team.id], potentialScores[team.id], true)
                           : potentialScores[team.id] !== undefined && potentialScores[team.id] !== Infinity
