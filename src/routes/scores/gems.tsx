@@ -87,56 +87,54 @@ function GemTab(): JSX.Element {
       ) : null}
       <div className="flex flex-col gap-4">
         <TeamScoreDisplay objective={gemCategory} />
-        <div className="join w-full justify-center">
-          {["r", "g", "b"].map((c) => (
-            <div
-              key={c}
-              onClick={() => {
-                if (color === c) {
-                  setColor(undefined);
-                } else {
-                  setColor(c as "r" | "g" | "b");
-                }
-              }}
-            >
-              {toColor(c, c === color)}
-            </div>
-          ))}
-        </div>
         {gemCategory.children.map((category) => {
           return (
             <div
               key={category.id}
-              className="flex flex-col gap-8 rounded-box bg-base-200 md:p-8"
+              className="flex flex-col gap-8 rounded-box bg-base-200"
             >
               <h1 className="text-3xl font-extrabold">{category.name}</h1>
-              <div className="flex flex-col items-center gap-4">
-                <Ranking
-                  objective={category}
-                  maximum={category.children.length}
-                  actual={(teamId: number) =>
-                    category.children.filter((o) =>
-                      o.team_score[teamId].isFinished(),
-                    ).length
-                  }
-                  description="Gems:"
-                />
-                <ItemTable
-                  objective={category}
-                  filter={(obj) => {
-                    if (!color) return true;
-                    const baseType = obj.conditions.find(
-                      (c) => c.field === "BASE_TYPE",
-                    );
-                    if (!baseType) return false;
-                    return gemColors[color].includes(baseType.value);
-                  }}
-                  className="h-[50vh] w-full"
-                  styles={{
-                    header: "bg-base-100",
-                  }}
-                />
+              <Ranking
+                objective={category}
+                maximum={category.children.length}
+                actual={(teamId: number) =>
+                  category.children.filter((o) =>
+                    o.team_score[teamId].isFinished(),
+                  ).length
+                }
+                description="Gems:"
+              />
+              <div className="join w-full justify-center">
+                {["r", "g", "b"].map((c) => (
+                  <div
+                    key={c}
+                    onClick={() => {
+                      if (color === c) {
+                        setColor(undefined);
+                      } else {
+                        setColor(c as "r" | "g" | "b");
+                      }
+                    }}
+                  >
+                    {toColor(c, c === color)}
+                  </div>
+                ))}
               </div>
+              <ItemTable
+                objective={category}
+                filter={(obj) => {
+                  if (!color) return true;
+                  const baseType = obj.conditions.find(
+                    (c) => c.field === "BASE_TYPE",
+                  );
+                  if (!baseType) return false;
+                  return gemColors[color].includes(baseType.value);
+                }}
+                className="h-[50vh] w-full"
+                styles={{
+                  header: "bg-base-100",
+                }}
+              />
             </div>
           );
         })}
