@@ -128,7 +128,7 @@ function RootComponent() {
   }, [hello]);
   return (
     <>
-      <div className="mx-auto max-w-360 text-center">
+      <div className="mx-auto max-w-360 overflow-x-hidden text-center">
         <div className="flex min-h-screen flex-col">
           <header className="sticky top-0 z-50 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
             <nav className="flex h-13 items-center justify-between px-3 sm:px-5">

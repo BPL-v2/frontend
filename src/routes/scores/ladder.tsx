@@ -2,7 +2,7 @@ import { Event, LadderEntry, Team } from "@api";
 import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
-import { JSX, useContext, useMemo, useState } from "react";
+import { JSX, useContext, useEffect, useMemo, useState } from "react";
 
 import {
   preloadLadderData,
@@ -96,6 +96,12 @@ function LadderTab(): JSX.Element {
     useContext(GlobalStateContext);
   const { rules } = Route.useSearch();
   const [hoursAfterEventStart, setHoursAfterEventStart] = useState<number>();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const { data: unsortedLadder, isError: ladderIsError } = useGetLadder(
     currentEvent.id,
     hoursAfterEventStart,
@@ -504,7 +510,7 @@ function LadderTab(): JSX.Element {
             />
           ),
           enableSorting: false,
-          size: 375,
+          size: windowWidth,
         },
       ];
     }
@@ -523,6 +529,7 @@ function LadderTab(): JSX.Element {
     streamsByUser,
     getTeam,
     showAlwaysLadder,
+    windowWidth,
   ]);
 
   if (ladderIsError || usersIsError) {
@@ -663,6 +670,22 @@ function LadderTab(): JSX.Element {
                         cap,
                       );
                       total += current;
+                      if (isMobile) {
+                        return (
+                          <div className="flex flex-col gap-1" key={team.id}>
+                            <div className="flex items-center justify-between">
+                              <TeamName className="font-semibold" team={team} />
+                              <span className="font-semibold">{total}</span>
+                            </div>
+                            <div className="h-2 w-full overflow-hidden rounded-full bg-base-200">
+                              <div
+                                className="h-full rounded-full bg-success"
+                                style={{ width: `${cap > 0 ? Math.min((total / cap) * 100, 100) : 0}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
                       return (
                         <div className="flex flex-col" key={team.id}>
                           <div className="flex flex-row justify-start gap-2 text-lg">
@@ -719,7 +742,7 @@ function LadderTab(): JSX.Element {
             })}
           </div>
         )}
-        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-5">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
             <MultiSelectPercentage
               name="uniques"
@@ -749,7 +772,7 @@ function LadderTab(): JSX.Element {
               values={selectedItems}
               className="w-full md:w-100"
             />
-            <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap">
+            <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap justify-center">
               <input
                 type="checkbox"
                 className="checkbox checkbox-sm"

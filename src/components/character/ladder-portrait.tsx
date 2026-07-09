@@ -33,7 +33,7 @@ interface Props {
 export function LadderPortrait({ entry, team, event }: Props) {
   return (
     <Link
-      className="flex w-100 flex-row items-center gap-5"
+      className="flex w-full flex-row items-center gap-5"
       to={"/profile/$userId/$eventId/$characterId"}
       params={{
         userId: entry.user_id || 0,
@@ -45,11 +45,11 @@ export function LadderPortrait({ entry, team, event }: Props) {
         <AscendancyPortrait
           character_class={entry.ascendancy}
           game_version={event.game_version}
-          className="size-20 rounded-full object-cover"
+          className="size-12 md:size-20 rounded-full object-cover"
         />
         <ActivityDot
           last_active={entry.last_active}
-          className="absolute top-0 right-0 size-4"
+          className="size-3 md:size-4 absolute top-0 right-0"
         />
       </div>
       <div className="flex w-full flex-col">
