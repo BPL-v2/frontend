@@ -316,7 +316,7 @@ function UniqueTab(): JSX.Element {
                   />
                 </div>
               </div>
-              <div className="flex gap-6">
+              <div className="flex gap-6 justify-center">
                 <div className="flex flex-col items-center gap-1">
                   <span className="text-xs opacity-60">Show finished</span>
                   <input type="checkbox" checked={preferences.uniqueSets.showCompleted} className="toggle toggle-md toggle-primary"
