@@ -2,7 +2,7 @@ import { Event, LadderEntry, Team } from "@api";
 import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
-import { JSX, useContext, useEffect, useMemo, useState } from "react";
+import { JSX, useContext, useMemo, useState } from "react";
 
 import {
   preloadLadderData,
@@ -96,12 +96,6 @@ function LadderTab(): JSX.Element {
     useContext(GlobalStateContext);
   const { rules } = Route.useSearch();
   const [hoursAfterEventStart, setHoursAfterEventStart] = useState<number>();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const { data: unsortedLadder, isError: ladderIsError } = useGetLadder(
     currentEvent.id,
     hoursAfterEventStart,
@@ -510,7 +504,7 @@ function LadderTab(): JSX.Element {
             />
           ),
           enableSorting: false,
-          size: windowWidth,
+          size: 375,
         },
       ];
     }
@@ -529,7 +523,6 @@ function LadderTab(): JSX.Element {
     streamsByUser,
     getTeam,
     showAlwaysLadder,
-    windowWidth,
   ]);
 
   if (ladderIsError || usersIsError) {

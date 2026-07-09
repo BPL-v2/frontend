@@ -33,7 +33,7 @@ interface Props {
 export function LadderPortrait({ entry, team, event }: Props) {
   return (
     <Link
-      className="flex w-full flex-row items-center gap-5"
+      className="flex w-100 flex-row items-center gap-5"
       to={"/profile/$userId/$eventId/$characterId"}
       params={{
         userId: entry.user_id || 0,

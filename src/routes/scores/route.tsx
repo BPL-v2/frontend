@@ -208,7 +208,7 @@ function ScoringPage() {
     <>
       <div className="sticky top-13 z-40 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
         <div className="flex items-center">
-          <div className="flex-1 min-w-0 overflow-x-auto scrollbar-none">
+          <div className="flex-1 overflow-x-auto scrollbar-none">
             <ul className="flex min-w-max items-end">
               {tabs.map((tab) => (
                 <li key={tab.key}>
