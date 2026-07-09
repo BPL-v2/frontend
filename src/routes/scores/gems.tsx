@@ -94,16 +94,18 @@ function GemTab(): JSX.Element {
               className="flex flex-col gap-8 rounded-box bg-base-200"
             >
               <h1 className="text-3xl font-extrabold">{category.name}</h1>
-              <Ranking
-                objective={category}
-                maximum={category.children.length}
-                actual={(teamId: number) =>
-                  category.children.filter((o) =>
-                    o.team_score[teamId].isFinished(),
-                  ).length
-                }
-                description="Gems:"
-              />
+              <div className="px-4 sm:px-0">
+                <Ranking
+                  objective={category}
+                  maximum={category.children.length}
+                  actual={(teamId: number) =>
+                    category.children.filter((o) =>
+                      o.team_score[teamId].isFinished(),
+                    ).length
+                  }
+                  description="Gems:"
+                />
+              </div>
               <div className="join w-full justify-center">
                 {["r", "g", "b"].map((c) => (
                   <div
