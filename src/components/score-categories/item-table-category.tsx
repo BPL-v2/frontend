@@ -14,7 +14,7 @@ export function ItemTableScoreCategory({
   return (
     <div {...props}>
       <TeamScoreDisplay objective={category} />
-      <div key={category.id} className="rounded-box bg-base-200 p-8 pt-2">
+      <div key={category.id} className="rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8">
         <div className="divider divider-primary">{category.name}</div>
         {(category.scoring_rules[0]?.scoring_rule ===
           ScoringRuleType.RANK_BY_COMPLETION_TIME ||

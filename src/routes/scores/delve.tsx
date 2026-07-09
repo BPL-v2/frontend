@@ -13,7 +13,7 @@ import { DelveTabRules } from "@rules/delve";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef, sortingFns } from "@tanstack/react-table";
 import { GlobalStateContext } from "@utils/context-provider";
-import { JSX, useContext, useMemo } from "react";
+import { JSX, useContext, useEffect, useMemo, useState } from "react";
 import {
   ActivityDot,
   LadderPortrait,
@@ -32,6 +32,12 @@ export const Route = createFileRoute("/scores/delve")({
 
 function DelveTab(): JSX.Element {
   const { scores, currentEvent, isMobile } = useContext(GlobalStateContext);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const { rules } = Route.useSearch();
   const { data: ladder = [] } = useGetLadder(currentEvent.id);
   const { data: users } = useGetUsers(currentEvent.id);
@@ -223,11 +229,12 @@ function DelveTab(): JSX.Element {
               event={currentEvent}
             />
           ),
+          size: windowWidth - 100,
         },
       ];
     }
     return columns;
-  }, [isMobile, currentEvent, getTeam]);
+  }, [isMobile, currentEvent, getTeam, windowWidth]);
 
   if (!category) {
     return <></>;
@@ -293,7 +300,7 @@ function DelveTab(): JSX.Element {
         ) : null}
 
         {culmulativeDepthTotal ? (
-          <div className="rounded-box bg-base-200 p-8 pt-2">
+          <div className="rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8">
             <div className="divider divider-primary">
               {"Culmulative Team Depth"}
             </div>
