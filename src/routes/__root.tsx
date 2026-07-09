@@ -131,38 +131,42 @@ function RootComponent() {
       <div className="mx-auto max-w-360 overflow-x-hidden text-center">
         <div className="flex min-h-screen flex-col">
           <header className="sticky top-0 z-50 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
-            <nav className="flex h-13 items-center justify-between px-3 sm:px-5">
-              <ul className="flex items-center gap-1">
-                {menu.map((item) => (
-                  <li key={item.url}>
-                    <Link
-                      aria-label={
-                        typeof item.label === "string"
-                          ? item.label
-                          : item.path || "home"
-                      }
-                      to={item.url}
-                      className={twMerge(
-                        "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xl font-medium transition-colors duration-150",
-                        item.path === "" && "mr-3",
-                        selected === item.path
-                          ? "text-primary"
-                          : "text-base-content/85 hover:text-base-content",
-                      )}
-                    >
-                      {item.icon}
-                      {item.path === "" ? (
-                        <span className="text-3xl font-bold tracking-wide text-base-content hover:text-primary transition-colors">
-                          BPL
-                        </span>
-                      ) : (
-                        <span className="hidden sm:block">{item.label}</span>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <AuthButton />
+            <nav className="flex h-13 items-center px-3 sm:px-5">
+              <div className="flex-1 min-w-0 overflow-x-auto scrollbar-none">
+                <ul className="flex items-center gap-1">
+                  {menu.map((item) => (
+                    <li key={item.url}>
+                      <Link
+                        aria-label={
+                          typeof item.label === "string"
+                            ? item.label
+                            : item.path || "home"
+                        }
+                        to={item.url}
+                        className={twMerge(
+                          "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xl font-medium transition-colors duration-150",
+                          item.path === "" && "mr-3",
+                          selected === item.path
+                            ? "text-primary"
+                            : "text-base-content/85 hover:text-base-content",
+                        )}
+                      >
+                        {item.icon}
+                        {item.path === "" ? (
+                          <span className="text-3xl font-bold tracking-wide text-base-content hover:text-primary transition-colors">
+                            BPL
+                          </span>
+                        ) : (
+                          <span className="hidden sm:block">{item.label}</span>
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="shrink-0 pl-2">
+                <AuthButton />
+              </div>
             </nav>
           </header>
           {user && !user.account_name && (

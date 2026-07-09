@@ -12,6 +12,8 @@ function AchievementBadge({
   achievement: AchievementResponse;
   earned: boolean;
 }) {
+  const iconUrl = achievement.icon_url;
+
   return (
     <div
       className="tooltip tooltip-top"
@@ -26,9 +28,9 @@ function AchievementBadge({
           earned ? "opacity-100" : "opacity-40"
         }`}
       >
-        {achievement.icon_url ? (
+        {iconUrl ? (
           <img
-            src={achievement.icon_url}
+            src={iconUrl}
             alt={achievement.name}
             className="size-full object-contain"
           />
