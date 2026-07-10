@@ -132,12 +132,10 @@ function VirtualizedTable<T>({
                           isSorting ? "text-primary" : "",
                         )}
                       >
-                        <div className="min-w-0 flex-1 overflow-hidden">
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                        </div>
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                         {header.column.getCanFilter() && (
                           <Filter column={header.column} />
                         )}
