@@ -261,7 +261,7 @@ function DelveTab(): JSX.Element {
           </article>
         </div>
       ) : null}
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-3">
         <TeamScoreDisplay objective={category} />
         {fossilRaceCategory ? (
           <div className="rounded-box bg-base-200 p-8 pt-2">

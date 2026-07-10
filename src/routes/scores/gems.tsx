@@ -85,7 +85,7 @@ function GemTab(): JSX.Element {
           </article>
         </div>
       ) : null}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <TeamScoreDisplay objective={gemCategory} />
         {gemCategory.children.map((category) => {
           return (
