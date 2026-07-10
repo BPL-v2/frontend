@@ -243,7 +243,7 @@ export function ItemTable({
                     filter ? filter(o) : true,
                   ).length;
                   return (
-                    <div>
+                    <div className="text-center">
                       <TeamName team={team} />
                       <div className="text-sm text-info">
                         {canBeFinished(objective)
@@ -255,6 +255,7 @@ export function ItemTable({
                 },
                 enableSorting: false,
                 size: 150,
+                meta: { align: 'center' },
                 cell: (info: CellContext<ExtendedScoreObjective, string>) => {
                   const score = info.row.original.team_score[team.id];
                   const finished = info.getValue<boolean>();
