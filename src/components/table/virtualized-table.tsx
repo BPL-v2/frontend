@@ -116,7 +116,7 @@ function VirtualizedTable<T>({
                   >
                     <div
                       className={
-                        canSort ? "flex min-w-0 cursor-pointer items-center gap-1" : "min-w-0 w-full"
+                        canSort ? "flex min-w-0 cursor-pointer items-center gap-1 justify-center" : "flex justify-center min-w-0 w-full"
                       }
                       onClick={header.column.getToggleSortingHandler()}
                     >
