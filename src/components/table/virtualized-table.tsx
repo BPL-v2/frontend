@@ -215,7 +215,7 @@ function Filter<T>({ column }: { column: Column<T, unknown> }) {
   if (filterVariant === "string") {
     return (
       <input
-        className="input text-lg font-medium"
+        className="input text-lg font-medium caret-current"
         onChange={(e) => {
           column.setFilterValue(e.target.value);
           e.stopPropagation();
