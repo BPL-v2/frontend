@@ -61,7 +61,7 @@ const TeamScoreDisplay = ({
                   team.id === selectedTeam
                     ? "border-transparent outline-primary"
                     : "outline-transparent",
-                  selectedTeam && "cursor-pointer hover:bg-base-200",
+                  !!setSelectedTeam && "cursor-pointer hover:bg-base-300 transition-colors duration-150",
                 )}
                 key={team.id}
                 onClick={() =>
