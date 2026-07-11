@@ -89,7 +89,7 @@ export const UniqueCategoryCard = ({
       <div
         {...props}
         className={twMerge(
-          "card h-full cursor-pointer bborder shadow-xl",
+          "card h-full cursor-pointer bborder shadow-xl transition-all duration-150",
           selected
             ? "bg-card-highlight text-highlight-content ring-3 ring-primary"
             : "bg-card hover:bg-card-highlight hover:text-highlight-content",
