@@ -162,7 +162,6 @@ html {
   scrollbar-gutter: stable;
   padding-left: calc(100vw - 100%);
   font-size: 18px;
-  overflow-x: hidden;
 }
 
 #root {

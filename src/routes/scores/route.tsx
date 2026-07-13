@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { usePageSEO } from "@utils/use-seo";
-import { JSX, useContext, useEffect, useMemo } from "react";
+import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { router } from "../../main";
 import { useGetRules } from "@api";
@@ -166,6 +166,27 @@ function ScoringPage() {
       },
     ];
   }, [currentEvent]);
+  const ulRef = useRef<HTMLUListElement>(null);
+  const [forceScroll, setForceScroll] = useState(false);
+  useEffect(() => {
+    const ul = ulRef.current;
+    if (!ul) return;
+    const container = ul.parentElement!;
+    const check = () => {
+      const prev = ul.style.flexWrap;
+      ul.style.flexWrap = "wrap";
+      const firstItem = ul.firstElementChild as HTMLElement | null;
+      const rowH = firstItem ? firstItem.getBoundingClientRect().height : 44;
+      const wrappedH = ul.scrollHeight;
+      ul.style.flexWrap = prev;
+      setForceScroll(wrappedH > rowH * 2 + 4);
+    };
+    const ro = new ResizeObserver(check);
+    ro.observe(container);
+    check();
+    return () => ro.disconnect();
+  }, []);
+
   const tabs: {
     key: scoringTabKey;
     name: string;
@@ -208,8 +229,8 @@ function ScoringPage() {
     <>
       <div className="sticky top-13 z-40 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
         <div className="flex items-center">
-          <div className="flex-1 overflow-x-auto scrollbar-none">
-            <ul className="flex min-w-max items-end">
+          <div className={forceScroll ? "flex-1 overflow-x-auto" : "flex-1"}>
+            <ul ref={ulRef} className={forceScroll ? "flex items-end" : "flex flex-wrap items-end"}>
               {tabs.map((tab) => (
                 <li key={tab.key}>
                   <Link
