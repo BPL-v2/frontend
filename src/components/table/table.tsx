@@ -147,12 +147,14 @@ function Table<T>({
             >
               {row.getVisibleCells().map((cell) => {
                 const align = (cell.column.columnDef.meta as ColumnDefMeta<T>)?.align;
+                const tdDivider = (cell.column.columnDef.meta as ColumnDefMeta<T>)?.dividerRight;
                 return (
                   <td
                     key={cell.id}
                     className={twMerge(
                       "align-middle",
                       align === "left" ? "text-left" : align === "right" ? "text-right" : "text-center",
+                      tdDivider && "border-r border-base-content/10",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -174,6 +176,7 @@ type ColumnDefMeta<T> = {
   filterPlaceholder?: string;
   options?: T[] | SelectOption<T>[];
   align?: "left" | "center" | "right";
+  dividerRight?: boolean;
 };
 
 function Filter<T>({ column }: { column: Column<T, unknown> }) {

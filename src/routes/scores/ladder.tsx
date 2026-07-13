@@ -565,8 +565,18 @@ function LadderTab(): JSX.Element {
     {
       accessorKey: "total",
       header: "Total",
-      cell: ({ row }) =>
-        renderScore(row.original.total, undefined, currentEvent?.uses_medals),
+      cell: ({ row }) => {
+        const teamColor = row.original.team.color;
+        const color = teamColor
+          ? `color-mix(in srgb, ${teamColor} 25%, white)`
+          : undefined;
+        return (
+          <span className="text-lg font-bold" style={{ color }}>
+            {renderScore(row.original.total, undefined, currentEvent?.uses_medals)}
+          </span>
+        );
+      },
+      meta: {},
     },
     ...categoryNames.map((categoryName) => ({
       header: categoryName == "Personal Objectives" ? "P.O." : categoryName,
