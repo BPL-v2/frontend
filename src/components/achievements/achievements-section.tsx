@@ -3,6 +3,8 @@ import {
   useGetUserAchievements,
   AchievementResponse,
 } from "@api";
+import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 
 function AchievementBadge({
@@ -13,15 +15,26 @@ function AchievementBadge({
   earned: boolean;
 }) {
   const iconUrl = achievement.icon_url;
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+
+  const label = achievement.description
+    ? `${achievement.name}: ${achievement.description}`
+    : achievement.name;
+
+  const handleMouseEnter = () => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setPos({ x: rect.left + rect.width / 2, y: rect.top });
+    }
+  };
 
   return (
     <div
-      className="tooltip tooltip-top"
-      data-tip={
-        achievement.description
-          ? `${achievement.name}: ${achievement.description}`
-          : achievement.name
-      }
+      ref={ref}
+      className="flex flex-col items-center gap-1"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={() => setPos(null)}
     >
       <div
         className={`flex size-20 items-center justify-center overflow-hidden rounded-lg border-2 border-primary text-highlight-content transition-opacity ${
@@ -40,6 +53,19 @@ function AchievementBadge({
           </span>
         )}
       </div>
+      <span className="sm:hidden w-20 text-center text-xs leading-tight opacity-70">
+        {achievement.name}
+      </span>
+      {pos &&
+        createPortal(
+          <div
+            className="pointer-events-none fixed z-9999 max-w-xs -translate-x-1/2 -translate-y-full rounded-box bg-base-300 px-3 py-2 text-sm text-base-content shadow-lg"
+            style={{ left: pos.x, top: pos.y - 8 }}
+          >
+            {label}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
