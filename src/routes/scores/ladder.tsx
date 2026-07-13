@@ -568,7 +568,7 @@ function LadderTab(): JSX.Element {
       cell: ({ row }) => {
         const teamColor = row.original.team.color;
         const color = teamColor
-          ? `color-mix(in srgb, ${teamColor} 25%, white)`
+          ? `color-mix(in srgb, ${teamColor} 25%, light-dark(black, white))`
           : undefined;
         return (
           <span className="text-lg font-bold" style={{ color }}>
