@@ -23,9 +23,27 @@ import type {
   User,
 } from "../models";
 
-import { customFetch } from "../../fetcher";
+import { customFetch } from "../../fetcher.ts";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K };
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue;
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    });
+  }
+  return result;
+};
 
 export const getGetUsersForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/users`;
@@ -194,7 +212,7 @@ export function useGetUsersForEventBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getGetAtlasProgressionBaseUrl = (
@@ -385,7 +403,7 @@ export function useGetAtlasProgressionBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getGetAllUsersBaseUrl = () => {
@@ -533,7 +551,7 @@ export function useGetAllUsersBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams) => {
@@ -755,7 +773,7 @@ export function useGetUserBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getUpdateUserBaseUrl = () => {
@@ -1002,7 +1020,7 @@ export function useGetUserByIdBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getChangePermissionsBaseUrl = (userId: number) => {

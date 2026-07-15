@@ -1,5 +1,4 @@
 import type { SubmissionReview } from "./submissionReview.ts";
 
 export type ReviewSubmissionBaseBody =
-  | { [key: string]: unknown }
-  | SubmissionReview;
+  { [key: string]: unknown } | SubmissionReview;

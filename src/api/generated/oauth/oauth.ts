@@ -20,9 +20,27 @@ import type {
   OauthRedirectBaseParams,
 } from "../models";
 
-import { customFetch } from "../../fetcher";
+import { customFetch } from "../../fetcher.ts";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K };
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue;
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    });
+  }
+  return result;
+};
 
 export const getLoginDiscordBotBaseUrl = () => {
   return `/oauth2/discord/bot-login`;
@@ -381,5 +399,5 @@ export function useOauthRedirectBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }

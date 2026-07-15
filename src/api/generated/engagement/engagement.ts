@@ -8,7 +8,7 @@ import type {
 
 import type { AddEngagementBaseBody } from "../models";
 
-import { customFetch } from "../../fetcher";
+import { customFetch } from "../../fetcher.ts";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 

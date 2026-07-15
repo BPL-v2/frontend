@@ -1,3 +1,6 @@
+/**
+ * PoE2 only
+ */
 export type Realm = (typeof Realm)[keyof typeof Realm];
 
 export const Realm = {

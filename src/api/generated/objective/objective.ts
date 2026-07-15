@@ -16,15 +16,34 @@ import type {
 
 import type {
   ConditionMappings,
+  CopyObjectiveBaseBody,
   CreateObjectiveBaseBody,
   Objective,
   ObjectiveValidation,
   ValidateObjectivesBaseBody,
 } from "../models";
 
-import { customFetch } from "../../fetcher";
+import { customFetch } from "../../fetcher.ts";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+const withQueryKey = <T extends object, K>(
+  query: T,
+  queryKey: K,
+): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K };
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === "queryKey") continue;
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    });
+  }
+  return result;
+};
 
 export const getGetObjectiveTreeForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/objectives`;
@@ -193,7 +212,7 @@ export function useGetObjectiveTreeForEventBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getCreateObjectiveBaseUrl = (eventId: number) => {
@@ -446,7 +465,7 @@ export function useGetValidMappingsBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getGetObjectiveValidationsBaseUrl = (eventId: number) => {
@@ -619,7 +638,7 @@ export function useGetObjectiveValidationsBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
 
 export const getValidateObjectivesBaseUrl = (eventId: number) => {
@@ -966,5 +985,90 @@ export function useGetObjectiveBase<
     TError
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return withQueryKey(query, queryOptions.queryKey);
 }
+
+export const getCopyObjectiveBaseUrl = (eventId: number, id: number) => {
+  return `/events/${eventId}/objectives/${id}/copy`;
+};
+
+/**
+ * Copies an objective and all its children onto another objective, stripping scoring rules
+ */
+export const copyObjectiveBase = async (
+  eventId: number,
+  id: number,
+  copyObjectiveBaseBody: CopyObjectiveBaseBody,
+  options?: RequestInit,
+): Promise<Objective> => {
+  return customFetch<Objective>(getCopyObjectiveBaseUrl(eventId, id), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(copyObjectiveBaseBody),
+  });
+};
+
+export const getCopyObjectiveBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof copyObjectiveBase>>,
+    TError,
+    { eventId: number; id: number; data: CopyObjectiveBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof copyObjectiveBase>>,
+  TError,
+  { eventId: number; id: number; data: CopyObjectiveBaseBody },
+  TContext
+> => {
+  const mutationKey = ["copyObjectiveBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof copyObjectiveBase>>,
+    { eventId: number; id: number; data: CopyObjectiveBaseBody }
+  > = (props) => {
+    const { eventId, id, data } = props ?? {};
+
+    return copyObjectiveBase(eventId, id, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CopyObjectiveBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof copyObjectiveBase>>
+>;
+export type CopyObjectiveBaseMutationBody = CopyObjectiveBaseBody;
+export type CopyObjectiveBaseMutationError = unknown;
+
+export const useCopyObjectiveBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof copyObjectiveBase>>,
+      TError,
+      { eventId: number; id: number; data: CopyObjectiveBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof copyObjectiveBase>>,
+  TError,
+  { eventId: number; id: number; data: CopyObjectiveBaseBody },
+  TContext
+> => {
+  return useMutation(getCopyObjectiveBaseMutationOptions(options), queryClient);
+};
