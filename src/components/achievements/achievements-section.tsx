@@ -4,10 +4,6 @@ import {
   AchievementResponse,
 } from "@api";
 
-function iconDataUrl(achievement: AchievementResponse): string | null {
-  if (!achievement.icon) return null;
-  return `data:${achievement.icon_mime_type};base64,${achievement.icon}`;
-}
 
 function AchievementBadge({
   achievement,
@@ -16,8 +12,6 @@ function AchievementBadge({
   achievement: AchievementResponse;
   earned: boolean;
 }) {
-  const iconUrl = iconDataUrl(achievement);
-
   return (
     <div
       className="tooltip tooltip-top"
@@ -32,9 +26,9 @@ function AchievementBadge({
           earned ? "opacity-100" : "opacity-40"
         }`}
       >
-        {iconUrl ? (
+        {achievement.icon_url ? (
           <img
-            src={iconUrl}
+            src={achievement.icon_url}
             alt={achievement.name}
             className="size-full object-contain"
           />
