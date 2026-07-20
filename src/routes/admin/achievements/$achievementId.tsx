@@ -1,6 +1,5 @@
 import {
   Permission,
-  AchievementResponse,
   useGetAchievements,
   useGetUserAchievements,
   useRevokeAchievement,
@@ -25,10 +24,6 @@ export const Route = createFileRoute("/admin/achievements/$achievementId")({
   },
 });
 
-function iconDataUrl(achievement: AchievementResponse): string | null {
-  if (!achievement.icon) return null;
-  return `data:${achievement.icon_mime_type};base64,${achievement.icon}`;
-}
 
 type GrantRow = {
   user_id: number;
@@ -119,8 +114,7 @@ function AchievementDetailPage() {
     },
   ];
 
-  const iconUrl = achievement ? iconDataUrl(achievement) : null;
-
+  const iconUrl = achievement?.icon_url
   return (
     <div className="mt-4 flex flex-col gap-6">
       <div className="flex items-center gap-4">

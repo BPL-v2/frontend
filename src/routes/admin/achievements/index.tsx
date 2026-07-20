@@ -30,10 +30,6 @@ export const Route = createFileRoute("/admin/achievements/")({
   ]),
 });
 
-function iconDataUrl(achievement: AchievementResponse): string | null {
-  if (!achievement.icon) return null;
-  return `data:${achievement.icon_mime_type};base64,${achievement.icon}`;
-}
 
 interface AchievementFormModalProps {
   isOpen: boolean;
@@ -164,7 +160,7 @@ function IconDeleteButton({
   const qc = useQueryClient();
   const { deleteIcon, deleteIconPending } = useDeleteAchievementIcon(qc);
 
-  if (!achievement.icon) return null;
+  if (!achievement.icon_url) return null;
 
   return (
     <button
@@ -203,7 +199,7 @@ function AchievementsPage() {
       header: "Icon",
       enableSorting: false,
       cell: (info) => {
-        const url = iconDataUrl(info.row.original);
+        const url = info.row.original.icon_url;
         return url ? (
           <img src={url} alt="" className="size-8 object-contain" />
         ) : null;

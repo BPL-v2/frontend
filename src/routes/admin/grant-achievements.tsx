@@ -39,10 +39,6 @@ const BADGE_SHADES = [
   "bg-primary/85",
 ];
 
-function iconDataUrl(achievement: AchievementResponse): string | null {
-  if (!achievement.icon) return null;
-  return `data:${achievement.icon_mime_type};base64,${achievement.icon}`;
-}
 
 type UserRow = MinimalUser & {
   team_id: number;
@@ -238,7 +234,7 @@ function GrantAchievementsPage() {
       cell: ({ row }) => (
         <div className="flex w-full flex-wrap gap-1">
           {row.original.existing_achievements.map((a, i) => {
-            const url = iconDataUrl(a);
+            const url = a.icon_url;
             const shade = BADGE_SHADES[i % BADGE_SHADES.length];
             return (
               <div
