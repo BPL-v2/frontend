@@ -84,7 +84,7 @@ function VirtualizedTable<T>({
     <div
       ref={tableRef}
       className={twMerge(
-        "overflow-auto rounded-box border border-base-content/20 shadow-xl select-none",
+        "overflow-auto rounded-box border border-base-content/20 shadow-xl caret-transparent",
         className,
       )}
     >
@@ -122,7 +122,7 @@ function VirtualizedTable<T>({
                     >
                       {canSort && (
                         <TableSortIcon
-                          className="size-4 shrink-0 select-none"
+                          className="size-4 shrink-0 caret-transparent"
                           sort={sorting.find((sort) => sort.id === header.id)}
                         ></TableSortIcon>
                       )}
@@ -241,7 +241,7 @@ function Filter<T>({ column }: { column: Column<T, unknown> }) {
   if (filterVariant === "boolean") {
     return (
       <div
-        className="ml-2 size-8 cursor-pointer rounded-full border border-primary bg-base-300 select-none"
+        className="ml-2 size-8 cursor-pointer rounded-full border border-primary bg-base-300 caret-transparent"
         onClick={(e) => {
           const currentValue = column.getFilterValue();
           if (currentValue === undefined) {
