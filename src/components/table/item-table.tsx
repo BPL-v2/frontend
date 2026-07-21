@@ -255,7 +255,7 @@ export function ItemTable({
                 },
                 enableSorting: false,
                 size: 150,
-                meta: { align: 'center' },
+                meta: { align: "center", filterVariant: "boolean" },
                 cell: (info: CellContext<ExtendedScoreObjective, string>) => {
                   const score = info.row.original.team_score[team.id];
                   const finished = info.getValue<boolean>();
@@ -324,9 +324,6 @@ export function ItemTable({
                       <XCircleIcon className="size-6 text-error" />
                     </div>
                   );
-                },
-                meta: {
-                  filterVariant: "boolean",
                 },
               }) as ColumnDef<ExtendedScoreObjective>,
           ),
