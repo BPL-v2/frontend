@@ -45,9 +45,24 @@ export function Callback({
       referrer: localStorage.getItem("referrer") || undefined,
     })
       .then((resp) => {
+        // last_path is an approved-origin absolute URL (see utils/oauth.ts).
+        // If it points somewhere other than where this callback page is
+        // running (e.g. we're on bpl-poe.com because that's the only
+        // registered oauth redirect_uri, but the user actually started on
+        // localhost), hand off the auth token to that origin instead of
+        // logging in here.
+        const target = new URL(resp.last_path);
+        if (target.origin !== window.location.origin) {
+          target.hash = `auth=${resp.auth_token}`;
+          window.location.href = target.toString();
+          return;
+        }
+
         localStorage.setItem("auth", resp.auth_token);
         localStorage.removeItem("referrer");
         qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
+
+        const lastPath = target.pathname + target.search + target.hash;
 
         if (provider === "poe" && !resp.user.discord_id) {
           oauthRedirectBase("discord", { last_url: resp.last_path }).then(
@@ -59,7 +74,7 @@ export function Callback({
         }
 
         router.navigate({
-          to: resp.last_path,
+          to: lastPath,
           replace: true,
         });
       })
