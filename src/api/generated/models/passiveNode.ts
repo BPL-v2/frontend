@@ -61,7 +61,7 @@ export interface PassiveNode {
   recipe?: string[];
   reminderText?: string[];
   /** Skill skill hash */
-  skill?: number;
+  skill?: string;
   /** Stats stat descriptions */
   stats?: string[];
 }
