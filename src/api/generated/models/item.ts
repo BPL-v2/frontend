@@ -1,11 +1,16 @@
-import type { GemSocket } from "./gemSocket.ts";
 import type { GemTab } from "./gemTab.ts";
+import type { ItemColour } from "./itemColour.ts";
+import type { ItemCrucible } from "./itemCrucible.ts";
+import type { ItemEnshrouded } from "./itemEnshrouded.ts";
 import type { ItemExtended } from "./itemExtended.ts";
 import type { ItemHybrid } from "./itemHybrid.ts";
 import type { ItemIncubatedItem } from "./itemIncubatedItem.ts";
 import type { ItemInfluences } from "./itemInfluences.ts";
 import type { ItemLogbookMod } from "./itemLogbookMod.ts";
+import type { ItemMercenarySkill } from "./itemMercenarySkill.ts";
+import type { ItemMod } from "./itemMod.ts";
 import type { ItemProperty } from "./itemProperty.ts";
+import type { ItemRarity } from "./itemRarity.ts";
 import type { ItemReward } from "./itemReward.ts";
 import type { ItemScourged } from "./itemScourged.ts";
 import type { ItemSocket } from "./itemSocket.ts";
@@ -13,127 +18,162 @@ import type { ItemUltimatumMod } from "./itemUltimatumMod.ts";
 import type { Realm } from "./realm.ts";
 
 export interface Item {
+  /** AbyssJewel always true if present */
   abyssJewel?: boolean;
   additionalProperties?: ItemProperty[];
   artFilename?: string;
-  baseType?: string;
-  /** PoE2 only */
+  baseType: string;
+  /** BondedMods PoE2 only */
   bondedMods?: string[];
-  /** PoE1 only; Supported by level 1 x */
+  /** BuiltInSupport PoE1 only; Supported by level 1 x */
   builtInSupport?: string;
+  /** CisRaceReward always true if present */
   cisRaceReward?: boolean;
-  colour?: string;
+  colour?: ItemColour;
+  /** Corrupted always true if present */
   corrupted?: boolean;
   cosmeticMods?: string[];
-  craftedMods?: string[];
+  crucible?: ItemCrucible;
+  /** CrucibleMods only allocated mods are included */
+  crucibleMods?: string[];
+  /** Delve always true if present */
   delve?: boolean;
   descrText?: string;
-  /** PoE2 only */
+  /** Desecrated PoE2 only; always true if present */
   desecrated?: boolean;
-  /** PoE2 only */
-  desecratedMods?: string[];
-  /** PoE2 only */
+  /** DoubleCorrupted PoE2 only; always true if present */
   doubleCorrupted?: boolean;
+  /** Duplicated always true if present */
   duplicated?: boolean;
+  /** Elder always true if present */
   elder?: boolean;
   enchantMods?: string[];
-  explicitMods?: string[];
+  enshrouded?: ItemEnshrouded;
+  explicitMods?: ItemMod[];
   extended?: ItemExtended;
   flavourText?: string[];
+  /** FlavourTextNote user-generated text */
   flavourTextNote?: string;
-  flavourTextParsed?: unknown[];
   foilVariation?: number;
+  /** Foreseeing always true if present */
   foreseeing?: boolean;
+  /** ForumNote user-generated text */
   forum_note?: string;
+  /** Fractured always true if present */
   fractured?: boolean;
-  fracturedMods?: string[];
+  /** FrameType deprecated; use frameTypeId */
   frameType?: number;
-  frameTypeId?: string;
-  /** PoE2 only */
+  frameTypeId: string;
+  /** GemBackground PoE2 only */
   gemBackground?: string;
-  /** PoE2 only */
+  /** GemSkill PoE2 only */
   gemSkill?: string;
-  gemSockets?: GemSocket[];
-  /** PoE2 only */
+  /** GemSockets PoE2 only; string is always W */
+  gemSockets?: string[];
+  /** GemTabs PoE2 only */
   gemTabs?: GemTab[];
-  /** PoE2 only */
+  /** GrantedSkills PoE2 only */
   grantedSkills?: ItemProperty[];
-  h?: number;
+  h: number;
   hybrid?: ItemHybrid;
-  icon?: string;
-  /** usually roman numerals */
+  icon: string;
+  /** IconStackLevel describes the level of a stack of items */
+  iconStackLevel?: string;
+  /** IconTierText usually roman numerals */
   iconTierText?: string;
+  /** Id a unique 64 digit hexadecimal string */
   id?: string;
-  identified?: boolean;
-  ilvl?: number;
-  implicitMods?: string[];
+  identified: boolean;
+  ilvl: number;
+  implicitMods?: ItemMod[];
   incubatedItem?: ItemIncubatedItem;
   influences?: ItemInfluences;
   inventoryId?: string;
+  /** IsRelic always true if present */
   isRelic?: boolean;
+  /** ItemLevel used for items that always display their item level */
   itemLevel?: number;
   league?: string;
+  /** LockedToAccount always true if present */
   lockedToAccount?: boolean;
+  /** LockedToCharacter always true if present */
   lockedToCharacter?: boolean;
   logbookMods?: ItemLogbookMod[];
   maxStackSize?: number;
+  /** MemoryItem always true if present */
   memoryItem?: boolean;
-  /** PoE1 only; used for items that always display their monster level */
+  mercenarySkills?: ItemMercenarySkill[];
+  /** MonsterLevel PoE1 only; used for items that always display their monster level */
   monsterLevel?: number;
+  /** Mutated PoE1: true on Foulborn Uniques, PoE2: true on all Vaal Uniques */
   mutated?: boolean;
-  mutatedMods?: string[];
-  name?: string;
+  name: string;
   nextLevelRequirements?: ItemProperty[];
   notableProperties?: ItemProperty[];
+  /** Note user-generated text */
   note?: string;
-  /** filled by us and not ggg */
-  objectiveId?: number;
   properties?: ItemProperty[];
   prophecyText?: string;
-  rarity?: string;
+  rarity?: ItemRarity;
   realm?: Realm;
+  /** Replica always true if present */
   replica?: boolean;
   requirements?: ItemProperty[];
   rewards?: ItemReward[];
-  /** PoE2 only */
+  /** RuneMods PoE2 only */
   runeMods?: string[];
+  /** Ruthless always true if present */
   ruthless?: boolean;
-  /** PoE2 only */
+  /** Sanctified PoE2 only; always true if present */
   sanctified?: boolean;
   scourgeMods?: string[];
   scourged?: ItemScourged;
+  /** SeaRaceReward always true if present */
   seaRaceReward?: boolean;
+  /** Searing always true if present */
   searing?: boolean;
   secDescrText?: string;
+  /** Shaper always true if present */
   shaper?: boolean;
   socket?: number;
-  /** PoE2 only */
+  /** SocketedIcon PoE2 only; an image URL to use when this item is in the socket of another item */
   socketedIcon?: string;
   socketedItems?: Item[];
   sockets?: ItemSocket[];
+  /** Split always true if present */
   split?: boolean;
   stackSize?: number;
   stackSizeText?: string;
+  /** Support always true if present */
   support?: boolean;
-  /** PoE2 only */
+  /** SupportGemRequirements PoE2 only */
   supportGemRequirements?: ItemProperty[];
+  /** Synthesised always true if present */
   synthesised?: boolean;
-  talismanTier?: number;
-  /** PoE2 only */
+  /** TamedBeastProperties PoE2 only */
   tamedBeastProperties?: ItemProperty[];
+  /** Tangled always true if present */
   tangled?: boolean;
+  /** ThRaceReward always true if present */
   thRaceReward?: boolean;
-  typeLine?: string;
+  typeLine: string;
   ultimatumMods?: ItemUltimatumMod[];
-  /** PoE2 only */
+  /** UnidentifiedTier PoE2 only */
   unidentifiedTier?: number;
+  /** Unmodifiable always true if present */
   unmodifiable?: boolean;
+  /** UnmodifiableExceptChaos always true if present */
+  unmodifiableExceptChaos?: boolean;
   utilityMods?: string[];
+  /** Veiled always true if present */
   veiled?: boolean;
+  /** VeiledMods random video identifier */
   veiledMods?: string[];
-  verified?: boolean;
-  w?: number;
-  /** PoE2 only */
+  verified: boolean;
+  /** Vestigial PoE1 only; always true if present */
+  vestigial?: boolean;
+  w: number;
+  /** WeaponRequirements PoE2 only */
   weaponRequirements?: ItemProperty[];
   x?: number;
   y?: number;

@@ -1,10 +1,10 @@
 export interface ItemProperty {
   displayMode?: number;
-  /** PoE2 only */
   icon?: string;
-  name?: string;
+  name: string;
+  /** Progress rounded to 2 decimal places */
   progress?: number;
   suffix?: string;
   type?: number;
-  values?: unknown[][];
+  values: unknown[][];
 }

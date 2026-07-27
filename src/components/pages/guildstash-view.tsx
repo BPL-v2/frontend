@@ -1,4 +1,4 @@
-import { Item } from "@api";
+import { ItemWithCompletions, ItemMod } from "@api";
 import { useGetEventStatus, useGetGuildStashTab, useGetRules } from "@api";
 import { Dialog } from "@components/dialog";
 import { StashTabGrid } from "@components/stash/stash-tab-grid";
@@ -16,16 +16,17 @@ export type ScoreQueryParams = {
   highlightScoring: boolean;
 };
 
-function fixDivcardMods(mod: string): string[] {
-  let cleaned = mod;
-  while (/\u003c[^>]+\u003e/.test(cleaned)) {
-    cleaned = cleaned.replace(/\u003c[^>]+\u003e/g, "");
+function fixDivcardMods(mod: ItemMod): ItemMod[] {
+  let cleanedText = mod.description;
+  while (/\u003c[^>]+\u003e/.test(cleanedText)) {
+    cleanedText = cleanedText.replace(/\u003c[^>]+\u003e/g, "");
   }
-  cleaned = cleaned.replace(/[{}]/g, "");
-  return cleaned
+  cleanedText = cleanedText.replace(/[{}]/g, "");
+  return cleanedText
     .split("\r\n")
     .map((line) => line.replace(/\{([^}]+)\}/g, "$1"))
-    .filter((line) => line.trim());
+    .filter((line) => line.trim())
+    .map((line) => ({ description: line, flags: mod.flags }));
 }
 export function GuildStashView({
   highlightScoring,
@@ -44,7 +45,7 @@ export function GuildStashView({
   const { rules } = useGetRules(currentEvent.id);
 
   const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ItemWithCompletions | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const width = 700;
   if (isPending) {
@@ -162,41 +163,37 @@ export function GuildStashView({
               <div className="divider m-0"></div>
               <div className="flex flex-col text-magic">
                 {selectedItem.implicitMods.map((mod, idx) => (
-                  <p key={idx}>{mod}</p>
+                  <p key={idx}>{mod.description}</p>
                 ))}
               </div>
             </>
           )}
-          {(selectedItem?.explicitMods ||
-            selectedItem?.craftedMods ||
-            selectedItem?.fracturedMods) && (
+          {(selectedItem?.explicitMods) && (
             <>
               <div className="divider m-0"></div>
               <div className="flex flex-col">
                 {selectedItem.explicitMods
                   ?.flatMap((mod) => fixDivcardMods(mod))
-                  .map((mod, idx) => (
-                    <span className="text-magic" key={idx}>
-                      {mod}
-                    </span>
-                  ))}
-                {selectedItem.craftedMods?.map((mod, idx) => (
-                  <p className="text-crafted" key={idx}>
-                    {mod}
-                  </p>
-                ))}
-                {selectedItem.fracturedMods?.map((mod, idx) => (
-                  <p className="text-fractured" key={idx}>
-                    {mod}
-                  </p>
-                ))}
+                  .map((mod, idx) => {
+                    let textColor = "text-magic";
+                    if (mod.flags?.crafted) {
+                      textColor = "text-crafted";
+                    } else if (mod.flags?.fractured) {
+                      textColor = "text-fractured";
+                    }
+                    return (
+                      <span className={textColor} key={idx}>
+                        {mod.description}
+                      </span>
+                    );
+                  })}
               </div>
             </>
           )}
         </div>
-        {selectedItem?.objectiveId &&
+        {selectedItem?.objective_id &&
           `Counts for "${
-            findObjective(rules, (obj) => selectedItem.objectiveId === obj.id)
+            findObjective(rules, (obj) => selectedItem.objective_id === obj.id)
               ?.name
           }"`}
       </Dialog>

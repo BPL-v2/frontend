@@ -91,7 +91,7 @@ export function GuildStashSelect({ path }: { path: path }) {
               if (stash.parent_id) return false; // Exclude child tabs
               if (hideDisabled && !stash.fetch_enabled) return false;
               if (stash.type === "Folder") return false;
-              if (stash.user_ids.length < 5) return false;
+              // if (stash.user_ids.length < 5) return false;
               if (!stashSearch) return true;
               const search = stashSearch.toLowerCase();
               return (

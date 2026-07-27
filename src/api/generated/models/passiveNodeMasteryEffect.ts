@@ -1,5 +1,7 @@
 export interface PassiveNodeMasteryEffect {
-  effect?: number;
+  /** Effect effect hash */
+  effect: number;
   reminderText?: string[];
-  stats?: string[];
+  /** Stats stat descriptions */
+  stats: string[];
 }

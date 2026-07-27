@@ -1,13 +1,35 @@
+import type { CharacterMetadata } from "./characterMetadata.ts";
+import type { CharacterPassives } from "./characterPassives.ts";
+import type { Item } from "./item.ts";
+import type { Realm } from "./realm.ts";
+
 export interface Character {
-  ascendancy: string;
-  ascendancy_points: number;
-  atlas_node_count: number;
-  event_id: number;
+  class: string;
+  /** Current always true if present */
+  current?: boolean;
+  /** Deleted always true if present */
+  deleted?: boolean;
+  equipment?: Item[];
+  experience: number;
+  /** Expired always true if present */
+  expired?: boolean;
+  /** Guardian PoE1 only */
+  guardian?: Item[];
+  /** Id a unique 64 digit hexadecimal string */
   id: string;
+  /** Inventory PoE1 only */
+  inventory?: Item[];
+  jewels?: Item[];
+  league?: string;
   level: number;
-  main_skill: string;
+  metadata?: CharacterMetadata;
   name: string;
-  pantheon: boolean;
-  user_id?: number;
-  void_stones: number;
+  passives?: CharacterPassives;
+  realm: Realm;
+  /** Rucksack PoE1 only */
+  rucksack?: Item[];
+  /** Ruthless PoE1 only; always true if present */
+  ruthless?: boolean;
+  /** Skills PoE2 only */
+  skills?: Item[];
 }

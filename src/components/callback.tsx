@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { router } from "../main";
 import { getGetUserBaseQueryKey } from "@api/generated/user/user";
+import { getOauthStateOrigin } from "@utils/oauth";
 
 type CallbackProps = {
   state: string;
@@ -39,30 +40,27 @@ export function Callback({
       });
       return;
     }
+    // The oauth provider can only redirect back to bpl-poe.com (that's the
+    // only redirect_uri we're allowed to register), so when testing against
+    // e.g. localhost, the flow started on a different origin than this page
+    // is running on. That origin's backend is the one holding the matching
+    // state/verifier, so we forward the browser there (same path, same
+    // query string) instead of trying to exchange the code here.
+    const stateOrigin = getOauthStateOrigin(state);
+    if (stateOrigin && stateOrigin !== window.location.origin) {
+      window.location.href =
+        stateOrigin + window.location.pathname + window.location.search;
+      return;
+    }
     oauthCallbackBase(provider, {
       state: state,
       code: code,
       referrer: localStorage.getItem("referrer") || undefined,
     })
       .then((resp) => {
-        // last_path is an approved-origin absolute URL (see utils/oauth.ts).
-        // If it points somewhere other than where this callback page is
-        // running (e.g. we're on bpl-poe.com because that's the only
-        // registered oauth redirect_uri, but the user actually started on
-        // localhost), hand off the auth token to that origin instead of
-        // logging in here.
-        const target = new URL(resp.last_path);
-        if (target.origin !== window.location.origin) {
-          target.hash = `auth=${resp.auth_token}`;
-          window.location.href = target.toString();
-          return;
-        }
-
         localStorage.setItem("auth", resp.auth_token);
         localStorage.removeItem("referrer");
         qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
-
-        const lastPath = target.pathname + target.search + target.hash;
 
         if (provider === "poe" && !resp.user.discord_id) {
           oauthRedirectBase("discord", { last_url: resp.last_path }).then(
@@ -72,6 +70,12 @@ export function Callback({
           );
           return;
         }
+
+        // last_path is now always an absolute, same-origin URL (see
+        // utils/oauth.ts) - strip it back down to a path for the router.
+        const lastPath = resp.last_path.startsWith("http")
+          ? resp.last_path.slice(window.location.origin.length)
+          : resp.last_path;
 
         router.navigate({
           to: lastPath,

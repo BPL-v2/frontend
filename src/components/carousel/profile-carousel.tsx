@@ -1,4 +1,4 @@
-import { Character, GameVersion } from "@api";
+import { BplCharacter, GameVersion } from "@api";
 import { useGetEvents } from "@api";
 import { ascendancies, phreciaMapping, poe2Mapping } from "@mytypes/ascendancy";
 import { Link } from "@tanstack/react-router";
@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 interface ProfileCarouselProps {
-  userCharacters: Character[];
+  userCharacters: BplCharacter[];
   userId: number;
 }
 

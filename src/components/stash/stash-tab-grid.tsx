@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { Item, GuildStashTabGGG } from "@api";
+import { Item, StashTabWithCompletions } from "@api";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  tab: GuildStashTabGGG;
+  tab: StashTabWithCompletions;
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
@@ -20,7 +20,7 @@ export const StashTabGrid: React.FC<Props> = ({
   const items = useMemo(() => {
     return (
       tab.items?.filter((item) => {
-        if (highlightScoring && !item.objectiveId) {
+        if (highlightScoring && !item.objective_id) {
           return false;
         }
         return true;
@@ -81,7 +81,7 @@ export const StashTabGrid: React.FC<Props> = ({
               >
                 <img
                   key={`${i}-${j}`}
-                  className={twMerge("h-full w-full border-1", borderColor)}
+                  className={twMerge("h-full w-full border", borderColor)}
                   style={{
                     objectFit: "contain",
                   }}
@@ -91,7 +91,7 @@ export const StashTabGrid: React.FC<Props> = ({
                 <div
                   className={twMerge(
                     "absolute top-0 left-0 select-none",
-                    gridNum === 24 ? "px-[2px] text-xs" : "px-[4px]",
+                    gridNum === 24 ? "px-0.5 text-xs" : "px-1",
                   )}
                 >
                   {(item.stackSize || 0) > 0 ? item.stackSize : null}
@@ -102,7 +102,7 @@ export const StashTabGrid: React.FC<Props> = ({
           return (
             <div
               key={`${i}-${j}`}
-              className="col-span-1 row-span-1 h-full w-full border-1 border-gray-700 bg-base-200 select-none"
+              className="col-span-1 row-span-1 h-full w-full border border-gray-700 bg-base-200 select-none"
             ></div>
           );
         }),

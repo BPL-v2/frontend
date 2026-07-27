@@ -14,7 +14,7 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { Character, CharacterStat, GGGCharacter, PoB } from "../models";
+import type { BplCharacter, Character, CharacterStat, PoB } from "../models";
 
 import { customFetch } from "../../fetcher.ts";
 
@@ -48,8 +48,8 @@ export const getGetCharactersForEventBaseUrl = (eventId: number) => {
 export const getCharactersForEventBase = async (
   eventId: number,
   options?: RequestInit,
-): Promise<Character[]> => {
-  return customFetch<Character[]>(getGetCharactersForEventBaseUrl(eventId), {
+): Promise<BplCharacter[]> => {
+  return customFetch<BplCharacter[]>(getGetCharactersForEventBaseUrl(eventId), {
     ...options,
     method: "GET",
   });
@@ -218,8 +218,8 @@ export const getGetUserCharactersBaseUrl = (userId: number) => {
 export const getUserCharactersBase = async (
   userId: number,
   options?: RequestInit,
-): Promise<Character[]> => {
-  return customFetch<Character[]>(getGetUserCharactersBaseUrl(userId), {
+): Promise<BplCharacter[]> => {
+  return customFetch<BplCharacter[]>(getGetUserCharactersBaseUrl(userId), {
     ...options,
     method: "GET",
   });
@@ -580,8 +580,8 @@ export const updateCharacterBase = async (
   userId: number,
   characterId: string,
   options?: RequestInit,
-): Promise<GGGCharacter> => {
-  return customFetch<GGGCharacter>(
+): Promise<Character> => {
+  return customFetch<Character>(
     getUpdateCharacterBaseUrl(userId, characterId),
     {
       ...options,

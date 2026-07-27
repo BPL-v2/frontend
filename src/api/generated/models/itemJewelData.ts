@@ -5,5 +5,5 @@ export interface ItemJewelData {
   radiusMin?: number;
   radiusVisual?: string;
   subgraph?: ItemJewelDataSubgraph;
-  type?: string;
+  type: string;
 }

@@ -1,4 +1,5 @@
 export interface ItemUltimatumMod {
-  tier?: number;
-  type?: string;
+  tier: number;
+  /** Type text used to display ultimatum icons */
+  type: string;
 }

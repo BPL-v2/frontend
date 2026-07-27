@@ -1,7 +1,7 @@
 import type { ItemProperty } from "./itemProperty.ts";
 
 export interface ItemHybrid {
-  baseTypeName?: string;
+  baseTypeName: string;
   explicitMods?: string[];
   isVaalGem?: boolean;
   properties?: ItemProperty[];

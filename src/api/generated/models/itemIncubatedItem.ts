@@ -1,6 +1,7 @@
 export interface ItemIncubatedItem {
-  level?: number;
-  name?: string;
-  progress?: number;
-  total?: number;
+  /** Level monster level required to progress */
+  level: number;
+  name: string;
+  progress: number;
+  total: number;
 }

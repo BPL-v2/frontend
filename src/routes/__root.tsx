@@ -20,8 +20,6 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { useGetEventStatus, useGetUser } from "@api";
 import { Footer } from "@components/footer";
 import { TwitchFilled } from "@icons/twitch";
-import { useQueryClient } from "@tanstack/react-query";
-import { getGetUserBaseQueryKey } from "@api/generated/user/user";
 import { twMerge } from "tailwind-merge";
 import { router } from "../main";
 import { addEngagementBase } from "@api";
@@ -51,7 +49,6 @@ type MenuItem = {
 function RootComponent() {
   const { currentEvent } = useContext(GlobalStateContext);
   const { user } = useGetUser();
-  const qc = useQueryClient();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const menu: MenuItem[] = useMemo(() => {
     const menu: MenuItem[] = [
@@ -121,24 +118,6 @@ function RootComponent() {
       addEngagementBase({ name: document.referrer });
     }
   }, []);
-
-  useEffect(() => {
-    // Picks up an auth token handed off from the oauth callback running on
-    // another origin (see components/callback.tsx). This happens when we
-    // started the login flow from an approved test origin (e.g. localhost)
-    // but the oauth provider could only redirect back to bpl-poe.com.
-    const hashParams = new URLSearchParams(window.location.hash.slice(1));
-    const handoffToken = hashParams.get("auth");
-    if (handoffToken) {
-      localStorage.setItem("auth", handoffToken);
-      qc.resetQueries({ queryKey: getGetUserBaseQueryKey() });
-      window.history.replaceState(
-        null,
-        "",
-        window.location.pathname + window.location.search,
-      );
-    }
-  }, [qc]);
 
   useEffect(() => {
     if (hello) {

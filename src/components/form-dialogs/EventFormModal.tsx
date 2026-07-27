@@ -54,7 +54,7 @@ export function EventFormModal({
       setOpen={setIsOpen}
       open={isOpen}
       title={existingEvent ? "Edit Event" : "Create Event"}
-      className="max-w-xl"
+      className="max-w-2xl"
     >
       <form
         className="flex w-full flex-col gap-2 rounded-box bg-base-300 p-4"

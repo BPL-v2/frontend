@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Item, GuildStashTabGGG } from "@api";
+import { Item, StashTabWithCompletions } from "@api";
 import {
   getLayout,
   StashTabLayout,
@@ -8,7 +8,7 @@ import {
 } from "@utils/stash-tabs";
 
 type Props = {
-  tab?: GuildStashTabGGG;
+  tab?: StashTabWithCompletions;
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
@@ -46,6 +46,7 @@ export const StashTabSpecial: React.FC<Props> = ({
 }) => {
   const layout = getLayout(
     tab?.type,
+    // @ts-expect-error - GGG API does not mention layout, but it is present in the data
     tab?.metadata?.layout as StashTabLayoutWrapper,
   );
 
@@ -75,7 +76,7 @@ export const StashTabSpecial: React.FC<Props> = ({
   const items = useMemo(() => {
     return (
       tab?.items?.filter((item) => {
-        if (highlightScoring && !item.objectiveId) {
+        if (highlightScoring && !item.objective_id) {
           return false;
         }
         return true;
@@ -171,7 +172,7 @@ export const StashTabSpecial: React.FC<Props> = ({
                 />{" "}
                 <div
                   className={
-                    "absolute top-[2px] left-[2px] text-xs text-white select-none"
+                    "absolute top-0.5 left-0.5 text-xs text-white select-none"
                   }
                 >
                   {(item.stackSize || 0) > 0 ? item.stackSize : null}

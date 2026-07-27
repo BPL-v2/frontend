@@ -1,8 +1,11 @@
 export interface PassiveGroup {
+  /** IsProxy always true if present */
   isProxy?: boolean;
-  nodes?: string[];
-  orbits?: number[];
+  /** Nodes the node identifiers associated with this group */
+  nodes: string[];
+  orbits: number[];
+  /** Proxy identifier of the placeholder node */
   proxy?: string;
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
 }

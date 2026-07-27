@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { Item, GuildStashTabGGG } from "@api";
+import { Item, StashTabWithCompletions} from "@api";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  tab: GuildStashTabGGG;
+  tab: StashTabWithCompletions;
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
@@ -18,7 +18,7 @@ export const StashTabUnordered: React.FC<Props> = ({
   const items = useMemo(() => {
     return (
       tab.items?.filter((item) => {
-        if (highlightScoring && !item.objectiveId) {
+        if (highlightScoring && !item.objective_id) {
           return false;
         }
         return true;

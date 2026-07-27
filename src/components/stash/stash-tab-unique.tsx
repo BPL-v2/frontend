@@ -1,9 +1,9 @@
 import React from "react";
-import { Item, GuildStashTabGGG } from "@api";
+import { Item, StashTabWithCompletions } from "@api";
 import clsx from "clsx";
 
 type Props = {
-  tab: GuildStashTabGGG;
+  tab: StashTabWithCompletions;
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
@@ -25,9 +25,9 @@ export const StashTabUnique: React.FC<Props> = ({
   highlightScoring = true,
 }) => {
   const [selectedCategory, setSelectedCategory] =
-    React.useState<GuildStashTabGGG>(
+    React.useState<StashTabWithCompletions>(
       tab.children?.filter(
-        (child) => !highlightScoring || child.items?.some((i) => i.objectiveId),
+        (child) => !highlightScoring || child.items?.some((i) => i.objective_id),
       )?.[0] || tab,
     );
 
@@ -43,7 +43,7 @@ export const StashTabUnique: React.FC<Props> = ({
       <div className="mb-2 flex flex-row flex-wrap gap-1">
         {tab.children
           ?.filter((child) => {
-            if (highlightScoring && !child.items?.some((i) => i.objectiveId)) {
+            if (highlightScoring && !child.items?.some((i) => i.objective_id)) {
               return false;
             }
             return child.name;
@@ -66,7 +66,7 @@ export const StashTabUnique: React.FC<Props> = ({
       <div className="flex flex-wrap gap-2">
         {selectedCategory.items
           ?.filter((item) => {
-            return !highlightScoring || item.objectiveId;
+            return !highlightScoring || item.objective_id;
           })
           .sort((a, b) => (b.h || 1) - (a.h || 1))
           .map((item, idx) => {
@@ -74,7 +74,7 @@ export const StashTabUnique: React.FC<Props> = ({
               <div
                 className={clsx(
                   "card w-42 basis-42 cursor-pointer",
-                  item.objectiveId
+                  item.objective_id
                     ? "border-2 border-primary bg-base-300"
                     : "bg-base-200",
                 )}

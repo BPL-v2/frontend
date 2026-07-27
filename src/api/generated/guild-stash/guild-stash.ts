@@ -22,7 +22,7 @@ import type {
   GuildStashChangelog,
   GuildStashLogTimestampResponse,
   GuildStashTab,
-  GuildStashTabGGG,
+  StashTabWithCompletions,
   TabSwitchRequest,
 } from "../models";
 
@@ -994,8 +994,8 @@ export const getGuildStashTabBase = async (
   teamId: number,
   stashId: string,
   options?: RequestInit,
-): Promise<GuildStashTabGGG> => {
-  return customFetch<GuildStashTabGGG>(
+): Promise<StashTabWithCompletions> => {
+  return customFetch<StashTabWithCompletions>(
     getGetGuildStashTabBaseUrl(eventId, teamId, stashId),
     {
       ...options,

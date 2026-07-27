@@ -1,5 +1,5 @@
 /**
- * PoE2 only
+ * Type PoE2 only; gem, jewel, or rune
  */
 export type ItemSocketType =
   (typeof ItemSocketType)[keyof typeof ItemSocketType];
