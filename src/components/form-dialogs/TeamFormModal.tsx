@@ -70,6 +70,7 @@ export function TeamFormModal({
     "Trickster",
     "Warden",
     "Reliquarian",
+    "Luminary",
   ];
 
   return (
