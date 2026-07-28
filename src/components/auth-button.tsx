@@ -26,10 +26,7 @@ const AuthButton = () => {
       <div className="dropdown dropdown-end">
         <button
           tabIndex={0}
-          className={twMerge(
-            "btn border-0 py-8 btn-lg hover:bg-primary hover:text-primary-content",
-            page === "settings" ? "btn-primary" : "btn-ghost",
-          )}
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xl font-medium text-base-content/85 transition-colors duration-150 hover:text-base-content"
         >
           <UserIcon className="size-6" />
           <span className="hidden sm:block">
@@ -79,7 +76,7 @@ const AuthButton = () => {
   }
   return (
     <button
-      className="btn border-0 btn-ghost btn-lg hover:bg-primary hover:text-primary-content"
+      className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xl font-medium text-base-content/85 transition-colors duration-150 hover:text-base-content"
       onClick={redirectOauth("poe", state.location.href)}
       title="Login with Path of Exile and Discord"
     >
