@@ -55,7 +55,7 @@ export const getGetAchievementsBaseUrl = () => {
  * @summary List achievement definitions
  */
 export const getAchievementsBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<AchievementResponse[]> => {
   return customFetch<AchievementResponse[]>(getGetAchievementsBaseUrl(), {
     ...options,
@@ -211,7 +211,7 @@ export const getCreateAchievementBaseUrl = () => {
  */
 export const createAchievementBase = async (
   createAchievementBaseBody: CreateAchievementBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<AchievementResponse> => {
   return customFetch<AchievementResponse>(getCreateAchievementBaseUrl(), {
     ...options,
@@ -298,7 +298,7 @@ export const getSyncAchievementsBaseUrl = () => {
  * @summary Trigger system achievement sync
  */
 export const syncAchievementsBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getSyncAchievementsBaseUrl(), {
     ...options,
@@ -382,7 +382,7 @@ export const getDeleteAchievementBaseUrl = (achievementId: number) => {
  */
 export const deleteAchievementBase = async (
   achievementId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteAchievementBaseUrl(achievementId), {
     ...options,
@@ -469,7 +469,7 @@ export const getUpdateAchievementBaseUrl = (achievementId: number) => {
 export const updateAchievementBase = async (
   achievementId: number,
   updateAchievementBaseBody: UpdateAchievementBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<AchievementResponse> => {
   return customFetch<AchievementResponse>(
     getUpdateAchievementBaseUrl(achievementId),
@@ -560,7 +560,7 @@ export const getGetIconBaseUrl = (achievementId: number) => {
  */
 export const getIconBase = async (
   achievementId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Blob> => {
   return customFetch<Blob>(getGetIconBaseUrl(achievementId), {
     ...options,
@@ -710,7 +710,7 @@ export const getUploadIconBaseUrl = (achievementId: number) => {
 export const uploadIconBase = async (
   achievementId: number,
   uploadIconBaseBody: unknown | UploadIconBaseBodyTwo,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getUploadIconBaseUrl(achievementId), {
     ...options,
@@ -808,7 +808,7 @@ export const getGetUserAchievementsBaseUrl = (
  */
 export const getUserAchievementsBase = async (
   params?: GetUserAchievementsBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<UserAchievementResponse[]> => {
   return customFetch<UserAchievementResponse[]>(
     getGetUserAchievementsBaseUrl(params),
@@ -978,7 +978,7 @@ export const getGrantAchievementBaseUrl = () => {
  */
 export const grantAchievementBase = async (
   grantAchievementBaseBody: GrantAchievementBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GrantAchievementBase201> => {
   return customFetch<GrantAchievementBase201>(getGrantAchievementBaseUrl(), {
     ...options,
@@ -1070,7 +1070,7 @@ export const getRevokeAchievementBaseUrl = (
 export const revokeAchievementBase = async (
   userId: number,
   achievementId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getRevokeAchievementBaseUrl(userId, achievementId), {
     ...options,

@@ -50,7 +50,7 @@ export const getLoginDiscordBotBaseUrl = () => {
  * Logs in the discord bot (only for internal use)
  */
 export const loginDiscordBotBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<string> => {
   return customFetch<string>(getLoginDiscordBotBaseUrl(), {
     ...options,
@@ -134,7 +134,7 @@ export const getOauthCallbackBaseUrl = (
 export const oauthCallbackBase = async (
   provider: "poe" | "twitch" | "discord",
   oauthCallbackBaseBody: OauthCallbackBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<CallbackResponse> => {
   return customFetch<CallbackResponse>(getOauthCallbackBaseUrl(provider), {
     ...options,
@@ -232,7 +232,7 @@ export const getOauthRedirectBaseUrl = (
 export const oauthRedirectBase = async (
   provider: "poe" | "twitch" | "discord",
   params?: OauthRedirectBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<string> => {
   return customFetch<string>(getOauthRedirectBaseUrl(provider, params), {
     ...options,

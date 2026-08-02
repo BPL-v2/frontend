@@ -47,7 +47,7 @@ export const getGetEventSignupsBaseUrl = (eventId: number) => {
  */
 export const getEventSignupsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ExtendedSignup[]> => {
   return customFetch<ExtendedSignup[]>(getGetEventSignupsBaseUrl(eventId), {
     ...options,
@@ -214,7 +214,7 @@ export const getGetPersonalSignupBaseUrl = (eventId: number) => {
  */
 export const getPersonalSignupBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Signup> => {
   return customFetch<Signup>(getGetPersonalSignupBaseUrl(eventId), {
     ...options,
@@ -382,7 +382,7 @@ export const getCreateSignupBaseUrl = (eventId: number) => {
 export const createSignupBase = async (
   eventId: number,
   createSignupBaseBody: CreateSignupBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Signup> => {
   return customFetch<Signup>(getCreateSignupBaseUrl(eventId), {
     ...options,
@@ -465,7 +465,7 @@ export const getDeleteSignupBaseUrl = (eventId: number, userId: number) => {
 export const deleteSignupBase = async (
   eventId: number,
   userId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteSignupBaseUrl(eventId, userId), {
     ...options,

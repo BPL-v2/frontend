@@ -51,7 +51,7 @@ export const getGetScoringRulesForEventBaseUrl = (eventId: number) => {
  */
 export const getScoringRulesForEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ScoringRule[]> => {
   return customFetch<ScoringRule[]>(
     getGetScoringRulesForEventBaseUrl(eventId),
@@ -225,7 +225,7 @@ export const getCreateScoringRuleBaseUrl = (eventId: number) => {
 export const createScoringRuleBase = async (
   eventId: number,
   createScoringRuleBaseBody: CreateScoringRuleBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ScoringRule> => {
   return customFetch<ScoringRule>(getCreateScoringRuleBaseUrl(eventId), {
     ...options,
@@ -311,7 +311,7 @@ export const getDeleteScoringRuleBaseUrl = (eventId: number, id: number) => {
 export const deleteScoringRuleBase = async (
   eventId: number,
   id: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<DeleteScoringRuleBase200> => {
   return customFetch<DeleteScoringRuleBase200>(
     getDeleteScoringRuleBaseUrl(eventId, id),

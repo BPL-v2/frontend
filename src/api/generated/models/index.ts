@@ -120,6 +120,7 @@ export * from "./oauthCallbackBaseBody.ts";
 export * from "./oauthRedirectBaseParams.ts";
 export * from "./objective.ts";
 export * from "./objectiveCreate.ts";
+export * from "./objectiveDetails.ts";
 export * from "./objectiveType.ts";
 export * from "./objectiveValidation.ts";
 export * from "./operator.ts";

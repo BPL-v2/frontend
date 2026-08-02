@@ -21,7 +21,7 @@ export const getAddEngagementBaseUrl = () => {
  */
 export const addEngagementBase = async (
   addEngagementBaseBody: AddEngagementBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getAddEngagementBaseUrl(), {
     ...options,

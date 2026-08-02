@@ -51,7 +51,7 @@ export const getGetEventsBaseUrl = () => {
  * Fetches all events
  */
 export const getEventsBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Event[]> => {
   return customFetch<Event[]>(getGetEventsBaseUrl(), {
     ...options,
@@ -184,7 +184,7 @@ export const getCreateEventBaseUrl = () => {
  */
 export const createEventBase = async (
   createEventBaseBody: CreateEventBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Event> => {
   return customFetch<Event>(getCreateEventBaseUrl(), {
     ...options,
@@ -266,7 +266,7 @@ export const getDeleteEventBaseUrl = (eventId: number) => {
  */
 export const deleteEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteEventBaseUrl(eventId), {
     ...options,
@@ -346,7 +346,7 @@ export const getGetEventBaseUrl = (eventId: number) => {
  */
 export const getEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Event> => {
   return customFetch<Event>(getGetEventBaseUrl(eventId), {
     ...options,
@@ -492,7 +492,7 @@ export const getDuplicateEventBaseUrl = (eventId: number) => {
 export const duplicateEventBase = async (
   eventId: number,
   duplicateEventBaseBody: DuplicateEventBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Event> => {
   return customFetch<Event>(getDuplicateEventBaseUrl(eventId), {
     ...options,
@@ -577,7 +577,7 @@ export const getGetEventStatusBaseUrl = (eventId: number) => {
  */
 export const getEventStatusBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<EventStatus> => {
   return customFetch<EventStatus>(getGetEventStatusBaseUrl(eventId), {
     ...options,

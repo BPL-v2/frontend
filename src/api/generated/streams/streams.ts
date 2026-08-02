@@ -44,7 +44,7 @@ export const getGetStreamsBaseUrl = (eventId: number) => {
  */
 export const getStreamsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<TwitchStream[]> => {
   return customFetch<TwitchStream[]>(getGetStreamsBaseUrl(eventId), {
     ...options,

@@ -47,7 +47,7 @@ export const getGetTimingsBaseUrl = () => {
  * @summary Get timing configurations
  */
 export const getTimingsBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Timing[]> => {
   return customFetch<Timing[]>(getGetTimingsBaseUrl(), {
     ...options,
@@ -184,7 +184,7 @@ export const getSetTimingsBaseUrl = () => {
  */
 export const setTimingsBase = async (
   setTimingsBaseBody: SetTimingsBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getSetTimingsBaseUrl(), {
     ...options,

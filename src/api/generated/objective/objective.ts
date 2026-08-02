@@ -54,7 +54,7 @@ export const getGetObjectiveTreeForEventBaseUrl = (eventId: number) => {
  */
 export const getObjectiveTreeForEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
   return customFetch<Objective>(getGetObjectiveTreeForEventBaseUrl(eventId), {
     ...options,
@@ -225,7 +225,7 @@ export const getCreateObjectiveBaseUrl = (eventId: number) => {
 export const createObjectiveBase = async (
   eventId: number,
   createObjectiveBaseBody: CreateObjectiveBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
   return customFetch<Objective>(getCreateObjectiveBaseUrl(eventId), {
     ...options,
@@ -310,7 +310,7 @@ export const getGetValidMappingsBaseUrl = (eventId: number) => {
  */
 export const getValidMappingsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ConditionMappings> => {
   return customFetch<ConditionMappings>(getGetValidMappingsBaseUrl(eventId), {
     ...options,
@@ -477,7 +477,7 @@ export const getGetObjectiveValidationsBaseUrl = (eventId: number) => {
  */
 export const getObjectiveValidationsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ObjectiveValidation[]> => {
   return customFetch<ObjectiveValidation[]>(
     getGetObjectiveValidationsBaseUrl(eventId),
@@ -651,7 +651,7 @@ export const getValidateObjectivesBaseUrl = (eventId: number) => {
 export const validateObjectivesBase = async (
   eventId: number,
   validateObjectivesBaseBody: ValidateObjectivesBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getValidateObjectivesBaseUrl(eventId), {
     ...options,
@@ -737,7 +737,7 @@ export const getDeleteObjectiveBaseUrl = (eventId: number, id: number) => {
 export const deleteObjectiveBase = async (
   eventId: number,
   id: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteObjectiveBaseUrl(eventId, id), {
     ...options,
@@ -821,7 +821,7 @@ export const getGetObjectiveBaseUrl = (eventId: number, id: number) => {
 export const getObjectiveBase = async (
   eventId: number,
   id: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
   return customFetch<Objective>(getGetObjectiveBaseUrl(eventId, id), {
     ...options,
@@ -999,7 +999,7 @@ export const copyObjectiveBase = async (
   eventId: number,
   id: number,
   copyObjectiveBaseBody: CopyObjectiveBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
   return customFetch<Objective>(getCopyObjectiveBaseUrl(eventId, id), {
     ...options,

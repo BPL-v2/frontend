@@ -64,7 +64,7 @@ export const getGetEventActivitiesBaseUrl = (
 export const getEventActivitiesBase = async (
   eventId: number,
   params?: GetEventActivitiesBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GetEventActivitiesBase200> => {
   return customFetch<GetEventActivitiesBase200>(
     getGetEventActivitiesBaseUrl(eventId, params),
@@ -265,7 +265,7 @@ export const getEventActivitiesForUserBase = async (
   eventId: number,
   userId: number,
   params?: GetEventActivitiesForUserBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<number> => {
   return customFetch<number>(
     getGetEventActivitiesForUserBaseUrl(eventId, userId, params),

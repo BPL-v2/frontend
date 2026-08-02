@@ -43,7 +43,7 @@ export const getGetItemMapBaseUrl = () => {
  * Returns a map of item types to item-name-to-ID maps
  */
 export const getItemMapBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GetItemMapBase200> => {
   return customFetch<GetItemMapBase200>(getGetItemMapBaseUrl(), {
     ...options,

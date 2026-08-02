@@ -47,7 +47,7 @@ export const getGetCharactersForEventBaseUrl = (eventId: number) => {
  */
 export const getCharactersForEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<BplCharacter[]> => {
   return customFetch<BplCharacter[]>(getGetCharactersForEventBaseUrl(eventId), {
     ...options,
@@ -217,7 +217,7 @@ export const getGetUserCharactersBaseUrl = (userId: number) => {
  */
 export const getUserCharactersBase = async (
   userId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<BplCharacter[]> => {
   return customFetch<BplCharacter[]>(getGetUserCharactersBaseUrl(userId), {
     ...options,
@@ -388,7 +388,7 @@ export const getGetCharacterHistoryBaseUrl = (
 export const getCharacterHistoryBase = async (
   userId: number,
   characterId: string,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<CharacterStat[]> => {
   return customFetch<CharacterStat[]>(
     getGetCharacterHistoryBaseUrl(userId, characterId),
@@ -579,7 +579,7 @@ export const getUpdateCharacterBaseUrl = (
 export const updateCharacterBase = async (
   userId: number,
   characterId: string,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Character> => {
   return customFetch<Character>(
     getUpdateCharacterBaseUrl(userId, characterId),
@@ -666,7 +666,7 @@ export const getGetPoBsBaseUrl = (userId: number, characterId: string) => {
 export const getPoBsBase = async (
   userId: number,
   characterId: string,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<PoB[]> => {
   return customFetch<PoB[]>(getGetPoBsBaseUrl(userId, characterId), {
     ...options,
@@ -827,7 +827,7 @@ export const deletePoBExportBase = async (
   userId: number,
   characterId: string,
   pobId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(
     getDeletePoBExportBaseUrl(userId, characterId, pobId),

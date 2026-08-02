@@ -54,7 +54,7 @@ export const getGetUsersForEventBaseUrl = (eventId: number) => {
  */
 export const getUsersForEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GetUsersForEventBase200> => {
   return customFetch<GetUsersForEventBase200>(
     getGetUsersForEventBaseUrl(eventId),
@@ -228,7 +228,7 @@ export const getGetAtlasProgressionBaseUrl = (
 export const getAtlasProgressionBase = async (
   eventId: number,
   userId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<AtlasProgression[]> => {
   return customFetch<AtlasProgression[]>(
     getGetAtlasProgressionBaseUrl(eventId, userId),
@@ -414,7 +414,7 @@ export const getGetAllUsersBaseUrl = () => {
  * Fetches all users
  */
 export const getAllUsersBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<User[]> => {
   return customFetch<User[]>(getGetAllUsersBaseUrl(), {
     ...options,
@@ -575,7 +575,7 @@ export const getRemoveAuthBaseUrl = (params: RemoveAuthBaseParams) => {
  */
 export const removeAuthBase = async (
   params: RemoveAuthBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
   return customFetch<User>(getRemoveAuthBaseUrl(params), {
     ...options,
@@ -653,7 +653,9 @@ export const getGetUserBaseUrl = () => {
 /**
  * Fetches the authenticated user
  */
-export const getUserBase = async (options?: RequestInit): Promise<User> => {
+export const getUserBase = async (
+  options?: Parameters<typeof customFetch>[1],
+): Promise<User> => {
   return customFetch<User>(getGetUserBaseUrl(), {
     ...options,
     method: "GET",
@@ -785,7 +787,7 @@ export const getUpdateUserBaseUrl = () => {
  */
 export const updateUserBase = async (
   updateUserBaseBody: UpdateUserBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
   return customFetch<User>(getUpdateUserBaseUrl(), {
     ...options,
@@ -867,7 +869,7 @@ export const getGetUserByIdBaseUrl = (userId: number) => {
  */
 export const getUserByIdBase = async (
   userId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
   return customFetch<User>(getGetUserByIdBaseUrl(userId), {
     ...options,
@@ -1033,7 +1035,7 @@ export const getChangePermissionsBaseUrl = (userId: number) => {
 export const changePermissionsBase = async (
   userId: number,
   changePermissionsBaseBody: ChangePermissionsBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
   return customFetch<User>(getChangePermissionsBaseUrl(userId), {
     ...options,

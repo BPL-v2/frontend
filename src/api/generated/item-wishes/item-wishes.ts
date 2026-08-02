@@ -55,7 +55,7 @@ export const getGetItemWishesForTeamBaseUrl = (
 export const getItemWishesForTeamBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ItemWish[]> => {
   return customFetch<ItemWish[]>(
     getGetItemWishesForTeamBaseUrl(eventId, teamId),
@@ -244,7 +244,7 @@ export const createItemWishBase = async (
   eventId: number,
   teamId: number,
   createItemWishBaseBody: CreateItemWishBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ItemWish> => {
   return customFetch<ItemWish>(getCreateItemWishBaseUrl(eventId, teamId), {
     ...options,
@@ -335,7 +335,7 @@ export const deleteItemWishBase = async (
   eventId: number,
   teamId: number,
   wishId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteItemWishBaseUrl(eventId, teamId, wishId), {
     ...options,
@@ -425,7 +425,7 @@ export const changeItemWishBase = async (
   teamId: number,
   wishId: number,
   changeItemWishBaseBody: ChangeItemWishBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ItemWish> => {
   return customFetch<ItemWish>(
     getChangeItemWishBaseUrl(eventId, teamId, wishId),

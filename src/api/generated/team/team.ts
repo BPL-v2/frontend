@@ -55,7 +55,7 @@ export const getGetTeamsBaseUrl = (eventId: number) => {
  */
 export const getTeamsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Team[]> => {
   return customFetch<Team[]>(getGetTeamsBaseUrl(eventId), {
     ...options,
@@ -201,7 +201,7 @@ export const getCreateTeamBaseUrl = (eventId: number) => {
 export const createTeamBase = async (
   eventId: number,
   createTeamBaseBody: CreateTeamBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Team> => {
   return customFetch<Team>(getCreateTeamBaseUrl(eventId), {
     ...options,
@@ -283,7 +283,7 @@ export const getGetSortedUsersBaseUrl = (eventId: number) => {
  */
 export const getSortedUsersBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<SortedUser[]> => {
   return customFetch<SortedUser[]>(getGetSortedUsersBaseUrl(eventId), {
     ...options,
@@ -451,7 +451,7 @@ export const getAddUsersToTeamsBaseUrl = (eventId: number) => {
 export const addUsersToTeamsBase = async (
   eventId: number,
   addUsersToTeamsBaseBody: AddUsersToTeamsBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getAddUsersToTeamsBaseUrl(eventId), {
     ...options,
@@ -537,7 +537,7 @@ export const getDeleteTeamBaseUrl = (eventId: number, teamId: number) => {
 export const deleteTeamBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteTeamBaseUrl(eventId, teamId), {
     ...options,
@@ -618,7 +618,7 @@ export const getGetTeamBaseUrl = (eventId: number, teamId: number) => {
 export const getTeamBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Team> => {
   return customFetch<Team>(getGetTeamBaseUrl(eventId, teamId), {
     ...options,
@@ -777,7 +777,7 @@ export const getGetTeamSuggestionsBaseUrl = (
 export const getTeamSuggestionsBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<TeamSuggestion[]> => {
   return customFetch<TeamSuggestion[]>(
     getGetTeamSuggestionsBaseUrl(eventId, teamId),
@@ -970,7 +970,7 @@ export const deleteObjectiveTeamSuggestionBase = async (
   eventId: number,
   teamId: number,
   objectiveId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(
     getDeleteObjectiveTeamSuggestionBaseUrl(eventId, teamId, objectiveId),
@@ -1071,7 +1071,7 @@ export const createObjectiveTeamSuggestionBase = async (
   teamId: number,
   objectiveId: number,
   createObjectiveTeamSuggestionBaseBody: CreateObjectiveTeamSuggestionBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<CreateObjectiveTeamSuggestionBase201> => {
   return customFetch<CreateObjectiveTeamSuggestionBase201>(
     getCreateObjectiveTeamSuggestionBaseUrl(eventId, teamId, objectiveId),

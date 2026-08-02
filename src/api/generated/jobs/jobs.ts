@@ -46,7 +46,7 @@ export const getGetJobsBaseUrl = () => {
  * Get all recurring jobs
  */
 export const getJobsBase = async (
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<RecurringJob[]> => {
   return customFetch<RecurringJob[]>(getGetJobsBaseUrl(), {
     ...options,
@@ -179,7 +179,7 @@ export const getStartJobBaseUrl = () => {
  */
 export const startJobBase = async (
   startJobBaseBody: StartJobBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<RecurringJob> => {
   return customFetch<RecurringJob>(getStartJobBaseUrl(), {
     ...options,

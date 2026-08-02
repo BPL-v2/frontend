@@ -52,7 +52,7 @@ export const getGetSubmissionsBaseUrl = (eventId: number) => {
  */
 export const getSubmissionsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission[]> => {
   return customFetch<Submission[]>(getGetSubmissionsBaseUrl(eventId), {
     ...options,
@@ -220,7 +220,7 @@ export const getSubmitBountyBaseUrl = (eventId: number) => {
 export const submitBountyBase = async (
   eventId: number,
   submitBountyBaseBody: SubmitBountyBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission> => {
   return customFetch<Submission>(getSubmitBountyBaseUrl(eventId), {
     ...options,
@@ -303,7 +303,7 @@ export const getSetBulkSubmissionForAdminBaseUrl = (eventId: number) => {
 export const setBulkSubmissionForAdminBase = async (
   eventId: number,
   setBulkSubmissionForAdminBaseBody: SetBulkSubmissionForAdminBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission[]> => {
   return customFetch<Submission[]>(
     getSetBulkSubmissionForAdminBaseUrl(eventId),
@@ -399,7 +399,7 @@ export const getDeleteSubmissionBaseUrl = (
 export const deleteSubmissionBase = async (
   eventId: number,
   submissionId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getDeleteSubmissionBaseUrl(eventId, submissionId), {
     ...options,
@@ -487,7 +487,7 @@ export const reviewSubmissionBase = async (
   eventId: number,
   submissionId: number,
   reviewSubmissionBaseBody: ReviewSubmissionBaseBody,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission> => {
   return customFetch<Submission>(
     getReviewSubmissionBaseUrl(eventId, submissionId),

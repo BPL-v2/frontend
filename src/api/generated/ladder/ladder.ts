@@ -60,7 +60,7 @@ export const getGetLadderBaseUrl = (
 export const getLadderBase = async (
   eventId: number,
   params?: GetLadderBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<LadderEntry[]> => {
   return customFetch<LadderEntry[]>(getGetLadderBaseUrl(eventId, params), {
     ...options,

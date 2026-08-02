@@ -44,7 +44,7 @@ export const getGetLatestScoresForEventBaseUrl = (eventId: number) => {
  */
 export const getLatestScoresForEventBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ScoreDiff[]> => {
   return customFetch<ScoreDiff[]>(getGetLatestScoresForEventBaseUrl(eventId), {
     ...options,
@@ -214,7 +214,7 @@ export const getSimpleScoreWebSocketBaseUrl = (eventId: number) => {
  */
 export const simpleScoreWebSocketBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<SimpleScoreWebSocketBase200> => {
   return customFetch<SimpleScoreWebSocketBase200>(
     getSimpleScoreWebSocketBaseUrl(eventId),
@@ -387,7 +387,7 @@ export const getScoreWebSocketBaseUrl = (eventId: number) => {
  */
 export const scoreWebSocketBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<ScoreDiff> => {
   return customFetch<ScoreDiff>(getScoreWebSocketBaseUrl(eventId), {
     ...options,

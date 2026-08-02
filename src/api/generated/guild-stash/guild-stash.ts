@@ -57,7 +57,7 @@ export const getGetGuildsBaseUrl = (eventId: number) => {
  */
 export const getGuildsBase = async (
   eventId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Guild[]> => {
   return customFetch<Guild[]>(getGetGuildsBaseUrl(eventId), {
     ...options,
@@ -204,7 +204,7 @@ export const saveGuildBase = async (
   eventId: number,
   guildId: number,
   guild: Guild,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Guild> => {
   return customFetch<Guild>(getSaveGuildBaseUrl(eventId, guildId), {
     ...options,
@@ -304,7 +304,7 @@ export const getLogEntriesForGuildBase = async (
   eventId: number,
   guildId: number,
   params?: GetLogEntriesForGuildBaseParams,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GuildStashChangelog[]> => {
   return customFetch<GuildStashChangelog[]>(
     getGetLogEntriesForGuildBaseUrl(eventId, guildId, params),
@@ -509,7 +509,7 @@ export const addGuildstashHistoryBase = async (
   eventId: number,
   guildId: number,
   guildStashChangeResponse: GuildStashChangeResponse,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<AddGuildStashHistoryResponse> => {
   return customFetch<AddGuildStashHistoryResponse>(
     getAddGuildstashHistoryBaseUrl(eventId, guildId),
@@ -604,7 +604,7 @@ export const getGetLatestTimestampForUserBaseUrl = (
 export const getLatestTimestampForUserBase = async (
   eventId: number,
   guildId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GuildStashLogTimestampResponse> => {
   return customFetch<GuildStashLogTimestampResponse>(
     getGetLatestTimestampForUserBaseUrl(eventId, guildId),
@@ -800,7 +800,7 @@ export const getGetGuildStashForUserBaseUrl = (
 export const getGuildStashForUserBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<GuildStashTab[]> => {
   return customFetch<GuildStashTab[]>(
     getGetGuildStashForUserBaseUrl(eventId, teamId),
@@ -993,7 +993,7 @@ export const getGuildStashTabBase = async (
   eventId: number,
   teamId: number,
   stashId: string,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<StashTabWithCompletions> => {
   return customFetch<StashTabWithCompletions>(
     getGetGuildStashTabBaseUrl(eventId, teamId, stashId),
@@ -1199,7 +1199,7 @@ export const switchStashFetchingBase = async (
   teamId: number,
   stashId: string,
   tabSwitchRequest: TabSwitchRequest,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(
     getSwitchStashFetchingBaseUrl(eventId, teamId, stashId),
@@ -1312,7 +1312,7 @@ export const updateStashTabBase = async (
   eventId: number,
   teamId: number,
   stashId: string,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
   return customFetch<void>(getUpdateStashTabBaseUrl(eventId, teamId, stashId), {
     ...options,

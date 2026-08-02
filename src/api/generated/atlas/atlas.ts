@@ -48,7 +48,7 @@ export const getGetTeamAtlasesForEventBaseUrl = (
 export const getTeamAtlasesForEventBase = async (
   eventId: number,
   teamId: number,
-  options?: RequestInit,
+  options?: Parameters<typeof customFetch>[1],
 ): Promise<Atlas[]> => {
   return customFetch<Atlas[]>(
     getGetTeamAtlasesForEventBaseUrl(eventId, teamId),
