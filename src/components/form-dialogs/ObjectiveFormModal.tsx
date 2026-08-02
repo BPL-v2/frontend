@@ -177,9 +177,29 @@ export function ObjectiveFormModal({
             )}
           />
           <form.AppField
-            name="tracked_value_explanation"
+            name="details.tracked_value_explanation"
             children={(field) => (
-              <field.TextField label="Tracking note" hidden={!objective_type} />
+              <field.TextField label="Tracking note" 
+              placeholder="i.e. 'number of kills'"              
+              hidden={objective_type !== ObjectiveType.SUBMISSION} />
+            )}
+          />
+          <form.AppField
+            name="details.gems_limited"
+            children={(field) => (
+              <field.BooleanField
+                label="Gems limited"
+                hidden={objective_type !== ObjectiveType.SUBMISSION}
+              />
+            )}
+          />
+          <form.AppField
+            name="details.ascendancies_limited"
+            children={(field) => (
+              <field.BooleanField
+                label="Ascendancies limited"
+                hidden={objective_type !== ObjectiveType.SUBMISSION}
+              />
             )}
           />
           <form.AppField

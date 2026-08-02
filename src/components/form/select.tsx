@@ -68,6 +68,17 @@ export default function Select<T>({
       : cleanOptions.filter((option) => {
           return option.label.toLowerCase().includes(query.toLowerCase());
         });
+
+  const labelByValue = useMemo(
+    () => new Map(cleanOptions.map((o) => [o.value, o.label])),
+    [cleanOptions],
+  );
+
+  const showClear = !!selected && !required;
+  const virtualOptions = showClear
+    ? [null, ...filtered.map((o) => o.value)]
+    : filtered.map((o) => o.value);
+
   return (
     <div className={twMerge(fontSize, className)}>
       {name && (
@@ -86,6 +97,9 @@ export default function Select<T>({
         }}
         onClose={() => setQuery("")}
         name={name}
+        virtual={{
+          options: virtualOptions as (NonNullable<T> | null)[],
+        }}
       >
         <ComboboxButton className="w-full" name={name}>
           <ComboboxInput
@@ -93,6 +107,9 @@ export default function Select<T>({
             displayValue={() => selected?.label || ""}
             onChange={(event) => {
               setQuery(event.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === " ") e.stopPropagation();
             }}
             placeholder={placeholder}
             name={name}
@@ -102,25 +119,25 @@ export default function Select<T>({
         </ComboboxButton>
         <ComboboxOptions
           anchor="bottom"
-          className="z-1000 w-(--input-width) rounded-box border-2 border-gray-200 bg-base-100 p-1"
+          className="z-1000 max-h-72 w-(--input-width) overflow-y-auto rounded-box border-2 border-gray-200 bg-base-100 p-1"
         >
-          {selected && !required && (
-            <ComboboxOption
-              value={null}
-              className="group cursor-pointer rounded-lg px-3 py-2 text-error select-none data-focus:bg-error data-focus:text-error-content"
-            >
-              Clear Selection
-            </ComboboxOption>
-          )}
-          {filtered.map((option, idx) => (
-            <ComboboxOption
-              key={name + "-option-" + idx}
-              value={option.value}
-              className="group cursor-pointer rounded-lg px-3 py-2 select-none hover:bg-base-300 data-selected:bg-primary data-selected:text-primary-content"
-            >
-              {option.label}
-            </ComboboxOption>
-          ))}
+          {({ option }: { option: T | null }) =>
+            option === null ? (
+              <ComboboxOption
+                value={null}
+                className="group cursor-pointer rounded-lg px-3 py-2 text-error select-none data-focus:bg-error data-focus:text-error-content"
+              >
+                Clear Selection
+              </ComboboxOption>
+            ) : (
+              <ComboboxOption
+                value={option}
+                className="group cursor-pointer rounded-lg px-3 py-2 select-none hover:bg-base-300 data-selected:bg-primary data-selected:text-primary-content"
+              >
+                {labelByValue.get(option)}
+              </ComboboxOption>
+            )
+          }
         </ComboboxOptions>
       </Combobox>
     </div>

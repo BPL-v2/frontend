@@ -1,7 +1,5 @@
 {
     "r": [
-        "",
-        "...",
         "Absolution",
         "Absolution of Inspiring",
         "Added Fire Damage Support",
@@ -527,7 +525,6 @@
         "Withering Touch Support"
     ],
     "b": [
-        "...",
         "Added Chaos Damage Support",
         "Added Lightning Damage Support",
         "Arc",

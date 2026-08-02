@@ -1,11 +1,16 @@
 import { ScoreObjective } from "@mytypes/score";
 import { Dialog } from "@components/dialog";
-import { useSubmitBounty } from "@api";
+import { useFile, useSubmitBounty } from "@api";
+import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useContext, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { CountingMethod, SubmissionCreate } from "@api";
-import { DateTimePicker } from "@components/form/datetime-picker";
+import { ascendancies } from "@mytypes/ascendancy";
+
+type ExtendedSubmissionCreate = Omit<SubmissionCreate, "timestamp"> & {
+  timestamp?: string;
+};
 
 type SubmissionFormModalProps = {
   objective?: ScoreObjective;
@@ -20,8 +25,39 @@ export function SubmissionFormModal({
 }: SubmissionFormModalProps) {
   const { currentEvent } = useContext(GlobalStateContext);
   const qc = useQueryClient();
-  const formRef = useRef<HTMLFormElement>(null);
   const { submitBounty } = useSubmitBounty(qc, currentEvent.id);
+  const { data: gems } = useFile<Record<string, string[]>>(
+    "/assets/poe1/items/gem_colors.json",
+  );
+
+  const allGems = new Set<string>(Object.values(gems || {}).flat());
+
+  const form = useAppForm({
+    defaultValues: {
+      number: 1,
+      gems_used: [],
+      proof: "",
+      comment: "",
+    } as unknown as ExtendedSubmissionCreate,
+    onSubmit: (data) => {
+      if (!objective) {
+        return;
+      }
+      submitBounty({
+        ...data.value,
+        timestamp: new Date(data.value.timestamp as string),
+        objective_id: objective.id,
+      } as SubmissionCreate);
+      setShowModal(false);
+      form.reset();
+    },
+  });
+
+  useEffect(() => {
+    if (!showModal) return;
+    form.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModal, objective]);
 
   if (!currentEvent || !objective) {
     return <></>;
@@ -34,60 +70,91 @@ export function SubmissionFormModal({
       setOpen={setShowModal}
     >
       <form
-        ref={formRef}
         onSubmit={(e) => {
           e.preventDefault();
-          const values = Object.fromEntries(
-            new FormData(e.target as HTMLFormElement),
-          );
-
-          if (!objective) {
-            return;
-          }
-          const submissionCreate: SubmissionCreate = {
-            ...values,
-            timestamp: new Date(values.timestamp as string),
-            number: parseInt(values.number as string) || 1,
-            objective_id: objective.id,
-          };
-          submitBounty(submissionCreate);
-          setShowModal(false);
+          form.handleSubmit();
         }}
         className="form w-full"
       >
         <fieldset className="fieldset rounded-box bg-base-300 p-6">
-          <DateTimePicker label="Time (in your timezone)" name="timestamp" />
+          <form.AppField
+            name="timestamp"
+            children={(field) => (
+              <field.DateTimeField
+                label="Time (in your timezone)"
+                required
+              />
+            )}
+          />
           {(objective?.counting_method == CountingMethod.HIGHEST_VALUE ||
             objective?.counting_method == CountingMethod.LOWEST_VALUE) && (
-            <>
-              <label className="label">
-                {objective?.tracked_value_explanation || "Submission Value"}
-              </label>
-              <input
-                type="number"
-                className="input w-full"
-                required
-                name="number"
-              />
-            </>
+            <form.AppField
+              name="number"
+              children={(field) => (
+                <field.NumberField
+                  label={
+                    objective?.details?.tracked_value_explanation ||
+                    "Submission Value"
+                  }
+                  required
+                />
+              )}
+            />
           )}
-          <label className="label">Link to proof</label>
-          <input type="text" className="input w-full" required name="proof" />
-          <label className="label">Comment</label>
-          <input type="text" className="input w-full" name="comment" />
+          {objective?.details?.gems_limited && (
+            <form.AppField
+              name="gems_used"
+              children={(field) => (
+                <field.MultiSelectField
+                  label="Gems used"
+                  required={true}
+                  options={Array.from(allGems).map((gem) => ({
+                    label: gem,
+                    value: gem,
+                  }))}
+                />
+              )}
+            />
+          )}
+          {objective?.details?.ascendancies_limited && (
+            <form.AppField
+              name="ascendancy_classes_used"
+              children={(field) => (
+                <field.MultiSelectField
+                  label="Ascendancies used"
+                  required={true}
+                  options={Object.keys(ascendancies.poe1).sort((a, b) => a.localeCompare(b)).map((ascendancy) => ({
+                    label: ascendancy,
+                    value: ascendancy,
+                  }))}
+                />
+              )}
+            />
+          )}
+          <form.AppField
+            name="proof"
+            children={(field) => (
+              <field.TextField label="Link to proof" required />
+            )}
+          />
+          <form.AppField
+            name="comment"
+            children={(field) => <field.TextField label="Comment" />}
+          />
         </fieldset>
+        <div className="modal-action w-full">
+          <button
+            type="button"
+            className="btn btn-error"
+            onClick={() => setShowModal(false)}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </div>
       </form>
-      <div className="modal-action w-full">
-        <button className="btn btn-error" onClick={() => setShowModal(false)}>
-          Cancel
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => formRef.current?.requestSubmit()}
-        >
-          Submit
-        </button>
-      </div>
     </Dialog>
   );
 }

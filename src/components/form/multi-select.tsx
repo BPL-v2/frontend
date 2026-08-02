@@ -5,7 +5,7 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type SelectOption<T> = {
@@ -36,25 +36,34 @@ export function MultiSelect<T>({
   const filtered = options.filter(
     (o) => !query || o.label.toLowerCase().includes(query.toLowerCase()),
   );
+  const labelByValue = useMemo(
+    () => new Map(options.map((o) => [o.value, o.label])),
+    [options],
+  );
+
   return (
     <Combobox
       multiple
       value={values ?? []}
       onChange={onChange}
       onClose={() => setQuery("")}
+      virtual={{ options: filtered.map((o) => o.value) }}
     >
       <div className={twMerge("w-full", className, "relative")}>
         <ComboboxButton className="w-full">
           <ComboboxInput
             className={twMerge("w-full", className, "input")}
             onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === " ") e.stopPropagation();
+            }}
             placeholder={
               values.length > 0
                 ? options.find((o) => o.value === values[values.length - 1])
                     ?.label
                 : placeholder
             }
-            required={required}
+            required={required && values.length === 0}
             name={name}
             autoComplete="off"
           />
@@ -68,17 +77,16 @@ export function MultiSelect<T>({
       {filtered.length > 0 && (
         <ComboboxOptions
           anchor="bottom"
-          className="z-1000 flex w-(--input-width) flex-col gap-1 rounded-box border border-highlight bg-base-300 p-2"
+          className="z-1000 max-h-72 w-(--input-width) space-y-1 overflow-y-auto rounded-box border border-highlight bg-base-300 p-2"
         >
-          {filtered.map((option) => (
+          {({ option }: { option: T }) => (
             <ComboboxOption
-              key={option.value as unknown as string}
-              value={option.value}
-              className="w-full cursor-pointer rounded-box px-2 py-1 hover:bg-primary/50 hover:text-primary-content data-selected:bg-primary data-selected:text-primary-content"
+              value={option}
+              className="cursor-pointer rounded-box px-2 py-1 hover:bg-primary/50 hover:text-primary-content data-selected:bg-primary data-selected:text-primary-content"
             >
-              {option.label}
+              {labelByValue.get(option)}
             </ComboboxOption>
-          ))}
+          )}
         </ComboboxOptions>
       )}
     </Combobox>
