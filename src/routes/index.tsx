@@ -119,18 +119,16 @@ function Home() {
           <div className="card bg-card">
             <div className="card-body p-12">
               <div className="card-title text-4xl">Save the Date!</div>
-              <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-                <div className="mt-4 grid grid-cols-2 text-left text-2xl">
+              <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+                <div className="mt-4 grid grid-cols-[max-content_max-content] text-left text-2xl gap-x-8 gap-y-0">
                   <p>Applications start: </p>
-                  <p>
-                    {new Date(
-                      nextEvent.application_start_time,
-                    ).toLocaleString()}
+                  <p className="text-right">
+                    {new Date(nextEvent.application_start_time).toLocaleString()}
                   </p>
                   <p>Start time: </p>
-                  <p>{new Date(nextEvent.event_start_time).toLocaleString()}</p>
+                  <p className="text-right">{new Date(nextEvent.event_start_time).toLocaleString()}</p>
                   <p>End time: </p>
-                  <p>{new Date(nextEvent.event_end_time).toLocaleString()}</p>
+                  <p className="text-right">{new Date(nextEvent.event_end_time).toLocaleString()}</p>
                 </div>
 
                 {!hasStarted ? (
@@ -204,7 +202,7 @@ function Home() {
                 >
                   <div>
                     <div className="text-xl font-semibold">{event.name}</div>
-                    <div className="opacity-60 text-sm">
+                    <div className="opacity-60 text-sm text-left">
                       {new Date(event.event_start_time).toLocaleDateString()} –{" "}
                       {new Date(event.event_end_time).toLocaleDateString()}
                     </div>

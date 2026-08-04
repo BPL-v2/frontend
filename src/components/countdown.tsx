@@ -51,7 +51,7 @@ export function Countdown({ target, onEnd, size }: CountdownProps) {
     default:
       break;
   }
-  const countdownClass = twMerge("countdown mont-mono", numberSize);
+  const countdownClass = twMerge("countdown font-mono", numberSize);
 
   return (
     <div className="tooltip tooltip-bottom tooltip-primary">

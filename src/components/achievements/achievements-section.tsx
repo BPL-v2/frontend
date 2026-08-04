@@ -6,6 +6,8 @@ import {
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+const baseUrl = process.env.VITE_PUBLIC_BPL_BACKEND_URL;
+
 
 function AchievementBadge({
   achievement,
@@ -43,7 +45,7 @@ function AchievementBadge({
       >
         {iconUrl ? (
           <img
-            src={iconUrl}
+            src={`${baseUrl}${iconUrl}`}
             alt={achievement.name}
             className="size-full object-contain"
           />

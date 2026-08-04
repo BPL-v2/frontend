@@ -49,7 +49,7 @@ function EventPage() {
     },
     {
       header: "Dates",
-      size: 340,
+      size: 400,
       cell: (info) => (
         <div className="grid w-full grid-cols-2 gap-0 text-xs">
           <div className="text-left">Application Start: </div>
