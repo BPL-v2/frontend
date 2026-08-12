@@ -20,7 +20,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export const Route = createFileRoute("/admin/achievements/")({

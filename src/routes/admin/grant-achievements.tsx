@@ -20,7 +20,8 @@ import VirtualizedTable from "@components/table/virtualized-table";
 import Select from "@components/form/select";
 import { createFileRoute } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
-import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import { RowSelectionState } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 

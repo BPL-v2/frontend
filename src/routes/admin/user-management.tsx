@@ -9,7 +9,7 @@ import {
 import Select from "@components/form/select";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
-import { ColumnDef, sortingFns } from "@tanstack/react-table";
+import { ColumnDef, sortingFns } from "@components/table/react-table-shim";
 import { renderConditionally } from "@utils/token";
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,31 +35,31 @@ function UserPage() {
     {
       accessorKey: "id",
       header: "ID",
-      sortingFn: sortingFns.basic,
+      sortFn: sortingFns.basic,
       size: 100,
     },
     {
       accessorKey: "display_name",
       header: "Name",
-      sortingFn: sortingFns.text,
+      sortFn: sortingFns.text,
       size: 200,
     },
     {
       accessorKey: "account_name",
       header: "PoE Name",
-      sortingFn: sortingFns.text,
+      sortFn: sortingFns.text,
       size: 200,
     },
     {
       accessorKey: "discord_name",
       header: "Discord Name",
-      sortingFn: sortingFns.text,
+      sortFn: sortingFns.text,
       size: 200,
     },
     {
       accessorKey: "discord_id",
       header: "Discord ID",
-      sortingFn: sortingFns.basic,
+      sortFn: sortingFns.basic,
       cell: (info) => (
         <a
           onClick={() => copyDiscordId(info.row.original.discord_id)}
@@ -74,7 +74,7 @@ function UserPage() {
     {
       accessorKey: "permissions",
       header: "Permissions",
-      sortingFn: (a, b) =>
+      sortFn: (a, b) =>
         a.original.permissions.length - b.original.permissions.length,
       cell: (info) => (
         <div className="flex gap-1">

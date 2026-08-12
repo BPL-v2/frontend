@@ -11,7 +11,7 @@ import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
 import { DelveTabRules } from "@rules/delve";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ColumnDef, sortingFns } from "@tanstack/react-table";
+import { ColumnDef, sortingFns } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useEffect, useMemo, useState } from "react";
 import {
@@ -76,7 +76,7 @@ function DelveTab(): JSX.Element {
         {
           accessorKey: "delve_depth",
           header: "Depth",
-          sortingFn: sortingFns.basic,
+          sortFn: sortingFns.basic,
           cell: ({ row }) => (
             <div className="flex items-center gap-2">
               {row.original.delve_depth}
@@ -200,7 +200,7 @@ function DelveTab(): JSX.Element {
               className="text-lg font-bold"
             />
           ),
-          sortingFn: sortingFns.basic,
+          sortFn: sortingFns.basic,
           size: 120,
         },
       ];
@@ -209,7 +209,7 @@ function DelveTab(): JSX.Element {
         {
           accessorKey: "delve_depth",
           header: "Depth",
-          sortingFn: sortingFns.basic,
+          sortFn: sortingFns.basic,
           size: 100,
         },
         {

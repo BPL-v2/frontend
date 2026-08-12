@@ -11,7 +11,7 @@ import VirtualizedTable from "@components/table/virtualized-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { renderConditionally } from "@utils/token";
 import { useState } from "react";
 

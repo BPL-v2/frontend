@@ -9,7 +9,7 @@ import Table from "@components/table/table";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 

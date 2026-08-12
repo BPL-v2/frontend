@@ -1,25 +1,19 @@
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { TableSortIcon } from "@icons/table-sort";
+import { flexRender, RowData, SortingState } from "@tanstack/react-table";
 import {
   Column,
   ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  OnChangeFn,
   Row,
-  SortingState,
   TableOptions,
-  TableState,
   useReactTable,
-} from "@tanstack/react-table";
+} from "./react-table-shim";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Select, { SelectOption } from "../form/select";
 
-function VirtualizedTable<T>({
+function VirtualizedTable<T extends RowData>({
   data,
   columns,
   rowClassName,
@@ -46,31 +40,13 @@ function VirtualizedTable<T>({
   const options: TableOptions<T> = {
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    ...(sortable ? { onSortingChange: setSorting } : {}),
+    state: {
+      sorting,
+    },
   };
-  if (sortable) {
-    options.getSortedRowModel = getSortedRowModel();
-    options.onSortingChange = setSorting;
-  }
-  const state: Partial<TableState> = {
-    sorting,
-  };
-  options.state = state;
 
   const table = useReactTable(options);
-
-  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
-    setSorting(updater);
-    if (table.getRowModel().rows.length) {
-      rowVirtualizer.scrollToIndex?.(0);
-    }
-  };
-
-  table.setOptions((prev) => ({
-    ...prev,
-    onSortingChange: handleSortingChange,
-  }));
 
   const { rows } = table.getRowModel();
 
@@ -80,6 +56,18 @@ function VirtualizedTable<T>({
     getScrollElement: () => tableRef.current,
     overscan: 5,
   });
+
+  const isFirstRender = React.useRef(true);
+  React.useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (rows.length) {
+      rowVirtualizer.scrollToIndex?.(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorting]);
   return (
     <div
       ref={tableRef}
@@ -207,7 +195,7 @@ type ColumnDefMeta<T> = {
   align?: "left" | "center" | "right";
 };
 
-function Filter<T>({ column }: { column: Column<T, unknown> }) {
+function Filter<T extends RowData>({ column }: { column: Column<T, unknown> }) {
   const columnFilterValue = column.getFilterValue();
   const { filterVariant, filterPlaceholder, options } =
     (column.columnDef.meta as ColumnDefMeta<T>) ?? {};

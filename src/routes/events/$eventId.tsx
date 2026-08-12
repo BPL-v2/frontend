@@ -23,7 +23,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { defaultPreferences } from "@mytypes/preferences";
-import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
+import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getSkillColor } from "@utils/gems";
@@ -271,7 +271,7 @@ function EventPage(): JSX.Element {
               className="text-lg font-bold"
             />
           ),
-          sortingFn: sortingFns.basic,
+          sortFn: sortingFns.basic,
           size: 120,
         },
         {
@@ -313,7 +313,7 @@ function EventPage(): JSX.Element {
               return value.toLocaleString();
             },
             size: 100,
-            sortingFn: sortingFns.basic,
+            sortFn: sortingFns.basic,
             meta: { filterVariant: "number" },
           };
         }),

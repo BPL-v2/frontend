@@ -9,7 +9,7 @@ import VirtualizedTable from "@components/table/virtualized-table";
 import { ScoreObjective } from "@mytypes/score";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import {
   getPotentialPoints,

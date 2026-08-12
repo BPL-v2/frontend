@@ -7,7 +7,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { createFileRoute } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { isLoggedIn } from "@utils/token";
 import { useContext } from "react";

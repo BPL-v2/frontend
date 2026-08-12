@@ -1,5 +1,5 @@
 import { Event, LadderEntry, Team } from "@api";
-import { CellContext, ColumnDef, sortingFns } from "@tanstack/react-table";
+import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
 import { JSX, useContext, useMemo, useState } from "react";
@@ -387,7 +387,7 @@ function LadderTab(): JSX.Element {
               className="text-lg font-bold"
             />
           ),
-          sortingFn: sortingFns.basic,
+          sortFn: sortingFns.basic,
           size: 120,
         },
         {
@@ -433,7 +433,7 @@ function LadderTab(): JSX.Element {
               return value.toLocaleString();
             },
             size: 110,
-            sortingFn: sortingFns.basic,
+            sortFn: sortingFns.basic,
             meta: {
               filterVariant: "number",
             },

@@ -70,7 +70,6 @@ export default defineConfig({
           if (
             id.includes("node_modules/clsx/") ||
             id.includes("node_modules/dayjs/") ||
-            id.includes("node_modules/isomorphic-fetch/") ||
             id.includes("node_modules/tailwind-merge/") ||
             id.includes("node_modules/url/")
           ) {

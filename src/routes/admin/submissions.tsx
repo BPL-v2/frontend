@@ -22,7 +22,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { renderStringWithUrl } from "@utils/text-utils";
 import { flatMap, iterateObjectives } from "@utils/utils";
 import dayjs from "dayjs";

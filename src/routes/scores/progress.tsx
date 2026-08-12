@@ -5,7 +5,7 @@ import { TeamName } from "@components/team/team-name";
 import { CategoryIcon, iconMap } from "@icons/category-icons";
 import { ScoreObjective } from "@mytypes/score";
 import { createFileRoute } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderScore } from "@utils/score";
 import { getDeltaTimeBetween } from "@utils/time";

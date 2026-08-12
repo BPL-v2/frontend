@@ -3,7 +3,7 @@ import { useGetEventStatus, useGetUsers } from "@api";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
 import { getImageLocation } from "@mytypes/scoring-objective";
-import { CellContext, ColumnDef } from "@tanstack/react-table";
+import { CellContext, ColumnDef } from "./react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import {
   ExtendedScoreObjective,

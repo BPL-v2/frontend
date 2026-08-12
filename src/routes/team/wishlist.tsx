@@ -26,7 +26,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
 import { useContext, useState } from "react";

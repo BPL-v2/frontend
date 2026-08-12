@@ -3,7 +3,7 @@ import { usePreloadGuildLogs, useGetGuildLogs } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useEffect, useMemo } from "react";
 

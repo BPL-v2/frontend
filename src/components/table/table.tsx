@@ -1,24 +1,18 @@
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { TableSortIcon } from "@icons/table-sort";
+import { flexRender, RowData, SortingState } from "@tanstack/react-table";
 import {
   Column,
   ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  OnChangeFn,
   Row,
-  SortingState,
   TableOptions,
-  TableState,
   useReactTable,
-} from "@tanstack/react-table";
+} from "./react-table-shim";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Select, { SelectOption } from "../form/select";
 
-function Table<T>({
+function Table<T extends RowData>({
   data,
   columns,
   rowClassName,
@@ -44,30 +38,13 @@ function Table<T>({
   const options: TableOptions<T> = {
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    ...(sortable ? { onSortingChange: setSorting } : {}),
+    state: {
+      sorting,
+    },
   };
-
-  if (sortable) {
-    options.getSortedRowModel = getSortedRowModel();
-    options.onSortingChange = setSorting;
-  }
-
-  const state: Partial<TableState> = {
-    sorting,
-  };
-  options.state = state;
 
   const table = useReactTable(options);
-
-  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
-    setSorting(updater);
-  };
-
-  table.setOptions((prev) => ({
-    ...prev,
-    onSortingChange: handleSortingChange,
-  }));
 
   const { rows } = table.getRowModel();
 
@@ -179,7 +156,7 @@ type ColumnDefMeta<T> = {
   dividerRight?: boolean;
 };
 
-function Filter<T>({ column }: { column: Column<T, unknown> }) {
+function Filter<T extends RowData>({ column }: { column: Column<T, unknown> }) {
   const columnFilterValue = column.getFilterValue();
   const { filterVariant, filterPlaceholder, options } =
     (column.columnDef.meta as ColumnDefMeta<T>) ?? {};

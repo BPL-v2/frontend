@@ -5,7 +5,7 @@ import VirtualizedTable from "@components/table/virtualized-table";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
 import { sortUsers, type SortBucketConfig } from "@utils/usersort";

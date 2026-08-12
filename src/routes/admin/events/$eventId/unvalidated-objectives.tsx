@@ -14,7 +14,7 @@ import {
 import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { renderConditionally } from "@utils/token";
 import { flatMap } from "@utils/utils";
 import { useMemo } from "react";
