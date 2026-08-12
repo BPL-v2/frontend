@@ -92,7 +92,7 @@ export const UniqueCategoryCard = ({
           "card h-full cursor-pointer bborder shadow-xl transition-all duration-150",
           selected
             ? "bg-card-highlight text-highlight-content ring-3 ring-primary"
-            : "bg-card hover:bg-card-highlight hover:text-highlight-content",
+            : "bg-card hover:bg-card-highlight hover:border-2 hover:border-primary hover:text-highlight-content",
           props?.className,
         )}
         key={`unique-card-${objective.id}`}
@@ -100,23 +100,23 @@ export const UniqueCategoryCard = ({
       >
         <div
           className={twMerge(
-            "m-0 card-title flex justify-center sm:grid sm:grid-cols-[1fr_3fr_1fr] items-center rounded-t-box bborder-b bg-base-300/50 p-2",
+            "m-0 card-title flex items-center justify-center rounded-t-box bborder-b bg-base-300/50 p-2 sm:grid sm:grid-cols-[1fr_3fr_1fr]",
             selected ? "border-0" : "",
           )}
         >
-          <div className="hidden sm:flex items-center">
+          <div className="hidden items-center sm:flex">
             <CategoryIcon name={objective.name} />
           </div>
           <div className="text-center">
             <h1 className="font-extrabold">{objective.name}</h1>
             <h1 className="font-bold text-info">{objective.extra}</h1>
           </div>
-          <div className="hidden sm:flex justify-end">
+          <div className="hidden justify-end sm:flex">
             <Medal rank={objective.team_score[teamId].rank()} size={28} />
           </div>
         </div>
         <div className="relative flex h-full min-h-2 flex-col justify-between px-4">
-          <div className="absolute right-2 top-2 text-xs text-base-content/80">
+          <div className="absolute top-2 right-2 text-xs text-base-content/80">
             {renderScore(
               getTotalPoints(objective)[teamId],
               getPotentialPoints(objective)[teamId],
