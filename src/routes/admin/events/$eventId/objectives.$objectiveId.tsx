@@ -255,7 +255,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 data-tip="Edit"
               >
                 <button
-                  className="btn btn-xs btn-warning"
+                  className="btn btn-warning btn-xs"
                   onClick={() => {
                     setObjectiveToEdit(row.original);
                     setIsObjectiveModalOpen(true);
@@ -269,7 +269,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 data-tip="Release Dates"
               >
                 <button
-                  className="btn btn-xs btn-warning"
+                  className="btn btn-warning btn-xs"
                   onClick={() => {
                     setReleaseDatesObjective(row.original);
                     setIsReleaseDatesModalOpen(true);
@@ -283,7 +283,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 data-tip="Delete"
               >
                 <button
-                  className="btn btn-xs btn-error"
+                  className="btn btn-error btn-xs"
                   onClick={() => deleteObjective(row.original.id)}
                 >
                   <TrashIcon className="size-4" />
@@ -294,7 +294,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 data-tip="Duplicate"
               >
                 <button
-                  className="btn btn-xs btn-info"
+                  className="btn btn-info btn-xs"
                   onClick={() => duplicateObjective(row.original)}
                 >
                   <DocumentDuplicateIcon className="size-4" />
@@ -305,7 +305,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 data-tip="Add Condition"
               >
                 <button
-                  className="btn btn-xs btn-success"
+                  className="btn btn-success btn-xs"
                   onClick={() => {
                     setConditionObjective(row.original);
                     setIsConditionModalOpen(true);
@@ -322,7 +322,7 @@ export function ScoringCategoryPage(): JSX.Element {
                 <Link
                   to={"/admin/events/$eventId/objectives/$objectiveId"}
                   params={{ eventId: eventId!, objectiveId: row.original.id }}
-                  className="btn btn-xs btn-secondary"
+                  className="btn btn-secondary btn-xs"
                 >
                   <FolderOpenIcon className="size-4" />
                 </Link>
@@ -486,7 +486,7 @@ export function ScoringCategoryPage(): JSX.Element {
           Create Objectives in bulk
         </button>
         <Link
-          to="/admin/events/$eventId/scoring-presets"
+          to="/admin/events/$eventId/scoring-rules"
           params={{ eventId }}
           className="btn btn-info"
         >

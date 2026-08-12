@@ -62,7 +62,7 @@ import { Route as AuthTwitchCallbackRouteImport } from './routes/auth/twitch.cal
 import { Route as TeamStashesStashIdRouteImport } from './routes/team/stashes/$stashId'
 import { Route as AdminEventsEventIdObjectiveHelpRouteImport } from './routes/admin/events/$eventId/objective-help'
 import { Route as AdminEventsEventIdObjectivesRouteImport } from './routes/admin/events/$eventId/objectives'
-import { Route as AdminEventsEventIdScoringPresetsRouteImport } from './routes/admin/events/$eventId/scoring-presets'
+import { Route as AdminEventsEventIdScoringRulesRouteImport } from './routes/admin/events/$eventId/scoring-rules'
 import { Route as AdminEventsEventIdTeamsRouteImport } from './routes/admin/events/$eventId/teams'
 import { Route as AdminEventsEventIdUnvalidatedObjectivesRouteImport } from './routes/admin/events/$eventId/unvalidated-objectives'
 import { Route as AdminGuildLogsGuildIdRouteImport } from './routes/admin/guild/logs/$guildId'
@@ -339,10 +339,10 @@ const AdminEventsEventIdObjectivesRoute =
     path: '/admin/events/$eventId/objectives',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminEventsEventIdScoringPresetsRoute =
-  AdminEventsEventIdScoringPresetsRouteImport.update({
-    id: '/admin/events/$eventId/scoring-presets',
-    path: '/admin/events/$eventId/scoring-presets',
+const AdminEventsEventIdScoringRulesRoute =
+  AdminEventsEventIdScoringRulesRouteImport.update({
+    id: '/admin/events/$eventId/scoring-rules',
+    path: '/admin/events/$eventId/scoring-rules',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AdminEventsEventIdTeamsRoute = AdminEventsEventIdTeamsRouteImport.update({
@@ -434,7 +434,7 @@ export interface FileRoutesByFullPath {
   '/admin/guild/': typeof AdminGuildIndexRoute
   '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
   '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
-  '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
+  '/admin/events/$eventId/scoring-rules': typeof AdminEventsEventIdScoringRulesRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
   '/admin/guild/logs/$guildId': typeof AdminGuildLogsGuildIdRoute
@@ -496,7 +496,7 @@ export interface FileRoutesByTo {
   '/admin/guild': typeof AdminGuildIndexRoute
   '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
   '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
-  '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
+  '/admin/events/$eventId/scoring-rules': typeof AdminEventsEventIdScoringRulesRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
   '/admin/guild/logs/$guildId': typeof AdminGuildLogsGuildIdRoute
@@ -559,7 +559,7 @@ export interface FileRoutesById {
   '/admin/guild/': typeof AdminGuildIndexRoute
   '/admin/events/$eventId/objective-help': typeof AdminEventsEventIdObjectiveHelpRoute
   '/admin/events/$eventId/objectives': typeof AdminEventsEventIdObjectivesRouteWithChildren
-  '/admin/events/$eventId/scoring-presets': typeof AdminEventsEventIdScoringPresetsRoute
+  '/admin/events/$eventId/scoring-rules': typeof AdminEventsEventIdScoringRulesRoute
   '/admin/events/$eventId/teams': typeof AdminEventsEventIdTeamsRoute
   '/admin/events/$eventId/unvalidated-objectives': typeof AdminEventsEventIdUnvalidatedObjectivesRoute
   '/admin/guild/logs/$guildId': typeof AdminGuildLogsGuildIdRoute
@@ -623,7 +623,7 @@ export interface FileRouteTypes {
     | '/admin/guild/'
     | '/admin/events/$eventId/objective-help'
     | '/admin/events/$eventId/objectives'
-    | '/admin/events/$eventId/scoring-presets'
+    | '/admin/events/$eventId/scoring-rules'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
     | '/admin/guild/logs/$guildId'
@@ -685,7 +685,7 @@ export interface FileRouteTypes {
     | '/admin/guild'
     | '/admin/events/$eventId/objective-help'
     | '/admin/events/$eventId/objectives'
-    | '/admin/events/$eventId/scoring-presets'
+    | '/admin/events/$eventId/scoring-rules'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
     | '/admin/guild/logs/$guildId'
@@ -747,7 +747,7 @@ export interface FileRouteTypes {
     | '/admin/guild/'
     | '/admin/events/$eventId/objective-help'
     | '/admin/events/$eventId/objectives'
-    | '/admin/events/$eventId/scoring-presets'
+    | '/admin/events/$eventId/scoring-rules'
     | '/admin/events/$eventId/teams'
     | '/admin/events/$eventId/unvalidated-objectives'
     | '/admin/guild/logs/$guildId'
@@ -788,7 +788,7 @@ export interface RootRouteChildren {
   AdminGuildIndexRoute: typeof AdminGuildIndexRoute
   AdminEventsEventIdObjectiveHelpRoute: typeof AdminEventsEventIdObjectiveHelpRoute
   AdminEventsEventIdObjectivesRoute: typeof AdminEventsEventIdObjectivesRouteWithChildren
-  AdminEventsEventIdScoringPresetsRoute: typeof AdminEventsEventIdScoringPresetsRoute
+  AdminEventsEventIdScoringRulesRoute: typeof AdminEventsEventIdScoringRulesRoute
   AdminEventsEventIdTeamsRoute: typeof AdminEventsEventIdTeamsRoute
   AdminEventsEventIdUnvalidatedObjectivesRoute: typeof AdminEventsEventIdUnvalidatedObjectivesRoute
 }
@@ -1166,11 +1166,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsEventIdObjectivesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/events/$eventId/scoring-presets': {
-      id: '/admin/events/$eventId/scoring-presets'
-      path: '/admin/events/$eventId/scoring-presets'
-      fullPath: '/admin/events/$eventId/scoring-presets'
-      preLoaderRoute: typeof AdminEventsEventIdScoringPresetsRouteImport
+    '/admin/events/$eventId/scoring-rules': {
+      id: '/admin/events/$eventId/scoring-rules'
+      path: '/admin/events/$eventId/scoring-rules'
+      fullPath: '/admin/events/$eventId/scoring-rules'
+      preLoaderRoute: typeof AdminEventsEventIdScoringRulesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/events/$eventId/teams': {
@@ -1385,7 +1385,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminEventsEventIdObjectiveHelpRoute: AdminEventsEventIdObjectiveHelpRoute,
   AdminEventsEventIdObjectivesRoute:
     AdminEventsEventIdObjectivesRouteWithChildren,
-  AdminEventsEventIdScoringPresetsRoute: AdminEventsEventIdScoringPresetsRoute,
+  AdminEventsEventIdScoringRulesRoute: AdminEventsEventIdScoringRulesRoute,
   AdminEventsEventIdTeamsRoute: AdminEventsEventIdTeamsRoute,
   AdminEventsEventIdUnvalidatedObjectivesRoute:
     AdminEventsEventIdUnvalidatedObjectivesRoute,

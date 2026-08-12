@@ -128,7 +128,7 @@ function EventPage() {
       cell: (info) => (
         <div className="flex flex-row flex-wrap gap-1">
           <button
-            className="btn btn-xs btn-warning"
+            className="btn btn-warning btn-xs"
             onClick={() => {
               setEventToEdit(info.row.original);
               setIsOpen(true);
@@ -164,7 +164,7 @@ function EventPage() {
             Teams
           </Link>
           <Link
-            to="/admin/events/$eventId/scoring-presets"
+            to="/admin/events/$eventId/scoring-rules"
             params={{ eventId: info.row.original.id }}
             className="btn btn-xs"
           >

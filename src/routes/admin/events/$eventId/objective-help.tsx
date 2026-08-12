@@ -328,7 +328,7 @@ function RouteComponent() {
           Open Objective Authoring
         </Link>
         <Link
-          to="/admin/events/$eventId/scoring-presets"
+          to="/admin/events/$eventId/scoring-rules"
           params={{ eventId }}
           className="btn btn-info"
         >

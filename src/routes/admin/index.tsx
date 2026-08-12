@@ -75,7 +75,7 @@ function RouteComponent() {
             <AdminRouteCard
               title="Scoring Rules"
               description="Manage the scoring rules used by objectives in the selected event."
-              link={`/admin/events/${currentEventId}/scoring-presets`}
+              link={`/admin/events/${currentEventId}/scoring-rules`}
               permissions={[
                 Permission.admin,
                 Permission.objective_designer,

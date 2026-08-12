@@ -11,7 +11,7 @@ Enable managers to create objectives, manage scoring presets, and use a dedicate
   - `src/components/form-dialogs/ObjectiveFormModal.tsx`
   - `src/components/form-dialogs/CategoryFormModal.tsx`
 - Scoring rule authoring already exists in:
-  - `src/routes/admin/events/$eventId/scoring-presets.tsx`
+  - `src/routes/admin/events/$eventId/scoring-rules.tsx`
 - The forms mostly show raw backend field names and enum values with minimal guidance.
 - `objective-frontend-display-reference.md` already contains the desired labels, explanations, and authoring copy for objectives.
 
@@ -77,7 +77,7 @@ Enable managers to create objectives, manage scoring presets, and use a dedicate
 - `src/routes/admin/index.tsx`
 - `src/routes/admin/events/index.tsx`
 - `src/routes/admin/events/$eventId/objectives.$objectiveId.tsx`
-- `src/routes/admin/events/$eventId/scoring-presets.tsx`
+- `src/routes/admin/events/$eventId/scoring-rules.tsx`
 - new help route under `src/routes/admin/events/$eventId/`
 - `src/components/form-dialogs/ObjectiveFormModal.tsx`
 - `src/components/form-dialogs/CategoryFormModal.tsx`

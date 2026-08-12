@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Permission, ScoringRule } from "@api";
+import { Permission, ScoringRule, useGetRules } from "@api";
 import {
   useDeleteScoringRule,
   useGetEvents,
@@ -14,8 +14,9 @@ import { useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { renderConditionally } from "@utils/token";
 import { useState } from "react";
+import { flatMap } from "@utils/utils";
 
-export const Route = createFileRoute("/admin/events/$eventId/scoring-presets")({
+export const Route = createFileRoute("/admin/events/$eventId/scoring-rules")({
   component: renderConditionally(ScoringRulesPage, [
     Permission.admin,
     Permission.objective_designer,
@@ -58,6 +59,7 @@ function ScoringRulesPage() {
   const { events } = useGetEvents();
   const event = events?.find((event) => event.id === eventId);
   const { scoringRules } = useGetScoringRulesForEvent(eventId);
+  const { rules } = useGetRules(eventId);
   const qc = useQueryClient();
   const { deleteScoringRule } = useDeleteScoringRule(qc, eventId);
 
@@ -98,14 +100,14 @@ function ScoringRulesPage() {
       header: "Scoring Rule",
       accessorKey: "scoring_rule",
       cell: (info) => info.row.original.scoring_rule,
-      size: 250,
+      size: 280,
     },
     {
       header: "Actions",
       cell: (info) => (
         <div className="flex flex-row gap-2">
           <button
-            className="btn btn-sm btn-error"
+            className="btn btn-error btn-sm"
             onClick={() => deleteScoringRule(info.row.original.id)}
           >
             <TrashIcon className="size-4" />
@@ -124,6 +126,13 @@ function ScoringRulesPage() {
       size: 100,
     },
   ];
+  const usedScoringRules = new Set(
+    flatMap(rules)
+      .map((objective) => objective.scoring_rules.map((rule) => rule.id))
+      .flat(),
+  );
+  console.log(rules);
+  console.log("usedScoringRules", usedScoringRules);
 
   return (
     <div className="flex flex-col gap-2">
@@ -160,6 +169,11 @@ function ScoringRulesPage() {
         data={scoringRules}
         sortable={false}
         className="h-[80vh] w-full"
+        rowClassName={(row) =>
+          usedScoringRules.has(row.original.id)
+            ? "bg-base-300"
+            : "bg-red-500/20"
+        }
       />
     </div>
   );
