@@ -23,12 +23,16 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { defaultPreferences } from "@mytypes/preferences";
-import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
+import {
+  CellContext,
+  ColumnDef,
+  sortingFns,
+} from "@components/table/react-table-shim";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getSkillColor } from "@utils/gems";
 import { totalPoPoints } from "@utils/personal-points";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { hidePOTotal, mergeScores, getTotalPoints } from "@utils/utils";
 import { JSX, useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -415,20 +419,26 @@ function EventPage(): JSX.Element {
     {
       accessorKey: "total",
       header: "Total",
-      cell: ({ row }) =>
-        renderScore(row.original.total, undefined, event?.uses_medals),
+      cell: ({ row }) => (
+        <Score
+          actualNumberOfPoints={row.original.total}
+          potentialNumberOfPoints={undefined}
+          usesMedals={event?.uses_medals}
+        />
+      ),
     },
     ...categoryNames.map((name) => ({
       header: name === "Personal Objectives" ? "P.O." : name,
       accessorKey: name,
       key: `column-${name}`,
       // @ts-ignore: dynamic key access on typed row
-      cell: ({ row }) =>
-        renderScore(
-          (row.original[name] as number) || 0,
-          undefined,
-          event?.uses_medals,
-        ),
+      cell: ({ row }) => (
+        <Score
+          actualNumberOfPoints={(row.original[name] as number) || 0}
+          potentialNumberOfPoints={undefined}
+          usesMedals={event?.uses_medals}
+        />
+      ),
     })),
   ];
 

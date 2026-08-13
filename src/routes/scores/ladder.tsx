@@ -1,5 +1,9 @@
 import { Event, LadderEntry, Team } from "@api";
-import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
+import {
+  CellContext,
+  ColumnDef,
+  sortingFns,
+} from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
 import { JSX, useContext, useMemo, useState } from "react";
@@ -37,7 +41,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { defaultPreferences } from "@mytypes/preferences";
 import { TwitchFilled } from "@icons/twitch";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { MultiSelectPercentage } from "@components/form/multi-select-percentage";
 import Select from "@components/form/select";
 import Table from "@components/table/table";
@@ -572,7 +576,11 @@ function LadderTab(): JSX.Element {
           : undefined;
         return (
           <span className="text-lg font-bold" style={{ color }}>
-            {renderScore(row.original.total, undefined, currentEvent?.uses_medals)}
+            <Score
+              actualNumberOfPoints={row.original.total}
+              potentialNumberOfPoints={undefined}
+              usesMedals={currentEvent?.uses_medals}
+            />
           </span>
         );
       },
@@ -583,12 +591,13 @@ function LadderTab(): JSX.Element {
       accessorKey: categoryName,
       key: `column-${categoryName}`,
       // @ts-ignore: dynamic key access on typed row
-      cell: ({ row }) =>
-        renderScore(
-          row.original[categoryName as keyof RowDef] || 0,
-          undefined,
-          currentEvent?.uses_medals,
-        ),
+      cell: ({ row }) => (
+        <Score
+          actualNumberOfPoints={row.original[categoryName as keyof RowDef] || 0}
+          potentialNumberOfPoints={undefined}
+          usesMedals={currentEvent?.uses_medals}
+        />
+      ),
       // @ts-ignore: dynamic key access on typed row
       sorter: (a, b) => a[categoryName] - b[categoryName],
     })),
@@ -683,7 +692,9 @@ function LadderTab(): JSX.Element {
                             <div className="h-2 w-full overflow-hidden rounded-full bg-base-200">
                               <div
                                 className="h-full rounded-full bg-success"
-                                style={{ width: `${cap > 0 ? Math.min((total / cap) * 100, 100) : 0}%` }}
+                                style={{
+                                  width: `${cap > 0 ? Math.min((total / cap) * 100, 100) : 0}%`,
+                                }}
                               />
                             </div>
                           </div>
@@ -745,7 +756,7 @@ function LadderTab(): JSX.Element {
             })}
           </div>
         )}
-        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between px-5">
+        <div className="flex flex-col gap-2 px-5 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
             <MultiSelectPercentage
               name="uniques"
@@ -775,7 +786,7 @@ function LadderTab(): JSX.Element {
               values={selectedItems}
               className="w-full md:w-100"
             />
-            <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap justify-center">
+            <label className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap">
               <input
                 type="checkbox"
                 className="checkbox checkbox-sm"

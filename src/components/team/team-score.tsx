@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import { TeamName } from "./team-name";
 import { TeamLogo } from "./teamlogo";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 
 export type TeamScoreProps = {
   selectedTeam?: number;
@@ -37,7 +37,7 @@ const TeamScoreDisplay = ({
     <>
       <div
         className={
-          "grid min-h-20 md:min-h-32 grid-cols-[repeat(auto-fit,minmax(140px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-3 2xl:px-0 mt-4 select-none m-2 md:m-0.5"
+          "m-2 mt-4 grid min-h-20 grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3 select-none md:m-0.5 md:min-h-32 md:grid-cols-[repeat(auto-fit,minmax(210px,1fr))] 2xl:px-0"
         }
       >
         {currentEvent.teams
@@ -61,14 +61,15 @@ const TeamScoreDisplay = ({
                   team.id === selectedTeam
                     ? "border-transparent outline-primary"
                     : "outline-transparent",
-                  !!setSelectedTeam && "cursor-pointer hover:bg-base-300 transition-colors duration-150",
+                  !!setSelectedTeam &&
+                    "cursor-pointer transition-colors duration-150 hover:bg-base-300",
                 )}
                 key={team.id}
                 onClick={() =>
                   setSelectedTeam ? setSelectedTeam(team.id) : null
                 }
               >
-                <div className="flex w-full justify-around p-1 md:p-4 items-center">
+                <div className="flex w-full items-center justify-around p-1 md:p-4">
                   <div className="flex flex-col md:gap-2">
                     <TeamName
                       team={team}
@@ -76,15 +77,26 @@ const TeamScoreDisplay = ({
                     />
                     <div className="text-xl whitespace-nowrap md:text-2xl">
                       <span>
-                        {currentEvent?.uses_medals
-                          ? renderScore(teamScores[team.id], potentialScores[team.id], true)
-                          : potentialScores[team.id] !== undefined && potentialScores[team.id] !== Infinity
-                            ? <>
-                                <span className="font-bold">{teamScores[team.id]}</span>
-                                <span className="text-base-content/50"> · {potentialScores[team.id]}</span>
-                              </>
-                            : teamScores[team.id]
-                        }
+                        {currentEvent?.uses_medals ? (
+                          <Score
+                            actualNumberOfPoints={teamScores[team.id]}
+                            potentialNumberOfPoints={potentialScores[team.id]}
+                            usesMedals={true}
+                          />
+                        ) : potentialScores[team.id] !== undefined &&
+                          potentialScores[team.id] !== Infinity ? (
+                          <>
+                            <span className="font-bold">
+                              {teamScores[team.id]}
+                            </span>
+                            <span className="text-base-content/50">
+                              {" "}
+                              · {potentialScores[team.id]}
+                            </span>
+                          </>
+                        ) : (
+                          teamScores[team.id]
+                        )}
                       </span>
                     </div>
                   </div>

@@ -7,7 +7,7 @@ import { ScoreObjective } from "@mytypes/score";
 import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { getDeltaTimeBetween } from "@utils/time";
 import { flatMap } from "@utils/utils";
 import dayjs from "dayjs";
@@ -307,8 +307,13 @@ function RouteComponent() {
       meta: {
         align: "center",
       },
-      cell: ({ row }) =>
-        renderScore(row.original.points, undefined, currentEvent?.uses_medals),
+      cell: ({ row }) => (
+        <Score
+          actualNumberOfPoints={row.original.points}
+          potentialNumberOfPoints={undefined}
+          usesMedals={currentEvent?.uses_medals}
+        />
+      ),
     },
     {
       accessorKey: "rank",
@@ -351,7 +356,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <fieldset className="fieldset mx-4 flex flex-row gap-10 rounded-box border border-base-300 bg-base-200 p-4 text-highlight-content select-none self-center md:mx-0 md:self-start md:w-80">
+      <fieldset className="mx-4 fieldset flex flex-row gap-10 self-center rounded-box border border-base-300 bg-base-200 p-4 text-highlight-content select-none md:mx-0 md:w-80 md:self-start">
         <legend className="fieldset-legend"></legend>
         <label className="label w-30">
           <input
@@ -375,35 +380,56 @@ function RouteComponent() {
         </label>
       </fieldset>
       <VirtualizedTable
-        columns={isMobile ? [
-            {
-              id: "mobile",
-              accessorFn: (row) => (row.team?.name ?? "") + row.objective.name,
-              header: "",
-              enableSorting: false,
-              size: 290,
-              cell: ({ row }) => (
-                <div className="flex min-w-0 flex-col gap-0.5 overflow-hidden py-2">
-                  <TeamName className="text-base font-bold" team={row.original.team} />
-                  <span className="truncate text-sm text-base-content/80">{row.original.objective.name}</span>
-                  {row.original.objective.extra && (
-                    <span className="truncate text-xs text-info">[{row.original.objective.extra}]</span>
-                  )}
-                  <span className="text-xs text-base-content/50">
-                    {getDeltaTimeBetween(row.original.timestamp, currentEvent.event_start_time.getTime() / 1000)}
-                  </span>
-                </div>
-              ),
-              meta: { align: "left" },
-            },
-            {
-              accessorKey: "points",
-              header: "Pts",
-              enableSorting: false,
-              size: 60,
-              cell: ({ row }) => renderScore(row.original.points, undefined, currentEvent?.uses_medals),
-            },
-          ] : columns}
+        columns={
+          isMobile
+            ? [
+                {
+                  id: "mobile",
+                  accessorFn: (row) =>
+                    (row.team?.name ?? "") + row.objective.name,
+                  header: "",
+                  enableSorting: false,
+                  size: 290,
+                  cell: ({ row }) => (
+                    <div className="flex min-w-0 flex-col gap-0.5 overflow-hidden py-2">
+                      <TeamName
+                        className="text-base font-bold"
+                        team={row.original.team}
+                      />
+                      <span className="truncate text-sm text-base-content/80">
+                        {row.original.objective.name}
+                      </span>
+                      {row.original.objective.extra && (
+                        <span className="truncate text-xs text-info">
+                          [{row.original.objective.extra}]
+                        </span>
+                      )}
+                      <span className="text-xs text-base-content/50">
+                        {getDeltaTimeBetween(
+                          row.original.timestamp,
+                          currentEvent.event_start_time.getTime() / 1000,
+                        )}
+                      </span>
+                    </div>
+                  ),
+                  meta: { align: "left" },
+                },
+                {
+                  accessorKey: "points",
+                  header: "Pts",
+                  enableSorting: false,
+                  size: 60,
+                  cell: ({ row }) => (
+                    <Score
+                      actualNumberOfPoints={row.original.points}
+                      potentialNumberOfPoints={undefined}
+                      usesMedals={currentEvent?.uses_medals}
+                    />
+                  ),
+                },
+              ]
+            : columns
+        }
         data={scoreRows
           .filter((s) => {
             if (s.objective.objective_type == ObjectiveType.TEAM) {
@@ -417,8 +443,8 @@ function RouteComponent() {
           .sort((a, b) => b.timestamp - a.timestamp)}
         className="h-[70vh]"
       ></VirtualizedTable>
-      <div className="mt-4 h-250 flex flex-col gap-2 rounded-box bg-base-300 p-4">
-        <fieldset className="fieldset rounded-box bg-base-200 p-2 px-4 self-start">
+      <div className="mt-4 flex h-250 flex-col gap-2 rounded-box bg-base-300 p-4">
+        <fieldset className="fieldset self-start rounded-box bg-base-200 p-2 px-4">
           <label className="label text-highlight-content">
             <input
               type="checkbox"

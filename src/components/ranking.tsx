@@ -4,7 +4,7 @@ import { getPotentialPoints, getTotalPoints, rank2text } from "@utils/utils";
 // import { TeamLogo } from "./teamlogo";
 import { useGetEventStatus } from "@api";
 import { twMerge } from "tailwind-merge";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 
 interface RankingProps {
@@ -102,7 +102,7 @@ export function Ranking({
           return (
             <div
               className={twMerge(
-                "card bborder bg-card shadow-xl",
+                "card bg-card bborder shadow-xl",
                 getCardColor(score),
               )}
               key={"score-" + teamId}
@@ -127,11 +127,13 @@ export function Ranking({
                       </div>
                     )}
                     <div className="text-xl font-bold">
-                      {renderScore(
-                        getTotalPoints(objective)[teamId],
-                        getPotentialPoints(objective)[teamId],
-                        currentEvent?.uses_medals,
-                      )}{" "}
+                      <Score
+                        actualNumberOfPoints={getTotalPoints(objective)[teamId]}
+                        potentialNumberOfPoints={
+                          getPotentialPoints(objective)[teamId]
+                        }
+                        usesMedals={currentEvent?.uses_medals}
+                      />{" "}
                       Points
                     </div>
                   </div>

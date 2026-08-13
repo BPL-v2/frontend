@@ -4,7 +4,7 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import { ProgressBar } from "../progress-bar";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { TeamName } from "@components/team/team-name";
 
 type CollectionCardTableProps = {
@@ -124,11 +124,11 @@ export function CollectionCardTable({
                               : "text-error",
                         )}
                       >
-                        {renderScore(
-                          score.totalPoints(),
-                          undefined,
-                          currentEvent.uses_medals,
-                        )}
+                        <Score
+                          actualNumberOfPoints={score.totalPoints()}
+                          potentialNumberOfPoints={undefined}
+                          usesMedals={currentEvent.uses_medals}
+                        />
                       </div>
                     </div>
                   </td>

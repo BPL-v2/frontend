@@ -1,8 +1,14 @@
-export function renderScore(
-  actualNumberOfPoints: number,
-  potentialNumberOfPoints?: number,
-  usesMedals: boolean = false,
-) {
+type ScoreProps = {
+  actualNumberOfPoints: number;
+  potentialNumberOfPoints?: number;
+  usesMedals?: boolean;
+};
+
+export function Score({
+  actualNumberOfPoints,
+  potentialNumberOfPoints,
+  usesMedals = false,
+}: ScoreProps) {
   if (!usesMedals) {
     if (potentialNumberOfPoints === undefined) {
       return actualNumberOfPoints;

@@ -4,7 +4,7 @@ import { CategoryIcon } from "@icons/category-icons";
 import { Medal } from "@icons/medal";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
 import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
@@ -117,11 +117,11 @@ export const UniqueCategoryCard = ({
         </div>
         <div className="relative flex h-full min-h-2 flex-col justify-between px-4">
           <div className="absolute top-2 right-2 text-xs text-base-content/80">
-            {renderScore(
-              getTotalPoints(objective)[teamId],
-              getPotentialPoints(objective)[teamId],
-              currentEvent?.uses_medals,
-            )}
+            <Score
+              actualNumberOfPoints={getTotalPoints(objective)[teamId]}
+              potentialNumberOfPoints={getPotentialPoints(objective)[teamId]}
+              usesMedals={currentEvent?.uses_medals}
+            />
           </div>
           <div className="flex h-full flex-col items-center justify-center gap-1 pt-5 pb-2">
             <div

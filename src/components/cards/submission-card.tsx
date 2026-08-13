@@ -14,7 +14,7 @@ import { TwitchFilled } from "@icons/twitch";
 import { YoutubeFilled } from "@icons/youtube";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
-import { renderScore } from "@utils/score";
+import { Score } from "@components/score";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
 import { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -180,14 +180,12 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
         showModal={showModal}
         setShowModal={setShowModal}
       />
-      <div className="card bborder bg-card shadow-xl select-text caret-transparent" key={objective.id}>
+      <div
+        className="card bg-card bborder caret-transparent shadow-xl select-text"
+        key={objective.id}
+      >
         <div className="flex h-full min-h-16 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
-          <div
-            className={twMerge(
-              "w-full",
-              objective.extra && "tooltip",
-            )}
-          >
+          <div className={twMerge("w-full", objective.extra && "tooltip")}>
             {objective.extra && (
               <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
                 {objective.extra}
@@ -250,11 +248,15 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
                             : "text-success",
                         )}
                       >
-                        {renderScore(
-                          getTotalPoints(objective)[teamId],
-                          getPotentialPoints(objective)[teamId],
-                          currentEvent?.uses_medals,
-                        )}
+                        <Score
+                          actualNumberOfPoints={
+                            getTotalPoints(objective)[teamId]
+                          }
+                          potentialNumberOfPoints={
+                            getPotentialPoints(objective)[teamId]
+                          }
+                          usesMedals={currentEvent?.uses_medals}
+                        />
                         {score.number() > 1 && ` (${score.number()})`}
                       </td>
                       <td
@@ -264,8 +266,8 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
                         )}
                       >
                         <div className="flex items-center justify-end gap-5 rounded-br-xl">
-                          <TeamName team={teamMap[teamId]}/>
-                          <VideoButton submissions={s}/>
+                          <TeamName team={teamMap[teamId]} />
+                          <VideoButton submissions={s} />
                           <SubmissionStatus submissions={s} userMap={userMap} />
                         </div>
                       </td>
