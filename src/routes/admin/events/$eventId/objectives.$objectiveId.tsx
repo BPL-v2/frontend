@@ -354,7 +354,7 @@ export function ScoringCategoryPage(): JSX.Element {
     );
   }, [objective?.children, objectiveColumns]);
 
-  if (!objectiveId) {
+  if (!objectiveId || !event) {
     return <></>;
   }
   return (
@@ -365,14 +365,14 @@ export function ScoringCategoryPage(): JSX.Element {
           setIsObjectiveModalOpen(open);
           if (!open) setObjectiveToEdit(null);
         }}
-        eventId={eventId}
+        event={event}
         parentId={objectiveId}
         existingObjective={objectiveToEdit}
       />
       <BulkObjectiveFormModal
         isOpen={isBulkObjectiveModalOpen}
         setIsOpen={setIsBulkObjectiveModalOpen}
-        eventId={eventId}
+        event={event}
         categoryId={objectiveId}
       />
       <CategoryFormModal
@@ -381,7 +381,7 @@ export function ScoringCategoryPage(): JSX.Element {
           setIsCategoryModalOpen(open);
           if (!open) setCategoryToEdit(null);
         }}
-        eventId={eventId}
+        event={event}
         parentId={objectiveId}
         existingCategory={categoryToEdit}
       />

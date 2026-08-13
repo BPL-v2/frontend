@@ -1,3 +1,5 @@
+import { Event } from "@api";
+
 export function getDeltaTimeBetween(to?: number, from?: number) {
   // If either timestamp or league
   if (!to || !from) {
@@ -18,4 +20,22 @@ export function getDeltaTimeBetween(to?: number, from?: number) {
     return `${hours}h : ${minutes}m`;
   }
   return `${minutes}m`;
+}
+
+export function hoursAfterEventStartToDate(
+  event: Event,
+  hours?: number,
+): Date | undefined {
+  if (hours === undefined) return undefined;
+  return new Date(event.event_start_time.getTime() + hours * 60 * 60 * 1000);
+}
+
+export function dateToHoursAfterEventStart(
+  event: Event,
+  date?: Date,
+): number | undefined {
+  if (!date) return undefined;
+  return Math.floor(
+    (date.getTime() - event.event_start_time.getTime()) / (60 * 60 * 1000),
+  );
 }

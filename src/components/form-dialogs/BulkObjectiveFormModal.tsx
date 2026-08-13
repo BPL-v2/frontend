@@ -2,7 +2,11 @@ import { CountingMethod, ItemField } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateBulkObjectives, useGetScoringRulesForEvent } from "@api";
+import {
+  useCreateBulkObjectives,
+  useGetScoringRulesForEvent,
+  Event,
+} from "@api";
 
 export type BulkObjectiveCreate = {
   nameList: string;
@@ -14,18 +18,18 @@ export type BulkObjectiveCreate = {
 interface BulkObjectiveFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  eventId: number;
+  event: Event;
   categoryId: number;
 }
 
 export function BulkObjectiveFormModal({
   isOpen,
   setIsOpen,
-  eventId,
+  event,
   categoryId,
 }: BulkObjectiveFormModalProps) {
   const qc = useQueryClient();
-  const { scoringRules } = useGetScoringRulesForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(event.id);
 
   const form = useAppForm({
     defaultValues: {} as BulkObjectiveCreate,
@@ -34,7 +38,7 @@ export function BulkObjectiveFormModal({
 
   const { createBulkObjectives } = useCreateBulkObjectives(
     qc,
-    eventId,
+    event.id,
     categoryId,
     () => {
       setIsOpen(false);

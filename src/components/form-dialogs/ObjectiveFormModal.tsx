@@ -7,6 +7,7 @@ import {
   ObjectiveType,
   CountingMethod,
   Operator,
+  Event,
 } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
@@ -18,16 +19,22 @@ import {
   useGetScoringRulesForEvent,
   useGetValidConditionMappings,
 } from "@api";
+import {
+  dateToHoursAfterEventStart,
+  hoursAfterEventStartToDate,
+} from "@utils/time";
 
 type ExtendedObjectiveCreate = ObjectiveCreate & {
   item_base_type?: string;
   item_name?: string;
+  valid_from_hours?: number;
+  valid_to_hours?: number;
 };
 
 interface ObjectiveFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  eventId: number;
+  event: Event;
   parentId: number;
   existingObjective?: Objective | null;
 }
@@ -35,14 +42,15 @@ interface ObjectiveFormModalProps {
 export function ObjectiveFormModal({
   isOpen,
   setIsOpen,
-  eventId,
+  event,
   parentId,
   existingObjective,
 }: ObjectiveFormModalProps) {
   const qc = useQueryClient();
-  const { scoringRules } = useGetScoringRulesForEvent(eventId);
-  const { trackedValuesForObjectiveType } =
-    useGetValidConditionMappings(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(event.id);
+  const { trackedValuesForObjectiveType } = useGetValidConditionMappings(
+    event.id,
+  );
 
   const form = useAppForm({
     defaultValues: {
@@ -69,11 +77,21 @@ export function ObjectiveFormModal({
         );
         delete data.value.item_base_type;
       }
+      console.log("Submitting objective data:", data.value);
+      data.value.valid_from = hoursAfterEventStartToDate(
+        event,
+        data.value.valid_from_hours,
+      );
+      data.value.valid_to = hoursAfterEventStartToDate(
+        event,
+        data.value.valid_to_hours,
+      );
+      console.log("Transformed objective data for submission:", data.value);
       createObjective(data.value as ObjectiveCreate);
     },
   });
 
-  const { createObjective } = useCreateObjective(qc, eventId, () => {
+  const { createObjective } = useCreateObjective(qc, event.id, () => {
     setIsOpen(false);
     form.reset();
   });
@@ -101,6 +119,14 @@ export function ObjectiveFormModal({
         "scoring_rule_ids",
         existingObjective.scoring_rules.map((r) => r.id),
       );
+      form.setFieldValue(
+        "valid_from_hours",
+        dateToHoursAfterEventStart(event, existingObjective.valid_from),
+      );
+      form.setFieldValue(
+        "valid_to_hours",
+        dateToHoursAfterEventStart(event, existingObjective.valid_to),
+      );
     }
   }, [isOpen, existingObjective]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -122,7 +148,7 @@ export function ObjectiveFormModal({
           Need a refresher before saving?{" "}
           <Link
             to="/admin/events/$eventId/objective-help"
-            params={{ eventId }}
+            params={{ eventId: event.id }}
             className="link link-primary"
           >
             Open the objective help page
@@ -179,9 +205,11 @@ export function ObjectiveFormModal({
           <form.AppField
             name="details.tracked_value_explanation"
             children={(field) => (
-              <field.TextField label="Tracking note" 
-              placeholder="i.e. 'number of kills'"              
-              hidden={objective_type !== ObjectiveType.SUBMISSION} />
+              <field.TextField
+                label="Tracking note"
+                placeholder="i.e. 'number of kills'"
+                hidden={objective_type !== ObjectiveType.SUBMISSION}
+              />
             )}
           />
           <form.AppField
@@ -231,8 +259,16 @@ export function ObjectiveFormModal({
             )}
           />
           <form.AppField
-            name="valid_from"
-            children={(field) => <field.DateTimeField label="Start time" />}
+            name="valid_from_hours"
+            children={(field) => (
+              <field.NumberField label="Starts ... hours after Event start" />
+            )}
+          />
+          <form.AppField
+            name="valid_to_hours"
+            children={(field) => (
+              <field.NumberField label="Ends ... hours after Event start" />
+            )}
           />
           <form.AppField
             name="scoring_rule_ids"
@@ -245,10 +281,6 @@ export function ObjectiveFormModal({
                 }))}
               />
             )}
-          />
-          <form.AppField
-            name="valid_to"
-            children={(field) => <field.DateTimeField label="End time" />}
           />
           <form.AppField
             name="hide_progress"

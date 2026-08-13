@@ -12,7 +12,6 @@ export function getRootCategoryNames(gameVersion: "poe1" | "poe2"): string[] {
     ];
     */
     return [
-      "Personal Objectives",
       "Uniques",
       "Races",
       "Bounties",
@@ -23,12 +22,5 @@ export function getRootCategoryNames(gameVersion: "poe1" | "poe2"): string[] {
       "Delve",
     ];
   }
-  return [
-    "Personal Objectives",
-    "Uniques",
-    "Races",
-    "Bounties",
-    "Collections",
-    "Dailies",
-  ];
+  return ["Uniques", "Races", "Bounties", "Collections", "Dailies"];
 }

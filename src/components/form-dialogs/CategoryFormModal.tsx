@@ -5,6 +5,7 @@ import {
   Objective,
   ObjectiveCreate,
   ObjectiveType,
+  Event,
 } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
@@ -15,7 +16,7 @@ import { Link } from "@tanstack/react-router";
 interface CategoryFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  eventId: number;
+  event: Event;
   parentId: number;
   existingCategory?: Objective | null;
 }
@@ -23,12 +24,12 @@ interface CategoryFormModalProps {
 export function CategoryFormModal({
   isOpen,
   setIsOpen,
-  eventId,
+  event,
   parentId,
   existingCategory,
 }: CategoryFormModalProps) {
   const qc = useQueryClient();
-  const { scoringRules } = useGetScoringRulesForEvent(eventId);
+  const { scoringRules } = useGetScoringRulesForEvent(event.id);
 
   const form = useAppForm({
     defaultValues: {
@@ -46,7 +47,7 @@ export function CategoryFormModal({
     onSubmit: (data) => createObjective(data.value),
   });
 
-  const { createObjective } = useCreateObjective(qc, eventId, () => {
+  const { createObjective } = useCreateObjective(qc, event.id, () => {
     setIsOpen(false);
     form.reset();
   });
@@ -81,7 +82,7 @@ export function CategoryFormModal({
           Need category examples?{" "}
           <Link
             to="/admin/events/$eventId/objective-help"
-            params={{ eventId }}
+            params={{ eventId: event.id }}
             className="link link-primary"
           >
             Open the objective help page

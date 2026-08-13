@@ -38,7 +38,10 @@ type scoringTabKey =
   | "delve"
   | "bingo";
 
-const blackListedRoutes = ["Personal Objectives"];
+const blackListedRoutes = [
+  "Personal Objectives",
+  "Does not have a seperate tab",
+];
 
 type ScoreQueryParams = {
   rules: boolean;
@@ -230,7 +233,12 @@ function ScoringPage() {
       <div className="sticky top-13 z-40 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
         <div className="flex items-center">
           <div className={forceScroll ? "flex-1 overflow-x-auto" : "flex-1"}>
-            <ul ref={ulRef} className={forceScroll ? "flex items-end" : "flex flex-wrap items-end"}>
+            <ul
+              ref={ulRef}
+              className={
+                forceScroll ? "flex items-end" : "flex flex-wrap items-end"
+              }
+            >
               {tabs.map((tab) => (
                 <li key={tab.key}>
                   <Link
@@ -241,8 +249,7 @@ function ScoringPage() {
                       className: "border-primary text-primary",
                     }}
                     inactiveProps={{
-                      className:
-                        "text-base-content/75 hover:text-base-content",
+                      className: "text-base-content/75 hover:text-base-content",
                     }}
                   >
                     {tab.shortName || tab.name}
@@ -263,7 +270,7 @@ function ScoringPage() {
               search={{ rules: !rules }}
             >
               <BookOpenIcon className="size-4" />
-              <span className="hidden md:block text-base-content/85">
+              <span className="hidden text-base-content/85 md:block">
                 {rules ? "Hide" : "Show"} Rules
               </span>
             </Link>
