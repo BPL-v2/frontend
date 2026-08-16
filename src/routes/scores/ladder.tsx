@@ -603,9 +603,11 @@ function LadderTab(): JSX.Element {
     })),
   ];
 
-  const objs = scores?.children.find(
-    (category) => category.name === "Personal Objectives",
-  )?.children;
+  const objs = scores?.children
+    .find((category) => category.name === "Does not have a separate tab")
+    ?.children.find(
+      (category) => category.name === "Personal Objectives",
+    )?.children;
   const totalObjective = objs?.find(
     (obj) => obj.scoring_rules[0]?.point_cap || 0 > 0,
   );

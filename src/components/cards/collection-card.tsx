@@ -76,7 +76,7 @@ export function CollectionCard({
       <div
         key={actualObjective.id}
         {...props}
-        className={twMerge("card bborder bg-card shadow-xl", props.className)}
+        className={twMerge("card bg-card bborder shadow-xl", props.className)}
       >
         <div className="m-0 card-title flex h-full min-h-20 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <ObjectiveIcon
@@ -86,9 +86,7 @@ export function CollectionCard({
           <div
             className={twMerge(
               "w-full",
-              actualObjective.extra &&
-                !ignoreExtra &&
-                "tooltip",
+              actualObjective.extra && !ignoreExtra && "tooltip",
             )}
           >
             {actualObjective.extra && !ignoreExtra ? (

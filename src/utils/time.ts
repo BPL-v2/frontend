@@ -1,4 +1,5 @@
 import { Event } from "@api";
+import { ScoreObjective } from "@mytypes/score";
 
 export function getDeltaTimeBetween(to?: number, from?: number) {
   // If either timestamp or league
@@ -38,4 +39,18 @@ export function dateToHoursAfterEventStart(
   return Math.floor(
     (date.getTime() - event.event_start_time.getTime()) / (60 * 60 * 1000),
   );
+}
+
+export function objectiveIsValid(objective?: ScoreObjective): boolean {
+  if (!objective) return false;
+  const now = new Date();
+  if (
+    objective.valid_from &&
+    objective.valid_from &&
+    now < objective.valid_from
+  )
+    return false;
+  if (objective.valid_to && objective.valid_to && now > objective.valid_to)
+    return false;
+  return true;
 }

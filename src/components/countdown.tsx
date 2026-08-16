@@ -5,9 +5,15 @@ interface CountdownProps {
   target: Date;
   onEnd?: () => void;
   size?: "small" | "default" | "large";
+  compact?: boolean;
 }
 
-export function Countdown({ target, onEnd, size }: CountdownProps) {
+export function Countdown({
+  target,
+  onEnd,
+  size,
+  compact = false,
+}: CountdownProps) {
   const diff = target.getTime() - new Date().getTime();
 
   const [days, setDays] = React.useState(
@@ -52,6 +58,48 @@ export function Countdown({ target, onEnd, size }: CountdownProps) {
       break;
   }
   const countdownClass = twMerge("countdown font-mono", numberSize);
+  if (compact) {
+    return (
+      <span className={twMerge("countdown font-mono", numberSize)}>
+        {days > 0 && (
+          <>
+            <span
+              style={{ "--value": days } as React.CSSProperties}
+              aria-live="polite"
+              aria-label="days"
+            >
+              {days}
+            </span>
+            d:
+          </>
+        )}
+        <span
+          style={{ "--value": hours } as React.CSSProperties}
+          aria-live="polite"
+          aria-label="hours"
+        >
+          {hours}
+        </span>
+        h:
+        <span
+          style={{ "--value": minutes } as React.CSSProperties}
+          aria-live="polite"
+          aria-label="minutes"
+        >
+          {minutes}
+        </span>
+        m:
+        <span
+          style={{ "--value": seconds } as React.CSSProperties}
+          aria-live="polite"
+          aria-label="seconds"
+        >
+          {seconds}
+        </span>
+        s
+      </span>
+    );
+  }
 
   return (
     <div className="tooltip tooltip-bottom tooltip-primary">

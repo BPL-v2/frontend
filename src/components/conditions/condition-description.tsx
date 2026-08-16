@@ -89,6 +89,9 @@ export const ConditionDescription: React.FC<Props> = ({
   objective,
   children,
 }) => {
+  // not happy with how this looks
+  return children;
+
   if (objective.conditions.length === 0) {
     return children;
   }

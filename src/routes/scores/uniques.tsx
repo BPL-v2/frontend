@@ -7,10 +7,10 @@ import { UniqueCategoryCard } from "@components/cards/unique-category-card";
 import { hasEnded, isWinnable, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useMemo, useRef, useState } from "react";
-import { router } from "../../main";
 import { twMerge } from "tailwind-merge";
 import { Countdown } from "@components/countdown";
 import { EyeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { RepeatableUniques } from "@components/temporary-uniques";
 
 // had to cook this smooth scroll implementation cause daisyUI overrides scroll behaviour, can't just set it in the global css
 function scrollToElement(el: HTMLElement, offset = 16) {
@@ -62,7 +62,7 @@ function CategoryCard({
 
   if (!hasStarted) {
     return (
-      <div className="card h-full bborder bg-card shadow-xl">
+      <div className="card h-full bg-card bborder shadow-xl">
         <div className="flex min-h-4 items-center rounded-t-box bborder-b bg-base-300/50 p-2">
           <h1 className="w-full font-extrabold">Coming Soon</h1>
         </div>
@@ -124,7 +124,10 @@ function CategoryGrid({
               .map((category) => {
                 const isSelected = selectedCategories.has(category.id);
                 return (
-                  <div key={`unique-category-${category.id}`} className="relative">
+                  <div
+                    key={`unique-category-${category.id}`}
+                    className="relative"
+                  >
                     <CategoryCard
                       category={category}
                       selected={isSelected}
@@ -158,9 +161,11 @@ export const Route = createFileRoute("/scores/uniques")({
 
 function UniqueTab(): JSX.Element {
   const { rules, type } = Route.useSearch();
-  const { currentEvent, scores, preferences, setPreferences, isMobile } =
+  const { currentEvent, scores, preferences, setPreferences } =
     useContext(GlobalStateContext);
-  const [selectedCategories, setSelectedCategories] = useState<Set<number>>(new Set());
+  const [selectedCategories, setSelectedCategories] = useState<Set<number>>(
+    new Set(),
+  );
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [teamOverride, setTeamOverride] = useState<number>();
   const [categoryFilter, setCategoryFilter] = useState<string>("");
@@ -185,7 +190,7 @@ function UniqueTab(): JSX.Element {
   const effectiveType =
     type ?? (!hasStandard && hasTimed ? "timed" : "standard");
   const handleCategoryClick = (objective: ScoreObjective) => {
-    setSelectedCategories(prev => {
+    setSelectedCategories((prev) => {
       const next = new Set(prev);
       if (next.has(objective.id)) {
         next.delete(objective.id);
@@ -244,7 +249,7 @@ function UniqueTab(): JSX.Element {
 
   const activeCategories = useMemo(() => {
     if (selectedCategories.size === 0) return shownCategories;
-    return shownCategories.filter(c => selectedCategories.has(c.id));
+    return shownCategories.filter((c) => selectedCategories.has(c.id));
   }, [shownCategories, selectedCategories]);
 
   const table = useMemo(() => {
@@ -275,56 +280,25 @@ function UniqueTab(): JSX.Element {
         setSelectedTeam={setTeamOverride}
       />
       <div className="mt-4 flex flex-col gap-4 caret-transparent">
-        <div className="flex flex-col rounded-box border border-primary overflow-hidden">
+        <RepeatableUniques></RepeatableUniques>
+        <div className="flex flex-col overflow-hidden rounded-box border border-primary">
           <div className="flex flex-col gap-3 bg-base-200 px-4 py-3 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-4 md:gap-y-2">
-            <div className="join w-full md:w-auto">
-              {[
-                ["standard", "Permanent", "Permanent Unique Collection"],
-                ["timed", "Temporary", "Temporary Unique Collection"],
-              ].map(([value, shortLabel, fullLabel]) => (
-                <input
-                  key={value}
-                  type="radio"
-                  name="tab"
-                  className="btn join-item flex-1 border-2 btn-outline btn-md btn-primary md:flex-none"
-                  aria-label={isMobile ? shortLabel : fullLabel}
-                  checked={
-                    value === type || (type === undefined && value === "standard")
-                  }
-                  onChange={() => {
-                    setSelectedCategories(new Set());
-                    if (value === type) {
-                      router.navigate({
-                        to: Route.fullPath,
-                        search: (prev) => ({
-                          rules: prev.rules ?? false,
-                          type: undefined,
-                        }),
-                      });
-                    } else {
-                      router.navigate({
-                        to: Route.fullPath,
-                        search: (prev) => ({
-                          rules: prev.rules ?? false,
-                          type: value as "standard" | "timed",
-                        }),
-                      });
-                    }
-                  }}
-                />
-              ))}
-            </div>
             <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
               <div className="flex gap-2">
                 <div className="flex flex-1 flex-col gap-1">
                   <span className="text-xs opacity-60">Category</span>
-                  <input type="search" className="input input-sm w-full" placeholder="" onInput={(e) => setCategoryFilter(e.currentTarget.value)} />
+                  <input
+                    type="search"
+                    className="input w-full input-sm"
+                    placeholder=""
+                    onInput={(e) => setCategoryFilter(e.currentTarget.value)}
+                  />
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
                   <span className="text-xs opacity-60">Item Search</span>
                   <input
                     type="search"
-                    className="input input-sm w-full"
+                    className="input w-full input-sm"
                     placeholder=""
                     value={itemFilter}
                     onPaste={(e) => {
@@ -338,16 +312,40 @@ function UniqueTab(): JSX.Element {
                   />
                 </div>
               </div>
-              <div className="flex gap-6 justify-center">
+              <div className="flex justify-center gap-6">
                 <div className="flex flex-col items-center gap-1">
                   <span className="text-xs opacity-60">Show finished</span>
-                  <input type="checkbox" checked={preferences.uniqueSets.showCompleted} className="toggle toggle-md toggle-primary"
-                    onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showCompleted: e.target.checked } })} />
+                  <input
+                    type="checkbox"
+                    checked={preferences.uniqueSets.showCompleted}
+                    className="toggle toggle-md toggle-primary"
+                    onChange={(e) =>
+                      setPreferences({
+                        ...preferences,
+                        uniqueSets: {
+                          ...preferences.uniqueSets,
+                          showCompleted: e.target.checked,
+                        },
+                      })
+                    }
+                  />
                 </div>
                 <div className="flex flex-col items-center gap-1">
                   <span className="text-xs opacity-60">Show unwinnable</span>
-                  <input type="checkbox" checked={preferences.uniqueSets.showFirstAvailable} className="toggle toggle-md toggle-primary"
-                    onChange={(e) => setPreferences({ ...preferences, uniqueSets: { ...preferences.uniqueSets, showFirstAvailable: e.target.checked } })} />
+                  <input
+                    type="checkbox"
+                    checked={preferences.uniqueSets.showFirstAvailable}
+                    className="toggle toggle-md toggle-primary"
+                    onChange={(e) =>
+                      setPreferences({
+                        ...preferences,
+                        uniqueSets: {
+                          ...preferences.uniqueSets,
+                          showFirstAvailable: e.target.checked,
+                        },
+                      })
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -362,7 +360,10 @@ function UniqueTab(): JSX.Element {
         {selectedCategories.size > 0 && showScrollBtn && (
           <button
             className="fixed right-6 bottom-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-content shadow-lg transition-opacity hover:opacity-90"
-            onClick={() => { scrollToElement(tableRef.current!); setShowScrollBtn(false); }}
+            onClick={() => {
+              scrollToElement(tableRef.current!);
+              setShowScrollBtn(false);
+            }}
           >
             <ChevronDownIcon className="size-5" />
             <span className="text-sm font-semibold">View items</span>
@@ -373,7 +374,7 @@ function UniqueTab(): JSX.Element {
           className="divider divider-primary text-xl font-extrabold"
         >
           {(selectedCategories.size > 0
-            ? activeCategories.map(c => c.name).join(" + ")
+            ? activeCategories.map((c) => c.name).join(" + ")
             : "All") + " Items"}
         </div>
         {table}
