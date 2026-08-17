@@ -2,6 +2,7 @@ import { ObjectiveType, TrackedValue } from "@api";
 import { ScoreObjective } from "@mytypes/score";
 import { ItemTableScoreCategory } from "./item-table-category";
 import SubmissionTab from "@components/submission-tab";
+import { SubmissionTableScoreCategory } from "./submission-table-category";
 
 interface ScoreCategoryProps extends React.HTMLAttributes<HTMLSpanElement> {
   category?: ScoreObjective;
@@ -42,7 +43,11 @@ export function GenericScoreCategory({
     return <ItemTableScoreCategory category={category} {...props} />;
   }
   if (isSubmittableCategory(category)) {
-    return <SubmissionTab category={category} {...props} />;
+    if (category.children.length < 30) {
+      return <SubmissionTab category={category} {...props} />;
+    } else {
+      return <SubmissionTableScoreCategory category={category} {...props} />;
+    }
   }
   return <div {...props}>{category.name}</div>;
 }

@@ -25,7 +25,7 @@ function getUrls(string: string): URL[] {
   return urls.map((url) => new URL(url));
 }
 
-function getRelevantSubmission(
+export function getRelevantSubmission(
   submissions: Submission[],
 ): Submission | undefined {
   if (submissions.length === 0) {
@@ -46,7 +46,7 @@ function getRelevantSubmission(
   return submissions[0];
 }
 
-function SubmissionStatus({
+export function SubmissionStatus({
   submissions,
   userMap,
 }: {
@@ -90,7 +90,7 @@ function SubmissionStatus({
   );
 }
 
-function VideoButton({ submissions }: { submissions: Submission[] }) {
+export function VideoButton({ submissions }: { submissions: Submission[] }) {
   const [now] = useState(Date.now);
   const submission = getRelevantSubmission(submissions);
   if (!submission) {

@@ -40,7 +40,7 @@ type scoringTabKey =
 
 const blackListedRoutes = [
   "Personal Objectives",
-  "Does not have a seperate tab",
+  "Does not have a separate tab",
 ];
 
 type ScoreQueryParams = {
