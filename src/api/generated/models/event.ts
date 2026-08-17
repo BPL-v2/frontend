@@ -4,6 +4,7 @@ import type { Team } from "./team.ts";
 export interface Event {
   application_end_time: Date;
   application_start_time: Date;
+  duo_signups: boolean;
   event_end_time: Date;
   event_start_time: Date;
   game_version: GameVersion;

@@ -36,6 +36,7 @@ export function SignupButton() {
         setIsOpen={setModalOpen}
         eventId={upcomingEvent.id}
         discordId={user?.discord_id}
+        duoSignupsEnabled={upcomingEvent?.duo_signups}
       />
     );
   }, [modalOpen, upcomingEvent.id, user?.discord_id]);
@@ -94,7 +95,7 @@ export function SignupButton() {
           </button>
           <ul
             tabIndex={0}
-            className="dropdown-content menu z-1 rounded-field border-2 border-base-100 bg-base-300 text-lg shadow-2xl"
+            className="menu dropdown-content z-1 rounded-field border-2 border-base-100 bg-base-300 text-lg shadow-2xl"
             onClick={() => {
               if (document.activeElement instanceof HTMLElement) {
                 document.activeElement?.blur();

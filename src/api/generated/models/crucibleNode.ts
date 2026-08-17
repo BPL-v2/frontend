@@ -16,7 +16,7 @@ export interface CrucibleNode {
   out: string[];
   reminderText?: string[];
   /** Skill mod hash */
-  skill?: string;
+  skill?: number;
   /** Stats stat descriptions */
   stats?: string[];
   /** Tier mod tier */

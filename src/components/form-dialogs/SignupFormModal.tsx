@@ -13,6 +13,7 @@ interface SignupFormModalProps {
   setIsOpen: (open: boolean) => void;
   eventId: number;
   discordId: string | null | undefined;
+  duoSignupsEnabled?: boolean;
 }
 
 export function SignupFormModal({
@@ -20,6 +21,7 @@ export function SignupFormModal({
   setIsOpen,
   eventId,
   discordId,
+  duoSignupsEnabled,
 }: SignupFormModalProps) {
   const qc = useQueryClient();
   const state = useRouterState();
@@ -107,12 +109,14 @@ export function SignupFormModal({
               <field.BooleanField label="I'm experienced and would like to help others" />
             )}
           />
-          {/* <form.AppField
-            name="partner_account_name"
-            children={(field) => (
-              <field.TextField label="Partner Wish (account name)" />
-            )}
-          /> */}
+          {duoSignupsEnabled && (
+            <form.AppField
+              name="partner_account_name"
+              children={(field) => (
+                <field.TextField label="Partner Wish (account name)" />
+              )}
+            />
+          )}
           <label className="fieldset-label">
             <input
               type="checkbox"

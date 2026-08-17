@@ -3,6 +3,7 @@ import type { GameVersion } from "./gameVersion.ts";
 export interface EventCreate {
   application_end_time: Date;
   application_start_time: Date;
+  duo_signups?: boolean;
   event_end_time: Date;
   event_start_time: Date;
   game_version: GameVersion;

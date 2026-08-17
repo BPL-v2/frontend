@@ -32,6 +32,8 @@ export function EventFormModal({
       is_current: false,
       is_public: false,
       is_locked: false,
+      uses_medals: false,
+      duo_signups: false,
     } as EventCreate,
     onSubmit: (data) => createEvent(data.value),
   });
@@ -130,6 +132,16 @@ export function EventFormModal({
           <form.AppField
             name="is_locked"
             children={(field) => <field.BooleanField label="Is Locked" />}
+          />
+          <form.AppField
+            name="duo_signups"
+            children={(field) => (
+              <field.BooleanField label="Duo Signups enabled" />
+            )}
+          />
+          <form.AppField
+            name="uses_medals"
+            children={(field) => <field.BooleanField label="Uses Medals" />}
           />
         </div>
         <div className="mt-4 flex flex-row justify-end gap-4">
