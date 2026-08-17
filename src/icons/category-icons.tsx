@@ -388,7 +388,7 @@ const DivinationCards = (styles: IconProps[]) => `
     <path stroke-width="5" d="m2 110 96 31 48-120-91-7Z"/>
     <path d="M83 21c11-1 24 4 30 10 6 7 22 8 18-2s-9 3-5 4c5 1 2-4 3-2m-13 22c0 8 12-3 2-4-11 0-9 14 2 10s6-15-4-13c-11 2-11 17-2 18 10 0 18-7 16-15s-15-8-21-5m-24 79c7-4-6-8-5 0 1 9 16 6 13-4-2-9-15-7-17 2s14 13 19 9c5-5 9-11 4-15m-72-9c-8-1 1-11 4-3s-11 14-14 4 9-14 15-9q9 7 6 16m47-13q-16 11-34 9c-18-2-11-13-9-21s1-21-9-21c-9 0-13 12-8 20 5 7 18-6 10-11-7-4-9 3-6 8m29-9c-12 1-15 19-6 25s22 5 28-3 12-14 21-11c10 3 10 16 1 21-8 5-15-10-9-14s7 6 3 8M39 52c-3 10 8 17 18 17 9-1 20 2 23 12s-9 19-19 14c-9-4-5-15 5-15s2 13-2 9 0-2 1-2m21-59c10-4 21 7 18 17S92 56 85 60s-4 14 3 17 18 3 19-6c2-9-16-15-17-5-1 9 15 6 11 2q-7-5-6 1M45 46c-4 11 11 22 20 17q13-8 13-22c1-9 13-10 18-3 4 6-1 16-10 13-10-2 0-13 5-8s-2 4-4 3M70 31c5 8 14-5 4-8s-13 4-16 10-12 0-8-4q6-4 5 2m19-4c-8-3-12 8-8 14 5 6 2 17-8 17-10-1-7-16 1-13s-1 8-1 5" style="fill:none;stroke-width:2"/>
   </g>
-`
+`;
 
 const Allflame = (styles: IconProps[]) => `
     <g transform="translate(-50.492 -69.383)scale(1.23901)"
@@ -419,8 +419,21 @@ const Allflame = (styles: IconProps[]) => `
         <path
             d="M84.796 132.958H65.24a53 53 0 0 0 0 8.143h19.38q-.12-4.065.177-8.143m78.778 8.143h20.713q.312-3.72 0-8.143h-20.89q.3 4.168.177 8.143" />
     </g>
-`
+`;
+
+const Talisman = (styles: IconProps[]) => `
+  <g style=${toString(styles[0])}>
+    <path stroke="none" d="M63 62a13 13 0 0 1-18 1 13 13 0 0 1-1-18 13 13 0 0 1 18-1 13 13 0 0 1 1 18l1 1a14 14 0 0 0-1-20 14 14 0 0 0-20 1 14 14 0 0 0 1 20 14 14 0 0 0 20-1Z" style="stroke:none" transform="translate(-148 -151)scale(4.60576)"/>
+    <path d="M64 63a14 14 0 0 1-20 1 14 14 0 0 1-1-20 14 14 0 0 1 20-1 14 14 0 0 1 1 20" style="fill:none;stroke-width:.434239" transform="translate(-148 -151)scale(4.60576)"/>
+    <path d="M63 62a13 13 0 0 1-18 1 13 13 0 0 1-1-18 13 13 0 0 1 18-1 13 13 0 0 1 1 18" style="fill:none;stroke-width:.434239" transform="translate(-148 -151)scale(4.60576)"/>
+    <path d="M28 160c3-11 5-24 13-29l15-6 2 10c-10 4-20 15-30 25m-18-30q3-17 15-28c9-4 14 0 21 1l-4 14q-19 1-32 13M3 79q16-7 35-9l10 10-13 11c-8-8-20-9-32-12m23-35c9 7 20 11 25 22l9-3 3-11c-10-10-24-7-37-8m35-25c3 10 8 20 3 33h16l3-18c-1-8-14-11-22-15m81 5q-16 2-31 15l8 14 11-2q1-13 12-27m29 17q-19-3-32 4l-2 16h15c0-10 10-14 19-20m-20 38 12-10q18 0 33 11c-10 2-23 3-29 8zm1 23 18-5q16 11 22 29c-10-3-21-11-30-4zm-12 25 19 4q12 12 18 26c-9-5-17-14-26-12zm-21 15 20 3c1 12-8 25-12 33 0-10 3-20-9-22zm-22 1-9 13q6 16 25 27c-6-10-4-22-2-34zm-22-3-16 5q0 20 10 39c4-10 2-25 15-27z"/>
+    <path d="M89 66q1-7-2-10l-14-9c5-8 6-16 18-23q13-5 28-1 9 16 12 31-11 16-9 33c-6 7-12 18-15 41q-11 8-25 10 7-6 6-19-5-16-18-30 16-12 19-23"/>
+  </g>
+
+`;
+
 export const iconMap: Record<string, (props: IconProps[]) => string> = {
+  Talisman: Talisman,
   Sanctum: Sanctum,
   Abyss: Abyss,
   Arbiter: Arbiter,
@@ -566,8 +579,9 @@ const defaultStyles: Record<string, IconProps[]> = {
       stroke: "oklch(0.95 0.13 40)",
     },
   ],
-  Allflame: [    {  fill: "#0d5800", stroke: "#fcf400" }  ],
+  Allflame: [{ fill: "#0d5800", stroke: "#fcf400" }],
   "Divination Cards": [{ fill: "#202020", stroke: "#c6c6c6" }],
+  Talisman: [{ fill: "#af8700", stroke: "#fff0c1", strokeWidth: 2 }],
 };
 
 interface IconRendererProps extends React.HTMLAttributes<HTMLDivElement> {
