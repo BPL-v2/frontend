@@ -67,7 +67,7 @@ export function RepeatableUniques() {
               <div className="flex flex-col gap-4">
                 <TimerRender objective={child} />
                 {child.children.length > 0 && (
-                  <div className="grid grid-cols-5">
+                  <div className="grid grid-cols-5 gap-2">
                     {child.children.map((grandchild) => (
                       <CollectionCard
                         key={grandchild.name}

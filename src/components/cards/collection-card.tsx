@@ -1,4 +1,4 @@
-import { Score } from "@api";
+import { CountingMethod, Score } from "@api";
 import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ConditionDescription } from "@components/conditions/condition-description";
 import { ObjectiveIcon } from "@components/objective-icon";
@@ -22,6 +22,7 @@ function parseMultiscoreCollection(objective: ScoreObjective): ScoreObjective {
   const teamIds = Object.keys(objective.team_score);
   const teamNumberMap = new Map<number, number>();
   const teamPointMap = new Map<number, number>();
+
   for (const teamId of teamIds) {
     for (const child of objective.children) {
       const score = child.team_score[Number(teamId)];
@@ -71,6 +72,8 @@ export function CollectionCard({
 }: CollectionCardProps) {
   const { currentEvent } = useContext(GlobalStateContext);
   const actualObjective = parseMultiscoreCollection(objective);
+  const variablePoints =
+    objective.counting_method === CountingMethod.HIGHEST_VALUE;
   return (
     <ConditionDescription objective={actualObjective}>
       <div
@@ -95,7 +98,7 @@ export function CollectionCard({
               </div>
             ) : null}
             <h3 className="grow text-center text-xl font-medium">
-              {`${actualObjective.required_number ? actualObjective.required_number.toLocaleString() : ""} ${actualObjective.name}`}
+              {`${actualObjective.required_number && !variablePoints ? actualObjective.required_number.toLocaleString() : ""} ${actualObjective.name}`}
               {actualObjective.extra && !ignoreExtra ? (
                 <i className="text-red-600">*</i>
               ) : null}

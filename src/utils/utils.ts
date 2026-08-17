@@ -1,4 +1,10 @@
-import { Objective, ScoringRuleType, ScoringRule, Score } from "@api";
+import {
+  Objective,
+  ScoringRuleType,
+  ScoringRule,
+  Score,
+  CountingMethod,
+} from "@api";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 
 type TeamScores = { [teamId: number]: ScoreClass };
@@ -253,6 +259,41 @@ function getPotentialBonusPointsPerChild(
     acc[parseInt(team_id)] = potential;
     return acc;
   }, {} as PotentialPoints);
+}
+
+function getter(array: number[], index: number): number {
+  if (index < array.length) {
+    return array[index];
+  }
+  return array[array.length - 1];
+}
+
+export function getMaximumNumberFromPointCap(
+  objective: ScoreObjective,
+): number {
+  if (objective.counting_method !== CountingMethod.HIGHEST_VALUE) {
+    return 0;
+  }
+  let points = 0;
+  let index = 0;
+  const rule = objective.scoring_rules[0];
+  if (!rule.point_cap) {
+    if (rule.points[rule.points.length - 1] == 0) {
+      return rule.points.length;
+    }
+    return Infinity;
+  }
+  while (true) {
+    const val = getter(rule.points, index);
+    points += val;
+    if (points >= (rule.point_cap || 0)) {
+      return index + 1;
+    }
+    if (val == 0) {
+      return Infinity;
+    }
+    index++;
+  }
 }
 
 export function rank2text(rank: number) {

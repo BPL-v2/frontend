@@ -1,4 +1,4 @@
-import { useGetEventStatus } from "@api";
+import { CountingMethod, useGetEventStatus } from "@api";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useRef } from "react";
@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 import { ProgressBar } from "../progress-bar";
 import { Score } from "@components/score";
 import { TeamName } from "@components/team/team-name";
+import { getMaximumNumberFromPointCap } from "@utils/utils";
 
 type CollectionCardTableProps = {
   objective: ScoreObjective;
@@ -68,6 +69,10 @@ export function CollectionCardTable({
       preset.points.some((point) => point > 0),
     );
   showPoints = showPoints && canGrantPoints;
+  let maxNum = objective.required_number;
+  if (objective.counting_method === CountingMethod.HIGHEST_VALUE) {
+    maxNum = getMaximumNumberFromPointCap(objective);
+  }
   return (
     <table key={objective.id} ref={tableRef}>
       <tbody>
@@ -143,7 +148,7 @@ export function CollectionCardTable({
                   {!isHidden ? (
                     <ProgressBar
                       value={score.number()}
-                      maxVal={objective.required_number}
+                      maxVal={maxNum}
                       gotPoints={gotPoints}
                     />
                   ) : (
