@@ -66,16 +66,18 @@ export function RepeatableUniques() {
             >
               <div className="flex flex-col gap-4">
                 <TimerRender objective={child} />
-                {child.children.length > 0 && (
-                  <div className="grid grid-cols-5 gap-2">
-                    {child.children.map((grandchild) => (
-                      <CollectionCard
-                        key={grandchild.name}
-                        objective={grandchild}
-                      />
-                    ))}
-                  </div>
-                )}
+                {child.children.length > 0 &&
+                  child.valid_from &&
+                  child.valid_from < new Date() && (
+                    <div className="grid grid-cols-5 gap-2">
+                      {child.children.map((grandchild) => (
+                        <CollectionCard
+                          key={grandchild.name}
+                          objective={grandchild}
+                        />
+                      ))}
+                    </div>
+                  )}
               </div>
             </div>
           </>
