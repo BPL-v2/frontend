@@ -316,6 +316,7 @@ const beasts = [
   "Vaulting Croaker",
   "Chrome-touched Croaker",
   "Chrome-infused Croaker",
+  "Wild Chimeral",
 ];
 
 const classToBaseType: Record<string, string> = {
