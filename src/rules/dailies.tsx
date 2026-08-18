@@ -1,6 +1,6 @@
-import { JSX, useContext } from "react";
-import { GlobalStateContext } from "@utils/context-provider";
+import { JSX } from "react";
 import { ScoringRuleType } from "@api";
+import { ScoreObjective } from "@mytypes/score";
 
 function convertArrayToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {
@@ -29,28 +29,23 @@ function convertArrayToText(points: number[]): JSX.Element[] {
   });
   return textParts;
 }
-export function DailyTabRules() {
-  const { scores } = useContext(GlobalStateContext);
-
-  const dailyCategory = scores?.children.find(
-    (category) => category.name === "Dailies",
-  );
+export function DailyTabRules({ category }: { category: ScoreObjective }) {
   const basePoints =
-    dailyCategory?.children?.find(
+    category?.children?.find(
       (objective) =>
         objective.scoring_rules[0]?.scoring_rule ===
         ScoringRuleType.FIXED_POINTS_ON_COMPLETION,
     )?.scoring_rules[0]?.points || [];
 
   const racePoints =
-    dailyCategory?.children?.find(
+    category?.children?.find(
       (objective) =>
         objective.scoring_rules[0]?.scoring_rule ===
         ScoringRuleType.RANK_BY_COMPLETION_TIME,
     )?.scoring_rules[0]?.points || [];
 
   const hoursForCompletion = (
-    dailyCategory?.children?.map(
+    category?.children?.map(
       (objective) =>
         objective.valid_to!.getTime() - objective.valid_from!.getTime(),
     ) || []

@@ -1,5 +1,5 @@
-import { JSX, useContext } from "react";
-import { GlobalStateContext } from "@utils/context-provider";
+import { JSX } from "react";
+import { ScoreObjective } from "@mytypes/score";
 
 function convertArrayToText(points: number[]): JSX.Element[] {
   const textParts = points.map((point, index) => {
@@ -28,15 +28,8 @@ function convertArrayToText(points: number[]): JSX.Element[] {
   });
   return textParts;
 }
-export function CollectionTabRules() {
-  const { scores } = useContext(GlobalStateContext);
-
-  const collectionCategory = scores?.children.find(
-    (category) => category.name === "Collections",
-  );
-
-  const racePoints =
-    collectionCategory?.children[0]?.scoring_rules[0]?.points || [];
+export function CollectionTabRules({ category }: { category: ScoreObjective }) {
+  const racePoints = category?.children[0]?.scoring_rules[0]?.points || [];
 
   return (
     <>

@@ -13,7 +13,7 @@ import { CollectionCardTable } from "./collection-card-table";
 import { ConditionDescription } from "@components/conditions/condition-description";
 
 export type DailyCardProps = {
-  daily: ScoreObjective;
+  objective: ScoreObjective;
 };
 
 function bonusAvailableCounter(
@@ -37,43 +37,47 @@ function bonusAvailableCounter(
   );
 }
 
-export function DailyCard({ daily }: DailyCardProps) {
+export function DailyCard({ objective }: DailyCardProps) {
   const { currentEvent } = useContext(GlobalStateContext);
   const [showModal, setShowModal] = useState(false);
   const qc = useQueryClient();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
 
-  if (!currentEvent || !daily.valid_from) {
+  if (!currentEvent || !objective.valid_from) {
     return <></>;
   }
-  const isReleased = new Date(daily.valid_from) < new Date();
+  const isReleased = new Date(objective.valid_from) < new Date();
 
   if (!isReleased) {
     return (
-      <div className="card bborder bg-card shadow-xl caret-transparent cursor-default" key={daily.id}>
+      <div
+        className="card cursor-default bg-card bborder caret-transparent shadow-xl"
+        key={objective.id}
+      >
         <div className="h-full min-h-25 rounded-t-box p-8 pb-0 text-center text-xl font-semibold">
           Daily not yet available
         </div>
         <div className="card-body rounded-b-box p-8 pt-0">
           <p className="text-center text-lg">The daily will be available in:</p>
           <div className="flex justify-center">
-            <Countdown target={new Date(daily.valid_from)} />
+            <Countdown target={new Date(objective.valid_from)} />
           </div>
         </div>
       </div>
     );
   }
-  const finished = Object.values(daily.team_score).reduce(
+  const finished = Object.values(objective.team_score).reduce(
     (acc, score) => score.isFinished() && acc,
     true,
   );
 
   const isRace =
-    daily.scoring_rules[0]?.scoring_rule ===
+    objective.scoring_rules[0]?.scoring_rule ===
     ScoringRuleType.RANK_BY_COMPLETION_TIME;
-  const isAvailable = daily.valid_to && new Date(daily.valid_to) > new Date();
+  const isAvailable =
+    objective.valid_to && new Date(objective.valid_to) > new Date();
   const canSubmit =
-    daily.objective_type === ObjectiveType.SUBMISSION &&
+    objective.objective_type === ObjectiveType.SUBMISSION &&
     !!eventStatus?.team_id &&
     new Date(currentEvent.event_start_time) < new Date() &&
     new Date(currentEvent.event_end_time) > new Date();
@@ -81,18 +85,18 @@ export function DailyCard({ daily }: DailyCardProps) {
     <>
       {canSubmit && (
         <SubmissionFormModal
-          objective={daily}
+          objective={objective}
           showModal={showModal}
           setShowModal={setShowModal}
         />
       )}
-      <ConditionDescription objective={daily}>
+      <ConditionDescription objective={objective}>
         <div
           className={twMerge(
-            "card bborder bg-card shadow-xl caret-transparent *:cursor-default",
+            "card bg-card bborder caret-transparent shadow-xl *:cursor-default",
             isRace && isAvailable ? "outline-4 outline-info" : "",
           )}
-          key={daily.id}
+          key={objective.id}
         >
           <div className="m-0 card-title flex h-full min-h-22 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
             {canSubmit ? (
@@ -111,16 +115,14 @@ export function DailyCard({ daily }: DailyCardProps) {
               </div>
             ) : (
               <ObjectiveIcon
-                objective={daily}
+                objective={objective}
                 gameVersion={currentEvent.game_version}
               />
             )}
-            <div
-              className={daily.extra ? "tooltip" : undefined}
-            >
-              {daily.extra && (
+            <div className={objective.extra ? "tooltip" : undefined}>
+              {objective.extra && (
                 <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
-                  {daily.extra}
+                  {objective.extra}
                 </div>
               )}
 
@@ -130,17 +132,17 @@ export function DailyCard({ daily }: DailyCardProps) {
                 ) : (
                   ""
                 )}
-                {daily.name}
-                {daily.extra ? <i className="text-error">*</i> : null}
+                {objective.name}
+                {objective.extra ? <i className="text-error">*</i> : null}
               </h3>
             </div>
           </div>
           <div className={finished ? "rounded-b-box" : ""}>
-            <CollectionCardTable objective={daily} />
+            <CollectionCardTable objective={objective} />
           </div>
           {!finished && (
             <div className="flex min-h-15 items-center justify-center rounded-b-box">
-              {bonusAvailableCounter(daily.valid_to, () => {
+              {bonusAvailableCounter(objective.valid_to, () => {
                 qc.refetchQueries({
                   queryKey: ["rules", currentEvent.id],
                 });

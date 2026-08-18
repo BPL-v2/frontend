@@ -444,6 +444,22 @@ export function encode(string: string): string {
     .replaceAll('"', "");
 }
 
+export function findFirstItemImage(
+  objective: ScoreObjective | Objective,
+  gameVersion: GameVersion = GameVersion.poe1,
+): string | null {
+  if (!objective) {
+    return null;
+  }
+  let loc = getImageLocation(objective, gameVersion);
+  if (loc) return loc;
+  for (const child of objective.children) {
+    loc = findFirstItemImage(child, gameVersion);
+    if (loc) return loc;
+  }
+  return null;
+}
+
 export function getImageLocation(
   objective: ScoreObjective | Objective,
   gameVersion: GameVersion = GameVersion.poe1,

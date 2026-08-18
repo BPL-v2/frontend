@@ -105,7 +105,7 @@ export const UniqueCategoryCard = ({
           )}
         >
           <div className="hidden items-center sm:flex">
-            <CategoryIcon name={objective.name} />
+            <CategoryIcon name={objective.name} objective={objective} />
           </div>
           <div className="text-center">
             <h1 className="font-extrabold">{objective.name}</h1>

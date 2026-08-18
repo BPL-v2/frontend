@@ -1,6 +1,6 @@
 import { GlobalStateContext } from "@utils/context-provider";
 import { objectiveIsValid } from "@utils/time";
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import { CollectionCard } from "./cards/collection-card";
 import { ScoreObjective } from "@mytypes/score";
 import { Countdown } from "./countdown";
@@ -51,19 +51,15 @@ export function RepeatableUniques() {
       <h2>Repeatable Uniques</h2>
       <div className="tabs tabs-lift">
         {repeatableUniques.children.map((child, id) => (
-          <>
+          <Fragment key={child.name}>
             <input
-              key={child.name}
               type="radio"
               name="my_tabs_3"
               className="tab"
               aria-label={child.name}
               defaultChecked={checked[id]}
             />
-            <div
-              key={child.name + "-content"}
-              className="tab-content w-full border-base-300 bg-base-100 p-4"
-            >
+            <div className="tab-content w-full border-base-300 bg-base-100 p-4">
               <div className="flex flex-col gap-4">
                 <TimerRender objective={child} />
                 {child.children.length > 0 &&
@@ -80,7 +76,7 @@ export function RepeatableUniques() {
                   )}
               </div>
             </div>
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

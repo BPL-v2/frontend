@@ -24,14 +24,15 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      <ContextWrapper>
-        <RouterProvider router={router} />
-      </ContextWrapper>
-    </QueryClientProvider>,
-  );
+const root = import.meta.hot?.data.root ?? ReactDOM.createRoot(rootElement);
+if (import.meta.hot) {
+  import.meta.hot.data.root = root;
 }
+root.render(
+  <QueryClientProvider client={queryClient}>
+    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    <ContextWrapper>
+      <RouterProvider router={router} />
+    </ContextWrapper>
+  </QueryClientProvider>,
+);

@@ -75,12 +75,15 @@ function convertBonusPointsToText(points: number[]) {
 }
 
 function getRacePointsRules(category: ScoreObjective) {
-  const preset = category?.scoring_rules[0];
+  const preset = category.scoring_rules[0];
   if (!preset)
     return (
       <p>Finishing this category first does not award additional points.</p>
     );
-  if (preset.scoring_rule === ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME) {
+  if (
+    preset.scoring_rule === ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME ||
+    preset.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME
+  ) {
     return <p> {convertRacePointsToText(preset.points)}</p>;
   }
   if (preset.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION) {
@@ -90,7 +93,7 @@ function getRacePointsRules(category: ScoreObjective) {
 }
 
 function getItemPointsRules(category: ScoreObjective) {
-  const preset = category?.children?.[0]?.scoring_rules[0];
+  const preset = category.scoring_rules[0];
   if (!preset) return null;
   if (preset.points.length === 1 && preset.points[0] === 0) {
     return null;
@@ -106,11 +109,19 @@ function getItemPointsRules(category: ScoreObjective) {
 }
 
 export function getPointRules(category: ScoreObjective) {
+  if (category.children.length > 0) {
+    return (
+      <div key={category.name}>
+        <h3>{category.name}</h3>
+        {getRacePointsRules(category)}
+        {getItemPointsRules(category?.children[0])}
+      </div>
+    );
+  }
   return (
-    <div key={category.name}>
+    <div>
       <h3>{category.name}</h3>
       {getRacePointsRules(category)}
-      {getItemPointsRules(category)}
     </div>
   );
 }

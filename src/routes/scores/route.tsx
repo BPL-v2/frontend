@@ -1,13 +1,7 @@
 import { GameVersion } from "@api";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { BountyTabRules } from "@rules/bounties";
-import { CollectionTabRules } from "@rules/collections";
-import { DailyTabRules } from "@rules/dailies";
 import { DelveTabRules } from "@rules/delve";
 import { GemTabRules } from "@rules/gems";
-import { HeistTabRules } from "@rules/heist";
-import { RaceTabRules } from "@rules/races";
-import { UniqueTabRules } from "@rules/uniques";
 import {
   createFileRoute,
   Link,
@@ -20,23 +14,9 @@ import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { router } from "../../main";
 import { useGetRules } from "@api";
-import { AscendancyChallengeTabRules } from "../../rules-alt/ascendancy-challenges";
 
 type scoringTabKey =
-  | "ladder"
-  | "for-you"
-  | "progress"
-  | "uniques"
-  | "races"
-  | "bounties"
-  | "ascendancy-challenges"
-  | "collections"
-  | "dailies"
-  | "heist"
-  | "gems"
-  | "scarabs"
-  | "delve"
-  | "bingo";
+  "ladder" | "for-you" | "progress" | "uniques" | "gems" | "delve";
 
 const blackListedRoutes = [
   "Personal Objectives",
@@ -101,57 +81,8 @@ function ScoringPage() {
         visible: true,
       },
       {
-        name: "Uniques",
-        key: "uniques",
-        rules: <UniqueTabRules />,
-        visible: true,
-      },
-      {
-        name: "Races",
-        key: "races",
-        rules: <RaceTabRules />,
-        visible: true,
-      },
-      {
-        name: "Bounties",
-        key: "bounties",
-        rules: <BountyTabRules />,
-        visible: true,
-      },
-      {
-        name: "Ascendancy Challenges",
-        key: "ascendancy-challenges",
-        shortName: "Asc. Challenges",
-        rules: <AscendancyChallengeTabRules />,
-        visible: true,
-      },
-      {
-        name: "Collections",
-        key: "collections",
-        rules: <CollectionTabRules />,
-        visible: true,
-      },
-      {
-        name: "Dailies",
-        key: "dailies",
-        rules: <DailyTabRules />,
-        visible: true,
-      },
-      {
-        name: "Heist",
-        key: "heist",
-        rules: <HeistTabRules />,
-        visible: currentEvent.game_version === GameVersion.poe1,
-      },
-      {
         name: "Gems",
         key: "gems",
-        rules: <GemTabRules />,
-        visible: currentEvent.game_version === GameVersion.poe1,
-      },
-      {
-        name: "Scarabs",
-        key: "scarabs",
         rules: <GemTabRules />,
         visible: currentEvent.game_version === GameVersion.poe1,
       },
@@ -160,12 +91,6 @@ function ScoringPage() {
         key: "delve",
         rules: <DelveTabRules />,
         visible: currentEvent.game_version === GameVersion.poe1,
-      },
-      {
-        name: "Bingo",
-        key: "bingo",
-        rules: <></>,
-        visible: true,
       },
     ];
   }, [currentEvent]);

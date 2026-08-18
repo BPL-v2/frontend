@@ -1,5 +1,4 @@
 import { useGetEvents, useGetEventStatus } from "@api";
-import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { Countdown } from "@components/countdown";
 import SignupButton from "@components/signup-button";
 import { TeamLogo } from "@components/team/teamlogo";
@@ -94,7 +93,7 @@ function Home() {
                 <a
                   href="https://discord.com/invite/3weG9JACgb"
                   target="_blank"
-                  className="bg-discord btn h-16 items-center justify-center gap-2 text-2xl text-white hover:brightness-90 transition-all"
+                  className="bg-discord btn h-16 items-center justify-center gap-2 text-2xl text-white transition-all hover:brightness-90"
                 >
                   <DiscordFilled className="size-6" />
                   Join the Discord
@@ -102,7 +101,7 @@ function Home() {
                 <a
                   href="https://ko-fi.com/bpl_poe"
                   target="_blank"
-                  className="btn h-16 bg-fuchsia-600 items-center justify-center gap-2 text-2xl text-white hover:brightness-90 transition-all"
+                  className="btn h-16 items-center justify-center gap-2 bg-fuchsia-600 text-2xl text-white transition-all hover:brightness-90"
                 >
                   <HeartIcon className="size-7" /> Support BPL
                 </a>
@@ -120,15 +119,21 @@ function Home() {
             <div className="card-body p-12">
               <div className="card-title text-4xl">Save the Date!</div>
               <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-                <div className="mt-4 grid grid-cols-[max-content_max-content] text-left text-2xl gap-x-8 gap-y-0">
+                <div className="mt-4 grid grid-cols-[max-content_max-content] gap-x-8 gap-y-0 text-left text-2xl">
                   <p>Applications start: </p>
                   <p className="text-right">
-                    {new Date(nextEvent.application_start_time).toLocaleString()}
+                    {new Date(
+                      nextEvent.application_start_time,
+                    ).toLocaleString()}
                   </p>
                   <p>Start time: </p>
-                  <p className="text-right">{new Date(nextEvent.event_start_time).toLocaleString()}</p>
+                  <p className="text-right">
+                    {new Date(nextEvent.event_start_time).toLocaleString()}
+                  </p>
                   <p>End time: </p>
-                  <p className="text-right">{new Date(nextEvent.event_end_time).toLocaleString()}</p>
+                  <p className="text-right">
+                    {new Date(nextEvent.event_end_time).toLocaleString()}
+                  </p>
                 </div>
 
                 {!hasStarted ? (
@@ -156,16 +161,15 @@ function Home() {
               <div className="card-body p-12">
                 <div className="card-title text-4xl">Meet the Teams</div>
                 <p className="mt-4 text-2xl">
-                  The teams only have access to a limited number of Ascendancy
-                  classes
+                  All teams have access to all character classes
                 </p>
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   {nextEvent.teams.map((team) => (
                     <div key={team.id} className="card bg-base-200">
                       <div className="card-body">
-                        <div className="grid h-full grid-cols-1 items-center gap-4 lg:grid-cols-2">
-                          <TeamLogo team={team} eventId={nextEvent.id} />
-                          <div className="flex flex-row flex-wrap gap-1 md:gap-2">
+                        {/* <div className="grid h-full grid-cols-1 items-center gap-4 lg:grid-cols-1"> */}
+                        <TeamLogo team={team} eventId={nextEvent.id} />
+                        {/* <div className="flex flex-row flex-wrap gap-1 md:gap-2">
                             {team.allowed_classes.map((character_class) => (
                               <div
                                 key={team.id + character_class}
@@ -179,8 +183,8 @@ function Home() {
                                 ></AscendancyPortrait>
                               </div>
                             ))}
-                          </div>
-                        </div>
+                          </div> */}
+                        {/* </div> */}
                       </div>
                     </div>
                   ))}
@@ -202,7 +206,7 @@ function Home() {
                 >
                   <div>
                     <div className="text-xl font-semibold">{event.name}</div>
-                    <div className="opacity-60 text-sm text-left">
+                    <div className="text-left text-sm opacity-60">
                       {new Date(event.event_start_time).toLocaleDateString()} –{" "}
                       {new Date(event.event_end_time).toLocaleDateString()}
                     </div>
@@ -210,7 +214,7 @@ function Home() {
                   <Link
                     to="/events/$eventId"
                     params={{ eventId: String(event.id) }}
-                    className="btn btn-sm btn-primary shrink-0 ml-4"
+                    className="btn ml-4 shrink-0 btn-primary btn-sm"
                   >
                     View Ladder
                   </Link>

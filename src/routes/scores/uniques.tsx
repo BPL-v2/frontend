@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-// import { UniqueTabRules } from "@rules/uniques";
 import { useGetEventStatus } from "@api";
 import { ItemTable } from "@components/table/item-table";
 import TeamScoreDisplay from "@components/team/team-score";
@@ -11,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { Countdown } from "@components/countdown";
 import { EyeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { RepeatableUniques } from "@components/temporary-uniques";
+import { UniqueTabRules } from "@rules/uniques";
 
 // had to cook this smooth scroll implementation cause daisyUI overrides scroll behaviour, can't just set it in the global css
 function scrollToElement(el: HTMLElement, offset = 16) {
@@ -92,7 +92,7 @@ type CategoryGridProps = {
   handleCategoryClick: (objective: ScoreObjective) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-function CategoryGrid({
+export function CategoryGrid({
   categories,
   selectedCategories,
   selectedTeam,
@@ -271,7 +271,9 @@ function UniqueTab(): JSX.Element {
     <>
       {rules ? (
         <div className="my-4 w-full rounded-box bg-base-200 p-8">
-          <article className="prose max-w-4xl text-left">{rules}</article>
+          <article className="prose max-w-4xl text-left">
+            <UniqueTabRules category={uniqueCategory} />
+          </article>
         </div>
       ) : null}
       <TeamScoreDisplay

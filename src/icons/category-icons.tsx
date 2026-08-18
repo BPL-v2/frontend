@@ -1,3 +1,6 @@
+import { ScoreObjective } from "@mytypes/score";
+import { findFirstItemImage } from "@mytypes/scoring-objective";
+
 type IconProps = {
   strokeWidth?: number;
   fill?: string;
@@ -587,6 +590,7 @@ const defaultStyles: Record<string, IconProps[]> = {
 interface IconRendererProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   color?: "default" | "mono";
+  objective?: ScoreObjective;
 }
 
 export function SvgForCategory(
@@ -610,13 +614,23 @@ export function SvgForCategory(
 }
 
 export function CategoryIcon({ ...props }: IconRendererProps) {
-  return (
-    <div
-      className="size-10"
-      {...props}
-      dangerouslySetInnerHTML={{
-        __html: SvgForCategory(props.name, props.color) || "",
-      }}
-    />
-  );
+  const svg = SvgForCategory(props.name, props.color);
+  if (svg) {
+    return (
+      <div
+        className="size-10"
+        {...props}
+        dangerouslySetInnerHTML={{
+          __html: SvgForCategory(props.name, props.color) || "",
+        }}
+      />
+    );
+  }
+  if (props.objective) {
+    const loc = findFirstItemImage(props.objective);
+    console.log;
+    if (loc) {
+      return <img className="h-12 max-w-12" src={loc} />;
+    }
+  }
 }

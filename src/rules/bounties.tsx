@@ -1,11 +1,7 @@
-import { useContext } from "react";
-import { GlobalStateContext } from "@utils/context-provider";
+import type { ScoreObjective } from "@mytypes/score";
 
-export function BountyTabRules() {
-  const { scores } = useContext(GlobalStateContext);
-  const objs = scores?.children.find(
-    (category) => category.name === "Bounties",
-  )?.children;
+export function BountyTabRules({ category }: { category: ScoreObjective }) {
+  const objs = category.children;
 
   if (!objs) {
     return <></>;

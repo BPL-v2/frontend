@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { ScoringRuleType } from "@api";
 import { pointsToGroup } from "@utils/text-utils";
+import { ScoreObjective } from "@mytypes/score";
 
 function convertArrayToText(points: number[] | undefined) {
   const groups = pointsToGroup(points || []);
@@ -34,16 +35,12 @@ function convertArrayToText(points: number[] | undefined) {
   return textParts;
 }
 
-export function UniqueTabRules() {
-  const { scores, currentEvent } = useContext(GlobalStateContext);
-
-  const uniqueCategory = scores?.children.find(
-    (category) => category.name === "Uniques",
-  );
+export function UniqueTabRules({ category }: { category: ScoreObjective }) {
+  const { currentEvent } = useContext(GlobalStateContext);
   const variantPoints = 5;
   const uniquePoints = 10;
 
-  if (!uniqueCategory) {
+  if (!category) {
     return <></>;
   }
 
@@ -51,11 +48,11 @@ export function UniqueTabRules() {
     currentEvent.game_version === "poe1"
       ? "https://www.poewiki.net/wiki/"
       : "https://www.poe2wiki.net/wiki/";
-  const variantExample = uniqueCategory.children
+  const variantExample = category.children
     .flatMap((c) => c.children)
     .find((c) => c.children.length >= 2);
 
-  const ubersCategory = uniqueCategory.children.find((c) =>
+  const ubersCategory = category.children.find((c) =>
     c.scoring_rules.some(
       (rule) =>
         rule.scoring_rule === ScoringRuleType.BONUS_PER_CHILD_COMPLETION,
@@ -128,6 +125,21 @@ export function UniqueTabRules() {
           </p>
         </>
       ) : null}
+      <h3 className="">Repeatable Uniques</h3>
+      <p>
+        At certain points during the event, a group of 5 unique items from
+        different sets will be made repeatable.
+      </p>
+      <p>
+        During this time, up to <b className="text-info">50</b> points can be
+        earned per unique item. The first 5 copies grant{" "}
+        <b className="text-info">4</b> points each and the last 15 copies grant{" "}
+        <b className="text-info">2</b> points each.
+      </p>
+      <p>
+        You will be able to submit these in an 8h window after they are
+        released.
+      </p>
       <h3 className="text-warning">Notes</h3>
       <p className="text-warning">
         Foiled unique items from Voidborn Keys or Valdo maps are not counted.

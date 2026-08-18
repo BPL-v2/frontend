@@ -28,24 +28,25 @@ function convertArrayToText(points: number[]): JSX.Element[] {
   });
   return textParts;
 }
-export function RaceTabRules({ category }: { category: ScoreObjective }) {
+export function AtlasRaceTabRules({ category }: { category: ScoreObjective }) {
+  const points = category?.scoring_rules[0]?.points || [];
   return (
     <>
-      <h2>Points</h2>
-      <h3>Boss Races</h3>
-      <p>{convertArrayToText([40, 30, 20])}</p>
-      <h3>Early Races</h3>
-      <p>{convertArrayToText([30, 25, 20])}</p>
-      <h3>Endless Chase</h3>
-      <p>{convertArrayToText([60, 40, 20])}</p>
-      <h3> Submitting a Race</h3>
+      <h3>Points</h3>
       <p>
-        To submit a completion click on the plus sign icon on the race card and
-        fill in the form. You will need to provide a timestamp in your timezone{" "}
-        {" (your browser usually provides this for you) "} and a link to a proof
-        of your completion. This can for example be a screenshot or a video that
-        show your local clock. If there is more information you need to share
-        for the reviewers you can add it in the comment field.
+        Every team tries to complete get as many{" "}
+        <b className="">Name in Lights</b> (First to enter area on Server) as
+        Possible. Every Name in Lights will be awarded{" "}
+        <b className="text-info">{1}</b> point.
+      </p>
+      <p>{convertArrayToText(points)}</p>
+      <h3>Submitting a Name in Light</h3>
+      <p>
+        To submit a completion click on the plus sign icon on the table row and
+        fill in the form. You will need to provide a link to a proof of your
+        completion. This can for example be a screenshot of the Name in Lights.
+        If there is more information you need to share for the reviewers you can
+        add it in the comment field.
       </p>
       <p>
         BPL staff will manually credit points for races after the verification,

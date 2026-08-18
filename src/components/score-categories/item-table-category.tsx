@@ -1,20 +1,27 @@
 import { ScoringRuleType } from "@api";
 import { Ranking } from "@components/ranking";
 import { ItemTable } from "@components/table/item-table";
-import TeamScoreDisplay from "@components/team/team-score";
 import { ScoreObjective } from "@mytypes/score";
 
 interface ScoreCategoryProps extends React.HTMLAttributes<HTMLSpanElement> {
   category: ScoreObjective;
+  selectedCategories: Set<number>;
+  selectedTeam?: number;
+  handleCategoryClick: (objective: ScoreObjective) => void;
 }
 export function ItemTableScoreCategory({
   category,
+  selectedCategories,
+  handleCategoryClick,
+  selectedTeam,
   ...props
 }: ScoreCategoryProps) {
   return (
     <div {...props}>
-      <TeamScoreDisplay objective={category} />
-      <div key={category.id} className="rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8 mt-3">
+      <div
+        key={category.id}
+        className="mt-3 rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8"
+      >
         <div className="divider divider-primary">{category.name}</div>
         {(category.scoring_rules[0]?.scoring_rule ===
           ScoringRuleType.RANK_BY_COMPLETION_TIME ||

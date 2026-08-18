@@ -245,13 +245,6 @@ function DelveTab(): JSX.Element {
   const culmulativeDepthTotal = category.children.find(
     (o) => o.name === "Culmulative Depth",
   );
-  console.log("culmulativeDepthTotal", culmulativeDepthTotal);
-  console.log(
-    "finished",
-    Object.entries(culmulativeDepthTotal?.team_score || {}).map(
-      ([teamId, score]) => ({ teamId, finished: score.isFinished() }),
-    ),
-  );
   return (
     <>
       {rules ? (
@@ -286,7 +279,14 @@ function DelveTab(): JSX.Element {
                       />
 
                       <h3 className="mx-4 grow text-center text-xl font-semibold">
-                        {objective.name} {objective.tracked_value === TrackedValue.FOSSIL_FUEL_HIGH ? "x10" : objective.tracked_value === TrackedValue.FOSSIL_FUEL_MID ? "x2" : "x1"}
+                        {objective.name}{" "}
+                        {objective.tracked_value ===
+                        TrackedValue.FOSSIL_FUEL_HIGH
+                          ? "x10"
+                          : objective.tracked_value ===
+                              TrackedValue.FOSSIL_FUEL_MID
+                            ? "x2"
+                            : "x1"}
                       </h3>
                     </div>
                     <div className="rounded-b-box">
