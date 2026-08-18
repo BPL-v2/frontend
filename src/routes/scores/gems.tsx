@@ -91,10 +91,10 @@ function GemTab(): JSX.Element {
           return (
             <div
               key={category.id}
-              className="flex flex-col gap-8 rounded-box bg-base-200"
+              className="flex flex-col gap-8 rounded-box bg-base-200 p-8"
             >
               <h1 className="text-3xl font-extrabold">{category.name}</h1>
-              <div className="px-4 sm:px-0">
+              <div>
                 <Ranking
                   objective={category}
                   maximum={category.children.length}
