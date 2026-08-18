@@ -104,7 +104,7 @@ export function CategoryGrid({
   return (
     <>
       <div {...htmlDivProps} className={twMerge("", htmlDivProps.className)}>
-        <div className="flex flex-col gap-4 rounded-box rounded-tl-none bg-base-200 p-8 pt-4 outline outline-base-300">
+        <div className="flex flex-col gap-4 rounded-box rounded-tl-none bg-base-200 p-8 outline outline-base-300">
           <div className="m-2 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
             {categories
               .sort((a, b) => a.name.localeCompare(b.name))
