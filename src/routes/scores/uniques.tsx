@@ -174,7 +174,9 @@ function UniqueTab(): JSX.Element {
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const tableRef = useRef<HTMLDivElement>(null);
   const selectedTeam =
-    teamOverride ?? eventStatus?.team_id ?? currentEvent?.teams?.[0]?.id;
+    teamOverride ??
+    eventStatus?.team_id ??
+    currentEvent?.teams?.sort((a, b) => b.id - a.id)[0]?.id;
   const uniqueCategory = scores?.children.find(
     (category) => category.name === "Uniques",
   );
