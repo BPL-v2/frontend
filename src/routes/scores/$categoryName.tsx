@@ -24,7 +24,9 @@ function RouteComponent() {
   );
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const selectedTeam =
-    teamOverride ?? eventStatus?.team_id ?? currentEvent?.teams?.[0]?.id;
+    teamOverride ??
+    eventStatus?.team_id ??
+    currentEvent?.teams?.sort((a, b) => b.id - a.id)[0]?.id;
   const { categoryName } = Route.useParams();
   const { scores } = useContext(GlobalStateContext);
   const category = scores?.children.find(
