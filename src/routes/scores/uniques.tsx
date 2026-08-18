@@ -107,6 +107,7 @@ export function CategoryGrid({
         <div className="flex flex-col gap-4 rounded-box rounded-tl-none bg-base-200 p-8 pt-4 outline outline-base-300">
           <div className="m-2 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
             {categories
+              .sort((a, b) => a.name.localeCompare(b.name))
               .sort(
                 (a, b) =>
                   (a.valid_from?.getTime() || 0) -
@@ -282,7 +283,7 @@ function UniqueTab(): JSX.Element {
         setSelectedTeam={setTeamOverride}
       />
       <div className="mt-4 flex flex-col gap-4 caret-transparent">
-        <RepeatableUniques></RepeatableUniques>
+        <RepeatableUniques />
         <div className="flex flex-col overflow-hidden rounded-box border border-primary">
           <div className="flex flex-col gap-3 bg-base-200 px-4 py-3 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-x-4 md:gap-y-2">
             <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
