@@ -65,8 +65,13 @@ export function DailyTabRules({ category }: { category: ScoreObjective }) {
       </p>
       <h3>Points</h3>
       <p>
-        Regular dailies grant <b className="text-info">{basePoints[0]}</b>{" "}
-        points on completion. {convertArrayToText(racePoints)}
+        {basePoints[0] && (
+          <>
+            Regular dailies grant <b className="text-info">{basePoints[0]}</b>{" "}
+            points on completion.
+          </>
+        )}
+        {convertArrayToText(racePoints)}
       </p>
       <h3 className="text-warning">Notes </h3>
       <p className="text-warning">
