@@ -37,8 +37,8 @@ function convertArrayToText(points: number[] | undefined) {
 
 export function UniqueTabRules({ category }: { category: ScoreObjective }) {
   const { currentEvent } = useContext(GlobalStateContext);
-  const variantPoints = 5;
-  const uniquePoints = 10;
+  const variantPoints = 3;
+  const uniquePoints = 6;
 
   if (!category) {
     return <></>;
