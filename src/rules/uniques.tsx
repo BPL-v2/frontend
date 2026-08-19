@@ -101,14 +101,14 @@ export function UniqueTabRules({ category }: { category: ScoreObjective }) {
         set completion after the first.
       </p>
       {exampleText}
-      <h3>Unique Sets</h3>
+      {/* <h3>Unique Sets</h3>
       <p>
         Once a team has found every distinct unique item in a unique set, they
         are considered to have completed the set. They are given points
         depending on the time they completed the set. The first team to complete
         a set is given <b className="text-info">10</b> points, the second team{" "}
         <b className="text-info">5</b> points.
-      </p>
+      </p> */}
       {ubersCategory ? (
         <>
           <h3 className="text-error">Exceptions</h3>
