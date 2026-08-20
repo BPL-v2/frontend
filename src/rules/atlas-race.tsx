@@ -6,7 +6,7 @@ function convertArrayToText(points: number[]): JSX.Element[] {
     if (index === 0) {
       return (
         <span key={index}>
-          The first team to complete the objective will be awarded{" "}
+          The team with the most Names in Light will be awarded{" "}
           <b className="text-info">{point}</b> points
         </span>
       );
@@ -36,8 +36,7 @@ export function AtlasRaceTabRules({ category }: { category: ScoreObjective }) {
       <p>
         Every team tries to complete get as many{" "}
         <b className="">Name in Lights</b> (First to enter area on Server) as
-        Possible. Every Name in Lights will be awarded{" "}
-        <b className="text-info">{1}</b> point.
+        Possible.
       </p>
       <p>{convertArrayToText(points)}</p>
       <h3>Submitting a Name in Light</h3>
@@ -52,12 +51,6 @@ export function AtlasRaceTabRules({ category }: { category: ScoreObjective }) {
         BPL staff will manually credit points for races after the verification,
         if there are questions about a race condition please confirm with a BPL
         Admin or Manager prior to beginning the map/fight.
-      </p>
-      <h3 className="text-warning">Notes</h3>
-      <p className="text-warning">
-        Endless chase races can be submitted multiple times per team. If two
-        teams have the same value, the team that submitted first will get more
-        points.
       </p>
     </>
   );
