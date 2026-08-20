@@ -16,7 +16,7 @@ import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { Score } from "@components/score";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 function getUrls(string: string): URL[] {
@@ -133,11 +133,11 @@ export function VideoButton({ submissions }: { submissions: Submission[] }) {
   return null;
 }
 
-export interface SubmissionCardProps {
+export interface SubmissionCardProps extends React.HTMLAttributes<HTMLDivElement> {
   objective: ScoreObjective;
 }
 
-export function SubmissionCard({ objective }: SubmissionCardProps) {
+export function SubmissionCard({ objective, ...props }: SubmissionCardProps) {
   const { currentEvent, preferences } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const { submissions = [] } = useGetSubmissions(currentEvent.id);
@@ -181,7 +181,11 @@ export function SubmissionCard({ objective }: SubmissionCardProps) {
         setShowModal={setShowModal}
       />
       <div
-        className="card bg-card bborder caret-transparent shadow-xl select-text"
+        {...props}
+        className={twMerge(
+          "card bg-card bborder caret-transparent shadow-xl select-text",
+          props.className,
+        )}
         key={objective.id}
       >
         <div className="flex h-full min-h-16 items-center justify-between rounded-t-box bborder-b bg-base-300/50 px-4 py-2">

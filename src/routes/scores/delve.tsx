@@ -21,6 +21,8 @@ import {
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { getSkillColor } from "@utils/gems";
 import { progressiveDelveDepth } from "@utils/personal-points";
+import { ObjectiveCard } from "@components/cards/objective-card";
+import { CollectionCard } from "@components/cards/collection-card";
 
 export const Route = createFileRoute("/scores/delve")({
   component: DelveTab,
@@ -245,6 +247,26 @@ function DelveTab(): JSX.Element {
   const culmulativeDepthTotal = category.children.find(
     (o) => o.name === "Culmulative Depth",
   );
+  const delveRace = category.children.find((c) => c.name === "Delve Race");
+  const delvePastLimit = category.children.find(
+    (c) => c.name === "Culmulative Depth past 7500",
+  );
+  if (delvePastLimit) {
+    // hacky but who cares
+    delvePastLimit.required_number = 2500;
+    for (const teamId in delvePastLimit.team_score) {
+      delvePastLimit.team_score[teamId].number = () =>
+        Math.max(
+          (culmulativeDepthTotal?.team_score[teamId].number() || 0) - 7500,
+          0,
+        );
+      delvePastLimit.team_score[teamId].maxNumber = () =>
+        Math.max(
+          (culmulativeDepthTotal?.team_score[teamId].maxNumber() || 0) - 7500,
+          0,
+        );
+    }
+  }
   return (
     <>
       {rules ? (
@@ -256,6 +278,14 @@ function DelveTab(): JSX.Element {
       ) : null}
       <div className="flex flex-col gap-3">
         <TeamScoreDisplay objective={category} />
+        <div className="flex justify-center gap-4">
+          {delveRace && (
+            <ObjectiveCard objective={delveRace} className="w-100" />
+          )}
+          {delvePastLimit && (
+            <ObjectiveCard objective={delvePastLimit} className="w-100" />
+          )}
+        </div>
         {fossilRaceCategory ? (
           <div className="rounded-box bg-base-200 p-8 pt-2">
             <div className="divider divider-primary">Fossil Fuel Race</div>
@@ -298,7 +328,6 @@ function DelveTab(): JSX.Element {
             </div>
           </div>
         ) : null}
-
         {culmulativeDepthTotal ? (
           <div className="rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8">
             <div className="divider divider-primary">

@@ -71,33 +71,32 @@ export function CollectionCard({
   ...props
 }: CollectionCardProps) {
   const { currentEvent } = useContext(GlobalStateContext);
-  const actualObjective = parseMultiscoreCollection(objective);
   return (
-    <ConditionDescription objective={actualObjective}>
+    <ConditionDescription objective={objective}>
       <div
-        key={actualObjective.id}
+        key={objective.id}
         {...props}
         className={twMerge("card bg-card bborder shadow-xl", props.className)}
       >
         <div className="m-0 card-title flex h-full min-h-20 items-center rounded-t-box bborder-b bg-base-300/50 px-4 py-2">
           <ObjectiveIcon
-            objective={actualObjective}
+            objective={objective}
             gameVersion={currentEvent.game_version}
           />
           <div
             className={twMerge(
               "w-full",
-              actualObjective.extra && !ignoreExtra && "tooltip",
+              objective.extra && !ignoreExtra && "tooltip",
             )}
           >
-            {actualObjective.extra && !ignoreExtra ? (
+            {objective.extra && !ignoreExtra ? (
               <div className="tooltip-content max-w-75 border border-primary bg-base-200 text-xl text-base-content">
-                {actualObjective.extra}
+                {objective.extra}
               </div>
             ) : null}
             <h3 className="grow text-center text-xl font-medium">
-              {`${actualObjective.required_number && actualObjective.hide_progress ? actualObjective.required_number.toLocaleString() : ""} ${actualObjective.name}`}
-              {actualObjective.extra && !ignoreExtra ? (
+              {`${objective.required_number && objective.hide_progress ? objective.required_number.toLocaleString() : ""} ${objective.name}`}
+              {objective.extra && !ignoreExtra ? (
                 <i className="text-red-600">*</i>
               ) : null}
             </h3>
@@ -105,7 +104,7 @@ export function CollectionCard({
         </div>
         <div className="mb-0 rounded-b-box">
           <CollectionCardTable
-            objective={actualObjective}
+            objective={objective}
             showPoints={showPoints}
             roundedBottom
           />

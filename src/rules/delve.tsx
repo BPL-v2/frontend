@@ -2,12 +2,12 @@ import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { TrackedValue, ScoringRuleType } from "@api";
 
-function racePointsToText(points: number[]): JSX.Element[] {
+function racePointsToText(points: number[], x: string): JSX.Element[] {
   const textParts = points.map((point, index) => {
     if (index === 0) {
       return (
         <span key={index}>
-          The first team to complete the race will be awarded{" "}
+          The first team to complete {x} will be awarded{" "}
           <b className="text-info">{point}</b> points
         </span>
       );
@@ -50,6 +50,16 @@ export function DelveTabRules() {
   const delveRace = delveCategory?.children.find(
     (c) => c.name === "Delve Race",
   );
+
+  const cumulativeDepthObjectivePointsPresent =
+    cumulativeDepthObjective?.scoring_rules.find(
+      (preset) => preset.scoring_rule === ScoringRuleType.POINTS_BY_VALUE,
+    );
+  const cumulativeDepthObjectivePointsRace =
+    cumulativeDepthObjective?.scoring_rules.find(
+      (preset) =>
+        preset.scoring_rule === ScoringRuleType.RANK_BY_COMPLETION_TIME,
+    );
 
   return (
     <>
@@ -118,12 +128,7 @@ export function DelveTabRules() {
             <b className="text-info">1 point per 10</b> total team delve
             progress up to a cap of{" "}
             <b className="text-info">
-              {
-                cumulativeDepthObjective.scoring_rules?.find(
-                  (preset) =>
-                    preset.scoring_rule === ScoringRuleType.POINTS_BY_VALUE,
-                )?.point_cap
-              }
+              {cumulativeDepthObjectivePointsPresent?.point_cap}
             </b>{" "}
             points.
           </p>
@@ -132,20 +137,38 @@ export function DelveTabRules() {
             cumulative depth, with every 100 depth after increasing this
             multiplier by an additional 0.2x with a maximum of 2x at 650 depth.
           </p>
+          <p>
+            Past {cumulativeDepthObjectivePointsPresent?.point_cap} points,
+            teams will be awarded <b className="text-info">10 points per 500</b>{" "}
+            total team delve until the maximum of{" "}
+            <b className="text-info">50 points</b> is reached at <b>10000</b>{" "}
+            total team delve progress.
+          </p>
+          {cumulativeDepthObjectivePointsRace && (
+            <p>
+              {racePointsToText(
+                cumulativeDepthObjectivePointsRace.points,
+                "7500 Depth",
+              )}
+            </p>
+          )}
         </>
       )}
       {delveRace && (
         <>
           <h3>Delve Race</h3>
-          <p>
-            Each team selects a member to be their racer. The racer will try to
-            delve from depth 300 to depth 600 as fast as possible. The race has
-            to be done solo.
-          </p>
-          <p className="text-warning">
-            Usage of "Mageblood" and "The Tides of Time" unique belts is not
-            allowed for the submission of the delve race.
-          </p>
+          <ul>
+            <li>300-350, average time taken across 4 team members</li>
+            <li>Completed within the first 48 hours of the event</li>
+            <li>3% average time reduction per unique submission</li>
+            <li>(Ascendancy + Main Skill + Movement Skill all different)</li>
+            <li>
+              {racePointsToText(
+                delveRace.scoring_rules[0]?.points || [],
+                "the Delve Race",
+              )}
+            </li>
+          </ul>
         </>
       )}
     </>
