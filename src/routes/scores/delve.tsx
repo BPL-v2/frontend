@@ -22,7 +22,6 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { getSkillColor } from "@utils/gems";
 import { progressiveDelveDepth } from "@utils/personal-points";
 import { ObjectiveCard } from "@components/cards/objective-card";
-import { CollectionCard } from "@components/cards/collection-card";
 
 export const Route = createFileRoute("/scores/delve")({
   component: DelveTab,

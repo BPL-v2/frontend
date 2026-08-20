@@ -1,8 +1,7 @@
-import { Score } from "@api";
 import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ConditionDescription } from "@components/conditions/condition-description";
 import { ObjectiveIcon } from "@components/objective-icon";
-import { ScoreClass, ScoreObjective } from "@mytypes/score";
+import { ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
@@ -14,55 +13,55 @@ export interface CollectionCardProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 // todo: find a better solution than this
-function parseMultiscoreCollection(objective: ScoreObjective): ScoreObjective {
-  if (objective.children.length == 0) {
-    return objective;
-  }
-  const newObjective = { ...objective, children: [] };
-  const teamIds = Object.keys(objective.team_score);
-  const teamNumberMap = new Map<number, number>();
-  const teamPointMap = new Map<number, number>();
+// function parseMultiscoreCollection(objective: ScoreObjective): ScoreObjective {
+//   if (objective.children.length == 0) {
+//     return objective;
+//   }
+//   const newObjective = { ...objective, children: [] };
+//   const teamIds = Object.keys(objective.team_score);
+//   const teamNumberMap = new Map<number, number>();
+//   const teamPointMap = new Map<number, number>();
 
-  for (const teamId of teamIds) {
-    for (const child of objective.children) {
-      const score = child.team_score[Number(teamId)];
-      if (!score) {
-        continue;
-      }
-      teamNumberMap.set(
-        Number(teamId),
-        Math.max(teamNumberMap.get(Number(teamId)) || 0, score.maxNumber()),
-      );
-      teamPointMap.set(
-        Number(teamId),
-        (teamPointMap.get(Number(teamId)) || 0) + score.totalPoints(),
-      );
-    }
-  }
+//   for (const teamId of teamIds) {
+//     for (const child of objective.children) {
+//       const score = child.team_score[Number(teamId)];
+//       if (!score) {
+//         continue;
+//       }
+//       teamNumberMap.set(
+//         Number(teamId),
+//         Math.max(teamNumberMap.get(Number(teamId)) || 0, score.maxNumber()),
+//       );
+//       teamPointMap.set(
+//         Number(teamId),
+//         (teamPointMap.get(Number(teamId)) || 0) + score.totalPoints(),
+//       );
+//     }
+//   }
 
-  newObjective.team_score = Object.fromEntries(
-    teamIds.map((teamId) => [
-      Number(teamId),
-      new ScoreClass({
-        bonus_points: 0,
-        completions: [
-          {
-            finished: false,
-            number: teamNumberMap.get(Number(teamId)) || 0,
-            points: teamPointMap.get(Number(teamId)) || 0,
-            preset_id: objective.children[0].scoring_rules[0]?.id || 0,
-            rank: 0,
-            timestamp: Date.now(),
-            user_id: undefined,
-          },
-        ],
-      } as Score),
-    ]),
-  );
-  newObjective.required_number = 0;
-  newObjective.scoring_rules = objective.children[0].scoring_rules;
-  return newObjective;
-}
+//   newObjective.team_score = Object.fromEntries(
+//     teamIds.map((teamId) => [
+//       Number(teamId),
+//       new ScoreClass({
+//         bonus_points: 0,
+//         completions: [
+//           {
+//             finished: false,
+//             number: teamNumberMap.get(Number(teamId)) || 0,
+//             points: teamPointMap.get(Number(teamId)) || 0,
+//             preset_id: objective.children[0].scoring_rules[0]?.id || 0,
+//             rank: 0,
+//             timestamp: Date.now(),
+//             user_id: undefined,
+//           },
+//         ],
+//       } as Score),
+//     ]),
+//   );
+//   newObjective.required_number = 0;
+//   newObjective.scoring_rules = objective.children[0].scoring_rules;
+//   return newObjective;
+// }
 
 export function CollectionCard({
   objective,

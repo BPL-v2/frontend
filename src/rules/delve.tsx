@@ -2,12 +2,12 @@ import { JSX, useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { TrackedValue, ScoringRuleType } from "@api";
 
-function racePointsToText(points: number[], x: string): JSX.Element[] {
+function racePointsToText(points: number[], name: string): JSX.Element[] {
   const textParts = points.map((point, index) => {
     if (index === 0) {
       return (
         <span key={index}>
-          The first team to complete {x} will be awarded{" "}
+          The first team to complete {name} will be awarded{" "}
           <b className="text-info">{point}</b> points
         </span>
       );
@@ -72,6 +72,7 @@ export function DelveTabRules() {
             has to be collected.{" "}
             {racePointsToText(
               fossilRaceCategory.scoring_rules[0]?.points || [],
+              "the Fossil Race",
             )}
           </p>
         </>
@@ -115,6 +116,7 @@ export function DelveTabRules() {
           <p>
             {racePointsToText(
               fossilFuelRaceCategory.scoring_rules[0]?.points || [],
+              "the Fossil Fuel Race",
             )}
           </p>
         </>
