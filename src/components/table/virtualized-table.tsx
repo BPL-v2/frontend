@@ -217,7 +217,7 @@ function Filter<T extends RowData>({ column }: { column: Column<T, unknown> }) {
   if (filterVariant === "enum") {
     return (
       <Select
-        onChange={column.setFilterValue}
+        onChange={(value) => column.setFilterValue(value)}
         value={(columnFilterValue ?? "") as T}
         options={options!}
         fontSize="text-lg"
