@@ -90,7 +90,7 @@ function RouteComponent() {
     {
       header: "Leader",
       accessorKey: "is_team_lead",
-      size: 120,
+      size: 140,
       filterFn: "equals",
       enableSorting: false,
       meta: {
