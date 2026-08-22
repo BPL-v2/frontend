@@ -9,7 +9,5 @@ export interface TeamSheetEntryUpdate {
   realm?: string;
   role?: string;
   secondary_role?: string;
-  secondary_specialization?: string;
-  specialization?: string;
   uniques_needed?: string;
 }
