@@ -7,22 +7,22 @@ function racePointsToText(points: number[], name: string): JSX.Element[] {
     if (index === 0) {
       return (
         <span key={index}>
-          The first team to complete {name} will be awarded{" "}
-          <b className="text-info">{point}</b> points
+          The fastest team to complete {name} will be awarded{" "}
+          <b className="text-info">{point}</b> points.
         </span>
       );
     } else if (index === points.length - 1) {
       return (
         <span key={index}>
-          {" "}
-          and the remaining teams <b className="text-info">{point}</b> points
+          ,{" "}
+          and the rest will get <b className="text-info">{point}</b> points
         </span>
       );
     } else {
       return (
         <span key={index}>
           {" "}
-          the next team will get <b className="text-info">{point}</b> points
+          The next team will get <b className="text-info">{point}</b> points
         </span>
       );
     }
