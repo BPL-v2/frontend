@@ -2,6 +2,7 @@ import { LadderEntry } from "@api";
 import {
   calculatePolicyEntries,
   maxCustomPoPoints,
+  pointsPerThreshold,
 } from "@utils/personal-points";
 import React from "react";
 import { twMerge } from "tailwind-merge";
@@ -75,27 +76,31 @@ export default function CustomPoPoints({
                     </span>
                   )}
                 </div>
-                <div className="flex h-3 gap-0.5">
-                  {segments.map((fill, i) =>
-                    fill === null ? (
-                      <div key={i} className="tooltip flex-1" data-tip="N/A">
-                        <div className="h-full w-full rounded-sm bg-base-100 opacity-10" />
-                      </div>
-                    ) : (
+                <div className="flex gap-1.5">
+                  {segments.map((fill, i) => {
+                    if (fill === null) return null;
+                    return (
                       <div
                         key={i}
                         className="tooltip flex-1"
-                        data-tip={thresholds[i]?.toLocaleString()}
+                        data-tip={`${thresholds[i]?.toLocaleString()} for +${pointsPerThreshold[i]}`}
                       >
-                        <div className="relative h-full w-full overflow-hidden rounded-sm bg-base-200">
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-base-content/10">
                           <div
-                            className={`absolute inset-y-0 left-0 ${fill === 1 ? "bg-success" : "bg-warning"}`}
+                            className={twMerge(
+                              "h-full rounded-full transition-all duration-500 ease-out",
+                              fill === 1
+                                ? "bg-gradient-to-r from-success/80 to-success shadow-[0_0_6px_var(--color-success)]"
+                                : fill > 0
+                                  ? "bg-gradient-to-r from-warning/70 to-warning"
+                                  : "",
+                            )}
                             style={{ width: `${fill * 100}%` }}
                           />
                         </div>
                       </div>
-                    ),
-                  )}
+                    );
+                  })}
                 </div>
               </div>
             );
