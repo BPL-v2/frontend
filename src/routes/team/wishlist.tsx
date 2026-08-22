@@ -20,8 +20,6 @@ import { ObjectiveIcon } from "@components/objective-icon";
 import Table from "@components/table/table";
 import {
   ExclamationCircleIcon,
-  MinusIcon,
-  PlusIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
@@ -252,38 +250,6 @@ function RouteComponent() {
               }
             }}
           />
-        );
-      },
-    },
-    {
-      header: "Priority",
-      accessorKey: "wish.priority",
-      size: 100,
-      cell: (info) => {
-        return (
-          <div className="flex items-center gap-1">
-            <span>{info.row.original.wish.priority}</span>
-            {eventStatus?.is_team_lead && (
-              <div className="flex flex-col gap-0.5">
-                <PlusIcon
-                  onClick={() => {
-                    updateItemWish(info.row.original.wish.id, {
-                      priority: info.row.original.wish.priority + 1,
-                    });
-                  }}
-                  className="size-3 cursor-pointer border text-success"
-                />
-                <MinusIcon
-                  onClick={() => {
-                    updateItemWish(info.row.original.wish.id, {
-                      priority: info.row.original.wish.priority - 1,
-                    });
-                  }}
-                  className="size-3 cursor-pointer border text-error"
-                />
-              </div>
-            )}
-          </div>
         );
       },
     },

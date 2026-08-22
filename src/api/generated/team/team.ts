@@ -19,8 +19,10 @@ import type {
   CreateObjectiveTeamSuggestionBase201,
   CreateObjectiveTeamSuggestionBaseBody,
   CreateTeamBaseBody,
+  SaveMyTeamSheetEntryBaseBody,
   SortedUser,
   Team,
+  TeamSheetEntry,
   TeamSuggestion,
 } from "../models";
 
@@ -764,6 +766,289 @@ export function useGetTeamBase<
   return withQueryKey(query, queryOptions.queryKey);
 }
 
+export const getGetTeamSheetBaseUrl = (eventId: number, teamId: number) => {
+  return `/events/${eventId}/teams/${teamId}/sheet`;
+};
+
+/**
+ * Fetches the team sheet (planned characters/roles) for your team for an event
+ */
+export const getTeamSheetBase = async (
+  eventId: number,
+  teamId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<TeamSheetEntry[]> => {
+  return customFetch<TeamSheetEntry[]>(
+    getGetTeamSheetBaseUrl(eventId, teamId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetTeamSheetBaseQueryKey = (
+  eventId: number,
+  teamId: number,
+) => {
+  return [`/events/${eventId}/teams/${teamId}/sheet`] as const;
+};
+
+export const getGetTeamSheetBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTeamSheetBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamSheetBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetTeamSheetBaseQueryKey(eventId, teamId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTeamSheetBase>>
+  > = ({ signal }) =>
+    getTeamSheetBase(eventId, teamId, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTeamSheetBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetTeamSheetBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTeamSheetBase>>
+>;
+export type GetTeamSheetBaseQueryError = unknown;
+
+export function useGetTeamSheetBase<
+  TData = Awaited<ReturnType<typeof getTeamSheetBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamSheetBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTeamSheetBase>>,
+          TError,
+          Awaited<ReturnType<typeof getTeamSheetBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamSheetBase<
+  TData = Awaited<ReturnType<typeof getTeamSheetBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamSheetBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTeamSheetBase>>,
+          TError,
+          Awaited<ReturnType<typeof getTeamSheetBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamSheetBase<
+  TData = Awaited<ReturnType<typeof getTeamSheetBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamSheetBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetTeamSheetBase<
+  TData = Awaited<ReturnType<typeof getTeamSheetBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamSheetBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTeamSheetBaseQueryOptions(
+    eventId,
+    teamId,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getSaveMyTeamSheetEntryBaseUrl = (
+  eventId: number,
+  teamId: number,
+) => {
+  return `/events/${eventId}/teams/${teamId}/sheet`;
+};
+
+/**
+ * Creates or updates your own row in your team's sheet for an event
+ */
+export const saveMyTeamSheetEntryBase = async (
+  eventId: number,
+  teamId: number,
+  saveMyTeamSheetEntryBaseBody: SaveMyTeamSheetEntryBaseBody,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<TeamSheetEntry> => {
+  return customFetch<TeamSheetEntry>(
+    getSaveMyTeamSheetEntryBaseUrl(eventId, teamId),
+    {
+      ...options,
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(saveMyTeamSheetEntryBaseBody),
+    },
+  );
+};
+
+export const getSaveMyTeamSheetEntryBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
+    TError,
+    { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
+  TError,
+  { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+  TContext
+> => {
+  const mutationKey = ["saveMyTeamSheetEntryBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
+    { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody }
+  > = (props) => {
+    const { eventId, teamId, data } = props ?? {};
+
+    return saveMyTeamSheetEntryBase(eventId, teamId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type SaveMyTeamSheetEntryBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>
+>;
+export type SaveMyTeamSheetEntryBaseMutationBody = SaveMyTeamSheetEntryBaseBody;
+export type SaveMyTeamSheetEntryBaseMutationError = unknown;
+
+export const useSaveMyTeamSheetEntryBase = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
+      TError,
+      { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
+  TError,
+  { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+  TContext
+> => {
+  return useMutation(
+    getSaveMyTeamSheetEntryBaseMutationOptions(options),
+    queryClient,
+  );
+};
 export const getGetTeamSuggestionsBaseUrl = (
   eventId: number,
   teamId: number,

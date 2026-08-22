@@ -100,6 +100,7 @@ import {
   useSubmitBountyBase,
 } from "./generated/submission/submission";
 import {
+  getGetTeamSheetBaseQueryKey,
   getGetTeamSuggestionsBaseQueryKey,
   useAddUsersToTeamsBase,
   useCreateObjectiveTeamSuggestionBase,
@@ -107,7 +108,9 @@ import {
   useDeleteObjectiveTeamSuggestionBase,
   useDeleteTeamBase,
   useGetSortedUsersBase,
+  useGetTeamSheetBase,
   useGetTeamSuggestionsBase,
+  useSaveMyTeamSheetEntryBase,
 } from "./generated/team/team";
 import {
   getGetTimingsBaseQueryKey,
@@ -161,6 +164,7 @@ import {
   SubmissionReview,
   TabSwitchRequest,
   TeamCreate,
+  TeamSheetEntryUpdate,
   TeamSuggestion,
   TeamUserCreate,
   TimingCreate,
@@ -492,6 +496,33 @@ export function useDeleteTeamSuggestion(
   return {
     deleteTeamSuggestion: (teamId: number, objectiveId: number) =>
       mutation.mutate({ eventId, teamId, objectiveId }),
+    ...mutation,
+  };
+}
+
+export function useGetTeamSheet(eventId: number, teamId?: number) {
+  const query = useGetTeamSheetBase(eventId, teamId!, {
+    query: { enabled: () => isLoggedIn() && !!teamId },
+  });
+  return { ...query, teamSheet: query.data };
+}
+
+export function useSaveMyTeamSheetEntry(
+  eventId: number,
+  queryClient: QueryClient,
+) {
+  const mutation = useSaveMyTeamSheetEntryBase({
+    mutation: {
+      onSuccess: (_, { teamId }) => {
+        queryClient.invalidateQueries({
+          queryKey: getGetTeamSheetBaseQueryKey(eventId, teamId),
+        });
+      },
+    },
+  });
+  return {
+    saveMyTeamSheetEntry: (teamId: number, data: TeamSheetEntryUpdate) =>
+      mutation.mutate({ eventId, teamId, data }),
     ...mutation,
   };
 }

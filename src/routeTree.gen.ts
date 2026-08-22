@@ -42,6 +42,9 @@ import { Route as ScoresScarabsRouteImport } from './routes/scores/scarabs'
 import { Route as ScoresUniquesRouteImport } from './routes/scores/uniques'
 import { Route as StreamsTwitchAccountRouteImport } from './routes/streams/$twitchAccount'
 import { Route as TeamAtlasRouteImport } from './routes/team/atlas'
+import { Route as TeamChartsRouteImport } from './routes/team/charts'
+import { Route as TeamLfgRouteImport } from './routes/team/lfg'
+import { Route as TeamSheetRouteImport } from './routes/team/sheet'
 import { Route as TeamStashesRouteRouteImport } from './routes/team/stashes/route'
 import { Route as TeamWishlistRouteImport } from './routes/team/wishlist'
 import { Route as AdminAchievementsIndexRouteImport } from './routes/admin/achievements/index'
@@ -229,6 +232,21 @@ const TeamAtlasRoute = TeamAtlasRouteImport.update({
   path: '/atlas',
   getParentRoute: () => TeamRouteRoute,
 } as any)
+const TeamChartsRoute = TeamChartsRouteImport.update({
+  id: '/charts',
+  path: '/charts',
+  getParentRoute: () => TeamRouteRoute,
+} as any)
+const TeamLfgRoute = TeamLfgRouteImport.update({
+  id: '/lfg',
+  path: '/lfg',
+  getParentRoute: () => TeamRouteRoute,
+} as any)
+const TeamSheetRoute = TeamSheetRouteImport.update({
+  id: '/sheet',
+  path: '/sheet',
+  getParentRoute: () => TeamRouteRoute,
+} as any)
 const TeamStashesRouteRoute = TeamStashesRouteRouteImport.update({
   id: '/stashes',
   path: '/stashes',
@@ -376,6 +394,9 @@ export interface FileRoutesByFullPath {
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
+  '/team/charts': typeof TeamChartsRoute
+  '/team/lfg': typeof TeamLfgRoute
+  '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
@@ -432,6 +453,9 @@ export interface FileRoutesByTo {
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
+  '/team/charts': typeof TeamChartsRoute
+  '/team/lfg': typeof TeamLfgRoute
+  '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin': typeof AdminIndexRoute
   '/events': typeof EventsIndexRoute
@@ -489,6 +513,9 @@ export interface FileRoutesById {
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
   '/team/atlas': typeof TeamAtlasRoute
+  '/team/charts': typeof TeamChartsRoute
+  '/team/lfg': typeof TeamLfgRoute
+  '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
@@ -547,6 +574,9 @@ export interface FileRouteTypes {
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
+    | '/team/charts'
+    | '/team/lfg'
+    | '/team/sheet'
     | '/team/wishlist'
     | '/admin/'
     | '/events/'
@@ -603,6 +633,9 @@ export interface FileRouteTypes {
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
+    | '/team/charts'
+    | '/team/lfg'
+    | '/team/sheet'
     | '/team/wishlist'
     | '/admin'
     | '/events'
@@ -659,6 +692,9 @@ export interface FileRouteTypes {
     | '/scores/uniques'
     | '/streams/$twitchAccount'
     | '/team/atlas'
+    | '/team/charts'
+    | '/team/lfg'
+    | '/team/sheet'
     | '/team/wishlist'
     | '/admin/'
     | '/events/'
@@ -953,6 +989,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamAtlasRouteImport
       parentRoute: typeof TeamRouteRoute
     }
+    '/team/charts': {
+      id: '/team/charts'
+      path: '/charts'
+      fullPath: '/team/charts'
+      preLoaderRoute: typeof TeamChartsRouteImport
+      parentRoute: typeof TeamRouteRoute
+    }
+    '/team/lfg': {
+      id: '/team/lfg'
+      path: '/lfg'
+      fullPath: '/team/lfg'
+      preLoaderRoute: typeof TeamLfgRouteImport
+      parentRoute: typeof TeamRouteRoute
+    }
+    '/team/sheet': {
+      id: '/team/sheet'
+      path: '/sheet'
+      fullPath: '/team/sheet'
+      preLoaderRoute: typeof TeamSheetRouteImport
+      parentRoute: typeof TeamRouteRoute
+    }
     '/team/stashes': {
       id: '/team/stashes'
       path: '/stashes'
@@ -1161,12 +1218,18 @@ const TeamStashesRouteRouteWithChildren =
 interface TeamRouteRouteChildren {
   TeamStashesRouteRoute: typeof TeamStashesRouteRouteWithChildren
   TeamAtlasRoute: typeof TeamAtlasRoute
+  TeamChartsRoute: typeof TeamChartsRoute
+  TeamLfgRoute: typeof TeamLfgRoute
+  TeamSheetRoute: typeof TeamSheetRoute
   TeamWishlistRoute: typeof TeamWishlistRoute
 }
 
 const TeamRouteRouteChildren: TeamRouteRouteChildren = {
   TeamStashesRouteRoute: TeamStashesRouteRouteWithChildren,
   TeamAtlasRoute: TeamAtlasRoute,
+  TeamChartsRoute: TeamChartsRoute,
+  TeamLfgRoute: TeamLfgRoute,
+  TeamSheetRoute: TeamSheetRoute,
   TeamWishlistRoute: TeamWishlistRoute,
 }
 

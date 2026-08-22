@@ -4,7 +4,13 @@ import { JSX } from "react";
 export const Route = createFileRoute("/team")({
   component: RouteComponent,
 });
-type teamTabKey = "wishlist" | "stashes" | "atlas";
+type teamTabKey =
+  | "sheet"
+  | "wishlist"
+  | "atlas"
+  | "stashes"
+  | "lfg"
+  | "charts";
 
 function RouteComponent() {
   const tabs: {
@@ -13,6 +19,16 @@ function RouteComponent() {
     visible: boolean;
     rules?: JSX.Element;
   }[] = [
+    {
+      name: "Sheet",
+      key: "sheet",
+      visible: true,
+    },
+    {
+      name: "Wishlist",
+      key: "wishlist",
+      visible: true,
+    },
     {
       name: "Atlas",
       key: "atlas",
@@ -24,8 +40,13 @@ function RouteComponent() {
       visible: true,
     },
     {
-      name: "Wishlist",
-      key: "wishlist",
+      name: "LFG",
+      key: "lfg",
+      visible: true,
+    },
+    {
+      name: "Charts",
+      key: "charts",
       visible: true,
     },
   ];

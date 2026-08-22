@@ -28,6 +28,20 @@ export type Preferences = {
     Atlas: boolean;
     "P.O.": boolean;
   };
+  teamSheet: {
+    Discord: boolean;
+    Character: boolean;
+    Realm: boolean;
+    LFG: boolean;
+    Role: boolean;
+    "2nd Role": boolean;
+    Altars: boolean;
+    Ascendancy: boolean;
+    "Main Skill": boolean;
+    "Build Notes": boolean;
+    "Uniques Needed": boolean;
+    PoB: boolean;
+  };
   limitTeams: number;
   version?: number;
 };
@@ -60,6 +74,20 @@ export const defaultPreferences: Preferences = {
     "Uber Lab": false,
     Atlas: false,
     "P.O.": false,
+  },
+  teamSheet: {
+    Discord: false,
+    Character: true,
+    Realm: true,
+    LFG: true,
+    Role: true,
+    "2nd Role": false,
+    Altars: false,
+    Ascendancy: true,
+    "Main Skill": true,
+    "Build Notes": false,
+    "Uniques Needed": false,
+    PoB: false,
   },
   limitTeams: 0,
   version: 0,
