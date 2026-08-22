@@ -32,9 +32,6 @@ export type PieSlice = {
 
 type PieChartProps = {
   data: PieSlice[];
-  // Controlled selection mode: when provided, clicking a slice/legend entry
-  // calls onSelect instead of showing a "who picked it" list internally.
-  // Used e.g. to drive a table filter from the chart.
   selected?: string | null;
   onSelect?: (label: string | null) => void;
 };

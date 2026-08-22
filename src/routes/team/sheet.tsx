@@ -1,4 +1,4 @@
-import { ItemField, TeamSheetEntryUpdate } from "@api";
+import { GameVersion, ItemField, TeamSheetEntryUpdate } from "@api";
 import {
   useCreateItemWish,
   useDeleteItemWish,
@@ -26,6 +26,7 @@ import { twMerge } from "tailwind-merge";
 import { defaultPreferences } from "@mytypes/preferences";
 import { SKILL_GEMS } from "@mytypes/skill-gems";
 import { REALMS } from "@mytypes/realms";
+import { ascendancies } from "@mytypes/ascendancy";
 
 export const Route = createFileRoute("/team/sheet")({
   component: RouteComponent,
@@ -51,29 +52,20 @@ const ROLES = [
   "Sanctum",
 ];
 
+const BASE_CLASSES = new Set([
+  "Scion",
+  "Marauder",
+  "Duelist",
+  "Ranger",
+  "Witch",
+  "Templar",
+  "Shadow",
+]);
 const ASCENDANCIES = [
   "Undecided",
-  "Ascendant",
-  "Assassin",
-  "Berserker",
-  "Champion",
-  "Chieftain",
-  "Deadeye",
-  "Elementalist",
-  "Gladiator",
-  "Guardian",
-  "Hierophant",
-  "Inquisitor",
-  "Juggernaut",
-  "Necromancer",
-  "Occultist",
-  "Pathfinder",
-  "Saboteur",
-  "Slayer",
-  "Trickster",
-  "Warden",
-  "Reliquarian",
-  "Luminary",
+  ...Object.keys(ascendancies[GameVersion.poe1]).filter(
+    (name) => !BASE_CLASSES.has(name),
+  ),
 ];
 
 const ALTARS = ["Eater", "Exarch"];
@@ -96,55 +88,6 @@ type SheetRow = {
   altars?: string;
   lookingForGroup: boolean;
 };
-
-const emptyForm: TeamSheetEntryUpdate = {
-  character_name: "",
-  role: "",
-  secondary_role: "",
-  ascendancy: "",
-  main_skill: "",
-  build_notes: "",
-  pob_url: "",
-  realm: "",
-  uniques_needed: "",
-  altars: "",
-  looking_for_group: false,
-};
-
-// Renders a <select>, always including the current value as an option even
-// if it's not in `options` (covers old free-text data / unlisted values).
-function OptionSelect({
-  value,
-  options,
-  placeholder,
-  onChange,
-  preserveUnknownValue = true,
-}: {
-  value: string;
-  options: string[];
-  placeholder: string;
-  onChange: (value: string) => void;
-  preserveUnknownValue?: boolean;
-}) {
-  const allOptions =
-    preserveUnknownValue && value && !options.includes(value)
-      ? [value, ...options]
-      : options;
-  return (
-    <select
-      className="select w-full"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      <option value="">{placeholder}</option>
-      {allOptions.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  );
-}
 
 function RouteComponent() {
   const { currentEvent, preferences, setPreferences } =
@@ -173,7 +116,7 @@ function RouteComponent() {
     null,
   );
 
-  const [form, setForm] = useState<TeamSheetEntryUpdate>(emptyForm);
+  const [form, setForm] = useState<TeamSheetEntryUpdate>({});
 
   const myEntry = teamSheet.find((e) => e.user.id === user?.id);
   const myTeam = currentEvent.teams?.find(
@@ -200,11 +143,7 @@ function RouteComponent() {
   const isTransfiguredGem = (skill: string) => {
     if (!skill.includes(" of ")) return false;
     const base = skill.split(" of ")[0];
-    return base !== skill && SKILL_GEMS.includes(base);
-  };
-
-  const handleMainSkillChange = (skill: string) => {
-    setForm((f) => ({ ...f, main_skill: skill }));
+    return SKILL_GEMS.includes(base);
   };
 
   const syncTransfiguredGemWish = (skill: string) => {
@@ -446,30 +385,37 @@ function RouteComponent() {
           </label>
           <label className="fieldset">
             <span className="label">Realm</span>
-            <OptionSelect
-              value={form.realm ?? ""}
-              options={REALMS}
+            <Select
+              options={
+                form.realm && !REALMS.includes(form.realm)
+                  ? [form.realm, ...REALMS]
+                  : REALMS
+              }
+              value={form.realm || null}
               placeholder="Pick a realm"
-              onChange={(v) => setForm((f) => ({ ...f, realm: v }))}
+              onChange={(v) => setForm((f) => ({ ...f, realm: v ?? "" }))}
             />
           </label>
           <label className="fieldset">
             <span className="label">Role</span>
-            <OptionSelect
-              value={form.role ?? ""}
+            <Select
               options={ROLES}
+              value={form.role || null}
               placeholder="Pick a role"
-              onChange={(v) => setForm((f) => ({ ...f, role: v }))}
-              preserveUnknownValue={false}
+              onChange={(v) => setForm((f) => ({ ...f, role: v ?? "" }))}
             />
           </label>
           <label className="fieldset">
             <span className="label">Ascendancy</span>
-            <OptionSelect
-              value={form.ascendancy ?? ""}
-              options={ASCENDANCIES}
+            <Select
+              options={
+                form.ascendancy && !ASCENDANCIES.includes(form.ascendancy)
+                  ? [form.ascendancy, ...ASCENDANCIES]
+                  : ASCENDANCIES
+              }
+              value={form.ascendancy || null}
               placeholder="Pick an ascendancy"
-              onChange={(v) => setForm((f) => ({ ...f, ascendancy: v }))}
+              onChange={(v) => setForm((f) => ({ ...f, ascendancy: v ?? "" }))}
             />
           </label>
           <label className="fieldset">
@@ -482,7 +428,9 @@ function RouteComponent() {
               }
               value={form.main_skill || null}
               placeholder="Pick a skill"
-              onChange={(v) => handleMainSkillChange(v ?? "")}
+              onChange={(v) =>
+                setForm((f) => ({ ...f, main_skill: v ?? "" }))
+              }
             />
           </label>
           <label className="fieldset">
@@ -502,11 +450,11 @@ function RouteComponent() {
           </label>
           <label className="fieldset">
             <span className="label">Altars</span>
-            <OptionSelect
-              value={form.altars ?? ""}
+            <Select
               options={ALTARS}
+              value={form.altars || null}
               placeholder="Pick an altar"
-              onChange={(v) => setForm((f) => ({ ...f, altars: v }))}
+              onChange={(v) => setForm((f) => ({ ...f, altars: v ?? "" }))}
             />
           </label>
           <label className="fieldset lg:col-start-5">

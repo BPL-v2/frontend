@@ -1,7 +1,7 @@
 import { Dialog } from "@components/dialog";
 import { useFile } from "@api";
 import { encode } from "@mytypes/scoring-objective";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface UniqueSelection {
   needed: boolean;
@@ -49,11 +49,12 @@ export function UniquesPickerModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
+  const allNames = useMemo(() => Object.keys(uniques ?? {}).sort(), [uniques]);
+
   if (!isOpen) {
     return null;
   }
 
-  const allNames = Object.keys(uniques ?? {}).sort();
   const filtered = search
     ? allNames.filter((name) =>
         name.toLowerCase().includes(search.toLowerCase()),

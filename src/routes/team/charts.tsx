@@ -3,7 +3,7 @@ import { PieChart, PieSlice } from "@components/charts/pie-chart";
 import { GlobalStateContext } from "@utils/context-provider";
 import { tallyByPlayer } from "@utils/chart-tally";
 import { createFileRoute } from "@tanstack/react-router";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export const Route = createFileRoute("/team/charts")({
@@ -11,6 +11,13 @@ export const Route = createFileRoute("/team/charts")({
 });
 
 type ChartTab = "mainRole" | "secondRole" | "ascendancy" | "altars";
+
+const tabs: { key: ChartTab; name: string }[] = [
+  { key: "mainRole", name: "Main Role" },
+  { key: "secondRole", name: "2nd Role" },
+  { key: "ascendancy", name: "Ascendancy Distribution" },
+  { key: "altars", name: "Altars" },
+];
 
 function RouteComponent() {
   const { currentEvent } = useContext(GlobalStateContext);
@@ -21,51 +28,45 @@ function RouteComponent() {
   );
   const [tab, setTab] = useState<ChartTab>("mainRole");
 
+  const data = useMemo<PieSlice[]>(() => {
+    switch (tab) {
+      case "mainRole":
+        return tallyByPlayer(
+          teamSheet.map((e) => ({
+            value: e.role,
+            player: e.user.display_name,
+          })),
+        );
+      case "secondRole":
+        return tallyByPlayer(
+          teamSheet.flatMap((e) =>
+            (e.secondary_role ?? "")
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((value) => ({ value, player: e.user.display_name })),
+          ),
+        );
+      case "ascendancy":
+        return tallyByPlayer(
+          teamSheet.map((e) => ({
+            value: e.ascendancy || "Undecided",
+            player: e.user.display_name,
+          })),
+        );
+      case "altars":
+        return tallyByPlayer(
+          teamSheet.map((e) => ({
+            value: e.altars,
+            player: e.user.display_name,
+          })),
+        );
+    }
+  }, [tab, teamSheet]);
+
   if (!eventStatus?.team_id) {
     return <div className="p-4">You need to be on a team to see this.</div>;
   }
-
-  const mainRoleData = tallyByPlayer(
-    teamSheet.map((e) => ({
-      value: e.role,
-      player: e.user.display_name,
-    })),
-  );
-  const secondRoleData = tallyByPlayer(
-    teamSheet.flatMap((e) =>
-      (e.secondary_role ?? "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((value) => ({ value, player: e.user.display_name })),
-    ),
-  );
-  const ascendancyData = tallyByPlayer(
-    teamSheet.map((e) => ({
-      value: e.ascendancy || "Undecided",
-      player: e.user.display_name,
-    })),
-  );
-  const altarsData = tallyByPlayer(
-    teamSheet.map((e) => ({
-      value: e.altars,
-      player: e.user.display_name,
-    })),
-  );
-
-  const tabs: { key: ChartTab; name: string }[] = [
-    { key: "mainRole", name: "Main Role" },
-    { key: "secondRole", name: "2nd Role" },
-    { key: "ascendancy", name: "Ascendancy Distribution" },
-    { key: "altars", name: "Altars" },
-  ];
-
-  const dataByTab: Record<ChartTab, PieSlice[]> = {
-    mainRole: mainRoleData,
-    secondRole: secondRoleData,
-    ascendancy: ascendancyData,
-    altars: altarsData,
-  };
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -89,7 +90,7 @@ function RouteComponent() {
         <div className="mb-4 text-lg font-semibold">
           {tabs.find((t) => t.key === tab)?.name}
         </div>
-        <PieChart key={tab} data={dataByTab[tab]} />
+        <PieChart key={tab} data={data ?? []} />
       </div>
     </div>
   );
