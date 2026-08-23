@@ -3,10 +3,39 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { config } from "dotenv";
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 
 // Load environment variables from .env file
 config({ override: true });
+
+// The app has many hardcoded root-relative "/assets/..." (and "/favicon.ico")
+// string literals used as img src / fetch URLs for the static files in
+// public/. Those are plain strings, not asset imports, so Vite never touches
+// them - they'd resolve against the domain root instead of `base` when the
+// app is deployed under a subpath (e.g. GitHub Pages' /frontend/). This
+// plugin rewrites them at build time so the source can keep using plain
+// root-relative paths.
+function rewriteAbsoluteAssetPaths(): Plugin {
+  let base = "/";
+  const pattern = /(["'`])\/(assets\/|favicon\.ico)/g;
+  return {
+    name: "rewrite-absolute-asset-paths",
+    configResolved(config) {
+      base = config.base;
+    },
+    transform(code, id) {
+      const path = id.split("?")[0];
+      if (!/\.(tsx?|jsx?)$/.test(path) || path.includes("node_modules"))
+        return;
+      if (!pattern.test(code)) return;
+      pattern.lastIndex = 0;
+      return {
+        code: code.replace(pattern, (_, quote, rest) => `${quote}${base}${rest}`),
+        map: null,
+      };
+    },
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -23,6 +52,7 @@ export default defineConfig({
     //   },
     // }),
     tailwindcss(),
+    rewriteAbsoluteAssetPaths(),
   ],
   preview: {
     host: "0.0.0.0",
