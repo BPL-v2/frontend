@@ -70,6 +70,22 @@ const ASCENDANCIES = [
 
 const ALTARS = ["Eater", "Exarch"];
 
+function parseUniquesNeeded(raw?: string): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.every((v) => typeof v === "string")) {
+      return parsed;
+    }
+  } catch {
+    // legacy comma-separated format, fall through
+  }
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 type SheetRow = {
   userId: number;
   displayName: string;
@@ -159,7 +175,7 @@ function RouteComponent() {
   };
 
   const handleUniquesConfirm = (needed: string[], buildEnabling: Set<string>) => {
-    setForm((f) => ({ ...f, uniques_needed: needed.join(", ") }));
+    setForm((f) => ({ ...f, uniques_needed: JSON.stringify(needed) }));
     const myUniqueWishes = wishlist.filter(
       (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
     );
@@ -304,6 +320,7 @@ function RouteComponent() {
       header: "Uniques Needed",
       accessorKey: "uniquesNeeded",
       size: 200,
+      cell: (info) => parseUniquesNeeded(info.row.original.uniquesNeeded).join(", "),
     },
     {
       id: "PoB",
@@ -490,7 +507,8 @@ function RouteComponent() {
               Pick uniques...
             </button>
             <span className="text-sm text-base-content/60">
-              {form.uniques_needed || "none picked yet"}
+              {parseUniquesNeeded(form.uniques_needed).join(", ") ||
+                "none picked yet"}
             </span>
           </div>
         </label>
@@ -566,14 +584,7 @@ function RouteComponent() {
       <UniquesPickerModal
         isOpen={uniquesPickerOpen}
         setIsOpen={setUniquesPickerOpen}
-        initialNeeded={
-          form.uniques_needed
-            ? form.uniques_needed
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean)
-            : []
-        }
+        initialNeeded={parseUniquesNeeded(form.uniques_needed)}
         initialBuildEnabling={
           new Set(
             wishlist
