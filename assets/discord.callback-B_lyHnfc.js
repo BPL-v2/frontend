@@ -1,2 +1,0 @@
-import{n as e}from"./@react-C1CbOW0b.js";import{D as t}from"./main-DgBzdVVm.js";import{t as n}from"./callback-NLNA593A.js";var r=e();function i(){let{state:e,code:i}=t.useSearch();return(0,r.jsx)(n,{state:e,code:i,provider:`discord`})}export{i as component};
-//# sourceMappingURL=discord.callback-B_lyHnfc.js.map

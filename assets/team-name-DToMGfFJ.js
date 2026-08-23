@@ -1,2 +1,0 @@
-import{n as e}from"./@react-C1CbOW0b.js";var t=e();function n({team:e,...n}){return e?(0,t.jsx)(`span`,{...n,style:e.color===`#000000`?void 0:{color:e.color},children:e.name}):(0,t.jsx)(`span`,{...n,children:`-`})}export{n as t};
-//# sourceMappingURL=team-name-DToMGfFJ.js.map

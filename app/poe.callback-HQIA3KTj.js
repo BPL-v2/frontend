@@ -1,0 +1,2 @@
+import{n as e}from"./@react-BmKXcSZf.js";import{E as t}from"./main-CC6oP4TX.js";import{t as n}from"./callback-BMm_-sQ6.js";var r=e();function i(){let{state:e,code:i,error:a,error_description:o}=t.useSearch();return(0,r.jsx)(n,{state:e,code:i,error:a,error_description:o,provider:`poe`})}export{i as component};
+//# sourceMappingURL=poe.callback-HQIA3KTj.js.map
