@@ -1,0 +1,2 @@
+import{a as e}from"./rolldown-runtime-B0Z9INg1.js";import{c as t}from"./@headlessui-CaIBZYoo.js";import{n}from"./@react-ZnbBEpfC.js";import{mt as r}from"./main-9CxQcHzx.js";import{t as i}from"./rules-DWXxniv6.js";var a=e(t(),1),o=n();function s(){let{scores:e}=(0,a.useContext)(r);return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(`h3`,{children:`Points`}),e?.children.find(e=>e.name===`Gems`)?.children.map(e=>(0,o.jsx)(`div`,{children:i(e)},e.name))]})}export{s as t};
+//# sourceMappingURL=gems-BDJ0C_U5.js.map

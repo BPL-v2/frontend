@@ -1,0 +1,2 @@
+import{D as e,E as t}from"./@tanstack-DCZq2mWS.js";import{n}from"./@react-ZnbBEpfC.js";import{f as r}from"./main-9CxQcHzx.js";import{t as i}from"./guildstash-view-B5EUxA-g.js";var a=n();function o(){let{stashId:n}=e({from:r.id}),{highlightScoring:o}=t({from:r.id});return(0,a.jsx)(i,{stashId:n,highlightScoring:o})}export{o as component};
+//# sourceMappingURL=_stashId-B_tauSum.js.map

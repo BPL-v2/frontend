@@ -1,0 +1,2 @@
+import{n as e}from"./@react-ZnbBEpfC.js";import{T as t}from"./main-9CxQcHzx.js";import{t as n}from"./callback-SQDqODOk.js";var r=e();function i(){let{state:e,code:i}=t.useSearch();return(0,r.jsx)(n,{state:e,code:i,provider:`twitch`})}export{i as component};
+//# sourceMappingURL=twitch.callback-ChDkuyrx.js.map
