@@ -17,6 +17,14 @@ interface UniquesPickerModalProps {
 }
 
 const MAX_VISIBLE = 10;
+const MAX_NAME_LENGTH = 58;
+
+function truncateAtWord(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  const cut = text.slice(0, maxLength);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut) + "…";
+}
 
 export function UniquesPickerModal({
   isOpen,
@@ -26,7 +34,10 @@ export function UniquesPickerModal({
   onConfirm,
 }: UniquesPickerModalProps) {
   const { data: uniques } = useFile<
-    Record<string, { base_type: string; is_drop_restricted: boolean }>
+    Record<
+      string,
+      { base_type: string; is_drop_restricted: boolean; image?: string }
+    >
   >("/assets/poe1/items/uniques.json");
 
   const [search, setSearch] = useState("");
@@ -135,7 +146,7 @@ export function UniquesPickerModal({
                 className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-base-100"
               >
                 <img
-                  src={`/assets/poe1/items/uniques/${encode(name)}.webp`}
+                  src={`/assets/poe1/items/uniques/${encode(uniques?.[name]?.image ?? name)}.webp`}
                   alt=""
                   className="size-8 shrink-0 object-contain"
                   onError={(e) => {
@@ -143,7 +154,21 @@ export function UniquesPickerModal({
                       "hidden";
                   }}
                 />
-                <span className="grow truncate">{name}</span>
+                <span className="grow truncate" title={name}>
+                  {(() => {
+                    const display = truncateAtWord(name, MAX_NAME_LENGTH);
+                    const parenIdx = display.indexOf(" (");
+                    if (parenIdx === -1) return display;
+                    return (
+                      <>
+                        {display.slice(0, parenIdx)}
+                        <span className="text-[#CD2285]">
+                          {display.slice(parenIdx)}
+                        </span>
+                      </>
+                    );
+                  })()}
+                </span>
                 <label className="flex cursor-pointer items-center gap-1 whitespace-nowrap text-sm">
                   <input
                     type="checkbox"
