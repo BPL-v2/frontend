@@ -1,0 +1,2 @@
+import{n as e}from"./@react-C1CbOW0b.js";import{E as t}from"./main-DgBzdVVm.js";import{t as n}from"./callback-NLNA593A.js";var r=e();function i(){let{state:e,code:i,error:a,error_description:o}=t.useSearch();return(0,r.jsx)(n,{state:e,code:i,error:a,error_description:o,provider:`poe`})}export{i as component};
+//# sourceMappingURL=poe.callback-Ch8ryrNl.js.map

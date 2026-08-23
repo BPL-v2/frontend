@@ -1,0 +1,1 @@
+{"version":3,"file":"realms-Dr3p7P-f.js","names":[],"sources":["../../src/mytypes/realms.ts"],"sourcesContent":["export const REALMS = [\n  \"NA East\",\n  \"NA West\",\n  \"EU East\",\n  \"EU West\",\n  \"AU\",\n  \"BR\",\n  \"SG\",\n  \"SA\",\n  \"Canada\",\n];\n"],"mappings":"AAAA,IAAa,EAAS,CACpB,UACA,UACA,UACA,UACA,KACA,KACA,KACA,KACA,QACF"}
