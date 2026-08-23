@@ -14,7 +14,15 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { BplCharacter, Character, CharacterStat, PoB } from "../models";
+import type {
+  BplCharacter,
+  Character,
+  CharacterStat,
+  DelveHistoryEntry,
+  DelveProgressionEntry,
+  GetDelveProgressionBaseParams,
+  PoB,
+} from "../models";
 
 import { customFetch } from "../../fetcher.ts";
 
@@ -197,6 +205,208 @@ export function useGetCharactersForEventBase<
 } {
   const queryOptions = getGetCharactersForEventBaseQueryOptions(
     eventId,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetDelveProgressionBaseUrl = (
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/events/${eventId}/delve-progression?${stringifiedParams}`
+    : `/events/${eventId}/delve-progression`;
+};
+
+/**
+ * Get how long each character took to progress between two delve depths for an event
+ */
+export const getDelveProgressionBase = async (
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<DelveProgressionEntry[]> => {
+  return customFetch<DelveProgressionEntry[]>(
+    getGetDelveProgressionBaseUrl(eventId, params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetDelveProgressionBaseQueryKey = (
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+) => {
+  return [
+    `/events/${eventId}/delve-progression`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetDelveProgressionBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDelveProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetDelveProgressionBaseQueryKey(eventId, params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getDelveProgressionBase>>
+  > = ({ signal }) =>
+    getDelveProgressionBase(eventId, params, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: eventId !== null && eventId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getDelveProgressionBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetDelveProgressionBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getDelveProgressionBase>>
+>;
+export type GetDelveProgressionBaseQueryError = unknown;
+
+export function useGetDelveProgressionBase<
+  TData = Awaited<ReturnType<typeof getDelveProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  params: undefined | GetDelveProgressionBaseParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveProgressionBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDelveProgressionBase>>,
+          TError,
+          Awaited<ReturnType<typeof getDelveProgressionBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDelveProgressionBase<
+  TData = Awaited<ReturnType<typeof getDelveProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveProgressionBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDelveProgressionBase>>,
+          TError,
+          Awaited<ReturnType<typeof getDelveProgressionBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDelveProgressionBase<
+  TData = Awaited<ReturnType<typeof getDelveProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetDelveProgressionBase<
+  TData = Awaited<ReturnType<typeof getDelveProgressionBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  params?: GetDelveProgressionBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveProgressionBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetDelveProgressionBaseQueryOptions(
+    eventId,
+    params,
     options,
   );
 
@@ -656,6 +866,197 @@ export const useUpdateCharacterBase = <TError = unknown, TContext = unknown>(
     queryClient,
   );
 };
+export const getGetDelveHistoryBaseUrl = (
+  userId: number,
+  characterId: string,
+) => {
+  return `/users/${userId}/characters/${characterId}/delve`;
+};
+
+/**
+ * Get the delve depth progression over time for a character
+ */
+export const getDelveHistoryBase = async (
+  userId: number,
+  characterId: string,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<DelveHistoryEntry[]> => {
+  return customFetch<DelveHistoryEntry[]>(
+    getGetDelveHistoryBaseUrl(userId, characterId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetDelveHistoryBaseQueryKey = (
+  userId: number,
+  characterId: string,
+) => {
+  return [`/users/${userId}/characters/${characterId}/delve`] as const;
+};
+
+export const getGetDelveHistoryBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDelveHistoryBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  characterId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveHistoryBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetDelveHistoryBaseQueryKey(userId, characterId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getDelveHistoryBase>>
+  > = ({ signal }) =>
+    getDelveHistoryBase(userId, characterId, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled:
+      userId !== null &&
+      userId !== undefined &&
+      characterId !== null &&
+      characterId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getDelveHistoryBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetDelveHistoryBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getDelveHistoryBase>>
+>;
+export type GetDelveHistoryBaseQueryError = unknown;
+
+export function useGetDelveHistoryBase<
+  TData = Awaited<ReturnType<typeof getDelveHistoryBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  characterId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveHistoryBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDelveHistoryBase>>,
+          TError,
+          Awaited<ReturnType<typeof getDelveHistoryBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDelveHistoryBase<
+  TData = Awaited<ReturnType<typeof getDelveHistoryBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  characterId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveHistoryBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDelveHistoryBase>>,
+          TError,
+          Awaited<ReturnType<typeof getDelveHistoryBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDelveHistoryBase<
+  TData = Awaited<ReturnType<typeof getDelveHistoryBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  characterId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveHistoryBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetDelveHistoryBase<
+  TData = Awaited<ReturnType<typeof getDelveHistoryBase>>,
+  TError = unknown,
+>(
+  userId: number,
+  characterId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDelveHistoryBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetDelveHistoryBaseQueryOptions(
+    userId,
+    characterId,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
 export const getGetPoBsBaseUrl = (userId: number, characterId: string) => {
   return `/users/${userId}/characters/${characterId}/pobs`;
 };
