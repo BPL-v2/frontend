@@ -9,8 +9,20 @@ import { routeTree } from "./routeTree.gen";
 const rootElement = document.getElementById("root")!;
 const queryClient = new QueryClient();
 
+// GitHub Pages has no server-side rewrite, so a hard refresh on a client
+// routed URL 404s and gets redirected here by public/404.html, which stows
+// the intended path in sessionStorage. Restore it before the router reads
+// the current location.
+const redirect = sessionStorage.getItem("spa-redirect");
+if (redirect) {
+  sessionStorage.removeItem("spa-redirect");
+  const target = import.meta.env.BASE_URL.replace(/\/$/, "") + redirect;
+  window.history.replaceState(null, "", target);
+}
+
 export const router = createRouter({
   routeTree,
+  basepath: import.meta.env.BASE_URL,
   defaultPreload: "intent",
   defaultStaleTime: 0,
   scrollRestoration: true,

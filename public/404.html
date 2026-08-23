@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BPL</title>
+  </head>
+  <body>
+    <script>
+      // GitHub Pages has no server-side rewrite, so a hard refresh (or any
+      // direct link) on a client-routed path 404s and lands here. Stash the
+      // intended path and hand off to the app's own index.html, which
+      // restores it before the router reads the current location.
+      var siteRoot = "/frontend/";
+      var path = location.pathname;
+      var rest = path.startsWith(siteRoot) ? path.slice(siteRoot.length) : "";
+      sessionStorage.setItem(
+        "spa-redirect",
+        "/" + rest + location.search + location.hash,
+      );
+      location.replace(siteRoot);
+    </script>
+  </body>
+</html>
