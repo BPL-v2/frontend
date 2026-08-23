@@ -313,7 +313,7 @@ function RouteComponent() {
       cell: (info) =>
         info.row.original.pobUrl ? (
           <a
-            href={info.row.original.pobUrl}
+            href={/^https?:\/\//i.test(info.row.original.pobUrl ?? "") ? info.row.original.pobUrl : undefined}
             target="_blank"
             rel="noreferrer"
             className="link link-primary"
