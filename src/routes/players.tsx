@@ -104,6 +104,13 @@ function RouteComponent() {
           <XCircleIcon className="size-6 text-error" />
         ),
     },
+    {
+      header: "Sort Time",
+      accessorKey: "sorted_at",
+      size: 300,
+      enableSorting: true,
+      cell: (info) => info.getValue()?.toLocaleString(),
+    },
   ];
   return (
     <div className="mt-4 flex flex-col gap-4">

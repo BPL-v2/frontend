@@ -4,6 +4,7 @@ export interface SortedUser {
   display_name: string;
   is_team_lead: boolean;
   poe_name: string;
+  sorted_at: string;
   team_id: number;
   user_id: number;
 }
