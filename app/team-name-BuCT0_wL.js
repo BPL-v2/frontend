@@ -1,0 +1,2 @@
+import{n as e}from"./@react-Ashqe2vT.js";var t=e();function n({team:e,...n}){return e?(0,t.jsx)(`span`,{...n,style:e.color===`#000000`?void 0:{color:e.color},children:e.name}):(0,t.jsx)(`span`,{...n,children:`-`})}export{n as t};
+//# sourceMappingURL=team-name-BuCT0_wL.js.map

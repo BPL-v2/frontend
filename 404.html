@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BPL</title>
+  </head>
+  <body>
+    <script>
+      // GitHub Pages serves this file for any unmatched path, including a
+      // hard refresh on a client-routed URL. This repo deploys a different
+      // app bundle per branch under /frontend/<branch>/, so we can't assume
+      // a single app root: walk up from the requested path until we find a
+      // directory that actually has an index.html, stash the remainder of
+      // the path, and hand off to that app's own client router.
+      (async function () {
+        var siteRoot = "/frontend/";
+        var path = location.pathname;
+        var rel = path.startsWith(siteRoot)
+          ? path.slice(siteRoot.length)
+          : path.replace(/^\//, "");
+        var segments = rel.split("/").filter(Boolean);
+        var appBase = siteRoot;
+        for (var i = segments.length; i >= 0; i--) {
+          var candidate = siteRoot + segments.slice(0, i).join("/");
+          candidate = candidate.endsWith("/") ? candidate : candidate + "/";
+          try {
+            var res = await fetch(candidate + "index.html", {
+              method: "HEAD",
+            });
+            if (res.ok) {
+              appBase = candidate;
+              break;
+            }
+          } catch (e) {
+            // keep trying shorter prefixes
+          }
+        }
+        var rest = path.slice(appBase.length);
+        sessionStorage.setItem(
+          "spa-redirect",
+          "/" + rest + location.search + location.hash,
+        );
+        location.replace(appBase);
+      })();
+    </script>
+  </body>
+</html>

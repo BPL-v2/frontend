@@ -1,0 +1,2 @@
+import{n as e}from"./@react-Ashqe2vT.js";import{D as t}from"./main-DZAlBfbe.js";import{t as n}from"./callback-eFWt_QQm.js";var r=e();function i(){let{state:e,code:i}=t.useSearch();return(0,r.jsx)(n,{state:e,code:i,provider:`discord`})}export{i as component};
+//# sourceMappingURL=discord.callback-D8T1qh-k.js.map

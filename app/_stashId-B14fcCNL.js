@@ -1,0 +1,2 @@
+import{D as e,E as t}from"./@tanstack-Byi86MHA.js";import{n}from"./@react-Ashqe2vT.js";import{f as r}from"./main-DZAlBfbe.js";import{t as i}from"./guildstash-view-Bb6f_QWF.js";var a=n();function o(){let{stashId:n}=e({from:r.id}),{highlightScoring:o}=t({from:r.id});return(0,a.jsx)(i,{stashId:n,highlightScoring:o})}export{o as component};
+//# sourceMappingURL=_stashId-B14fcCNL.js.map

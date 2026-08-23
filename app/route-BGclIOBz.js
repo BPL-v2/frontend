@@ -1,0 +1,2 @@
+import{n as e}from"./@react-Ashqe2vT.js";import{t}from"./guildstash-select-DtxZb6_t.js";var n=e();function r(){return(0,n.jsx)(t,{path:`/team/stashes/$stashId`})}export{r as component};
+//# sourceMappingURL=route-BGclIOBz.js.map

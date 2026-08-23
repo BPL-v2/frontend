@@ -1,0 +1,2 @@
+import{n as e}from"./@react-Ashqe2vT.js";import{_ as t,v as n,y as r}from"./main-DZAlBfbe.js";var i=e();function a({character_class:e,game_version:a,...o}){let s=t[a];if(!s)return null;let c=n[e]||r[e]||e;return s[c]?(0,i.jsx)(`img`,{src:s[c].thumbnail,alt:c,...o}):null}export{a as t};
+//# sourceMappingURL=ascendancy-portrait-DN8TXoYO.js.map
