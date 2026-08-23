@@ -411,9 +411,9 @@ export function getItemName(
   for (const condition of objective.conditions) {
     if (condition.field === ItemField.NAME) {
       if (condition.operator === Operator.EQ) {
-        return condition.value.replaceAll("Foulborn ", "");
+        return stripFoulbornName(condition.value);
       } else if (condition.operator === Operator.IN) {
-        return condition.value.split(",")[0].replaceAll("Foulborn ", "");
+        return stripFoulbornName(condition.value.split(",")[0]);
       }
     } else if (condition.field === ItemField.BASE_TYPE) {
       if (condition.operator === Operator.EQ) {
@@ -442,6 +442,13 @@ export function encode(string: string): string {
     .replaceAll("'", "")
     .replaceAll(":", "")
     .replaceAll('"', "");
+}
+
+// Foulborn wishlist/picker entries are named "Foulborn <item> (<mod>)" so
+// each mod variant can be picked separately; strip both parts to recover
+// the plain item name an icon can be looked up by.
+export function stripFoulbornName(name: string): string {
+  return name.replace(/^Foulborn /, "").split(" (")[0];
 }
 
 export function findFirstItemImage(
@@ -477,10 +484,7 @@ export function getImageLocation(
 
   for (const condition of objective.conditions) {
     if (condition.field === ItemField.NAME) {
-      attributes.name = getFirstConditionValue(condition).replaceAll(
-        "Foulborn ",
-        "",
-      );
+      attributes.name = stripFoulbornName(getFirstConditionValue(condition));
     } else if (condition.field === ItemField.BASE_TYPE) {
       attributes.base_type = getFirstConditionValue(condition);
     } else if (condition.field === ItemField.ITEM_CLASS) {

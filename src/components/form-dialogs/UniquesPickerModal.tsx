@@ -1,6 +1,6 @@
 import { Dialog } from "@components/dialog";
 import { useFile } from "@api";
-import { encode } from "@mytypes/scoring-objective";
+import { encode, stripFoulbornName } from "@mytypes/scoring-objective";
 import { useEffect, useMemo, useState } from "react";
 
 interface UniqueSelection {
@@ -34,10 +34,7 @@ export function UniquesPickerModal({
   onConfirm,
 }: UniquesPickerModalProps) {
   const { data: uniques } = useFile<
-    Record<
-      string,
-      { base_type: string; is_drop_restricted: boolean; image?: string }
-    >
+    Record<string, { base_type: string; is_drop_restricted: boolean }>
   >("/assets/poe1/items/uniques.json");
 
   const [search, setSearch] = useState("");
@@ -146,7 +143,7 @@ export function UniquesPickerModal({
                 className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-base-100"
               >
                 <img
-                  src={`/assets/poe1/items/uniques/${encode(uniques?.[name]?.image ?? name)}.webp`}
+                  src={`/assets/poe1/items/uniques/${encode(stripFoulbornName(name))}.webp`}
                   alt=""
                   className="size-8 shrink-0 object-contain"
                   onError={(e) => {
