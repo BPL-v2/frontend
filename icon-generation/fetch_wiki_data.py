@@ -1,3 +1,4 @@
+import html
 import json
 from typing import List
 import requests
@@ -56,7 +57,7 @@ def fix_explicit_stat_text(explicit_stat_text) -> List[List[str]]:
                 "&lt;hr style=&quot;width: 20%&quot;&gt;"))
         else:
             value_lists.append([value])  # single choice for a stat
-    return value_lists
+    return [[html.unescape(v) for v in group] for group in value_lists]
 
 
 def shorten_moster_metadata(metadata_id):
@@ -80,7 +81,7 @@ def parameter_mapping(key, value):
         return [shorten_moster_metadata(v) for v in value.split(",")]
     if key in ["metadata_id"]:  # metadata that needs to be shortened
         return shorten_moster_metadata(value)
-    return value  # value does not need to be converted
+    return html.unescape(value) if isinstance(value, str) else value
 
 
 def map_item(item):
