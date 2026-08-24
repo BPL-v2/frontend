@@ -164,7 +164,6 @@ import {
   SubmissionReview,
   TabSwitchRequest,
   TeamCreate,
-  TeamSheetEntryUpdate,
   TeamSuggestion,
   TeamUserCreate,
   TimingCreate,
@@ -175,13 +174,17 @@ import type { ScoreMap } from "@utils/utils";
 import { flatMap } from "@utils/utils";
 import { isLoggedIn } from "@utils/token";
 import { customFetch, HttpError } from "./fetcher";
+import { TeamSheetEntryUpdate } from "./generated/models/teamSheetEntryUpdate";
 
 // --- Events ---
 
 export function useGetEvents() {
   const query = useGetEventsBase({
     query: {
-      select: (data) => data.sort((a, b) => a.id - b.id),
+      select: (data) =>
+        data
+          .sort((a, b) => a.id - b.id)
+          .map((e) => ({ ...e, teams: e.teams.sort((a, b) => a.id - b.id) })),
     },
   });
   return { ...query, events: query.data ?? [] };
