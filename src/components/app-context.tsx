@@ -14,7 +14,7 @@ import { ContextProvider } from "@utils/context-provider";
 import { hidePOTotal, mergeScores, ScoreMap } from "@utils/utils";
 import { useEffect, useState } from "react";
 import { establishScoreSocket } from "../websocket/score-socket";
-import { toTheme } from "./theme-picker";
+import { toTheme } from "@components/theme-picker";
 
 function ContextWrapper({ children }: { children: React.ReactNode }) {
   const [currentEventOverride, setCurrentEvent] = useState<Event | undefined>(

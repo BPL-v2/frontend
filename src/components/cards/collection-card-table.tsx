@@ -3,7 +3,7 @@ import { ScoreClass, ScoreObjective } from "@mytypes/score";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { ProgressBar } from "../progress-bar";
+import { ProgressBar } from "@components/progress-bar";
 import { Score } from "@components/score";
 import { TeamName } from "@components/team/team-name";
 import { getMaximumNumberFromPointCap } from "@utils/utils";

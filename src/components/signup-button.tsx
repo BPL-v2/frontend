@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { ApplicationStatus } from "@api";
-import { TeamName } from "./team/team-name";
+import { TeamName } from "@components/team/team-name";
 import {
   useDeleteSignup,
   useGetEvents,

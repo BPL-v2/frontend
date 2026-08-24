@@ -4,8 +4,8 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
 import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
-import { TeamName } from "./team-name";
-import { TeamLogo } from "./teamlogo";
+import { TeamName } from "@components/team/team-name";
+import { TeamLogo } from "@components/team/teamlogo";
 import { Score } from "@components/score";
 
 export type TeamScoreProps = {

@@ -1,6 +1,6 @@
 import { LadderEntry } from "@api";
 import React from "react";
-import { PoGauge } from "./po-gauge";
+import { PoGauge } from "@components/personal-objective/po-gauge";
 import { twMerge } from "tailwind-merge";
 import { generalPoPoints } from "@utils/personal-points";
 

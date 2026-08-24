@@ -1,8 +1,8 @@
 import { ScoreObjective } from "@mytypes/score";
-import { CollectionCard } from "./collection-card";
-import { DailyCard } from "./daily-card";
+import { CollectionCard } from "@components/cards/collection-card";
+import { DailyCard } from "@components/cards/daily-card";
 import { ObjectiveType } from "@api";
-import { SubmissionCard } from "./submission-card";
+import { SubmissionCard } from "@components/cards/submission-card";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   objective: ScoreObjective;

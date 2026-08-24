@@ -1,9 +1,9 @@
 import { Event, LadderEntry, Team } from "@api";
 import { getSkillColor } from "@utils/gems";
 import { Link } from "@tanstack/react-router";
-import { AscendancyName } from "./ascendancy-name";
-import { AscendancyPortrait } from "./ascendancy-portrait";
-import { ExperienceBar } from "./experience-bar";
+import { AscendancyName } from "@components/character/ascendancy-name";
+import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
+import { ExperienceBar } from "@components/character/experience-bar";
 
 export const ACTIVE_THRESHOLD_SECONDS = 20 * 60;
 

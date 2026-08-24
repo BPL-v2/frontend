@@ -1,5 +1,5 @@
 import { useFile, useGetEventStatus, useGetTeamAtlas, useGetUsers } from "@api";
-import { ComposedTree } from "./composed-tree";
+import { ComposedTree } from "@components/profile/composed-tree";
 import { CompactTree } from "@mytypes/tree";
 import { CategoryIcon } from "@icons/category-icons";
 import { JSX, useContext, useState } from "react";

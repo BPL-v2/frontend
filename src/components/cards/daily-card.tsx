@@ -9,7 +9,7 @@ import { useGetEventStatus } from "@api";
 import { Countdown } from "@components/countdown";
 import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModal";
 import { ObjectiveIcon } from "@components/objective-icon";
-import { CollectionCardTable } from "./collection-card-table";
+import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ConditionDescription } from "@components/conditions/condition-description";
 
 export type DailyCardProps = {

@@ -1,6 +1,6 @@
 import { Item, PathOfBuilding } from "@utils/pob";
-import { ItemDisplay } from "./item-display";
-import { ItemTooltip } from "./item-tooltip";
+import { ItemDisplay } from "@components/profile/item-display";
+import { ItemTooltip } from "@components/profile/item-tooltip";
 import { useState } from "react";
 import { GameVersion } from "@api/generated/models/gameVersion";
 

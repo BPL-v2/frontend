@@ -100,17 +100,28 @@ function RouteComponent() {
     eventStatus?.team_id,
   );
   const qc = useQueryClient();
-  const { saveMyTeamSheetEntry } = useSaveMyTeamSheetEntry(
+  const { saveMyTeamSheetEntry } = useSaveMyTeamSheetEntry(currentEvent.id, qc);
+  const { wishlist = [] } = useGetWishlist(
     currentEvent.id,
-    qc,
+    eventStatus?.team_id,
   );
-  const { wishlist = [] } = useGetWishlist(currentEvent.id, eventStatus?.team_id);
-  const { saveItemWish } = useCreateItemWish(qc, currentEvent.id, eventStatus?.team_id);
-  const { updateItemWish } = useUpdateItemWish(qc, currentEvent.id, eventStatus?.team_id);
-  const { deleteItemWish } = useDeleteItemWish(qc, currentEvent.id, eventStatus?.team_id);
+  const { saveItemWish } = useCreateItemWish(
+    qc,
+    currentEvent.id,
+    eventStatus?.team_id,
+  );
+  const { updateItemWish } = useUpdateItemWish(
+    qc,
+    currentEvent.id,
+    eventStatus?.team_id,
+  );
+  const { deleteItemWish } = useDeleteItemWish(
+    qc,
+    currentEvent.id,
+    eventStatus?.team_id,
+  );
   const [uniquesPickerOpen, setUniquesPickerOpen] = useState(false);
-  const [secondaryRolePickerOpen, setSecondaryRolePickerOpen] =
-    useState(false);
+  const [secondaryRolePickerOpen, setSecondaryRolePickerOpen] = useState(false);
   const [specFilter, setSpecFilter] = useState<string | null>(null);
   const [characterNameError, setCharacterNameError] = useState<string | null>(
     null,
@@ -119,9 +130,7 @@ function RouteComponent() {
   const [form, setForm] = useState<TeamSheetEntryUpdate>({});
 
   const myEntry = teamSheet.find((e) => e.user.id === user?.id);
-  const myTeam = currentEvent.teams?.find(
-    (t) => t.id === eventStatus?.team_id,
-  );
+  const myTeam = currentEvent.teams?.find((t) => t.id === eventStatus?.team_id);
 
   useEffect(() => {
     setForm({
@@ -158,7 +167,10 @@ function RouteComponent() {
     }
   };
 
-  const handleUniquesConfirm = (needed: string[], buildEnabling: Set<string>) => {
+  const handleUniquesConfirm = (
+    needed: string[],
+    buildEnabling: Set<string>,
+  ) => {
     setForm((f) => ({ ...f, uniques_needed: needed.join(", ") }));
     const myUniqueWishes = wishlist.filter(
       (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
@@ -313,7 +325,11 @@ function RouteComponent() {
       cell: (info) =>
         info.row.original.pobUrl ? (
           <a
-            href={/^https?:\/\//i.test(info.row.original.pobUrl ?? "") ? info.row.original.pobUrl : undefined}
+            href={
+              /^https?:\/\//i.test(info.row.original.pobUrl ?? "")
+                ? info.row.original.pobUrl
+                : undefined
+            }
             target="_blank"
             rel="noreferrer"
             className="link link-primary"
@@ -428,9 +444,7 @@ function RouteComponent() {
               }
               value={form.main_skill || null}
               placeholder="Pick a skill"
-              onChange={(v) =>
-                setForm((f) => ({ ...f, main_skill: v ?? "" }))
-              }
+              onChange={(v) => setForm((f) => ({ ...f, main_skill: v ?? "" }))}
             />
           </label>
           <label className="fieldset">
@@ -550,10 +564,7 @@ function RouteComponent() {
             Filtered by role:{" "}
             <span className="font-semibold">{specFilter}</span>
           </span>
-          <button
-            className="btn btn-xs"
-            onClick={() => setSpecFilter(null)}
-          >
+          <button className="btn btn-xs" onClick={() => setSpecFilter(null)}>
             Clear
           </button>
         </div>

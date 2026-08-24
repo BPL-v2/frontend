@@ -1,12 +1,12 @@
 import { GlobalStateContext } from "@utils/context-provider";
 import { getTotalPoints } from "@utils/utils";
 import { useContext } from "react";
-import Table from "./table/table";
-import TeamScoreDisplay from "./team/team-score";
-import { Score } from "./score";
-import { TeamName } from "./team/team-name";
+import Table from "@components/table/table";
+import TeamScoreDisplay from "@components/team/team-score";
+import { Score } from "@components/score";
+import { TeamName } from "@components/team/team-name";
 import { Team } from "@api/generated/models/team";
-import { ColumnDef } from "./table/react-table-shim";
+import { ColumnDef } from "@components/table/react-table-shim";
 
 type RowDef = {
   total: number;

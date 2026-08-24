@@ -1,7 +1,7 @@
 import { ObjectiveType, TrackedValue } from "@api";
 import { ScoreObjective } from "@mytypes/score";
-import { ItemTableScoreCategory } from "./item-table-category";
-import { CategoryOfItemTableCategories } from "./category-of-item-table-categories";
+import { ItemTableScoreCategory } from "@components/score-categories/item-table-category";
+import { CategoryOfItemTableCategories } from "@components/score-categories/category-of-item-table-categories";
 import { ObjectiveCard } from "@components/cards/objective-card";
 import { twMerge } from "tailwind-merge";
 import { SubmissionTable } from "@components/table/submission-table";

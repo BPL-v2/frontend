@@ -1,7 +1,7 @@
 import { useGetLadder, useGetUser, useUpdateCharacter } from "@api";
 import React, { useContext } from "react";
-import GeneralPoPoints from "./general-po-points";
-import CustomPoPoints from "./custom-po-points";
+import GeneralPoPoints from "@components/personal-objective/general-po-points";
+import CustomPoPoints from "@components/personal-objective/custom-po-points";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";

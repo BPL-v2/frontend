@@ -7,11 +7,11 @@ import {
   Row,
   TableOptions,
   useReactTable,
-} from "./react-table-shim";
+} from "@components/table/react-table-shim";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import Select, { SelectOption } from "../form/select";
+import Select, { SelectOption } from "@components/form/select";
 
 function VirtualizedTable<T extends RowData>({
   data,

@@ -3,7 +3,7 @@ import { useGetEventStatus, useGetSubmissions } from "@api";
 import { useGetUsers } from "@api";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ScoreObjective } from "@mytypes/score";
-import { ColumnDef } from "./react-table-shim";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useMemo, useState } from "react";
 import { TeamName } from "@components/team/team-name";
@@ -12,7 +12,7 @@ import {
   SubmissionStatus,
   VideoButton,
 } from "@components/cards/submission-card";
-import VirtualizedTable from "./virtualized-table";
+import VirtualizedTable from "@components/table/virtualized-table";
 
 export type SubmissionTableProps = {
   objective: ScoreObjective;

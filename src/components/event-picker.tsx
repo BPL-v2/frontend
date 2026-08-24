@@ -1,7 +1,7 @@
 import { useGetEvents } from "@api";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext } from "react";
-import Select from "./form/select";
+import Select from "@components/form/select";
 
 export function EventPicker() {
   const { currentEvent, setCurrentEvent } = useContext(GlobalStateContext);

@@ -2,7 +2,7 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useMemo, useState } from "react";
 import { defaultPreferences } from "@mytypes/preferences";
 import { twMerge } from "tailwind-merge";
-import { MultiSelectPercentage } from "./form/multi-select-percentage";
+import { MultiSelectPercentage } from "@components/form/multi-select-percentage";
 import {
   Event,
   LadderEntry,
@@ -16,15 +16,15 @@ import {
   ACTIVE_THRESHOLD_SECONDS,
   ActivityDot,
   LadderPortrait,
-} from "./character/ladder-portrait";
-import VirtualizedTable from "./table/virtualized-table";
-import Select from "./form/select";
-import { CellContext, ColumnDef, sortingFns } from "./table/react-table-shim";
+} from "@components/character/ladder-portrait";
+import VirtualizedTable from "@components/table/virtualized-table";
+import Select from "@components/form/select";
+import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
 import { totalPoPoints } from "@utils/personal-points";
-import { ExperienceBar } from "./character/experience-bar";
-import { AscendancyName } from "./character/ascendancy-name";
-import { AscendancyPortrait } from "./character/ascendancy-portrait";
-import { TeamName } from "./team/team-name";
+import { ExperienceBar } from "@components/character/experience-bar";
+import { AscendancyName } from "@components/character/ascendancy-name";
+import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
+import { TeamName } from "@components/team/team-name";
 import { Link } from "@tanstack/react-router";
 import { TwitchFilled } from "@icons/twitch";
 import {

@@ -1,4 +1,4 @@
-import Tree from "./tree";
+import Tree from "@components/profile/tree";
 
 type Props = {
   version: string;

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GlobalStateContext } from "@utils/context-provider";
 import { getPotentialPoints, getTotalPoints, rank2text } from "@utils/utils";
-// import { TeamLogo } from "./teamlogo";
+// import { TeamLogo } from "@components/teamlogo";
 import { useGetEventStatus } from "@api";
 import { twMerge } from "tailwind-merge";
 import { Score } from "@components/score";

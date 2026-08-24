@@ -1,9 +1,9 @@
 import { GlobalStateContext } from "@utils/context-provider";
 import { objectiveIsValid } from "@utils/time";
 import { Fragment, useContext } from "react";
-import { CollectionCard } from "./cards/collection-card";
+import { CollectionCard } from "@components/cards/collection-card";
 import { ScoreObjective } from "@mytypes/score";
-import { Countdown } from "./countdown";
+import { Countdown } from "@components/countdown";
 
 function TimerRender({ objective }: { objective: ScoreObjective }) {
   if (!objective.valid_from || !objective.valid_to) {

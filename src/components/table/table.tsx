@@ -7,10 +7,10 @@ import {
   Row,
   TableOptions,
   useReactTable,
-} from "./react-table-shim";
+} from "@components/table/react-table-shim";
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import Select, { SelectOption } from "../form/select";
+import Select, { SelectOption } from "@components/form/select";
 
 function Table<T extends RowData>({
   data,

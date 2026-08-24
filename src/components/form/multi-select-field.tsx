@@ -1,6 +1,6 @@
 import { SelectOption } from "@components/form/select";
-import { useFieldContext } from "./context";
-import { MultiSelect } from "./multi-select";
+import { useFieldContext } from "@components/form/context";
+import { MultiSelect } from "@components/form/multi-select";
 
 export function MultiSelectField<T>({
   label,

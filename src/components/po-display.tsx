@@ -1,8 +1,8 @@
 import { useGetEventStatus } from "@api";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext } from "react";
-import POProgressBar from "./personal-objective/po-progress";
-import { TeamName } from "./team/team-name";
+import POProgressBar from "@components/personal-objective/po-progress";
+import { TeamName } from "@components/team/team-name";
 
 export function PoDisplay() {
   const { scores, currentEvent, isMobile, preferences } =

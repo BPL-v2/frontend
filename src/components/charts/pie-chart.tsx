@@ -47,7 +47,7 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
     return <div className="text-base-content/60">No data yet.</div>;
   }
 
-  const radius = 40;
+  const radius = 38;
   const circumference = 2 * Math.PI * radius;
   let cumulative = 0;
 
@@ -128,9 +128,8 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
       {isControlled ? (
         pinned && (
           <div className="min-h-8 rounded-box bg-base-100 p-3 text-sm">
-            Filtering table by{" "}
-            <span className="font-semibold">{pinned}</span> — click the slice
-            again to clear.
+            Filtering table by <span className="font-semibold">{pinned}</span> —
+            click the slice again to clear.
           </div>
         )
       ) : (
@@ -147,8 +146,8 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
             </>
           ) : (
             <span className="text-base-content/60">
-              Hover a slice or legend entry to see who picked it, click to
-              pin it.
+              Hover a slice or legend entry to see who picked it, click to pin
+              it.
             </span>
           )}
         </div>

@@ -3,7 +3,7 @@ import { useGetEventStatus, useGetUsers } from "@api";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { canBeFinished, ScoreObjective } from "@mytypes/score";
 import { getImageLocation } from "@mytypes/scoring-objective";
-import { CellContext, ColumnDef } from "./react-table-shim";
+import { CellContext, ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import {
   ExtendedScoreObjective,
@@ -12,8 +12,8 @@ import {
 } from "@utils/utils";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { ObjectiveIcon } from "../objective-icon";
-import VirtualizedTable from "./virtualized-table";
+import { ObjectiveIcon } from "@components/objective-icon";
+import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
 
 export type ItemTableProps = {

@@ -4,10 +4,10 @@
 import { ArrowsPointingInIcon } from "@heroicons/react/24/outline";
 import { PathOfBuilding } from "@utils/pob";
 import { useMemo, useState } from "react";
-import Tree from "./tree";
-import { CharacterItems } from "./character-items";
-import { CharacterSkills } from "./character-skills";
-import { CharacterStats } from "./character-stats";
+import Tree from "@components/profile/tree";
+import { CharacterItems } from "@components/profile/character-items";
+import { CharacterSkills } from "@components/profile/character-skills";
+import { CharacterStats } from "@components/profile/character-stats";
 import { GameVersion, useGetEvents } from "@api";
 
 type Props = {

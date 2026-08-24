@@ -1,5 +1,5 @@
 import { ScoreObjective } from "@mytypes/score";
-import { isItemTableCategory } from "./generic-score-category";
+import { isItemTableCategory } from "@components/score-categories/generic-score-category";
 import { CategoryGrid } from "../../routes/scores/uniques";
 import { ItemTable } from "@components/table/item-table";
 import { useMemo } from "react";

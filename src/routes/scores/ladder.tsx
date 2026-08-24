@@ -5,7 +5,7 @@ import { POPointRules } from "@rules/po-points";
 import { createFileRoute } from "@tanstack/react-router";
 import { PoDisplay } from "@components/po-display";
 import { LadderDisplay } from "@components/ladder-display";
-import { TeamScoreTable } from "@components/team-score-table";
+import { TeamScoreTable } from "@components/table/team-score-table";
 
 export const Route = createFileRoute("/scores/ladder")({
   component: LadderTab,
