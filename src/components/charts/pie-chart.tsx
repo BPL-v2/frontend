@@ -84,7 +84,7 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
                   cy="50"
                   fill="none"
                   stroke={COLORS[i % COLORS.length]}
-                  strokeWidth={isActive ? "24" : "20"}
+                  strokeWidth="20"
                   strokeDasharray={dashArray}
                   strokeDashoffset={offset}
                   opacity={active && !isActive ? 0.4 : 1}
