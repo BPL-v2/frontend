@@ -18,10 +18,7 @@ import {
 } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import Table from "@components/table/table";
-import {
-  ExclamationCircleIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
+import { ExclamationCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
@@ -131,6 +128,9 @@ function RouteComponent() {
   const rows: WishRow[] = [];
   for (const [userId, wishes] of Object.entries(rowMap)) {
     const user = userMap[Number(userId)];
+    if (!user) {
+      continue;
+    }
     for (const wish of wishes) {
       rows.push({
         user: user?.display_name,
@@ -340,6 +340,7 @@ function RouteComponent() {
             if (b.user == user?.display_name) {
               return 1;
             }
+
             if (a.user != b.user) {
               return a.user.localeCompare(b.user);
             }
