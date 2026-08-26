@@ -30,6 +30,32 @@ export type PieSlice = {
   players: string[];
 };
 
+const CENTER = 50;
+const OUTER_RADIUS = 48;
+const INNER_RADIUS = 28;
+
+function polarToCartesian(radius: number, angleRad: number) {
+  return {
+    x: CENTER + radius * Math.cos(angleRad),
+    y: CENTER + radius * Math.sin(angleRad),
+  };
+}
+
+function donutSlicePath(startAngle: number, endAngle: number): string {
+  const startOuter = polarToCartesian(OUTER_RADIUS, startAngle);
+  const endOuter = polarToCartesian(OUTER_RADIUS, endAngle);
+  const startInner = polarToCartesian(INNER_RADIUS, startAngle);
+  const endInner = polarToCartesian(INNER_RADIUS, endAngle);
+  const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
+  return [
+    `M ${startOuter.x} ${startOuter.y}`,
+    `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
+    `L ${endInner.x} ${endInner.y}`,
+    `A ${INNER_RADIUS} ${INNER_RADIUS} 0 ${largeArc} 0 ${startInner.x} ${startInner.y}`,
+    "Z",
+  ].join(" ");
+}
+
 type PieChartProps = {
   data: PieSlice[];
   selected?: string | null;
@@ -47,9 +73,7 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
     return <div className="text-base-content/60">No data yet.</div>;
   }
 
-  const radius = 38;
-  const circumference = 2 * Math.PI * radius;
-  let cumulative = 0;
+  let cumulativeAngle = -Math.PI / 2;
 
   const sorted = [...data].sort((a, b) => b.value - a.value);
   const active = pinned ?? hovered;
@@ -68,34 +92,27 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:items-center">
         <svg viewBox="0 0 100 100" className="w-64 shrink-0 md:w-80">
-          <g transform="rotate(-90 50 50)">
-            {sorted.map((slice, i) => {
-              const fraction = slice.value / total;
-              const dash = fraction * circumference;
-              const dashArray = `${dash} ${circumference - dash}`;
-              const offset = -cumulative;
-              cumulative += dash;
-              const isActive = active === slice.label;
-              return (
-                <circle
-                  key={slice.label}
-                  r={radius}
-                  cx="50"
-                  cy="50"
-                  fill="none"
-                  stroke={COLORS[i % COLORS.length]}
-                  strokeWidth="20"
-                  strokeDasharray={dashArray}
-                  strokeDashoffset={offset}
-                  opacity={active && !isActive ? 0.4 : 1}
-                  className="cursor-pointer transition-all"
-                  onMouseEnter={() => setHovered(slice.label)}
-                  onMouseLeave={() => setHovered(null)}
-                  onClick={() => toggleSelection(slice.label)}
-                />
-              );
-            })}
-          </g>
+          {sorted.map((slice, i) => {
+            // Clamp so a single 100%-of-total slice doesn't degenerate into
+            // a zero-length arc back to its own start point.
+            const fraction = Math.min(slice.value / total, 0.9999);
+            const startAngle = cumulativeAngle;
+            const endAngle = startAngle + fraction * 2 * Math.PI;
+            cumulativeAngle = endAngle;
+            const isActive = active === slice.label;
+            return (
+              <path
+                key={slice.label}
+                d={donutSlicePath(startAngle, endAngle)}
+                fill={COLORS[i % COLORS.length]}
+                opacity={active && !isActive ? 0.4 : 1}
+                className="cursor-pointer transition-opacity"
+                onMouseEnter={() => setHovered(slice.label)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => toggleSelection(slice.label)}
+              />
+            );
+          })}
         </svg>
         <div className="flex flex-col gap-1 md:ml-8">
           {sorted.map((slice, i) => (
