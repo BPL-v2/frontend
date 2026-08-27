@@ -532,3 +532,13 @@ export const SKILL_GEMS: string[] = [
   "Wither",
   "Withering Step",
 ];
+
+// The single definition of "is this a transfigured gem" - both the sheet's
+// main-skill sync and the gem picker's list must agree on this, or a pick
+// made in one place can silently vanish from the other's view of the data.
+export function isTransfiguredGem(gem: string): boolean {
+  if (!gem.includes(" of ")) return false;
+  return SKILL_GEMS.includes(gem.split(" of ")[0]);
+}
+
+export const TRANSFIGURED_SKILL_GEMS = SKILL_GEMS.filter(isTransfiguredGem);
