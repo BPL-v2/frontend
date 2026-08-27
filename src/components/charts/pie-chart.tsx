@@ -117,12 +117,17 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
             );
           })}
         </svg>
-        <div className="flex flex-col gap-1 md:ml-8">
+        <div
+          className={twMerge(
+            "md:ml-8",
+            sorted.length > 8 ? "columns-2 gap-x-6" : "flex flex-col",
+          )}
+        >
           {sorted.map((slice, i) => (
             <div
               key={slice.label}
               className={twMerge(
-                "flex cursor-pointer items-center gap-2 rounded px-1 text-sm",
+                "mb-1 flex cursor-pointer break-inside-avoid items-center gap-2 rounded px-1 text-sm",
                 pinned === slice.label
                   ? "bg-primary/20 ring-1 ring-primary"
                   : hovered === slice.label
