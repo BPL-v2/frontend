@@ -9,7 +9,6 @@ import {
   useGetWishlist,
   useUpdateItemWish,
 } from "@api";
-import { decodePoBExport, Rarity } from "@utils/pob";
 import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
 
 const MAX_QUANTITY = 5;
@@ -76,24 +75,8 @@ export function ItemWishFormModal({
       unique_name: "",
       unique_quantity: 1,
       gem_name: "",
-      pob_export: "",
     },
-    onSubmit: async (data) => {
-      if (data.value.pob_export) {
-        const pobData = await decodePoBExport(data.value.pob_export);
-        pobData.items
-          .filter((item) => item.rarity === Rarity.Unique)
-          .map((item) => item.name)
-          .forEach((itemName) => addWishIfMissing(ItemField.NAME, itemName));
-        pobData.skills.skillSets
-          .flatMap((set) => set.skills)
-          .flatMap((skill) => skill.gems)
-          .filter((gem) => gem.variantId.includes("Alt"))
-          .map((gem) => gem.nameSpec)
-          .forEach((itemName) =>
-            addWishIfMissing(ItemField.BASE_TYPE, itemName),
-          );
-      }
+    onSubmit: (data) => {
       if (data.value.unique_name) {
         setWishQuantity(
           ItemField.NAME,
@@ -143,10 +126,6 @@ export function ItemWishFormModal({
           children={(field) => (
             <field.TextField label="Gem" options={TRANSFIGURED_SKILL_GEMS} />
           )}
-        />
-        <form.AppField
-          name="pob_export"
-          children={(field) => <field.TextField label="PoB Export" />}
         />
         <div className="mt-4 flex flex-row justify-end gap-2">
           <button
