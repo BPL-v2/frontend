@@ -165,3 +165,13 @@ const TAILWIND_HEX_BY_CLASS: Record<string, string> = {
 export function classColorToHex(className?: string): string | undefined {
   return className ? TAILWIND_HEX_BY_CLASS[className] : undefined;
 }
+
+// Gates a picker's color behind its "colorful X" preference toggle, so every
+// picker's `color: enabled ? SOME_COLORS[key] : undefined` collapses to
+// `color: pickColor(enabled, SOME_COLORS[key])`.
+export function pickColor(
+  enabled: boolean,
+  color: string | undefined,
+): string | undefined {
+  return enabled ? color : undefined;
+}
