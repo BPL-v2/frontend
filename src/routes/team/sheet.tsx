@@ -1,4 +1,5 @@
 import { GameVersion, ItemField, TeamSheetEntryUpdate } from "@api";
+import { customFetch } from "@api/fetcher";
 import {
   useCreateItemWish,
   useDeleteItemWish,
@@ -350,7 +351,17 @@ function RouteComponent() {
     setDetectingUniques(true);
     setDetectUniquesStatus("");
     try {
-      const pobData = await decodePoBExport(form.pob_url);
+      const trimmed = form.pob_url.trim();
+      // Share links (Maxroll, pobb.in, etc.) need resolving to the raw
+      // export code server-side first - those sites don't send CORS headers,
+      // so the browser can't fetch them directly from here.
+      const pobCode = /^https?:\/\//.test(trimmed)
+        ? await customFetch<string>(
+            `/pob-import?url=${encodeURIComponent(trimmed)}`,
+            { method: "GET" },
+          )
+        : trimmed;
+      const pobData = await decodePoBExport(pobCode);
       const detectedNames = Array.from(
         new Set(
           pobData.items
@@ -395,7 +406,7 @@ function RouteComponent() {
       );
     } catch {
       setDetectUniquesStatus(
-        "Couldn't read that as a PoB export code — paste the raw code, not a link.",
+        "Couldn't read that as a PoB export code or a supported share link (Maxroll, pobb.in, pob.codes, PoE Ninja, Pastebin.com, PastebinP.com, Rentry.co, poedb.tw).",
       );
     } finally {
       setDetectingUniques(false);
@@ -858,7 +869,7 @@ function RouteComponent() {
                 PoB
                 <span
                   className="tooltip"
-                  data-tip="To use Detect uniques, generate your PoB export without sharing (no upload/link) and paste that long text here."
+                  data-tip="To use Detect uniques, paste your raw PoB export code, or a share link from Maxroll, pobb.in, pob.codes, PoE Ninja, Pastebin.com, PastebinP.com, Rentry.co, or poedb.tw."
                 >
                   <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
                 </span>
