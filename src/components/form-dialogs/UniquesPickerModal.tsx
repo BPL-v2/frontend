@@ -1,8 +1,5 @@
 import { PickerDialog } from "@components/form-dialogs/PickerDialog";
-import {
-  MAX_VISIBLE_PICKER_ROWS,
-  useSearchableChecklist,
-} from "@components/form-dialogs/useSearchableChecklist";
+import { useSearchableChecklist } from "@components/form-dialogs/useSearchableChecklist";
 import { useFile } from "@api";
 import { encode } from "@mytypes/scoring-objective";
 import { useEffect, useMemo, useState } from "react";
@@ -234,8 +231,8 @@ export function UniquesPickerModal({
         </div>
         <div className="text-sm text-base-content/60">
           {neededCount} selected
-          {filtered.length > MAX_VISIBLE_PICKER_ROWS &&
-            ` — showing first ${MAX_VISIBLE_PICKER_ROWS} of ${filtered.length} matches, keep typing to narrow down`}
+          {filtered.length > visible.length &&
+            ` — showing first ${visible.length} of ${filtered.length} matches, keep typing to narrow down`}
         </div>
         <div className="flex max-h-[50vh] w-full flex-col gap-1 overflow-y-auto rounded-box border border-base-content/20 p-2">
           {visible.map((row) => {

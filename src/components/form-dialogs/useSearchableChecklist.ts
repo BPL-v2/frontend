@@ -55,7 +55,14 @@ export function useSearchableChecklist<T>({
         return 0;
       })
     : filtered;
-  const visible = ordered.slice(0, MAX_VISIBLE_PICKER_ROWS);
+  // With "sort by selected" on, cap at the selected count instead of the
+  // usual 10 so a pick never scrolls out of view just for having more than
+  // 10 selections - still never fewer than 10, so there's room to browse for
+  // more.
+  const visibleLimit = sortBySelected
+    ? Math.max(items.filter(isSelected).length, MAX_VISIBLE_PICKER_ROWS)
+    : MAX_VISIBLE_PICKER_ROWS;
+  const visible = ordered.slice(0, visibleLimit);
 
   return {
     search,
