@@ -19,6 +19,7 @@ import {
 } from "@components/form-dialogs/UniquesPickerModal";
 import { GemsPickerModal } from "@components/form-dialogs/GemsPickerModal";
 import { SecondaryRolePickerModal } from "@components/form-dialogs/SecondaryRolePickerModal";
+import { ItemSetPickerModal } from "@components/form-dialogs/ItemSetPickerModal";
 import { TextNoteModal } from "@components/form-dialogs/TextNoteModal";
 import { PieChart } from "@components/charts/pie-chart";
 import { tallyByPlayer } from "@utils/chart-tally";
@@ -51,7 +52,13 @@ import {
   ROLE_COLORS,
   SPECIALIZATION_COLORS,
 } from "@mytypes/roles";
-import { decodePoBExport, Rarity } from "@utils/pob";
+import {
+  decodePoBExport,
+  isTreeSocketedSlot,
+  Item,
+  PathOfBuilding,
+  Rarity,
+} from "@utils/pob";
 
 export const Route = createFileRoute("/team/sheet")({
   component: RouteComponent,
@@ -203,6 +210,14 @@ function RouteComponent() {
   );
   const [detectingUniques, setDetectingUniques] = useState(false);
   const [detectUniquesStatus, setDetectUniquesStatus] = useState("");
+  // Only the slice of a decoded PoB build the item-set picker actually
+  // needs - not the full PathOfBuilding (raw export string, skill tree,
+  // passive nodes, ...), which would otherwise sit in state for as long as
+  // the picker stays open. The picker is open exactly when this is set.
+  const [pendingItems, setPendingItems] = useState<Pick<
+    PathOfBuilding,
+    "items" | "itemSets"
+  > | null>(null);
 
   const [form, setForm] = useState<TeamSheetEntryUpdate>({});
 
@@ -346,6 +361,63 @@ function RouteComponent() {
     }
   };
 
+  const applyDetectedUniques = (detectedNames: string[]) => {
+    const unique = Array.from(new Set(detectedNames));
+    if (unique.length === 0) {
+      setDetectUniquesStatus("No uniques found in that PoB code.");
+      return;
+    }
+    const existing = wishlist.filter(
+      (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
+    );
+    const merged = new Map<string, NeededUnique>();
+    for (const w of existing) {
+      merged.set(JSON.stringify([w.value, w.extra ?? ""]), {
+        value: w.value,
+        extra: w.extra ?? "",
+        buildEnabling: w.build_enabling,
+        quantity: w.quantity || 1,
+      });
+    }
+    let added = 0;
+    for (const name of unique) {
+      const key = JSON.stringify([name, ""]);
+      if (!merged.has(key)) {
+        merged.set(key, {
+          value: name,
+          extra: "",
+          buildEnabling: false,
+          quantity: 1,
+        });
+        added++;
+      }
+    }
+    handleUniquesConfirm(Array.from(merged.values()));
+    setDetectUniquesStatus(
+      added > 0
+        ? `Added ${added} unique${added === 1 ? "" : "s"} to Uniques Needed.`
+        : "All detected uniques were already on the list.",
+    );
+  };
+
+  // Scans the item sets the user picked (or, for single-item-set builds, the
+  // one PoB itself has active). Tree-socketed items (e.g. abyssal jewels)
+  // aren't part of any item set, so they're always in scope regardless of
+  // which set(s) got picked.
+  const detectUniquesFromItemSets = (items: Item[], setIds: string[]) => {
+    const selected = new Set(setIds);
+    applyDetectedUniques(
+      items
+        .filter(
+          (item) =>
+            item.rarity === Rarity.Unique &&
+            (isTreeSocketedSlot(item.slot) ||
+              item.equippedInSetIds.some((id) => selected.has(id))),
+        )
+        .map((item) => item.name),
+    );
+  };
+
   const handleDetectUniques = async () => {
     if (!form.pob_url) return;
     setDetectingUniques(true);
@@ -361,48 +433,17 @@ function RouteComponent() {
             { method: "GET" },
           )
         : trimmed;
-      const pobData = await decodePoBExport(pobCode);
-      const detectedNames = Array.from(
-        new Set(
-          pobData.items
-            .filter((item) => item.rarity === Rarity.Unique)
-            .map((item) => item.name),
-        ),
-      );
-      if (detectedNames.length === 0) {
-        setDetectUniquesStatus("No uniques found in that PoB code.");
+      const { items, itemSets } = await decodePoBExport(pobCode);
+      if (itemSets.length > 1) {
+        // Let the user choose which item set(s) to scan instead of silently
+        // assuming the one PoB has active - a build can have several (e.g.
+        // a "before/after upgrade" comparison).
+        setPendingItems({ items, itemSets });
         return;
       }
-      const existing = wishlist.filter(
-        (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
-      );
-      const merged = new Map<string, NeededUnique>();
-      for (const w of existing) {
-        merged.set(JSON.stringify([w.value, w.extra ?? ""]), {
-          value: w.value,
-          extra: w.extra ?? "",
-          buildEnabling: w.build_enabling,
-          quantity: w.quantity || 1,
-        });
-      }
-      let added = 0;
-      for (const name of detectedNames) {
-        const key = JSON.stringify([name, ""]);
-        if (!merged.has(key)) {
-          merged.set(key, {
-            value: name,
-            extra: "",
-            buildEnabling: false,
-            quantity: 1,
-          });
-          added++;
-        }
-      }
-      handleUniquesConfirm(Array.from(merged.values()));
-      setDetectUniquesStatus(
-        added > 0
-          ? `Added ${added} unique${added === 1 ? "" : "s"} to Uniques Needed.`
-          : "All detected uniques were already on the list.",
+      detectUniquesFromItemSets(
+        items,
+        itemSets.map((set) => set.id),
       );
     } catch {
       setDetectUniquesStatus(
@@ -1091,6 +1132,16 @@ function RouteComponent() {
             secondary_specialization: specializations.join(", "),
           }))
         }
+      />
+      <ItemSetPickerModal
+        isOpen={pendingItems !== null}
+        setIsOpen={(open) => !open && setPendingItems(null)}
+        itemSets={pendingItems?.itemSets ?? []}
+        onConfirm={(setIds) => {
+          if (pendingItems) {
+            detectUniquesFromItemSets(pendingItems.items, setIds);
+          }
+        }}
       />
       <TextNoteModal
         title="Extra Notes"

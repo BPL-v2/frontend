@@ -175,7 +175,14 @@ export interface PathOfBuilding {
   build: Build;
   skills: Skills;
   items: Item[];
+  itemSets: ItemSetInfo[];
   spec: Spec;
+}
+
+export interface ItemSetInfo {
+  id: string;
+  title: string;
+  isActive: boolean;
 }
 
 export enum Rarity {
@@ -232,8 +239,23 @@ export interface Item {
   explicits: Mod[];
   mutatedMods: Mod[];
   slot: string | null;
+  // Item sets (id from <ItemSet>) that place this item in a slot - lets
+  // callers scope a search (e.g. "detect uniques") to item sets the user
+  // picks, instead of only ever the currently active one.
+  equippedInSetIds: string[];
   changedFromLastSnapshot: boolean;
   modsChangedFromLastSnapshot: boolean;
+}
+
+// True for jewels placed in a passive tree socket - decodePoBExport always
+// gives these the literal slot name "Socket" (see the <Tree><Spec><Socket>
+// loop below), which is a different, item-set-independent mechanism from
+// the abyssal sockets embedded in gear (those show up as item-set slot
+// names like "Weapon 1 Abyssal Socket 1" and are correctly scoped by
+// equippedInSetIds already) - so this intentionally doesn't match "Abyssal"
+// the way determineDifferences's broader slot-matching does.
+export function isTreeSocketedSlot(slot: string | null): boolean {
+  return slot === "Socket";
 }
 
 function setPlayerStat(stats: PlayerStats, stat: string, value: number): void {
@@ -704,6 +726,7 @@ export async function decodePoBExport(
       treeVersion: "",
     },
     items: [],
+    itemSets: [],
   };
   if (!input || input.length === 0) {
     return result;
@@ -844,9 +867,32 @@ export async function decodePoBExport(
     }
 
     const itemSets = itemsElement.getElementsByTagName("ItemSet");
+    // itemId -> ids of every item set that places it in a slot, so callers
+    // (e.g. a "which item sets should we scan?" picker) can scope a search
+    // to specific sets instead of only ever the currently active one.
+    const itemIdToSetIds: Record<string, string[]> = {};
     if (itemSets.length > 0) {
-      for (const slot of itemSets[0].getElementsByTagName("Slot")) {
-        idToSlot[slot.getAttribute("itemId") || ""] = slot.getAttribute("name");
+      // A build can have several item sets (e.g. a "before/after upgrade"
+      // comparison) - use whichever one is actually active instead of
+      // always the first, or slots from an unequipped set get picked up.
+      const activeItemSet = Number(itemsElement.getAttribute("activeItemSet"));
+      const activeIndex = itemSets[activeItemSet - 1] ? activeItemSet - 1 : 0;
+      for (let i = 0; i < itemSets.length; i++) {
+        const itemSet = itemSets[i];
+        const setId = itemSet.getAttribute("id") || String(i + 1);
+        result.itemSets.push({
+          id: setId,
+          title: itemSet.getAttribute("title") || "Default",
+          isActive: i === activeIndex,
+        });
+        for (const slot of itemSet.getElementsByTagName("Slot")) {
+          const itemId = slot.getAttribute("itemId") || "";
+          if (!itemId || itemId === "0") continue;
+          (itemIdToSetIds[itemId] ??= []).push(setId);
+          if (i === activeIndex) {
+            idToSlot[itemId] = slot.getAttribute("name");
+          }
+        }
       }
     }
     const items: Item[] = [];
@@ -858,14 +904,10 @@ export async function decodePoBExport(
           text += node.textContent || "";
         }
       }
-      items.push(
-        parseItem(
-          text.trim(),
-          idToSlot[itemElement.getAttribute("id") || ""],
-          itemElement.getAttribute("id")!,
-          baseTypes,
-        ),
-      );
+      const itemId = itemElement.getAttribute("id")!;
+      const item = parseItem(text.trim(), idToSlot[itemId], itemId, baseTypes);
+      item.equippedInSetIds = itemIdToSetIds[itemId] || [];
+      items.push(item);
     }
     result.items = items;
   }
@@ -1233,6 +1275,7 @@ export function parseItem(
     enchants,
     mutatedMods,
     slot,
+    equippedInSetIds: [],
     id,
     changedFromLastSnapshot: false,
     modsChangedFromLastSnapshot: false,
