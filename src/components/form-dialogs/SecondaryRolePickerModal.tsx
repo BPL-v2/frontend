@@ -38,8 +38,8 @@ const ROLE_ICONS: Record<string, typeof MapIcon> = {
 };
 
 // A specialization is stored/displayed as "Role: Specialization" (e.g.
-// "Delver: Deep Delve") so it stays unambiguous even though some
-// specialization names (like "Harvest") appear under more than one role.
+// "Delver: Deep Delve") so it stays unambiguous if a specialization name
+// is ever reused across roles - none currently are, but nothing stops it.
 export function specializationLabel(role: string, specialization: string) {
   return `${role}: ${specialization}`;
 }
@@ -125,10 +125,10 @@ export function SecondaryRolePickerModal({
             );
             // "No Preference" is only dropped from roles that also have
             // real specializations to pick from (redundant clutter next to
-            // e.g. "I will do the thing"). Roles where it's the only
-            // specialization (Anything, Sanctum) keep it, exactly like any
-            // other role keeps its one real specialization (e.g. Lab keeps
-            // "Carry").
+            // e.g. "I will do the thing"). A role where it's the only
+            // specialization (currently just Anything) keeps it, exactly
+            // like any other role keeps its one real specialization (e.g.
+            // Lab keeps "Carry").
             const rawSpecs = SPECIALIZATIONS[role] ?? [];
             const specs =
               rawSpecs.length > 1

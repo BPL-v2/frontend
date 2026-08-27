@@ -1,3 +1,7 @@
+# Dead code, not currently used anywhere - superseded by fetch_foulborn_data.py,
+# which pulls the same data from PoB's ModFoulbornMap.lua instead of scraping
+# the wiki's Cargo table here, which never worked reliably. Left in case a
+# Cargo-based approach becomes useful again in the future.
 import json
 import os
 
