@@ -76,13 +76,23 @@ function Table<T extends RowData>({
                 const isSorting = !!sorting.find(
                   (sort) => sort.id === header.id,
                 );
+                const align = (header.column.columnDef.meta as ColumnDefMeta<T>)
+                  ?.align;
+                const justify =
+                  align === "left"
+                    ? "justify-start"
+                    : align === "right"
+                      ? "justify-end"
+                      : "justify-center";
 
                 return (
                   <th key={header.id} className="align-middle">
                     <div
-                      className={
-                        canSort ? "flex cursor-pointer items-center gap-1" : ""
-                      }
+                      className={twMerge(
+                        "flex items-center gap-1",
+                        canSort ? "cursor-pointer" : "",
+                        justify,
+                      )}
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       {canSort && (

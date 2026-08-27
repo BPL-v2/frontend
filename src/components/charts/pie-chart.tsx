@@ -28,6 +28,9 @@ export type PieSlice = {
   label: string;
   value: number;
   players: string[];
+  // Explicit hex fill, e.g. to reuse the same colors as the corresponding
+  // Select field elsewhere. Falls back to the default rotating palette.
+  color?: string;
 };
 
 const CENTER = 50;
@@ -104,7 +107,7 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
               <path
                 key={slice.label}
                 d={donutSlicePath(startAngle, endAngle)}
-                fill={COLORS[i % COLORS.length]}
+                fill={slice.color ?? COLORS[i % COLORS.length]}
                 opacity={active && !isActive ? 0.4 : 1}
                 className="cursor-pointer transition-opacity"
                 onMouseEnter={() => setHovered(slice.label)}
@@ -132,7 +135,9 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
             >
               <span
                 className="size-3 shrink-0 rounded-sm"
-                style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                style={{
+                  backgroundColor: slice.color ?? COLORS[i % COLORS.length],
+                }}
               />
               <span className="font-medium">{slice.label}</span>
               <span className="text-base-content/60">

@@ -34,15 +34,27 @@ export type Preferences = {
     Realm: boolean;
     LFG: boolean;
     Role: boolean;
+    Specialization: boolean;
     "2nd Role": boolean;
+    "2nd Specialization": boolean;
     Altars: boolean;
     Ascendancy: boolean;
     "Main Skill": boolean;
-    "Build Notes": boolean;
+    "Extra Notes": boolean;
     "Uniques Needed": boolean;
+    "Transfigured Gems": boolean;
     PoB: boolean;
+    Guide: boolean;
   };
   limitTeams: number;
+  // Per-category toggles for the per-option colors on the team sheet's
+  // pickers. Charts always keep their colors regardless of these.
+  colorfulRoles: boolean;
+  colorfulSpecializations: boolean;
+  colorfulAscendancy: boolean;
+  colorfulRealms: boolean;
+  colorfulAltars: boolean;
+  colorfulMainSkill: boolean;
   version?: number;
 };
 export const defaultPreferences: Preferences = {
@@ -81,15 +93,25 @@ export const defaultPreferences: Preferences = {
     Realm: true,
     LFG: true,
     Role: true,
+    Specialization: true,
     "2nd Role": false,
+    "2nd Specialization": false,
     Altars: false,
     Ascendancy: true,
     "Main Skill": true,
-    "Build Notes": false,
+    "Extra Notes": false,
     "Uniques Needed": false,
+    "Transfigured Gems": false,
     PoB: false,
+    Guide: false,
   },
   limitTeams: 0,
+  colorfulRoles: false,
+  colorfulSpecializations: false,
+  colorfulAscendancy: false,
+  colorfulRealms: false,
+  colorfulAltars: false,
+  colorfulMainSkill: false,
   version: 0,
 };
 

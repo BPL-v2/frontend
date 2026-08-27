@@ -74,7 +74,7 @@ function hslLForWcagLuminance(h: number, s: number, target: number): number {
 
 // 3:1 contrast against #0e141f (L≈0.014) and #e4e8f0 (L≈0.821)
 const MIN_WCAG = 0.142;
-const MAX_WCAG = 0.240;
+const MAX_WCAG = 0.24;
 
 /**
  * Normalizes a team color so it has ≥3:1 contrast as text on both dark
@@ -96,4 +96,72 @@ export function normalizeTeamColor(hex: string): string {
 export function contrastColor(hex: string): string {
   const [r, g, b] = parseHex(hex);
   return wcagLuminance(r, g, b) > 0.179 ? "#000000" : "#ffffff";
+}
+
+// Hex values for the specific Tailwind `text-{color}-{shade}` classes used
+// as per-option colors (ascendancies, altars, realms, skill gems), so those
+// same classes can also be used as real fill colors in SVG charts.
+const TAILWIND_HEX_BY_CLASS: Record<string, string> = {
+  "text-blue-400": "#60a5fa",
+  "text-blue-500": "#3b82f6",
+  "text-blue-600": "#2563eb",
+  "text-blue-800": "#1e40af",
+  "text-red-300": "#fca5a5",
+  "text-red-400": "#f87171",
+  "text-red-500": "#ef4444",
+  "text-red-600": "#dc2626",
+  "text-green-300": "#86efac",
+  "text-green-400": "#4ade80",
+  "text-green-500": "#22c55e",
+  "text-green-600": "#16a34a",
+  "text-green-700": "#15803d",
+  "text-cyan-300": "#67e8f9",
+  "text-cyan-400": "#22d3ee",
+  "text-cyan-500": "#06b6d4",
+  "text-cyan-600": "#0891b2",
+  "text-cyan-700": "#0e7490",
+  "text-orange-300": "#fdba74",
+  "text-orange-400": "#fb923c",
+  "text-orange-500": "#f97316",
+  "text-orange-600": "#ea580c",
+  "text-orange-700": "#c2410c",
+  "text-purple-300": "#d8b4fe",
+  "text-purple-400": "#c084fc",
+  "text-purple-500": "#a855f7",
+  "text-purple-600": "#9333ea",
+  "text-yellow-300": "#fde047",
+  "text-yellow-400": "#facc15",
+  "text-yellow-500": "#eab308",
+  "text-yellow-600": "#ca8a04",
+  "text-yellow-700": "#a16207",
+  "text-amber-300": "#fcd34d",
+  "text-amber-400": "#fbbf24",
+  "text-amber-500": "#f59e0b",
+  "text-amber-600": "#d97706",
+  "text-amber-700": "#b45309",
+  "text-fuchsia-500": "#d946ef",
+  "text-indigo-300": "#a5b4fc",
+  "text-indigo-400": "#818cf8",
+  "text-indigo-500": "#6366f1",
+  "text-indigo-600": "#4f46e5",
+  "text-rose-300": "#fda4af",
+  "text-rose-400": "#fb7185",
+  "text-rose-500": "#f43f5e",
+  "text-rose-600": "#e11d48",
+  "text-rose-700": "#be123c",
+  "text-gray-300": "#d1d5db",
+  "text-gray-400": "#9ca3af",
+  "text-gray-500": "#6b7280",
+  "text-slate-400": "#94a3b8",
+  "text-stone-500": "#78716c",
+  "text-teal-500": "#14b8a6",
+  "text-pink-500": "#ec4899",
+  "text-white": "#ffffff",
+  "text-highlight-content": "#9ca3af",
+};
+
+/** Resolves one of our `text-{color}-{shade}` option-color classes to a hex
+ * value, for use as an SVG fill (e.g. chart slices) instead of a CSS class. */
+export function classColorToHex(className?: string): string | undefined {
+  return className ? TAILWIND_HEX_BY_CLASS[className] : undefined;
 }

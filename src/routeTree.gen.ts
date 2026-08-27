@@ -45,6 +45,7 @@ import { Route as TeamLfgRouteImport } from './routes/team/lfg'
 import { Route as TeamSheetRouteImport } from './routes/team/sheet'
 import { Route as TeamStashesRouteRouteImport } from './routes/team/stashes/route'
 import { Route as TeamWishlistRouteImport } from './routes/team/wishlist'
+import { Route as TeamWishlistListRouteImport } from './routes/team/wishlist-list'
 import { Route as AdminAchievementsIndexRouteImport } from './routes/admin/achievements/index'
 import { Route as AdminAchievementsAchievementIdRouteImport } from './routes/admin/achievements/$achievementId'
 import { Route as AdminEventsIndexRouteImport } from './routes/admin/events/index'
@@ -245,6 +246,11 @@ const TeamWishlistRoute = TeamWishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => TeamRouteRoute,
 } as any)
+const TeamWishlistListRoute = TeamWishlistListRouteImport.update({
+  id: '/wishlist-list',
+  path: '/wishlist-list',
+  getParentRoute: () => TeamRouteRoute,
+} as any)
 const AdminAchievementsIndexRoute = AdminAchievementsIndexRouteImport.update({
   id: '/admin/achievements/',
   path: '/admin/achievements/',
@@ -384,6 +390,7 @@ export interface FileRoutesByFullPath {
   '/team/lfg': typeof TeamLfgRoute
   '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
+  '/team/wishlist-list': typeof TeamWishlistListRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
@@ -441,6 +448,7 @@ export interface FileRoutesByTo {
   '/team/lfg': typeof TeamLfgRoute
   '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
+  '/team/wishlist-list': typeof TeamWishlistListRoute
   '/admin': typeof AdminIndexRoute
   '/events': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
@@ -499,6 +507,7 @@ export interface FileRoutesById {
   '/team/lfg': typeof TeamLfgRoute
   '/team/sheet': typeof TeamSheetRoute
   '/team/wishlist': typeof TeamWishlistRoute
+  '/team/wishlist-list': typeof TeamWishlistListRoute
   '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
   '/admin/guild/logs': typeof AdminGuildLogsRouteRouteWithChildren
@@ -558,6 +567,7 @@ export interface FileRouteTypes {
     | '/team/lfg'
     | '/team/sheet'
     | '/team/wishlist'
+    | '/team/wishlist-list'
     | '/admin/'
     | '/events/'
     | '/admin/guild/logs'
@@ -615,6 +625,7 @@ export interface FileRouteTypes {
     | '/team/lfg'
     | '/team/sheet'
     | '/team/wishlist'
+    | '/team/wishlist-list'
     | '/admin'
     | '/events'
     | '/admin/guild/logs'
@@ -672,6 +683,7 @@ export interface FileRouteTypes {
     | '/team/lfg'
     | '/team/sheet'
     | '/team/wishlist'
+    | '/team/wishlist-list'
     | '/admin/'
     | '/events/'
     | '/admin/guild/logs'
@@ -987,6 +999,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamWishlistRouteImport
       parentRoute: typeof TeamRouteRoute
     }
+    '/team/wishlist-list': {
+      id: '/team/wishlist-list'
+      path: '/wishlist-list'
+      fullPath: '/team/wishlist-list'
+      preLoaderRoute: typeof TeamWishlistListRouteImport
+      parentRoute: typeof TeamRouteRoute
+    }
     '/admin/achievements/': {
       id: '/admin/achievements/'
       path: '/admin/achievements'
@@ -1179,6 +1198,7 @@ interface TeamRouteRouteChildren {
   TeamLfgRoute: typeof TeamLfgRoute
   TeamSheetRoute: typeof TeamSheetRoute
   TeamWishlistRoute: typeof TeamWishlistRoute
+  TeamWishlistListRoute: typeof TeamWishlistListRoute
 }
 
 const TeamRouteRouteChildren: TeamRouteRouteChildren = {
@@ -1188,6 +1208,7 @@ const TeamRouteRouteChildren: TeamRouteRouteChildren = {
   TeamLfgRoute: TeamLfgRoute,
   TeamSheetRoute: TeamSheetRoute,
   TeamWishlistRoute: TeamWishlistRoute,
+  TeamWishlistListRoute: TeamWishlistListRoute,
 }
 
 const TeamRouteRouteWithChildren = TeamRouteRoute._addFileChildren(

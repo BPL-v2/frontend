@@ -2,8 +2,16 @@ import { ItemField } from "@api";
 import { Dialog } from "@components/dialog";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateItemWish, useFile } from "@api";
+import {
+  useCreateItemWish,
+  useFile,
+  useGetUser,
+  useGetWishlist,
+  useUpdateItemWish,
+} from "@api";
 import { decodePoBExport, Rarity } from "@utils/pob";
+
+const MAX_QUANTITY = 5;
 
 interface ItemWishFormModalProps {
   isOpen: boolean;
@@ -19,6 +27,8 @@ export function ItemWishFormModal({
   teamId,
 }: ItemWishFormModalProps) {
   const qc = useQueryClient();
+  const { user } = useGetUser();
+  const { wishlist = [] } = useGetWishlist(eventId, teamId);
   const { data: uniques } = useFile<
     Record<string, { base_type: string; is_drop_restricted: boolean }>
   >("/assets/poe1/items/uniques.json");
@@ -35,10 +45,46 @@ export function ItemWishFormModal({
     });
 
   const { saveItemWish } = useCreateItemWish(qc, eventId, teamId);
+  const { updateItemWish } = useUpdateItemWish(qc, eventId, teamId);
+
+  // Adding something that's already on the wishlist (e.g. also picked via
+  // the sheet's "Pick uniques" picker) must update that same row instead of
+  // creating a duplicate, so there's always exactly one row per (user,
+  // item) and removing it from either place removes it everywhere.
+  const findExisting = (itemField: ItemField, value: string) =>
+    wishlist.find(
+      (w) =>
+        w.user_id === user?.id &&
+        w.item_field === itemField &&
+        w.value === value &&
+        !w.extra,
+    );
+
+  const addWishIfMissing = (itemField: ItemField, value: string) => {
+    if (!findExisting(itemField, value)) {
+      saveItemWish({ item_field: itemField, value });
+    }
+  };
+
+  const setWishQuantity = (
+    itemField: ItemField,
+    value: string,
+    quantity: number,
+  ) => {
+    const existing = findExisting(itemField, value);
+    if (existing) {
+      if (existing.quantity !== quantity) {
+        updateItemWish(existing.id, { quantity });
+      }
+    } else {
+      saveItemWish({ item_field: itemField, value, quantity });
+    }
+  };
 
   const form = useAppForm({
     defaultValues: {
       unique_name: "",
+      unique_quantity: 1,
       gem_name: "",
       pob_export: "",
     },
@@ -48,29 +94,25 @@ export function ItemWishFormModal({
         pobData.items
           .filter((item) => item.rarity === Rarity.Unique)
           .map((item) => item.name)
-          .forEach((itemName) =>
-            saveItemWish({ item_field: ItemField.NAME, value: itemName }),
-          );
+          .forEach((itemName) => addWishIfMissing(ItemField.NAME, itemName));
         pobData.skills.skillSets
           .flatMap((set) => set.skills)
           .flatMap((skill) => skill.gems)
           .filter((gem) => gem.variantId.includes("Alt"))
           .map((gem) => gem.nameSpec)
           .forEach((itemName) =>
-            saveItemWish({ item_field: ItemField.BASE_TYPE, value: itemName }),
+            addWishIfMissing(ItemField.BASE_TYPE, itemName),
           );
       }
       if (data.value.unique_name) {
-        saveItemWish({
-          item_field: ItemField.NAME,
-          value: data.value.unique_name,
-        });
+        setWishQuantity(
+          ItemField.NAME,
+          data.value.unique_name,
+          Math.min(MAX_QUANTITY, Math.max(1, data.value.unique_quantity || 1)),
+        );
       }
       if (data.value.gem_name) {
-        saveItemWish({
-          item_field: ItemField.BASE_TYPE,
-          value: data.value.gem_name,
-        });
+        addWishIfMissing(ItemField.BASE_TYPE, data.value.gem_name);
       }
       form.reset();
       setIsOpen(false);
@@ -92,6 +134,17 @@ export function ItemWishFormModal({
             <field.TextField
               label="Unique"
               options={uniques ? Object.keys(uniques) : []}
+            />
+          )}
+        />
+        <form.AppField
+          name="unique_quantity"
+          children={(field) => (
+            <field.NumberField
+              label="Quantity"
+              min={1}
+              max={MAX_QUANTITY}
+              className="w-24"
             />
           )}
         />
