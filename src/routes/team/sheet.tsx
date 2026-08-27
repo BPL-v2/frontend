@@ -34,9 +34,9 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { twMerge } from "tailwind-merge";
-import { classColorToHex } from "@utils/color";
+import { classColorToHex, pickColor } from "@utils/color";
 import { defaultPreferences } from "@mytypes/preferences";
-import { SKILL_GEMS } from "@mytypes/skill-gems";
+import { SKILL_GEMS, isTransfiguredGem } from "@mytypes/skill-gems";
 import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
 import { REALMS, REALM_COLORS } from "@mytypes/realms";
 import {
@@ -116,32 +116,33 @@ function RouteComponent() {
     (name) => ({
       label: name,
       value: name,
-      color: preferences.colorfulAscendancy
-        ? name === "Undecided"
+      color: pickColor(
+        preferences.colorfulAscendancy,
+        name === "Undecided"
           ? UNDECIDED_ASCENDANCY_COLOR
-          : ascendancies[GameVersion.poe1][name]?.classColor
-        : undefined,
+          : ascendancies[GameVersion.poe1][name]?.classColor,
+      ),
     }),
   );
   const SKILL_GEM_OPTIONS: SelectOption<string>[] = SKILL_GEMS.map((name) => ({
     label: name,
     value: name,
-    color: preferences.colorfulMainSkill ? SKILL_GEM_COLORS[name] : undefined,
+    color: pickColor(preferences.colorfulMainSkill, SKILL_GEM_COLORS[name]),
   }));
   const ALTAR_OPTIONS: SelectOption<string>[] = ALTARS.map((name) => ({
     label: name,
     value: name,
-    color: preferences.colorfulAltars ? ALTAR_COLORS[name] : undefined,
+    color: pickColor(preferences.colorfulAltars, ALTAR_COLORS[name]),
   }));
   const REALM_OPTIONS: SelectOption<string>[] = REALMS.map((name) => ({
     label: name,
     value: name,
-    color: preferences.colorfulRealms ? REALM_COLORS[name] : undefined,
+    color: pickColor(preferences.colorfulRealms, REALM_COLORS[name]),
   }));
   const ROLE_OPTIONS: SelectOption<string>[] = ROLES.map((name) => ({
     label: name,
     value: name,
-    color: preferences.colorfulRoles ? ROLE_COLORS[name] : undefined,
+    color: pickColor(preferences.colorfulRoles, ROLE_COLORS[name]),
   }));
   const specializationOptions = (
     role: string | undefined,
@@ -150,9 +151,10 @@ function RouteComponent() {
     return (SPECIALIZATIONS[role] ?? []).map((name) => ({
       label: name,
       value: name,
-      color: preferences.colorfulSpecializations
-        ? SPECIALIZATION_COLORS[role]?.[name]
-        : undefined,
+      color: pickColor(
+        preferences.colorfulSpecializations,
+        SPECIALIZATION_COLORS[role]?.[name],
+      ),
     }));
   };
   const { eventStatus } = useGetEventStatus(currentEvent.id);
@@ -168,9 +170,9 @@ function RouteComponent() {
     currentEvent.id,
     eventStatus?.team_id,
   );
-  const myUniqueWishCount = wishlist.filter(
+  const myUniqueWishes = wishlist.filter(
     (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
-  ).length;
+  );
   const myGemWishCount = wishlist.filter(
     (w) => w.user_id === user?.id && w.item_field === ItemField.BASE_TYPE,
   ).length;
@@ -197,9 +199,6 @@ function RouteComponent() {
   const [hideEmptyPlayers, setHideEmptyPlayers] = useState(false);
   const [mainRoleChartExpanded, setMainRoleChartExpanded] = useState(
     () => localStorage.getItem("mainRoleChartExpanded") === "true",
-  );
-  const [characterNameError, setCharacterNameError] = useState<string | null>(
-    null,
   );
   const [detectingUniques, setDetectingUniques] = useState(false);
   const [detectUniquesStatus, setDetectUniquesStatus] = useState("");
@@ -232,18 +231,14 @@ function RouteComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myEntry?.character_name, myEntry?.role]);
 
-  // Keep the "must begin with TEAM_" check live: re-validate on every
-  // keystroke (not just on submit) and whenever the team prefix itself
-  // becomes known, so the red border and Save-button lock appear
+  // Keep the "must begin with TEAM_" check live on every keystroke (not
+  // just on submit), so the red border and Save-button lock appear
   // immediately instead of only after a failed submit.
-  useEffect(() => {
-    setCharacterNameError(
-      requiredNamePrefix &&
-        !(form.character_name ?? "").startsWith(requiredNamePrefix)
-        ? `Character name must begin with ${requiredNamePrefix}`
-        : null,
-    );
-  }, [form.character_name, requiredNamePrefix]);
+  const characterNameError =
+    requiredNamePrefix &&
+    !(form.character_name ?? "").startsWith(requiredNamePrefix)
+      ? `Character name must begin with ${requiredNamePrefix}`
+      : null;
 
   useEffect(() => {
     localStorage.setItem(
@@ -252,10 +247,13 @@ function RouteComponent() {
     );
   }, [mainRoleChartExpanded]);
 
-  const isTransfiguredGem = (skill: string) => {
-    if (!skill.includes(" of ")) return false;
-    const base = skill.split(" of ")[0];
-    return SKILL_GEMS.includes(base);
+  const formatUniqueWishText = (w: {
+    value: string;
+    extra?: string;
+    quantity: number;
+  }) => {
+    const base = w.quantity > 1 ? `${w.value} x${w.quantity}` : w.value;
+    return w.extra ? `${base} (${w.extra})` : base;
   };
 
   const syncTransfiguredGemWish = (newSkill: string, oldSkill?: string) => {
@@ -288,16 +286,8 @@ function RouteComponent() {
   const handleUniquesConfirm = (needed: NeededUnique[]) => {
     setForm((f) => ({
       ...f,
-      uniques_needed: needed
-        .map((n) => {
-          const base = n.quantity > 1 ? `${n.value} x${n.quantity}` : n.value;
-          return n.extra ? `${base} (${n.extra})` : base;
-        })
-        .join(", "),
+      uniques_needed: needed.map(formatUniqueWishText).join(", "),
     }));
-    const myUniqueWishes = wishlist.filter(
-      (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
-    );
     const wishKey = (value: string, extra: string) =>
       JSON.stringify([value, extra]);
     const existingByKey = new Map(
@@ -423,28 +413,30 @@ function RouteComponent() {
   // team_sheet_entries.uniques_needed text snapshot, so deleting/adding a
   // wish (e.g. from the Wishlist page's trash icon) shows up immediately
   // instead of only after the sheet form is re-saved.
-  const uniqueWishTextByUserId = new Map<number, string>();
-  for (const w of wishlist) {
-    if (w.item_field !== ItemField.NAME) continue;
-    const base = w.quantity > 1 ? `${w.value} x${w.quantity}` : w.value;
-    const text = w.extra ? `${base} (${w.extra})` : base;
-    const existing = uniqueWishTextByUserId.get(w.user_id);
-    uniqueWishTextByUserId.set(
-      w.user_id,
-      existing ? `${existing}, ${text}` : text,
-    );
-  }
+  const appendWishText = (
+    map: Map<number, string>,
+    userId: number,
+    text: string,
+  ) => {
+    const existing = map.get(userId);
+    map.set(userId, existing ? `${existing}, ${text}` : text);
+  };
 
+  const uniqueWishTextByUserId = new Map<number, string>();
   const gemWishTextByUserId = new Map<number, string>();
   for (const w of wishlist) {
-    if (w.item_field !== ItemField.BASE_TYPE || !isTransfiguredGem(w.value)) {
-      continue;
+    if (w.item_field === ItemField.NAME) {
+      appendWishText(
+        uniqueWishTextByUserId,
+        w.user_id,
+        formatUniqueWishText(w),
+      );
+    } else if (
+      w.item_field === ItemField.BASE_TYPE &&
+      isTransfiguredGem(w.value)
+    ) {
+      appendWishText(gemWishTextByUserId, w.user_id, w.value);
     }
-    const existing = gemWishTextByUserId.get(w.user_id);
-    gemWishTextByUserId.set(
-      w.user_id,
-      existing ? `${existing}, ${w.value}` : w.value,
-    );
   }
 
   const rows: SheetRow[] = teammates.map((member) => {
@@ -653,7 +645,7 @@ function RouteComponent() {
         }}
       >
         <div className="flex items-center justify-center gap-1 text-lg font-semibold">
-          Your row
+          Configure your listing and build information
           <span
             className="tooltip"
             data-tip="If you want more colors make sure to look into Settings"
@@ -661,264 +653,298 @@ function RouteComponent() {
             <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
           </span>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-          <label className="fieldset">
-            <span className="label">Character Name</span>
-            <input
-              type="text"
-              className={twMerge(
-                "input w-full",
-                characterNameError ? "input-error" : "",
-              )}
-              value={form.character_name ?? ""}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, character_name: e.target.value }))
-              }
-            />
-            {characterNameError ? (
-              <span className="label text-xs text-error">
-                {characterNameError}
-              </span>
-            ) : (
-              myTeam?.abbreviation && (
-                <span className="label text-xs text-warning">
-                  Must begin with {myTeam.abbreviation}_
+        <div className="flex flex-col gap-6">
+          {/* Column template must stay identical to the grid below (Ascendancy
+          row) so Main Skill/Guide Link/PoB line up under Realm/Role/Specialization.
+          48px is a fixed pixel width, not auto, because auto would size against
+          each grid's own content independently - here that's the LFG checkbox,
+          there it's nothing (Ascendancy spans across it), so auto would drift. */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-[1fr_48px_1fr_1fr_1fr]">
+            <label className="relative fieldset">
+              <span className="label">Character Name</span>
+              <input
+                type="text"
+                className={twMerge(
+                  "input w-full",
+                  characterNameError ? "input-error" : "",
+                )}
+                value={form.character_name ?? ""}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, character_name: e.target.value }))
+                }
+              />
+              {characterNameError ? (
+                <span className="absolute top-full left-0 label text-xs text-error">
+                  {characterNameError}
                 </span>
-              )
-            )}
-          </label>
-          <label className="fieldset">
-            <span className="label">Realm</span>
-            <Select<string>
-              options={
-                form.realm && !REALMS.includes(form.realm)
-                  ? [{ label: form.realm, value: form.realm }, ...REALM_OPTIONS]
-                  : REALM_OPTIONS
-              }
-              value={form.realm || null}
-              placeholder="Pick a realm"
-              onChange={(v) => setForm((f) => ({ ...f, realm: v ?? "" }))}
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label">Role</span>
-            <Select<string>
-              options={ROLE_OPTIONS}
-              value={form.role || null}
-              placeholder="Pick a role"
-              onChange={(v) =>
-                setForm((f) => ({
-                  ...f,
-                  role: v ?? "",
-                  specialization: "",
-                }))
-              }
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label">Specialization</span>
-            <Select<string>
-              options={specializationOptions(form.role)}
-              value={form.specialization || null}
-              placeholder={
-                form.role ? "Pick a specialization" : "Pick a role first"
-              }
-              onChange={(v) =>
-                setForm((f) => ({ ...f, specialization: v ?? "" }))
-              }
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label">Ascendancy</span>
-            <Select<string>
-              options={
-                form.ascendancy && !ASCENDANCIES.includes(form.ascendancy)
-                  ? [
-                      { label: form.ascendancy, value: form.ascendancy },
-                      ...ASCENDANCY_OPTIONS,
-                    ]
-                  : ASCENDANCY_OPTIONS
-              }
-              value={form.ascendancy || null}
-              placeholder="Pick an ascendancy"
-              onChange={(v) => setForm((f) => ({ ...f, ascendancy: v ?? "" }))}
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label">Main Skill</span>
-            <Select<string>
-              options={
-                form.main_skill && !SKILL_GEMS.includes(form.main_skill)
-                  ? [
-                      { label: form.main_skill, value: form.main_skill },
-                      ...SKILL_GEM_OPTIONS,
-                    ]
-                  : SKILL_GEM_OPTIONS
-              }
-              value={form.main_skill || null}
-              placeholder="Pick a skill"
-              onChange={(v) => setForm((f) => ({ ...f, main_skill: v ?? "" }))}
-            />
-          </label>
-          <div className="fieldset">
-            <span className="label flex items-center gap-1">
-              Secondary Role
-              <span
-                className="tooltip"
-                data-tip="Any other roles you're able and willing to help out with, beyond your main one. Not mandatory."
-              >
-                <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
+              ) : (
+                myTeam?.abbreviation && (
+                  <span className="absolute top-full left-0 label text-xs text-warning">
+                    Must begin with {myTeam.abbreviation}_
+                  </span>
+                )
+              )}
+            </label>
+            <div className="fieldset w-fit justify-self-start">
+              <span className="label flex items-center gap-1">
+                LFG
+                <span className="tooltip" data-tip="Looking For Group">
+                  <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
+                </span>
               </span>
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className="btn btn-sm"
-                onClick={() => setSecondaryRolePickerOpen(true)}
-              >
-                Pick roles...
-              </button>
-              <span
-                className="truncate text-sm text-base-content/60"
-                title={form.secondary_specialization || undefined}
-              >
-                {form.secondary_role
-                  ? `${form.secondary_role.split(",").filter((s) => s.trim()).length} picked`
-                  : "none picked yet"}
+              <input
+                type="checkbox"
+                className="checkbox size-10"
+                checked={form.looking_for_group ?? false}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    looking_for_group: e.target.checked,
+                  }))
+                }
+              />
+            </div>
+            <label className="fieldset">
+              <span className="label">Realm</span>
+              <Select<string>
+                options={
+                  form.realm && !REALMS.includes(form.realm)
+                    ? [
+                        { label: form.realm, value: form.realm },
+                        ...REALM_OPTIONS,
+                      ]
+                    : REALM_OPTIONS
+                }
+                value={form.realm || null}
+                placeholder="Pick a realm"
+                onChange={(v) => setForm((f) => ({ ...f, realm: v ?? "" }))}
+              />
+            </label>
+            <label className="fieldset">
+              <span className="label">Role</span>
+              <Select<string>
+                options={ROLE_OPTIONS}
+                value={form.role || null}
+                placeholder="Pick a role"
+                onChange={(v) =>
+                  setForm((f) => ({
+                    ...f,
+                    role: v ?? "",
+                    specialization: "",
+                  }))
+                }
+              />
+            </label>
+            <label className="fieldset">
+              <span className="label">Specialization</span>
+              <Select<string>
+                options={specializationOptions(form.role)}
+                value={form.specialization || null}
+                placeholder={
+                  form.role ? "Pick a specialization" : "Pick a role first"
+                }
+                onChange={(v) =>
+                  setForm((f) => ({ ...f, specialization: v ?? "" }))
+                }
+              />
+            </label>
+
+            <div className="fieldset lg:col-start-4">
+              <span className="label flex items-center gap-1">
+                Secondary Role
+                <span
+                  className="tooltip"
+                  data-tip="Any other roles you're able and willing to help out with, beyond your main one. Not mandatory."
+                >
+                  <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
+                </span>
               </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setSecondaryRolePickerOpen(true)}
+                >
+                  Pick roles...
+                </button>
+                <span
+                  className="truncate text-sm text-base-content/60"
+                  title={form.secondary_specialization || undefined}
+                >
+                  {form.secondary_role
+                    ? `${form.secondary_role.split(",").filter((s) => s.trim()).length} picked`
+                    : "none picked yet"}
+                </span>
+              </div>
+            </div>
+            <label className="fieldset lg:col-start-5">
+              <span className="label">Altars</span>
+              <Select<string>
+                options={ALTAR_OPTIONS}
+                value={form.altars || null}
+                placeholder="Pick an altar"
+                onChange={(v) => setForm((f) => ({ ...f, altars: v ?? "" }))}
+              />
+            </label>
+          </div>
+
+          {/* Column template must stay identical to the grid above (Character
+          Name row) - see comment there. */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-[1fr_48px_1fr_1fr_1fr]">
+            <label className="fieldset lg:col-span-2">
+              <span className="label">Ascendancy</span>
+              <Select<string>
+                options={
+                  form.ascendancy && !ASCENDANCIES.includes(form.ascendancy)
+                    ? [
+                        { label: form.ascendancy, value: form.ascendancy },
+                        ...ASCENDANCY_OPTIONS,
+                      ]
+                    : ASCENDANCY_OPTIONS
+                }
+                value={form.ascendancy || null}
+                placeholder="Pick an ascendancy"
+                onChange={(v) =>
+                  setForm((f) => ({ ...f, ascendancy: v ?? "" }))
+                }
+              />
+            </label>
+            <label className="fieldset">
+              <span className="label">Main Skill</span>
+              <Select<string>
+                options={
+                  form.main_skill && !SKILL_GEMS.includes(form.main_skill)
+                    ? [
+                        { label: form.main_skill, value: form.main_skill },
+                        ...SKILL_GEM_OPTIONS,
+                      ]
+                    : SKILL_GEM_OPTIONS
+                }
+                value={form.main_skill || null}
+                placeholder="Pick a skill"
+                onChange={(v) =>
+                  setForm((f) => ({ ...f, main_skill: v ?? "" }))
+                }
+              />
+            </label>
+            <label className="fieldset">
+              <span className="label">Guide Link</span>
+              <input
+                type="text"
+                className="input w-full"
+                value={form.guide_url ?? ""}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, guide_url: e.target.value }))
+                }
+              />
+            </label>
+            <label className="relative fieldset">
+              <span className="label flex items-center gap-1">
+                PoB
+                <span
+                  className="tooltip"
+                  data-tip="To use Detect uniques, generate your PoB export without sharing (no upload/link) and paste that long text here."
+                >
+                  <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
+                </span>
+              </span>
+              <input
+                type="text"
+                className="input w-full"
+                value={form.pob_url ?? ""}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, pob_url: e.target.value }))
+                }
+              />
+              <div className="absolute top-full left-0 mt-1 flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn btn-xs"
+                  disabled={!form.pob_url || detectingUniques}
+                  onClick={handleDetectUniques}
+                >
+                  {detectingUniques ? "Detecting..." : "Detect uniques"}
+                </button>
+                {detectUniquesStatus && (
+                  <span className="text-xs text-base-content/60">
+                    {detectUniquesStatus}
+                  </span>
+                )}
+              </div>
+            </label>
+          </div>
+
+          <div className="flex flex-wrap items-start gap-x-8 gap-y-3">
+            <div className="fieldset">
+              <span className="label">Uniques Needed</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setUniquesPickerOpen(true)}
+                >
+                  Pick uniques...
+                </button>
+                <span className="text-sm text-base-content/60">
+                  {myUniqueWishes.length
+                    ? `${myUniqueWishes.length} picked`
+                    : "none picked yet"}
+                </span>
+              </div>
+            </div>
+            <div className="fieldset">
+              <span className="label">Transfigured Gems</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setGemsPickerOpen(true)}
+                >
+                  Pick gems...
+                </button>
+                <span className="text-sm text-base-content/60">
+                  {myGemWishCount
+                    ? `${myGemWishCount} picked`
+                    : "none picked yet"}
+                </span>
+              </div>
+            </div>
+            <div className="fieldset">
+              <span className="label">Extra Notes</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setExtraNotesOpen(true)}
+                >
+                  {form.build_notes ? "Edit note..." : "Add note..."}
+                </button>
+                <span
+                  className="truncate text-sm text-base-content/60"
+                  title={form.build_notes || undefined}
+                >
+                  {form.build_notes || "none picked yet"}
+                </span>
+              </div>
             </div>
           </div>
-          <label className="fieldset">
-            <span className="label">Altars</span>
-            <Select<string>
-              options={ALTAR_OPTIONS}
-              value={form.altars || null}
-              placeholder="Pick an altar"
-              onChange={(v) => setForm((f) => ({ ...f, altars: v ?? "" }))}
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label">Guide Link</span>
-            <input
-              type="text"
-              className="input w-full"
-              value={form.guide_url ?? ""}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, guide_url: e.target.value }))
-              }
-            />
-          </label>
-          <label className="fieldset">
-            <span className="label flex items-center gap-1">
-              PoB
-              <span
-                className="tooltip"
-                data-tip="To use Detect uniques, generate your PoB export without sharing (no upload/link) and paste that long text here."
-              >
-                <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
-              </span>
-            </span>
-            <input
-              type="text"
-              className="input w-full"
-              value={form.pob_url ?? ""}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, pob_url: e.target.value }))
-              }
-            />
-            <div className="mt-1 flex items-center gap-2">
-              <button
-                type="button"
-                className="btn btn-xs"
-                disabled={!form.pob_url || detectingUniques}
-                onClick={handleDetectUniques}
-              >
-                {detectingUniques ? "Detecting..." : "Detect uniques"}
-              </button>
-              {detectUniquesStatus && (
-                <span className="text-xs text-base-content/60">
-                  {detectUniquesStatus}
-                </span>
-              )}
-            </div>
-          </label>
+
+          <button
+            type="submit"
+            className="btn btn-lg btn-primary"
+            disabled={!!characterNameError}
+          >
+            Save
+          </button>
         </div>
-        <div className="fieldset">
-          <span className="label">Extra Notes</span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => setExtraNotesOpen(true)}
-            >
-              {form.build_notes ? "Edit note..." : "Add note..."}
-            </button>
-            <span
-              className="truncate text-sm text-base-content/60"
-              title={form.build_notes || undefined}
-            >
-              {form.build_notes || "none picked yet"}
-            </span>
-          </div>
-        </div>
-        <div className="fieldset">
-          <span className="label">Uniques Needed</span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => setUniquesPickerOpen(true)}
-            >
-              Pick uniques...
-            </button>
-            <span className="text-sm text-base-content/60">
-              {myUniqueWishCount
-                ? `${myUniqueWishCount} picked`
-                : "none picked yet"}
-            </span>
-          </div>
-        </div>
-        <div className="fieldset">
-          <span className="label">Transfigured Gems</span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => setGemsPickerOpen(true)}
-            >
-              Pick gems...
-            </button>
-            <span className="text-sm text-base-content/60">
-              {myGemWishCount ? `${myGemWishCount} picked` : "none picked yet"}
-            </span>
-          </div>
-        </div>
-        <label className="flex w-fit cursor-pointer items-center gap-2">
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={form.looking_for_group ?? false}
-            onChange={(e) =>
-              setForm((f) => ({ ...f, looking_for_group: e.target.checked }))
-            }
-          />
-          Looking for group
-        </label>
-        <button
-          type="submit"
-          className="btn w-fit btn-primary"
-          disabled={!!characterNameError}
-        >
-          Save
-        </button>
       </form>
       <div className="rounded-box bg-base-300 p-6">
         <button
           type="button"
-          className="flex w-full items-center justify-between text-lg font-semibold"
+          className="flex w-full items-center justify-center gap-1 text-lg font-semibold"
           onClick={() => setMainRoleChartExpanded((v) => !v)}
         >
-          Main Role
+          Current distribution of main roles
           {mainRoleChartExpanded ? (
             <ChevronUpIcon className="size-5" />
           ) : (
@@ -992,16 +1018,12 @@ function RouteComponent() {
       <UniquesPickerModal
         isOpen={uniquesPickerOpen}
         setIsOpen={setUniquesPickerOpen}
-        initialNeeded={wishlist
-          .filter(
-            (w) => w.user_id === user?.id && w.item_field === ItemField.NAME,
-          )
-          .map((w) => ({
-            value: w.value,
-            extra: w.extra ?? "",
-            buildEnabling: w.build_enabling,
-            quantity: w.quantity || 1,
-          }))}
+        initialNeeded={myUniqueWishes.map((w) => ({
+          value: w.value,
+          extra: w.extra ?? "",
+          buildEnabling: w.build_enabling,
+          quantity: w.quantity || 1,
+        }))}
         onConfirm={handleUniquesConfirm}
       />
       <GemsPickerModal
