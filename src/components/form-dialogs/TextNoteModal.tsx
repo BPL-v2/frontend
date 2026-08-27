@@ -1,4 +1,4 @@
-import { Dialog } from "@components/dialog";
+import { PickerDialog } from "@components/form-dialogs/PickerDialog";
 import { twMerge } from "tailwind-merge";
 import { useEffect, useState } from "react";
 
@@ -34,11 +34,12 @@ export function TextNoteModal({
   const atLimit = value.length >= maxLength;
 
   return (
-    <Dialog
+    <PickerDialog
       title={title}
-      open={isOpen}
-      setOpen={setIsOpen}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       className="max-w-sm"
+      onConfirm={() => onConfirm(value)}
     >
       <div className="flex w-full flex-col gap-2">
         <textarea
@@ -56,26 +57,7 @@ export function TextNoteModal({
         >
           {value.length}/{maxLength}
         </div>
-        <div className="flex w-full flex-row justify-end gap-2">
-          <button
-            type="button"
-            className="btn btn-error"
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              onConfirm(value);
-              setIsOpen(false);
-            }}
-          >
-            Confirm
-          </button>
-        </div>
       </div>
-    </Dialog>
+    </PickerDialog>
   );
 }

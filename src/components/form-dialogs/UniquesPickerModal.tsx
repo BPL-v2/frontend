@@ -1,4 +1,8 @@
-import { Dialog } from "@components/dialog";
+import { PickerDialog } from "@components/form-dialogs/PickerDialog";
+import {
+  MAX_VISIBLE_PICKER_ROWS,
+  useSearchableChecklist,
+} from "@components/form-dialogs/useSearchableChecklist";
 import { useFile } from "@api";
 import { encode } from "@mytypes/scoring-objective";
 import { useEffect, useMemo, useState } from "react";
@@ -50,7 +54,6 @@ interface UniquesPickerModalProps {
   onConfirm: (needed: NeededUnique[]) => void;
 }
 
-const MAX_VISIBLE = 10;
 const MAX_QUANTITY = 5;
 
 export function UniquesPickerModal({
@@ -66,28 +69,9 @@ export function UniquesPickerModal({
     "/assets/poe1/items/foulborn_uniques.json",
   );
 
-  const [search, setSearch] = useState("");
-  const [sortBySelected, setSortBySelected] = useState(false);
   const [selection, setSelection] = useState<Record<string, UniqueSelection>>(
     {},
   );
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const initial: Record<string, UniqueSelection> = {};
-    for (const n of initialNeeded) {
-      initial[rowKey(n.value, n.extra)] = {
-        needed: true,
-        buildEnabling: n.buildEnabling,
-        quantity: n.quantity || 1,
-        value: n.value,
-        extra: n.extra,
-      };
-    }
-    setSelection(initial);
-    setSearch("");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
 
   const allRows = useMemo(() => {
     const regular: PickerRow[] = Object.keys(uniques ?? {}).map((name) => ({
@@ -115,30 +99,43 @@ export function UniquesPickerModal({
     );
   }, [uniques, foulbornEntries]);
 
+  const {
+    search,
+    setSearch,
+    sortBySelected,
+    setSortBySelected,
+    filtered,
+    visible,
+  } = useSearchableChecklist({
+    items: allRows,
+    matches: (row, query) =>
+      row.displayName.toLowerCase().includes(query) ||
+      !!row.modText?.toLowerCase().includes(query),
+    isSelected: (row) => !!selection[row.key]?.needed,
+    sortKeys: (row) => [row.displayName, row.modText ?? ""],
+    isOpen,
+  });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const initial: Record<string, UniqueSelection> = {};
+    for (const n of initialNeeded) {
+      initial[rowKey(n.value, n.extra)] = {
+        needed: true,
+        buildEnabling: n.buildEnabling,
+        quantity: n.quantity || 1,
+        value: n.value,
+        extra: n.extra,
+      };
+    }
+    setSelection(initial);
+    setSearch("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
   if (!isOpen) {
     return null;
   }
-
-  const query = search.toLowerCase();
-  const filtered = search
-    ? allRows.filter(
-        (row) =>
-          row.displayName.toLowerCase().includes(query) ||
-          row.modText?.toLowerCase().includes(query),
-      )
-    : allRows;
-  const ordered = sortBySelected
-    ? [...filtered].sort((a, b) => {
-        const aSelected = !!selection[a.key]?.needed;
-        const bSelected = !!selection[b.key]?.needed;
-        if (aSelected !== bSelected) return aSelected ? -1 : 1;
-        return (
-          a.displayName.localeCompare(b.displayName) ||
-          (a.modText ?? "").localeCompare(b.modText ?? "")
-        );
-      })
-    : filtered;
-  const visible = ordered.slice(0, MAX_VISIBLE);
 
   const toggleNeeded = (row: PickerRow) => {
     setSelection((prev) => {
@@ -161,42 +158,61 @@ export function UniquesPickerModal({
     });
   };
 
-  const toggleBuildEnabling = (row: PickerRow) => {
-    setSelection((prev) => ({
-      ...prev,
-      [row.key]: {
-        needed: true,
-        buildEnabling: !prev[row.key]?.buildEnabling,
-        quantity: prev[row.key]?.quantity || 1,
-        value: row.value,
-        extra: row.extra,
-      },
-    }));
+  // Shared by the two controls below that only ever flip one field of an
+  // already-`needed` row, keeping its other field (and value/extra) as-is.
+  const updateSelection = (
+    row: PickerRow,
+    getPatch: (
+      current: UniqueSelection | undefined,
+    ) => Partial<Pick<UniqueSelection, "buildEnabling" | "quantity">>,
+  ) => {
+    setSelection((prev) => {
+      const current = prev[row.key];
+      return {
+        ...prev,
+        [row.key]: {
+          needed: true,
+          buildEnabling: !!current?.buildEnabling,
+          quantity: current?.quantity || 1,
+          ...getPatch(current),
+          value: row.value,
+          extra: row.extra,
+        },
+      };
+    });
   };
 
-  const setQuantity = (row: PickerRow, quantity: number) => {
-    setSelection((prev) => ({
-      ...prev,
-      [row.key]: {
-        needed: true,
-        buildEnabling: !!prev[row.key]?.buildEnabling,
-        quantity: Math.min(MAX_QUANTITY, Math.max(1, quantity || 1)),
-        value: row.value,
-        extra: row.extra,
-      },
+  const toggleBuildEnabling = (row: PickerRow) =>
+    updateSelection(row, (current) => ({
+      buildEnabling: !current?.buildEnabling,
     }));
-  };
+
+  const setQuantity = (row: PickerRow, quantity: number) =>
+    updateSelection(row, () => ({
+      quantity: Math.min(MAX_QUANTITY, Math.max(1, quantity || 1)),
+    }));
 
   const neededCount = Object.values(selection).filter((s) => s.needed).length;
 
   return (
-    <Dialog
+    <PickerDialog
       title="Pick uniques needed"
-      open={isOpen}
-      setOpen={setIsOpen}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       className="max-w-3xl"
+      onConfirm={() => {
+        const needed: NeededUnique[] = Object.values(selection)
+          .filter((s) => s.needed)
+          .map((s) => ({
+            value: s.value,
+            extra: s.extra,
+            buildEnabling: s.buildEnabling,
+            quantity: s.quantity || 1,
+          }));
+        onConfirm(needed);
+      }}
     >
-      <div className="flex w-full flex-col gap-3">
+      <>
         <div className="flex items-center gap-3">
           <input
             type="search"
@@ -206,7 +222,7 @@ export function UniquesPickerModal({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <label className="flex cursor-pointer items-center gap-1 whitespace-nowrap text-sm">
+          <label className="flex cursor-pointer items-center gap-1 text-sm whitespace-nowrap">
             <input
               type="checkbox"
               className="checkbox checkbox-sm"
@@ -218,8 +234,8 @@ export function UniquesPickerModal({
         </div>
         <div className="text-sm text-base-content/60">
           {neededCount} selected
-          {filtered.length > MAX_VISIBLE &&
-            ` — showing first ${MAX_VISIBLE} of ${filtered.length} matches, keep typing to narrow down`}
+          {filtered.length > MAX_VISIBLE_PICKER_ROWS &&
+            ` — showing first ${MAX_VISIBLE_PICKER_ROWS} of ${filtered.length} matches, keep typing to narrow down`}
         </div>
         <div className="flex max-h-[50vh] w-full flex-col gap-1 overflow-y-auto rounded-box border border-base-content/20 p-2">
           {visible.map((row) => {
@@ -237,8 +253,7 @@ export function UniquesPickerModal({
                   alt=""
                   className="size-8 shrink-0 object-contain"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).style.visibility =
-                      "hidden";
+                    (e.target as HTMLImageElement).style.visibility = "hidden";
                   }}
                 />
                 <span className="grow truncate" title={title}>
@@ -247,7 +262,7 @@ export function UniquesPickerModal({
                     <span className="text-secondary"> ({row.modText})</span>
                   )}
                 </span>
-                <label className="flex cursor-pointer items-center gap-1 whitespace-nowrap text-sm">
+                <label className="flex cursor-pointer items-center gap-1 text-sm whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="checkbox checkbox-sm"
@@ -256,21 +271,19 @@ export function UniquesPickerModal({
                   />
                   Needed
                 </label>
-                <label className="flex items-center gap-1 whitespace-nowrap text-sm">
+                <label className="flex items-center gap-1 text-sm whitespace-nowrap">
                   ×
                   <input
                     type="number"
                     min={1}
                     max={MAX_QUANTITY}
                     disabled={!sel?.needed}
-                    className="input input-sm w-14"
+                    className="input w-14 input-sm"
                     value={sel?.quantity || 1}
-                    onChange={(e) =>
-                      setQuantity(row, e.target.valueAsNumber)
-                    }
+                    onChange={(e) => setQuantity(row, e.target.valueAsNumber)}
                   />
                 </label>
-                <label className="flex cursor-pointer items-center gap-1 whitespace-nowrap text-sm">
+                <label className="flex cursor-pointer items-center gap-1 text-sm whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="checkbox checkbox-sm"
@@ -284,34 +297,7 @@ export function UniquesPickerModal({
             );
           })}
         </div>
-        <div className="flex flex-row justify-end gap-2">
-          <button
-            type="button"
-            className="btn btn-error"
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              const needed: NeededUnique[] = Object.values(selection)
-                .filter((s) => s.needed)
-                .map((s) => ({
-                  value: s.value,
-                  extra: s.extra,
-                  buildEnabling: s.buildEnabling,
-                  quantity: s.quantity || 1,
-                }));
-              onConfirm(needed);
-              setIsOpen(false);
-            }}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </Dialog>
+      </>
+    </PickerDialog>
   );
 }

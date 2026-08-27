@@ -1,9 +1,14 @@
-import { Dialog } from "@components/dialog";
-import { useFile } from "@api";
+import { PickerDialog } from "@components/form-dialogs/PickerDialog";
+import {
+  MAX_VISIBLE_PICKER_ROWS,
+  useSearchableChecklist,
+} from "@components/form-dialogs/useSearchableChecklist";
 import { GlobalStateContext } from "@utils/context-provider";
+import { pickColor } from "@utils/color";
 import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
+import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
 import { twMerge } from "tailwind-merge";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 interface GemsPickerModalProps {
   isOpen: boolean;
@@ -12,7 +17,13 @@ interface GemsPickerModalProps {
   onConfirm: (selected: string[]) => void;
 }
 
-const MAX_VISIBLE = 10;
+// Sourced from the same TRANSFIGURED_SKILL_GEMS the sheet's own
+// isTransfiguredGem check is built from, so a pick made here can never
+// silently disagree with what the sheet's "Transfigured Gems" summary
+// recognizes.
+const ALT_GEMS = [...TRANSFIGURED_SKILL_GEMS].sort((a, b) =>
+  a.localeCompare(b),
+);
 
 export function GemsPickerModal({
   isOpen,
@@ -21,26 +32,22 @@ export function GemsPickerModal({
   onConfirm,
 }: GemsPickerModalProps) {
   const { preferences } = useContext(GlobalStateContext);
-  const { data: gems } = useFile<Record<string, string[]>>(
-    "/assets/poe1/items/gem_colors.json",
-  );
 
-  // Transfigured gems are the "X of Y" alternate-gem-type variants - only
-  // those (not every base gem) are worth wishing for, since a player's plain
-  // main skill gem is already tracked separately.
-  const altGems = useMemo(() => {
-    const allGems = new Set<string>(Object.values(gems ?? {}).flat());
-    return [...allGems]
-      .filter((gem) => {
-        const baseGem = gem.split(" of ")[0];
-        return baseGem !== gem && allGems.has(baseGem);
-      })
-      .sort((a, b) => a.localeCompare(b));
-  }, [gems]);
-
-  const [search, setSearch] = useState("");
-  const [sortBySelected, setSortBySelected] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const {
+    search,
+    setSearch,
+    sortBySelected,
+    setSortBySelected,
+    filtered,
+    visible,
+  } = useSearchableChecklist({
+    items: ALT_GEMS,
+    matches: (gem, query) => gem.toLowerCase().includes(query),
+    isSelected: (gem) => selected.has(gem),
+    sortKeys: (gem) => [gem],
+    isOpen,
+  });
 
   useEffect(() => {
     if (!isOpen) return;
@@ -52,20 +59,6 @@ export function GemsPickerModal({
   if (!isOpen) {
     return null;
   }
-
-  const query = search.toLowerCase();
-  const filtered = search
-    ? altGems.filter((gem) => gem.toLowerCase().includes(query))
-    : altGems;
-  const ordered = sortBySelected
-    ? [...filtered].sort((a, b) => {
-        const aSelected = selected.has(a);
-        const bSelected = selected.has(b);
-        if (aSelected !== bSelected) return aSelected ? -1 : 1;
-        return a.localeCompare(b);
-      })
-    : filtered;
-  const visible = ordered.slice(0, MAX_VISIBLE);
 
   const toggle = (gem: string) => {
     setSelected((prev) => {
@@ -80,13 +73,14 @@ export function GemsPickerModal({
   };
 
   return (
-    <Dialog
+    <PickerDialog
       title="Pick transfigured gems"
-      open={isOpen}
-      setOpen={setIsOpen}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       className="max-w-xl"
+      onConfirm={() => onConfirm([...selected])}
     >
-      <div className="flex w-full flex-col gap-3">
+      <>
         <div className="flex items-center gap-3">
           <input
             type="search"
@@ -108,14 +102,15 @@ export function GemsPickerModal({
         </div>
         <div className="w-full text-left text-sm text-base-content/60">
           {selected.size} selected
-          {filtered.length > MAX_VISIBLE &&
-            ` — showing first ${MAX_VISIBLE} of ${filtered.length} matches, keep typing to narrow down`}
+          {filtered.length > MAX_VISIBLE_PICKER_ROWS &&
+            ` — showing first ${MAX_VISIBLE_PICKER_ROWS} of ${filtered.length} matches, keep typing to narrow down`}
         </div>
         <div className="flex max-h-[50vh] w-full flex-col gap-1 overflow-y-auto rounded-box border border-base-content/20 p-2">
           {visible.map((gem) => {
-            const color = preferences.colorfulMainSkill
-              ? SKILL_GEM_COLORS[gem.split(" of ")[0]]
-              : undefined;
+            const color = pickColor(
+              preferences.colorfulMainSkill,
+              SKILL_GEM_COLORS[gem.split(" of ")[0]],
+            );
             return (
               <label
                 key={gem}
@@ -134,26 +129,7 @@ export function GemsPickerModal({
             );
           })}
         </div>
-        <div className="flex w-full flex-row justify-end gap-2">
-          <button
-            type="button"
-            className="btn btn-error"
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              onConfirm([...selected]);
-              setIsOpen(false);
-            }}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </Dialog>
+      </>
+    </PickerDialog>
   );
 }

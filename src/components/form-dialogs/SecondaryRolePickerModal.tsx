@@ -1,4 +1,4 @@
-import { Dialog } from "@components/dialog";
+import { PickerDialog } from "@components/form-dialogs/PickerDialog";
 import {
   ROLES,
   ROLE_COLORS,
@@ -6,6 +6,7 @@ import {
   SPECIALIZATION_COLORS,
 } from "@mytypes/roles";
 import { GlobalStateContext } from "@utils/context-provider";
+import { pickColor } from "@utils/color";
 import { twMerge } from "tailwind-merge";
 import {
   BeakerIcon,
@@ -103,13 +104,14 @@ export function SecondaryRolePickerModal({
   };
 
   return (
-    <Dialog
+    <PickerDialog
       title="Pick secondary roles"
-      open={isOpen}
-      setOpen={setIsOpen}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       className="max-w-2xl"
+      onConfirm={() => onConfirm([...selectedRoles], [...selectedSpecs])}
     >
-      <div className="flex w-full flex-col gap-3">
+      <>
         <div className="w-full text-left text-sm text-base-content/60">
           {selectedRoles.size} roles, {selectedSpecs.size} specializations
           selected
@@ -117,9 +119,10 @@ export function SecondaryRolePickerModal({
         <div className="flex max-h-[60vh] w-full flex-col divide-y divide-base-content/10 overflow-y-auto rounded-box border border-base-content/20">
           {ROLES.map((role) => {
             const Icon = ROLE_ICONS[role] ?? SparklesIcon;
-            const color = preferences.colorfulRoles
-              ? ROLE_COLORS[role]
-              : undefined;
+            const color = pickColor(
+              preferences.colorfulRoles,
+              ROLE_COLORS[role],
+            );
             // "No Preference" is only dropped from roles that also have
             // real specializations to pick from (redundant clutter next to
             // e.g. "I will do the thing"). Roles where it's the only
@@ -153,9 +156,10 @@ export function SecondaryRolePickerModal({
                 </div>
                 <div className="grid w-full grid-cols-2 gap-x-4 gap-y-0.5 py-1 pr-3 pl-11 sm:grid-cols-3">
                   {specs.map((spec) => {
-                    const specColor = preferences.colorfulSpecializations
-                      ? SPECIALIZATION_COLORS[role]?.[spec]
-                      : undefined;
+                    const specColor = pickColor(
+                      preferences.colorfulSpecializations,
+                      SPECIALIZATION_COLORS[role]?.[spec],
+                    );
                     return (
                       <label
                         key={spec}
@@ -182,26 +186,7 @@ export function SecondaryRolePickerModal({
             );
           })}
         </div>
-        <div className="flex w-full flex-row justify-end gap-2">
-          <button
-            type="button"
-            className="btn btn-error"
-            onClick={() => setIsOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              onConfirm([...selectedRoles], [...selectedSpecs]);
-              setIsOpen(false);
-            }}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </Dialog>
+      </>
+    </PickerDialog>
   );
 }

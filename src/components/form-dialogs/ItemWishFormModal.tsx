@@ -10,6 +10,7 @@ import {
   useUpdateItemWish,
 } from "@api";
 import { decodePoBExport, Rarity } from "@utils/pob";
+import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
 
 const MAX_QUANTITY = 5;
 
@@ -32,17 +33,6 @@ export function ItemWishFormModal({
   const { data: uniques } = useFile<
     Record<string, { base_type: string; is_drop_restricted: boolean }>
   >("/assets/poe1/items/uniques.json");
-  const { data: gems } = useFile<Record<string, string[]>>(
-    "/assets/poe1/items/gem_colors.json",
-  );
-
-  const allGems = new Set<string>(Object.values(gems || {}).flat());
-  const altGems = Object.values(gems || {})
-    .flat()
-    .filter((gem) => {
-      const baseGem = gem.split(" of ")[0];
-      return baseGem !== gem && allGems.has(baseGem);
-    });
 
   const { saveItemWish } = useCreateItemWish(qc, eventId, teamId);
   const { updateItemWish } = useUpdateItemWish(qc, eventId, teamId);
@@ -151,7 +141,7 @@ export function ItemWishFormModal({
         <form.AppField
           name="gem_name"
           children={(field) => (
-            <field.TextField label="Gem" options={altGems} />
+            <field.TextField label="Gem" options={TRANSFIGURED_SKILL_GEMS} />
           )}
         />
         <form.AppField
