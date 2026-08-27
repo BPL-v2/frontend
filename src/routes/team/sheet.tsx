@@ -692,17 +692,32 @@ function RouteComponent() {
                   <QuestionMarkCircleIcon className="size-4 text-base-content/60" />
                 </span>
               </span>
-              <input
-                type="checkbox"
-                className="checkbox size-10"
-                checked={form.looking_for_group ?? false}
-                onChange={(e) =>
-                  setForm((f) => ({
-                    ...f,
-                    looking_for_group: e.target.checked,
-                  }))
-                }
-              />
+              <label
+                className={twMerge(
+                  "flex size-9 cursor-pointer items-center justify-center rounded-field border-2",
+                  form.looking_for_group
+                    ? "border-primary bg-primary"
+                    : "border-base-content/30",
+                )}
+              >
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={form.looking_for_group ?? false}
+                  onChange={(e) =>
+                    setForm((f) => ({
+                      ...f,
+                      looking_for_group: e.target.checked,
+                    }))
+                  }
+                />
+                {form.looking_for_group && (
+                  <CheckIcon
+                    className="size-7 text-primary-content"
+                    strokeWidth={3}
+                  />
+                )}
+              </label>
             </div>
             <label className="fieldset">
               <span className="label">Realm</span>
