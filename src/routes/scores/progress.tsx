@@ -155,7 +155,7 @@ function RouteComponent() {
       .map((team) => new Float64Array(teamData[team.id])),
   ];
   const options: uPlot.Options = {
-    title: "Progression (without P.O. / Culmulative Delve)",
+    title: "Progression (without P.O. / Cumulative Delve)",
     width: 800,
     height: 800,
     legend: { show: true },

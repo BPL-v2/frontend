@@ -243,12 +243,12 @@ function DelveTab(): JSX.Element {
   const fossilRaceCategory = category.children.find(
     (c) => c.name === "Fossil Fuel Race",
   );
-  const culmulativeDepthTotal = category.children.find(
-    (o) => o.name === "Culmulative Depth",
+  const cumulativeDepthTotal = category.children.find(
+    (o) => o.name === "Cumulative Depth",
   );
   const delveRace = category.children.find((c) => c.name === "Delve Race");
   const delvePastLimit = category.children.find(
-    (c) => c.name === "Culmulative Depth past 7500",
+    (c) => c.name === "Cumulative Depth past 7500",
   );
   if (delvePastLimit) {
     // hacky but who cares
@@ -256,12 +256,12 @@ function DelveTab(): JSX.Element {
     for (const teamId in delvePastLimit.team_score) {
       delvePastLimit.team_score[teamId].number = () =>
         Math.max(
-          (culmulativeDepthTotal?.team_score[teamId].number() || 0) - 7500,
+          (cumulativeDepthTotal?.team_score[teamId].number() || 0) - 7500,
           0,
         );
       delvePastLimit.team_score[teamId].maxNumber = () =>
         Math.max(
-          (culmulativeDepthTotal?.team_score[teamId].maxNumber() || 0) - 7500,
+          (cumulativeDepthTotal?.team_score[teamId].maxNumber() || 0) - 7500,
           0,
         );
     }
@@ -327,17 +327,17 @@ function DelveTab(): JSX.Element {
             </div>
           </div>
         ) : null}
-        {culmulativeDepthTotal ? (
+        {cumulativeDepthTotal ? (
           <div className="rounded-box bg-base-200 px-0 py-4 sm:px-8 sm:pt-2 sm:pb-8">
             <div className="divider divider-primary">
-              {"Culmulative Team Depth"}
+              {"Cumulative Team Depth"}
             </div>
             <div className="flex flex-col gap-4">
               <Ranking
-                objective={culmulativeDepthTotal}
-                maximum={culmulativeDepthTotal.required_number}
+                objective={cumulativeDepthTotal}
+                maximum={cumulativeDepthTotal.required_number}
                 actual={(teamId: number) =>
-                  culmulativeDepthTotal.team_score[teamId].number()
+                  cumulativeDepthTotal.team_score[teamId].number()
                 }
                 description="Depth:"
               />
