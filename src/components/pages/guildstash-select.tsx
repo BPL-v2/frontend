@@ -91,7 +91,7 @@ export function GuildStashSelect({ path }: { path: path }) {
               if (stash.parent_id) return false; // Exclude child tabs
               if (hideDisabled && !stash.fetch_enabled) return false;
               if (stash.type === "Folder") return false;
-              // if (stash.user_ids.length < 5) return false;
+              if (stash.user_ids.length < 5) return false;
               if (!stashSearch) return true;
               const search = stashSearch.toLowerCase();
               return (
@@ -167,7 +167,7 @@ export function GuildStashSelect({ path }: { path: path }) {
                     <h3 className="w-full text-sm">{stash.name}</h3>
                     {eventStatus?.is_team_lead && (
                       <button
-                        className="btn whitespace-break-spaces btn-sm btn-primary"
+                        className="btn whitespace-break-spaces btn-primary btn-sm"
                         onClick={() => {
                           updateGuildStashTab(stash.id);
                         }}
