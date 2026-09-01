@@ -56,10 +56,9 @@ export function SubmissionFormModal({
   useEffect(() => {
     if (!showModal) return;
     form.reset();
-    // Deliberately excludes `objective` - each card owns a fixed objective
-    // for the lifetime of its modal, but its object reference changes on
-    // every background refetch (e.g. window refocus), which would otherwise
-    // wipe out whatever the player had already typed mid-submission.
+    // Deliberately excludes `objective` from deps: its object reference may change on
+    // background refetches (e.g. window refocus). We only want to reset on the
+    // modal opening transition, to avoid wiping in-progress input.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal]);
 
