@@ -56,8 +56,12 @@ export function SubmissionFormModal({
   useEffect(() => {
     if (!showModal) return;
     form.reset();
+    // Deliberately excludes `objective` - each card owns a fixed objective
+    // for the lifetime of its modal, but its object reference changes on
+    // every background refetch (e.g. window refocus), which would otherwise
+    // wipe out whatever the player had already typed mid-submission.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModal, objective]);
+  }, [showModal]);
 
   if (!currentEvent || !objective) {
     return <></>;
