@@ -23,6 +23,7 @@ import { Route as AdminGrantAchievementsRouteImport } from './routes/admin/grant
 import { Route as AdminRecurringJobsRouteImport } from './routes/admin/recurring-jobs'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin/submissions'
 import { Route as AdminTeamSortRouteImport } from './routes/admin/team-sort'
+import { Route as AdminTeamSubmissionsRouteImport } from './routes/admin/team-submissions'
 import { Route as AdminTeamSuggestionsRouteImport } from './routes/admin/team-suggestions'
 import { Route as AdminTimingsRouteImport } from './routes/admin/timings'
 import { Route as AdminUserManagementRouteImport } from './routes/admin/user-management'
@@ -132,6 +133,11 @@ const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
 const AdminTeamSortRoute = AdminTeamSortRouteImport.update({
   id: '/admin/team-sort',
   path: '/admin/team-sort',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTeamSubmissionsRoute = AdminTeamSubmissionsRouteImport.update({
+  id: '/admin/team-submissions',
+  path: '/admin/team-submissions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminTeamSuggestionsRoute = AdminTeamSuggestionsRouteImport.update({
@@ -359,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
+  '/admin/team-submissions': typeof AdminTeamSubmissionsRoute
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
@@ -415,6 +422,7 @@ export interface FileRoutesByTo {
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
+  '/admin/team-submissions': typeof AdminTeamSubmissionsRoute
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
@@ -472,6 +480,7 @@ export interface FileRoutesById {
   '/admin/recurring-jobs': typeof AdminRecurringJobsRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/admin/team-sort': typeof AdminTeamSortRoute
+  '/admin/team-submissions': typeof AdminTeamSubmissionsRoute
   '/admin/team-suggestions': typeof AdminTeamSuggestionsRoute
   '/admin/timings': typeof AdminTimingsRoute
   '/admin/user-management': typeof AdminUserManagementRoute
@@ -530,6 +539,7 @@ export interface FileRouteTypes {
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
+    | '/admin/team-submissions'
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
@@ -586,6 +596,7 @@ export interface FileRouteTypes {
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
+    | '/admin/team-submissions'
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
@@ -642,6 +653,7 @@ export interface FileRouteTypes {
     | '/admin/recurring-jobs'
     | '/admin/submissions'
     | '/admin/team-sort'
+    | '/admin/team-submissions'
     | '/admin/team-suggestions'
     | '/admin/timings'
     | '/admin/user-management'
@@ -698,6 +710,7 @@ export interface RootRouteChildren {
   AdminRecurringJobsRoute: typeof AdminRecurringJobsRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   AdminTeamSortRoute: typeof AdminTeamSortRoute
+  AdminTeamSubmissionsRoute: typeof AdminTeamSubmissionsRoute
   AdminTeamSuggestionsRoute: typeof AdminTeamSuggestionsRoute
   AdminTimingsRoute: typeof AdminTimingsRoute
   AdminUserManagementRoute: typeof AdminUserManagementRoute
@@ -818,6 +831,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/team-sort'
       fullPath: '/admin/team-sort'
       preLoaderRoute: typeof AdminTeamSortRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/team-submissions': {
+      id: '/admin/team-submissions'
+      path: '/admin/team-submissions'
+      fullPath: '/admin/team-submissions'
+      preLoaderRoute: typeof AdminTeamSubmissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/team-suggestions': {
@@ -1240,6 +1260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRecurringJobsRoute: AdminRecurringJobsRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   AdminTeamSortRoute: AdminTeamSortRoute,
+  AdminTeamSubmissionsRoute: AdminTeamSubmissionsRoute,
   AdminTeamSuggestionsRoute: AdminTeamSuggestionsRoute,
   AdminTimingsRoute: AdminTimingsRoute,
   AdminUserManagementRoute: AdminUserManagementRoute,

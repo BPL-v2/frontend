@@ -173,6 +173,18 @@ function RouteComponent() {
                 </p>
               </div>
             </Link>
+            <Link
+              to={"/admin/team-submissions"}
+              className="card border-2 border-base-content bg-base-300 hover:bg-base-200"
+            >
+              <div className="card-body">
+                <h2 className="card-title">Team Submissions</h2>
+                <p className="text-left">
+                  Team leaders can see every submission their team has sent in,
+                  without needing to wait for a judge's review.
+                </p>
+              </div>
+            </Link>
           </>
         )}
       </div>
