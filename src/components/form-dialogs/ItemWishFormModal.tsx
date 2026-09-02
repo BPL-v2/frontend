@@ -50,53 +50,38 @@ export function ItemWishFormModal({
         !w.extra,
     );
 
-  const addWishIfMissing = (itemField: ItemField, value: string) => {
+  const addWishIfMissing = (
+    itemField: ItemField,
+    value: string,
+    quantity: number,
+  ) => {
     if (!findExisting(itemField, value)) {
       saveItemWish({
         item_field: itemField,
         value,
         build_enabling: DEFAULT_BUILD_ENABLING,
+        quantity: quantity,
       });
-    }
-  };
-
-  const setWishQuantity = (
-    itemField: ItemField,
-    value: string,
-    quantity: number,
-  ) => {
-    const existing = findExisting(itemField, value);
-    if (existing) {
-      if (existing.quantity !== quantity) {
+    } else {
+      const existing = findExisting(itemField, value);
+      if (existing && existing.quantity !== quantity) {
         updateItemWish(existing.id, { quantity });
       }
-    } else {
-      saveItemWish({
-        item_field: itemField,
-        value,
-        quantity,
-        build_enabling: DEFAULT_BUILD_ENABLING,
-      });
     }
   };
 
   const form = useAppForm({
     defaultValues: {
       unique_name: "",
-      unique_quantity: 1,
       gem_name: "",
+      quantity: 1,
     },
     onSubmit: (data) => {
-      if (data.value.unique_name) {
-        setWishQuantity(
-          ItemField.NAME,
-          data.value.unique_name,
-          Math.min(MAX_QUANTITY, Math.max(1, data.value.unique_quantity || 1)),
-        );
-      }
-      if (data.value.gem_name) {
-        addWishIfMissing(ItemField.BASE_TYPE, data.value.gem_name);
-      }
+      addWishIfMissing(
+        ItemField.BASE_TYPE,
+        data.value.gem_name,
+        data.value.quantity,
+      );
       form.reset();
       setIsOpen(false);
     },
@@ -121,7 +106,7 @@ export function ItemWishFormModal({
           )}
         />
         <form.AppField
-          name="unique_quantity"
+          name="quantity"
           children={(field) => (
             <field.NumberField
               label="Quantity"
