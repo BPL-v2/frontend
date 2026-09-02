@@ -55,7 +55,9 @@ function ProfilePage() {
       <h1 className="text-center text-4xl font-bold">
         {user.display_name.split("#")[0]}
       </h1>
-      <AchievementsSection userId={userId} />
+      <div className="p-4">
+        <AchievementsSection userId={userId} />
+      </div>
       {userCharacters.length > 0 && (
         <div>
           <ProfileCarousel userCharacters={userCharacters} userId={userId} />
