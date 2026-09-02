@@ -18,13 +18,17 @@ import {
 } from "@api";
 import { ObjectiveIcon } from "@components/objective-icon";
 import Table from "@components/table/table";
-import { ExclamationCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  ExclamationCircleIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ItemWishFormModal } from "@components/form-dialogs/ItemWishFormModal";
 import {
@@ -37,6 +41,39 @@ import { stripFoulbornName } from "@mytypes/scoring-objective";
 export const Route = createFileRoute("/team/wishlist")({
   component: RouteComponent,
 });
+
+// Purely controlled - renders a check or nothing. The optimistic value lives
+// in RouteComponent's `pendingFulfilled` (keyed by wish id), so it survives the
+// cell remounts that happen when the wishlist refetches and `columns` is
+// rebuilt - that remount was what made the old checkbox flicker.
+function FulfilledCheckbox({
+  fulfilled,
+  isOwn,
+  onChange,
+}: {
+  fulfilled: boolean;
+  isOwn: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={!isOwn}
+      aria-pressed={fulfilled}
+      title={fulfilled ? "Fulfilled" : "Not fulfilled"}
+      onClick={() => isOwn && onChange(!fulfilled)}
+      className={twMerge(
+        "flex size-6 items-center justify-center rounded border-2",
+        fulfilled
+          ? "border-success bg-success text-success-content"
+          : "border-base-content/30",
+        isOwn ? "cursor-pointer" : "pointer-events-none",
+      )}
+    >
+      {fulfilled && <CheckIcon className="size-4" strokeWidth={3} />}
+    </button>
+  );
+}
 
 type UniqueInfo = {
   condition: Condition;
@@ -109,6 +146,30 @@ function RouteComponent() {
     eventStatus?.team_id,
   );
 
+  // Optimistic "fulfilled" toggles, keyed by wish id. Kept here (above the
+  // table) so they aren't lost when cells remount on refetch. Entries clear
+  // themselves once the server data catches up.
+  const [pendingFulfilled, setPendingFulfilled] = useState<
+    Record<number, boolean>
+  >({});
+  useEffect(() => {
+    setPendingFulfilled((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const w of wishlist) {
+        if (w.id in next && next[w.id] === w.fulfilled) {
+          delete next[w.id];
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [wishlist]);
+  const setFulfilled = (wishId: number, fulfilled: boolean) => {
+    setPendingFulfilled((prev) => ({ ...prev, [wishId]: fulfilled }));
+    updateItemWish(wishId, { fulfilled });
+  };
+
   const userMap = users.reduce(
     (acc, user) => {
       acc[user.id] = user;
@@ -142,7 +203,11 @@ function RouteComponent() {
           : (foulbornModsByName[baseName] ?? null)
         : null,
     };
-    rowMap[wish.user_id].push({ wish: wish, uniqueInfo: itemInfo });
+    const fulfilled = pendingFulfilled[wish.id] ?? wish.fulfilled;
+    rowMap[wish.user_id].push({
+      wish: fulfilled === wish.fulfilled ? wish : { ...wish, fulfilled },
+      uniqueInfo: itemInfo,
+    });
   }
   const rows: WishRow[] = [];
   for (const [userId, wishes] of Object.entries(rowMap)) {
@@ -289,23 +354,15 @@ function RouteComponent() {
       size: 100,
       cell: (info) => {
         const isOwn = user?.display_name == info.row.original.user;
+        const wish = info.row.original.wish;
+        // Non-owners can't toggle - only show something when it's fulfilled,
+        // so an empty box doesn't look clickable.
+        if (!isOwn && !wish.fulfilled) return null;
         return (
-          <input
-            type="checkbox"
-            defaultChecked={info.row.original.wish.fulfilled}
-            tabIndex={isOwn ? 0 : -1}
-            className={twMerge(
-              "checkbox border-2",
-              !isOwn ? "pointer-events-none" : "",
-              !isOwn && !info.row.original.wish.fulfilled ? "opacity-40" : "",
-              info.row.original.wish.fulfilled ? "checkbox-success" : "",
-            )}
-            onChange={async (e) => {
-              if (!isOwn) return;
-              updateItemWish(info.row.original.wish.id, {
-                fulfilled: e.target.checked,
-              });
-            }}
+          <FulfilledCheckbox
+            fulfilled={wish.fulfilled}
+            isOwn={isOwn}
+            onChange={(fulfilled) => setFulfilled(wish.id, fulfilled)}
           />
         );
       },
