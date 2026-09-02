@@ -46,6 +46,7 @@ export function CollectionCardTable({
 }: CollectionCardTableProps) {
   const { currentEvent, preferences } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
+  const eventEnded = new Date(currentEvent.event_end_time) < new Date();
   const tableRef = useRef<HTMLTableElement>(null);
   const teamIds = currentEvent.teams
     .sort((a, b) => {
@@ -93,7 +94,10 @@ export function CollectionCardTable({
             const isPlayerTeam = teamId === eventStatus?.team_id;
             const gotPoints = score.totalPoints() > 0;
             const isHidden =
-              objective.hide_progress && !isFinished && !isPlayerTeam;
+              objective.hide_progress &&
+              !isFinished &&
+              !isPlayerTeam &&
+              !eventEnded;
             return (
               <tr
                 className={
