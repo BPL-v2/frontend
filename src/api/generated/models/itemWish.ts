@@ -1,7 +1,7 @@
 import type { ItemField } from "./itemField.ts";
 
 export interface ItemWish {
-  build_enabling: boolean;
+  build_enabling: number;
   extra?: string;
   fulfilled: boolean;
   id: number;

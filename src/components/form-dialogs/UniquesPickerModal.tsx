@@ -1,8 +1,14 @@
 import { PickerDialog } from "@components/form-dialogs/PickerDialog";
 import { useSearchableChecklist } from "@components/form-dialogs/useSearchableChecklist";
 import { useFile } from "@api";
+import {
+  BuildEnablingLegend,
+  BuildEnablingRating,
+} from "@components/build-enabling-rating";
+import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
 import { encode } from "@mytypes/scoring-objective";
 import { useEffect, useMemo, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 // A wish for a specific unique, optionally disambiguated by `extra` (e.g.
 // which of several possible Foulborn mods on the same base item). `value`
@@ -12,13 +18,14 @@ import { useEffect, useMemo, useState } from "react";
 export interface NeededUnique {
   value: string;
   extra: string;
-  buildEnabling: boolean;
+  // 1-5 importance scale, see @mytypes/item-wish.
+  buildEnabling: number;
   quantity: number;
 }
 
 interface UniqueSelection {
   needed: boolean;
-  buildEnabling: boolean;
+  buildEnabling: number;
   quantity: number;
   value: string;
   extra: string;
@@ -119,7 +126,7 @@ export function UniquesPickerModal({
     for (const n of initialNeeded) {
       initial[rowKey(n.value, n.extra)] = {
         needed: true,
-        buildEnabling: n.buildEnabling,
+        buildEnabling: n.buildEnabling || DEFAULT_BUILD_ENABLING,
         quantity: n.quantity || 1,
         value: n.value,
         extra: n.extra,
@@ -146,7 +153,7 @@ export function UniquesPickerModal({
         ...prev,
         [row.key]: {
           needed: true,
-          buildEnabling: false,
+          buildEnabling: DEFAULT_BUILD_ENABLING,
           quantity: 1,
           value: row.value,
           extra: row.extra,
@@ -169,7 +176,7 @@ export function UniquesPickerModal({
         ...prev,
         [row.key]: {
           needed: true,
-          buildEnabling: !!current?.buildEnabling,
+          buildEnabling: current?.buildEnabling || DEFAULT_BUILD_ENABLING,
           quantity: current?.quantity || 1,
           ...getPatch(current),
           value: row.value,
@@ -179,10 +186,8 @@ export function UniquesPickerModal({
     });
   };
 
-  const toggleBuildEnabling = (row: PickerRow) =>
-    updateSelection(row, (current) => ({
-      buildEnabling: !current?.buildEnabling,
-    }));
+  const setBuildEnabling = (row: PickerRow, level: number) =>
+    updateSelection(row, () => ({ buildEnabling: level }));
 
   const setQuantity = (row: PickerRow, quantity: number) =>
     updateSelection(row, () => ({
@@ -203,7 +208,7 @@ export function UniquesPickerModal({
           .map((s) => ({
             value: s.value,
             extra: s.extra,
-            buildEnabling: s.buildEnabling,
+            buildEnabling: s.buildEnabling || DEFAULT_BUILD_ENABLING,
             quantity: s.quantity || 1,
           }));
         onConfirm(needed);
@@ -229,10 +234,16 @@ export function UniquesPickerModal({
             Sort by selected
           </label>
         </div>
-        <div className="text-sm text-base-content/60">
-          {neededCount} selected
-          {filtered.length > visible.length &&
-            ` — showing first ${visible.length} of ${filtered.length} matches, keep typing to narrow down`}
+        <div className="flex items-center gap-1 text-sm text-base-content/60">
+          <span>
+            {neededCount} selected
+            {filtered.length > visible.length &&
+              ` — showing first ${visible.length} of ${filtered.length} matches, keep typing to narrow down`}
+          </span>
+          <span className="ml-auto flex items-center gap-1">
+            Build enabling scale
+            <BuildEnablingLegend />
+          </span>
         </div>
         <div className="flex max-h-[50vh] w-full flex-col gap-1 overflow-y-auto rounded-box border border-base-content/20 p-2">
           {visible.map((row) => {
@@ -280,16 +291,24 @@ export function UniquesPickerModal({
                     onChange={(e) => setQuantity(row, e.target.valueAsNumber)}
                   />
                 </label>
-                <label className="flex cursor-pointer items-center gap-1 text-sm whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-sm"
-                    disabled={!sel?.needed}
-                    checked={!!sel?.buildEnabling}
-                    onChange={() => toggleBuildEnabling(row)}
+                <span
+                  className={twMerge(
+                    "flex items-center gap-1 text-sm whitespace-nowrap",
+                    sel?.needed ? "" : "pointer-events-none opacity-40",
+                  )}
+                >
+                  <span className="text-base-content/60">Build enabling</span>
+                  <BuildEnablingRating
+                    size="xs"
+                    name={`picker-build-enabling-${row.key}`}
+                    value={sel?.buildEnabling || DEFAULT_BUILD_ENABLING}
+                    onChange={
+                      sel?.needed
+                        ? (level) => setBuildEnabling(row, level)
+                        : undefined
+                    }
                   />
-                  Build enabling
-                </label>
+                </span>
               </div>
             );
           })}

@@ -27,6 +27,11 @@ import { flatMap } from "@utils/utils";
 import { useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ItemWishFormModal } from "@components/form-dialogs/ItemWishFormModal";
+import {
+  BuildEnablingLegend,
+  BuildEnablingRating,
+} from "@components/build-enabling-rating";
+import { BUILD_ENABLING_THRESHOLD } from "@mytypes/item-wish";
 import { stripFoulbornName } from "@mytypes/scoring-objective";
 
 export const Route = createFileRoute("/team/wishlist")({
@@ -62,9 +67,9 @@ function RouteComponent() {
   const { data: uniqueTiers = {} } = useFile<Record<string, number>>(
     "/assets/poe1/items/unique_tiers.json",
   );
-  const { data: foulbornEntries } = useFile<
-    { name: string; mod: string }[]
-  >("/assets/poe1/items/foulborn_uniques.json");
+  const { data: foulbornEntries } = useFile<{ name: string; mod: string }[]>(
+    "/assets/poe1/items/foulborn_uniques.json",
+  );
   const foulbornModsByName = useMemo(() => {
     const map: Record<string, string[]> = {};
     for (const entry of foulbornEntries ?? []) {
@@ -246,30 +251,30 @@ function RouteComponent() {
       },
     },
     {
-      header: "Build Enabling",
-      accessorKey: "wish.build_enabling",
+      header: () => (
+        <span className="flex items-center gap-1">
+          Build Enabling
+          <BuildEnablingLegend />
+        </span>
+      ),
+      id: "build_enabling",
+      accessorFn: (row) => row.wish.build_enabling,
+      size: 170,
       cell: (info) => {
+        const wish = info.row.original.wish;
         const isOwn = user?.display_name == info.row.original.user;
         return (
-          <input
-            type="checkbox"
-            defaultChecked={info.row.original.wish.build_enabling}
-            tabIndex={isOwn ? 0 : -1}
-            className={twMerge(
-              "checkbox border-2",
-              !isOwn ? "pointer-events-none" : "",
-              !isOwn && !info.row.original.wish.build_enabling
-                ? "opacity-40"
-                : "",
-              info.row.original.wish.build_enabling ? "checkbox-success" : "",
-            )}
-            onChange={async (e) => {
-              if (!isOwn) return;
-              info.row.original.wish.build_enabling = e.target.checked;
-              updateItemWish(info.row.original.wish.id, {
-                build_enabling: e.target.checked,
-              });
-            }}
+          <BuildEnablingRating
+            name={`build-enabling-${wish.id}`}
+            value={wish.build_enabling}
+            onChange={
+              isOwn
+                ? (level) => {
+                    wish.build_enabling = level;
+                    updateItemWish(wish.id, { build_enabling: level });
+                  }
+                : undefined
+            }
           />
         );
       },
@@ -341,7 +346,9 @@ function RouteComponent() {
         <button
           className={twMerge(
             "btn btn-sm",
-            gemsOnly ? "btn-primary" : "border-primary bg-base-100/0 text-primary",
+            gemsOnly
+              ? "btn-primary"
+              : "border-primary bg-base-100/0 text-primary",
           )}
           onClick={() => setGemsOnly((v) => !v)}
         >
@@ -359,6 +366,7 @@ function RouteComponent() {
           Uniques
         </button>
         <button
+          title={`Show only wishes rated ${BUILD_ENABLING_THRESHOLD}+ for build enabling`}
           className={twMerge(
             "btn btn-sm",
             buildEnablingOnly
@@ -381,7 +389,10 @@ function RouteComponent() {
         columns={columns}
         data={rows
           .filter((row) => {
-            if (buildEnablingOnly && !row.wish.build_enabling) {
+            if (
+              buildEnablingOnly &&
+              row.wish.build_enabling < BUILD_ENABLING_THRESHOLD
+            ) {
               return false;
             }
             if (gemsOnly || uniquesOnly) {

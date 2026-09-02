@@ -38,6 +38,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { classColorToHex, pickColor } from "@utils/color";
 import { defaultPreferences } from "@mytypes/preferences";
+import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
 import { SKILL_GEMS, isTransfiguredGem } from "@mytypes/skill-gems";
 import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
 import { REALMS, REALM_COLORS } from "@mytypes/realms";
@@ -295,7 +296,11 @@ function RouteComponent() {
         (w) => w.item_field === ItemField.BASE_TYPE && w.value === newSkill,
       )
     ) {
-      saveItemWish({ item_field: ItemField.BASE_TYPE, value: newSkill });
+      saveItemWish({
+        item_field: ItemField.BASE_TYPE,
+        value: newSkill,
+        build_enabling: DEFAULT_BUILD_ENABLING,
+      });
     }
   };
 
@@ -351,7 +356,11 @@ function RouteComponent() {
     const selectedSet = new Set(selected);
     for (const value of selected) {
       if (!existingByValue.has(value)) {
-        saveItemWish({ item_field: ItemField.BASE_TYPE, value });
+        saveItemWish({
+          item_field: ItemField.BASE_TYPE,
+          value,
+          build_enabling: DEFAULT_BUILD_ENABLING,
+        });
       }
     }
     for (const wish of myGemWishes) {
@@ -386,7 +395,7 @@ function RouteComponent() {
         merged.set(key, {
           value: name,
           extra: "",
-          buildEnabling: false,
+          buildEnabling: DEFAULT_BUILD_ENABLING,
           quantity: 1,
         });
         added++;

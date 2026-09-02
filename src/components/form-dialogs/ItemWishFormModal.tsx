@@ -10,6 +10,7 @@ import {
   useUpdateItemWish,
 } from "@api";
 import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
+import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
 
 const MAX_QUANTITY = 5;
 
@@ -51,7 +52,11 @@ export function ItemWishFormModal({
 
   const addWishIfMissing = (itemField: ItemField, value: string) => {
     if (!findExisting(itemField, value)) {
-      saveItemWish({ item_field: itemField, value });
+      saveItemWish({
+        item_field: itemField,
+        value,
+        build_enabling: DEFAULT_BUILD_ENABLING,
+      });
     }
   };
 
@@ -66,7 +71,12 @@ export function ItemWishFormModal({
         updateItemWish(existing.id, { quantity });
       }
     } else {
-      saveItemWish({ item_field: itemField, value, quantity });
+      saveItemWish({
+        item_field: itemField,
+        value,
+        quantity,
+        build_enabling: DEFAULT_BUILD_ENABLING,
+      });
     }
   };
 
