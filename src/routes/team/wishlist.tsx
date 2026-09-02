@@ -177,9 +177,9 @@ function RouteComponent() {
       cell: (info) => {
         const { condition, foulbornMods } = info.row.original.uniqueInfo;
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex w-72 items-center gap-2">
             <ObjectiveIcon
-              className="max-h-8 max-w-8"
+              className="max-h-8 max-w-8 shrink-0"
               objective={
                 {
                   conditions: [condition],
@@ -187,12 +187,16 @@ function RouteComponent() {
               }
               gameVersion={GameVersion.poe1}
             />
-            <span>
-              {condition.value}
+            <span className="flex min-w-0 flex-col text-left">
+              <span className="truncate" title={condition.value}>
+                {condition.value}
+              </span>
               {foulbornMods && (
-                <span className="text-secondary">
-                  {" "}
-                  ({foulbornMods.join(" / ")})
+                <span
+                  className="truncate text-xs text-secondary"
+                  title={foulbornMods.join(" / ")}
+                >
+                  {foulbornMods.join(" / ")}
                 </span>
               )}
             </span>

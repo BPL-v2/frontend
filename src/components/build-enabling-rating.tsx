@@ -1,7 +1,6 @@
 import {
   BUILD_ENABLING_LEGEND,
   BUILD_ENABLING_LEVELS,
-  buildEnablingLevel,
   clampBuildEnabling,
 } from "@mytypes/item-wish";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
@@ -39,45 +38,31 @@ export function BuildEnablingRating({
     setCurrent(clamped);
   }
 
-  const active = buildEnablingLevel(current);
   return (
     <span
       className={twMerge(
-        "tooltip tooltip-left inline-flex",
-        readOnly ? "opacity-60" : "",
-        className,
+        "rating",
+        size === "xs" ? "rating-xs" : size === "md" ? "rating-md" : "rating-sm",
+        readOnly ? "pointer-events-none" : "",
       )}
-      data-tip={`${active.value} - ${active.label}: ${active.description}`}
     >
-      <span
-        className={twMerge(
-          "rating",
-          size === "xs"
-            ? "rating-xs"
-            : size === "md"
-              ? "rating-md"
-              : "rating-sm",
-          readOnly ? "pointer-events-none" : "",
-        )}
-      >
-        {BUILD_ENABLING_LEVELS.map((level) => (
-          <input
-            key={level.value}
-            type="radio"
-            name={name}
-            className="mask bg-warning mask-star-2"
-            aria-label={`${level.value} - ${level.label}`}
-            title={`${level.label}: ${level.description}`}
-            checked={current === level.value}
-            disabled={readOnly}
-            tabIndex={readOnly ? -1 : 0}
-            onChange={() => {
-              setCurrent(level.value);
-              onChange?.(level.value);
-            }}
-          />
-        ))}
-      </span>
+      {BUILD_ENABLING_LEVELS.map((level) => (
+        <input
+          key={level.value}
+          type="radio"
+          name={name}
+          className="mask bg-warning mask-star-2"
+          aria-label={`${level.value} - ${level.label}`}
+          title={`${level.label}: ${level.description}`}
+          checked={current === level.value}
+          disabled={readOnly}
+          tabIndex={readOnly ? -1 : 0}
+          onChange={() => {
+            setCurrent(level.value);
+            onChange?.(level.value);
+          }}
+        />
+      ))}
     </span>
   );
 }
