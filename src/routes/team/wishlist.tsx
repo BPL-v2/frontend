@@ -24,9 +24,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ItemWishFormModal } from "@components/form-dialogs/ItemWishFormModal";
+import { stripFoulbornName } from "@mytypes/scoring-objective";
 
 export const Route = createFileRoute("/team/wishlist")({
   component: RouteComponent,
@@ -37,6 +38,7 @@ type UniqueInfo = {
   tier: number | null;
   is_drop_restricted: boolean | null;
   is_point_unique: boolean;
+  foulbornMods: string[] | null;
 };
 
 type WishRow = {
@@ -48,6 +50,9 @@ type WishRow = {
 function RouteComponent() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [itemFilter, setItemfilter] = useState<string>("");
+  const [gemsOnly, setGemsOnly] = useState(false);
+  const [uniquesOnly, setUniquesOnly] = useState(false);
+  const [buildEnablingOnly, setBuildEnablingOnly] = useState(false);
   const { currentEvent } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const { rules } = useGetRules(currentEvent.id);
@@ -57,6 +62,16 @@ function RouteComponent() {
   const { data: uniqueTiers = {} } = useFile<Record<string, number>>(
     "/assets/poe1/items/unique_tiers.json",
   );
+  const { data: foulbornEntries } = useFile<
+    { name: string; mod: string }[]
+  >("/assets/poe1/items/foulborn_uniques.json");
+  const foulbornModsByName = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    for (const entry of foulbornEntries ?? []) {
+      (map[entry.name] ??= []).push(entry.mod);
+    }
+    return map;
+  }, [foulbornEntries]);
   const pointUniques = flatMap(rules)
     .map((obj) => {
       for (const condition of obj.conditions) {
@@ -100,28 +115,27 @@ function RouteComponent() {
     number,
     { wish: ItemWish; uniqueInfo: UniqueInfo }[]
   >;
-  const wishCounter = {} as Record<string, number>;
   for (const wish of wishlist) {
-    if (!wishCounter[wish.value]) {
-      wishCounter[wish.value] = 0;
-    }
-    if (!wish.fulfilled) {
-      wishCounter[wish.value] += 1;
-    }
     if (!rowMap[wish.user_id]) {
       rowMap[wish.user_id] = [];
     }
+    const baseName = stripFoulbornName(wish.value);
     const itemInfo = {
       condition: {
         field: wish.item_field,
         operator: Operator.EQ,
         value: wish.value.trim(),
       },
-      tier: uniqueTiers[wish.value],
+      tier: uniqueTiers[baseName],
       is_drop_restricted: uniques
-        ? uniques[wish.value]?.is_drop_restricted
+        ? uniques[baseName]?.is_drop_restricted
         : null,
-      is_point_unique: pointUniques.includes(wish.value),
+      is_point_unique: pointUniques.includes(baseName),
+      foulbornMods: wish.value.startsWith("Foulborn ")
+        ? wish.extra
+          ? [wish.extra]
+          : (foulbornModsByName[baseName] ?? null)
+        : null,
     };
     rowMap[wish.user_id].push({ wish: wish, uniqueInfo: itemInfo });
   }
@@ -156,18 +170,27 @@ function RouteComponent() {
       size: 320,
       filterFn: "includesString",
       cell: (info) => {
+        const { condition, foulbornMods } = info.row.original.uniqueInfo;
         return (
           <div className="flex items-center gap-2">
             <ObjectiveIcon
               className="max-h-8 max-w-8"
               objective={
                 {
-                  conditions: [info.row.original.uniqueInfo.condition],
+                  conditions: [condition],
                 } as Objective
               }
               gameVersion={GameVersion.poe1}
             />
-            {info.row.original.uniqueInfo.condition.value}
+            <span>
+              {condition.value}
+              {foulbornMods && (
+                <span className="text-secondary">
+                  {" "}
+                  ({foulbornMods.join(" / ")})
+                </span>
+              )}
+            </span>
           </div>
         );
       },
@@ -175,6 +198,19 @@ function RouteComponent() {
       meta: {
         filterVariant: "string",
         filterPlaceholder: "Wish",
+      },
+    },
+    {
+      header: "Qty",
+      id: "quantity",
+      size: 100,
+      accessorKey: "wish.quantity",
+      cell: (info) => {
+        const quantity = info.row.original.wish.quantity;
+        if (!quantity || quantity < 2) {
+          return;
+        }
+        return <span className="font-bold text-error">×{quantity}</span>;
       },
     },
     {
@@ -200,20 +236,6 @@ function RouteComponent() {
       },
     },
     {
-      header: "Count",
-      id: "count",
-      size: 100,
-      accessorKey: "uniqueInfo.condition.value",
-      cell: (info) => {
-        const wishValue = info.row.original.uniqueInfo.condition.value;
-        const count = wishCounter[wishValue] || 0;
-        if (count < 2) {
-          return;
-        }
-        return <span className="font-bold text-error">{count}</span>;
-      },
-    },
-    {
       header: "Point Item",
       accessorKey: "uniqueInfo.is_point_unique",
       size: 140,
@@ -227,27 +249,26 @@ function RouteComponent() {
       header: "Build Enabling",
       accessorKey: "wish.build_enabling",
       cell: (info) => {
+        const isOwn = user?.display_name == info.row.original.user;
         return (
           <input
             type="checkbox"
             defaultChecked={info.row.original.wish.build_enabling}
+            tabIndex={isOwn ? 0 : -1}
             className={twMerge(
               "checkbox border-2",
-              user?.display_name != info.row.original.user ? "hidden" : "",
-              info.row.original.wish.build_enabling
-                ? "block checkbox-success"
+              !isOwn ? "pointer-events-none" : "",
+              !isOwn && !info.row.original.wish.build_enabling
+                ? "opacity-40"
                 : "",
+              info.row.original.wish.build_enabling ? "checkbox-success" : "",
             )}
-            onClick={async (e) => {
-              if (user?.display_name == info.row.original.user) {
-                info.row.original.wish.build_enabling =
-                  !info.row.original.wish.build_enabling;
-                updateItemWish(info.row.original.wish.id, {
-                  build_enabling: info.row.original.wish.build_enabling,
-                });
-              } else {
-                e.preventDefault();
-              }
+            onChange={async (e) => {
+              if (!isOwn) return;
+              info.row.original.wish.build_enabling = e.target.checked;
+              updateItemWish(info.row.original.wish.id, {
+                build_enabling: e.target.checked,
+              });
             }}
           />
         );
@@ -258,16 +279,20 @@ function RouteComponent() {
       accessorKey: "wish.fulfilled",
       size: 100,
       cell: (info) => {
+        const isOwn = user?.display_name == info.row.original.user;
         return (
           <input
             type="checkbox"
             defaultChecked={info.row.original.wish.fulfilled}
-            disabled={user?.display_name != info.row.original.user}
+            tabIndex={isOwn ? 0 : -1}
             className={twMerge(
               "checkbox border-2",
+              !isOwn ? "pointer-events-none" : "",
+              !isOwn && !info.row.original.wish.fulfilled ? "opacity-40" : "",
               info.row.original.wish.fulfilled ? "checkbox-success" : "",
             )}
             onChange={async (e) => {
+              if (!isOwn) return;
               updateItemWish(info.row.original.wish.id, {
                 fulfilled: e.target.checked,
               });
@@ -313,6 +338,37 @@ function RouteComponent() {
         <button className="btn mb-4" onClick={() => setDialogOpen(true)}>
           Add Item Wish
         </button>
+        <button
+          className={twMerge(
+            "btn btn-sm",
+            gemsOnly ? "btn-primary" : "border-primary bg-base-100/0 text-primary",
+          )}
+          onClick={() => setGemsOnly((v) => !v)}
+        >
+          Gems
+        </button>
+        <button
+          className={twMerge(
+            "btn btn-sm",
+            uniquesOnly
+              ? "btn-primary"
+              : "border-primary bg-base-100/0 text-primary",
+          )}
+          onClick={() => setUniquesOnly((v) => !v)}
+        >
+          Uniques
+        </button>
+        <button
+          className={twMerge(
+            "btn btn-sm",
+            buildEnablingOnly
+              ? "btn-primary"
+              : "border-primary bg-base-100/0 text-primary",
+          )}
+          onClick={() => setBuildEnablingOnly((v) => !v)}
+        >
+          Build enabling
+        </button>
       </div>
       <ItemWishFormModal
         isOpen={dialogOpen}
@@ -321,10 +377,22 @@ function RouteComponent() {
         teamId={eventStatus?.team_id}
       />
       <Table
-        className="max-h-[80vh]"
+        className="max-h-[70vh]"
         columns={columns}
         data={rows
           .filter((row) => {
+            if (buildEnablingOnly && !row.wish.build_enabling) {
+              return false;
+            }
+            if (gemsOnly || uniquesOnly) {
+              const matchesGems =
+                gemsOnly && row.wish.item_field === ItemField.BASE_TYPE;
+              const matchesUniques =
+                uniquesOnly && row.wish.item_field === ItemField.NAME;
+              if (!matchesGems && !matchesUniques) {
+                return false;
+              }
+            }
             if (!itemFilter) {
               return true;
             }
@@ -344,7 +412,10 @@ function RouteComponent() {
             if (a.user != b.user) {
               return a.user.localeCompare(b.user);
             }
-            return a.wish.value.localeCompare(b.wish.value);
+            return (
+              a.wish.value.localeCompare(b.wish.value) ||
+              (a.wish.extra ?? "").localeCompare(b.wish.extra ?? "")
+            );
           })}
       />
     </div>

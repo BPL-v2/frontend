@@ -28,6 +28,9 @@ export type PieSlice = {
   label: string;
   value: number;
   players: string[];
+  // Explicit hex fill, e.g. to reuse the same colors as the corresponding
+  // Select field elsewhere. Falls back to the default rotating palette.
+  color?: string;
 };
 
 const CENTER = 50;
@@ -104,7 +107,7 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
               <path
                 key={slice.label}
                 d={donutSlicePath(startAngle, endAngle)}
-                fill={COLORS[i % COLORS.length]}
+                fill={slice.color ?? COLORS[i % COLORS.length]}
                 opacity={active && !isActive ? 0.4 : 1}
                 className="cursor-pointer transition-opacity"
                 onMouseEnter={() => setHovered(slice.label)}
@@ -114,12 +117,17 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
             );
           })}
         </svg>
-        <div className="flex flex-col gap-1 md:ml-8">
+        <div
+          className={twMerge(
+            "md:ml-8",
+            sorted.length > 8 ? "columns-2 gap-x-6" : "flex flex-col",
+          )}
+        >
           {sorted.map((slice, i) => (
             <div
               key={slice.label}
               className={twMerge(
-                "flex cursor-pointer items-center gap-2 rounded px-1 text-sm",
+                "mb-1 flex cursor-pointer break-inside-avoid items-center gap-2 rounded px-1 text-sm",
                 pinned === slice.label
                   ? "bg-primary/20 ring-1 ring-primary"
                   : hovered === slice.label
@@ -132,7 +140,9 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
             >
               <span
                 className="size-3 shrink-0 rounded-sm"
-                style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                style={{
+                  backgroundColor: slice.color ?? COLORS[i % COLORS.length],
+                }}
               />
               <span className="font-medium">{slice.label}</span>
               <span className="text-base-content/60">

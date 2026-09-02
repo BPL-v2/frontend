@@ -7,6 +7,7 @@ export const Route = createFileRoute("/team")({
 type teamTabKey =
   | "sheet"
   | "wishlist"
+  | "wishlist-list"
   | "atlas"
   | "stashes"
   | "lfg"
@@ -27,6 +28,11 @@ function RouteComponent() {
     {
       name: "Wishlist",
       key: "wishlist",
+      visible: true,
+    },
+    {
+      name: "Wishlist List",
+      key: "wishlist-list",
       visible: true,
     },
     {

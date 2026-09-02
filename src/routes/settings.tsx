@@ -80,6 +80,38 @@ function SettingsPage() {
                 })
               }
             ></input>
+
+            <label className="label text-lg">Colorful pickers</label>
+            <div className="flex flex-col gap-1">
+              {(
+                [
+                  ["colorfulRoles", "Roles"],
+                  ["colorfulSpecializations", "Specializations"],
+                  ["colorfulAscendancy", "Ascendancies"],
+                  ["colorfulRealms", "Realms"],
+                  ["colorfulAltars", "Altars"],
+                  ["colorfulMainSkill", "Main skill gems"],
+                ] as const
+              ).map(([key, label]) => (
+                <label
+                  key={key}
+                  className="label flex w-fit items-center gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    className="toggle toggle-primary"
+                    checked={preferences[key]}
+                    onChange={(e) =>
+                      setPreferences({
+                        ...preferences,
+                        [key]: e.target.checked,
+                      })
+                    }
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
           </fieldset>
         </div>
       </div>

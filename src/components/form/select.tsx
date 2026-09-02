@@ -11,6 +11,9 @@ import { twMerge } from "tailwind-merge";
 export type SelectOption<T> = {
   label: string;
   value: T;
+  // Tailwind text-color class (e.g. "text-blue-500") applied to the option
+  // label and, when selected, to the input's displayed value.
+  color?: string;
 };
 
 type SelectProps<T> = {
@@ -73,6 +76,10 @@ export default function Select<T>({
     () => new Map(cleanOptions.map((o) => [o.value, o.label])),
     [cleanOptions],
   );
+  const colorByValue = useMemo(
+    () => new Map(cleanOptions.map((o) => [o.value, o.color])),
+    [cleanOptions],
+  );
 
   const showClear = !!selected && !required;
   const virtualOptions = showClear
@@ -103,7 +110,12 @@ export default function Select<T>({
       >
         <ComboboxButton className="w-full" name={name}>
           <ComboboxInput
-            className={twMerge("select w-full", fontSize, className)}
+            className={twMerge(
+              "select w-full",
+              fontSize,
+              className,
+              selected?.color,
+            )}
             displayValue={() => selected?.label || ""}
             onChange={(event) => {
               setQuery(event.target.value);
@@ -132,7 +144,10 @@ export default function Select<T>({
             ) : (
               <ComboboxOption
                 value={option}
-                className="group cursor-pointer rounded-lg px-3 py-2 select-none hover:bg-base-300 data-selected:bg-primary data-selected:text-primary-content"
+                className={twMerge(
+                  "group cursor-pointer rounded-lg px-3 py-2 select-none hover:bg-base-300 data-selected:bg-primary data-selected:text-primary-content",
+                  colorByValue.get(option),
+                )}
               >
                 {labelByValue.get(option)}
               </ComboboxOption>

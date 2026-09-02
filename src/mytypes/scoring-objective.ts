@@ -434,6 +434,10 @@ function getFirstConditionValue(condition: Condition): string {
   return "";
 }
 
+export function stripFoulbornName(name: string): string {
+  return name.startsWith("Foulborn ") ? name.slice("Foulborn ".length) : name;
+}
+
 export function encode(string: string): string {
   return string
     .replaceAll(" ", "_")
