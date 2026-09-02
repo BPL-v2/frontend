@@ -39,6 +39,7 @@ import { Route as ScoresLadderRouteImport } from './routes/scores/ladder'
 import { Route as ScoresProgressRouteImport } from './routes/scores/progress'
 import { Route as ScoresUniquesRouteImport } from './routes/scores/uniques'
 import { Route as StreamsTwitchAccountRouteImport } from './routes/streams/$twitchAccount'
+import { Route as TeamAltAscendanciesRouteImport } from './routes/team/alt-ascendancies'
 import { Route as TeamAtlasRouteImport } from './routes/team/atlas'
 import { Route as TeamChartsRouteImport } from './routes/team/charts'
 import { Route as TeamLfgRouteImport } from './routes/team/lfg'
@@ -216,6 +217,11 @@ const StreamsTwitchAccountRoute = StreamsTwitchAccountRouteImport.update({
   path: '/$twitchAccount',
   getParentRoute: () => StreamsRouteRoute,
 } as any)
+const TeamAltAscendanciesRoute = TeamAltAscendanciesRouteImport.update({
+  id: '/alt-ascendancies',
+  path: '/alt-ascendancies',
+  getParentRoute: () => TeamRouteRoute,
+} as any)
 const TeamAtlasRoute = TeamAtlasRouteImport.update({
   id: '/atlas',
   path: '/atlas',
@@ -385,6 +391,7 @@ export interface FileRoutesByFullPath {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
+  '/team/alt-ascendancies': typeof TeamAltAscendanciesRoute
   '/team/atlas': typeof TeamAtlasRoute
   '/team/charts': typeof TeamChartsRoute
   '/team/lfg': typeof TeamLfgRoute
@@ -443,6 +450,7 @@ export interface FileRoutesByTo {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
+  '/team/alt-ascendancies': typeof TeamAltAscendanciesRoute
   '/team/atlas': typeof TeamAtlasRoute
   '/team/charts': typeof TeamChartsRoute
   '/team/lfg': typeof TeamLfgRoute
@@ -502,6 +510,7 @@ export interface FileRoutesById {
   '/scores/progress': typeof ScoresProgressRoute
   '/scores/uniques': typeof ScoresUniquesRoute
   '/streams/$twitchAccount': typeof StreamsTwitchAccountRoute
+  '/team/alt-ascendancies': typeof TeamAltAscendanciesRoute
   '/team/atlas': typeof TeamAtlasRoute
   '/team/charts': typeof TeamChartsRoute
   '/team/lfg': typeof TeamLfgRoute
@@ -562,6 +571,7 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
+    | '/team/alt-ascendancies'
     | '/team/atlas'
     | '/team/charts'
     | '/team/lfg'
@@ -620,6 +630,7 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
+    | '/team/alt-ascendancies'
     | '/team/atlas'
     | '/team/charts'
     | '/team/lfg'
@@ -678,6 +689,7 @@ export interface FileRouteTypes {
     | '/scores/progress'
     | '/scores/uniques'
     | '/streams/$twitchAccount'
+    | '/team/alt-ascendancies'
     | '/team/atlas'
     | '/team/charts'
     | '/team/lfg'
@@ -957,6 +969,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StreamsTwitchAccountRouteImport
       parentRoute: typeof StreamsRouteRoute
     }
+    '/team/alt-ascendancies': {
+      id: '/team/alt-ascendancies'
+      path: '/alt-ascendancies'
+      fullPath: '/team/alt-ascendancies'
+      preLoaderRoute: typeof TeamAltAscendanciesRouteImport
+      parentRoute: typeof TeamRouteRoute
+    }
     '/team/atlas': {
       id: '/team/atlas'
       path: '/atlas'
@@ -1193,6 +1212,7 @@ const TeamStashesRouteRouteWithChildren =
 
 interface TeamRouteRouteChildren {
   TeamStashesRouteRoute: typeof TeamStashesRouteRouteWithChildren
+  TeamAltAscendanciesRoute: typeof TeamAltAscendanciesRoute
   TeamAtlasRoute: typeof TeamAtlasRoute
   TeamChartsRoute: typeof TeamChartsRoute
   TeamLfgRoute: typeof TeamLfgRoute
@@ -1203,6 +1223,7 @@ interface TeamRouteRouteChildren {
 
 const TeamRouteRouteChildren: TeamRouteRouteChildren = {
   TeamStashesRouteRoute: TeamStashesRouteRouteWithChildren,
+  TeamAltAscendanciesRoute: TeamAltAscendanciesRoute,
   TeamAtlasRoute: TeamAtlasRoute,
   TeamChartsRoute: TeamChartsRoute,
   TeamLfgRoute: TeamLfgRoute,

@@ -1,6 +1,7 @@
 import type { NonSensitiveUser } from "./nonSensitiveUser.ts";
 
 export interface TeamSheetEntry {
+  alt_ascendancy?: string;
   altars?: string;
   ascendancy?: string;
   build_notes?: string;
