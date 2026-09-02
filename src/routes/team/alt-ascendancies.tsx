@@ -55,7 +55,7 @@ function RouteComponent() {
   // The save endpoint replaces the whole sheet entry, not just the field
   // that changed - every other field has to be carried over from the
   // current entry or it'd get wiped out.
-  const setMyAltAscendancy = (value: string | undefined) => {
+  const setMyAltAscendancy = (value: string | null) => {
     const update: TeamSheetEntryUpdate = {
       character_name: myEntry?.character_name ?? "",
       role: myEntry?.role ?? "",
