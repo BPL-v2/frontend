@@ -99,8 +99,20 @@ function RouteComponent() {
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const { rules } = useGetRules(currentEvent.id);
   const { data: uniques } = useFile<
-    Record<string, { base_type: string; is_drop_restricted: boolean }>
+    Record<string, { base_item: string; is_drop_restricted: boolean }>
   >("/assets/poe1/items/uniques.json");
+  const copyUniqueBaseTypes = async () => {
+    if (!uniques) return;
+    const baseTypes = [
+      ...new Set(
+        wishlist
+          .filter((w) => w.item_field === ItemField.NAME)
+          .map((w) => uniques[stripFoulbornName(w.value)]?.base_item)
+          .filter((b): b is string => Boolean(b)),
+      ),
+    ].sort((a, b) => a.localeCompare(b));
+    await navigator.clipboard.writeText('"' + baseTypes.join('" "') + '"');
+  };
   const { data: uniqueTiers = {} } = useFile<Record<string, number>>(
     "/assets/poe1/items/unique_tiers.json",
   );
@@ -386,57 +398,68 @@ function RouteComponent() {
 
   return (
     <div className="p-4">
-      <div className="flex flex-row gap-4">
-        <input
-          type="search"
-          className="input"
-          placeholder="Paste item to see if anyone wants it..."
-          value={itemFilter}
-          onPaste={(e) => {
-            const paste = e.clipboardData.getData("text");
-            if (paste.split("\n").length > 2) {
-              setItemfilter(paste.split("\n")[2].trim());
-              e.preventDefault();
-            }
-          }}
-          onChange={(e) => setItemfilter(e.target.value)}
-        />
-        <button className="btn mb-4" onClick={() => setDialogOpen(true)}>
-          Add Item Wish
-        </button>
+      <div className="flex flex-row justify-between gap-4">
+        <div className="flex w-full flex-row gap-2">
+          <input
+            type="search"
+            className="input"
+            placeholder="Paste item to see if anyone wants it..."
+            value={itemFilter}
+            onPaste={(e) => {
+              const paste = e.clipboardData.getData("text");
+              if (paste.split("\n").length > 2) {
+                setItemfilter(paste.split("\n")[2].trim());
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => setItemfilter(e.target.value)}
+          />
+          <button
+            className="btn mb-4 btn-secondary"
+            onClick={() => setDialogOpen(true)}
+          >
+            Add Item Wish
+          </button>
+          <button
+            className={twMerge(
+              "btn",
+              gemsOnly
+                ? "btn-primary"
+                : "border-primary bg-base-100/0 text-primary",
+            )}
+            onClick={() => setGemsOnly((v) => !v)}
+          >
+            Gems
+          </button>
+          <button
+            className={twMerge(
+              "btn",
+              uniquesOnly
+                ? "btn-primary"
+                : "border-primary bg-base-100/0 text-primary",
+            )}
+            onClick={() => setUniquesOnly((v) => !v)}
+          >
+            Uniques
+          </button>
+          <button
+            title={`Show only wishes rated ${BUILD_ENABLING_THRESHOLD}+ for build enabling`}
+            className={twMerge(
+              "btn",
+              buildEnablingOnly
+                ? "btn-primary"
+                : "border-primary bg-base-100/0 text-primary",
+            )}
+            onClick={() => setBuildEnablingOnly((v) => !v)}
+          >
+            Build enabling
+          </button>
+        </div>
         <button
-          className={twMerge(
-            "btn btn-sm",
-            gemsOnly
-              ? "btn-primary"
-              : "border-primary bg-base-100/0 text-primary",
-          )}
-          onClick={() => setGemsOnly((v) => !v)}
+          className="btn btn-outline btn-secondary"
+          onClick={copyUniqueBaseTypes}
         >
-          Gems
-        </button>
-        <button
-          className={twMerge(
-            "btn btn-sm",
-            uniquesOnly
-              ? "btn-primary"
-              : "border-primary bg-base-100/0 text-primary",
-          )}
-          onClick={() => setUniquesOnly((v) => !v)}
-        >
-          Uniques
-        </button>
-        <button
-          title={`Show only wishes rated ${BUILD_ENABLING_THRESHOLD}+ for build enabling`}
-          className={twMerge(
-            "btn btn-sm",
-            buildEnablingOnly
-              ? "btn-primary"
-              : "border-primary bg-base-100/0 text-primary",
-          )}
-          onClick={() => setBuildEnablingOnly((v) => !v)}
-        >
-          Build enabling
+          Copy unique base types
         </button>
       </div>
       <ItemWishFormModal
