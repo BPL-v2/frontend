@@ -78,6 +78,12 @@ function Home() {
           </div>
         </div>
       )}
+      {typeof window !== "undefined" &&
+        window.location.hostname === "bpl.starventures.org" && (
+          <div className="card-title text-6xl text-warning">
+            STAGING ENVIRONMENT
+          </div>
+        )}
       <div className="card max-w-full bg-card">
         <div className="card-body p-12">
           <div className="card-title text-4xl">What is BPL?</div>
