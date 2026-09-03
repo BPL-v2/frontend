@@ -79,9 +79,10 @@ function Home() {
         </div>
       )}
       {typeof window !== "undefined" &&
-        window.location.hostname === "bpl.starventures.org" && (
+        window.location.hostname !== "bpl-poe.com" &&
+        window.location.hostname !== "localhost" && (
           <div className="card-title text-6xl text-warning">
-            STAGING ENVIRONMENT
+            STAGING ENVIRONMENT - TEST ONLY
           </div>
         )}
       <div className="card max-w-full bg-card">
