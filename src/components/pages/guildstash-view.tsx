@@ -4,14 +4,13 @@ import { Dialog } from "@components/dialog";
 import { StashTabGrid } from "@components/stash/stash-tab-grid";
 import { StashTabSpecial } from "@components/stash/stash-tab-special";
 import { StashTabUnique } from "@components/stash/stash-tab-unique";
-import { StashTabUnordered } from "@components/stash/stash-tab-unordered";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { GlobalStateContext } from "@utils/context-provider";
 import { findObjective } from "@utils/utils";
 import { useContext, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-type StashType = "Grid" | "Special" | "Unique" | "Unordered";
+type StashType = "Grid" | "Special" | "Unique";
 export type ScoreQueryParams = {
   highlightScoring: boolean;
 };
@@ -69,8 +68,6 @@ export function GuildStashView({
     type = "Grid";
   } else if (currentTab.type === "UniqueStash") {
     type = "Unique";
-  } else if (currentTab.type === "DivinationCardStash") {
-    type = "Unordered";
   }
   let textColor = "text-white";
   switch (selectedItem?.rarity) {
@@ -223,18 +220,7 @@ export function GuildStashView({
       {type == "Unique" && (
         <StashTabUnique
           tab={currentTab}
-          size={1000}
-          onItemClick={(item) => {
-            setSelectedItem(item);
-            setOpen(true);
-          }}
-          highlightScoring={highlightScoring}
-        />
-      )}
-      {type == "Unordered" && (
-        <StashTabUnordered
-          tab={currentTab}
-          size={1000}
+          size={width}
           onItemClick={(item) => {
             setSelectedItem(item);
             setOpen(true);

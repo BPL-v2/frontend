@@ -163,6 +163,12 @@ export function GuildStashSelect({ path }: { path: path }) {
                     <img
                       src={`/assets/${currentEvent.game_version}/stashtabs/${stash.type.toLowerCase().replace("stash", "")}.png`}
                       alt={stash.type}
+                      onError={(e) => {
+                        const fallback = `/assets/${currentEvent.game_version}/stashtabs/premium.png`;
+                        if (!e.currentTarget.src.endsWith(fallback)) {
+                          e.currentTarget.src = fallback;
+                        }
+                      }}
                     ></img>
                     <h3 className="w-full text-sm">{stash.name}</h3>
                     {eventStatus?.is_team_lead && (

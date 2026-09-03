@@ -73,7 +73,7 @@ export const StashTabUnique: React.FC<Props> = ({
             return (
               <div
                 className={clsx(
-                  "card w-42 basis-42 cursor-pointer",
+                  "card w-[calc(25%-0.375rem)] shrink-0 cursor-pointer",
                   item.objective_id
                     ? "border-2 border-primary bg-base-300"
                     : "bg-base-200",

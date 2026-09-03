@@ -5,6 +5,7 @@ import {
   StashTabLayout,
   StashTabLayoutItem,
   StashTabLayoutWrapper,
+  synthesizeLayout,
 } from "@utils/stash-tabs";
 
 type Props = {
@@ -44,10 +45,27 @@ export const StashTabSpecial: React.FC<Props> = ({
   onItemClick,
   highlightScoring,
 }) => {
-  const layout = getLayout(
+  const items = useMemo(() => {
+    return (
+      tab?.items?.filter((item) => {
+        if (highlightScoring && !item.objective_id) {
+          return false;
+        }
+        return true;
+      }) || []
+    );
+  }, [tab?.items, highlightScoring]);
+
+  const nativeLayout = getLayout(
     tab?.type,
-    // @ts-expect-error - GGG API does not mention layout, but it is present in the data
+    // @ts-expect-error - GGG API does not mention layout, but it is sometimes present in the data
     tab?.metadata?.layout as StashTabLayoutWrapper,
+  );
+  // GGG no longer reliably sends the layout for special tabs — fall back to a
+  // packed grid derived from the item coordinates.
+  const layout = useMemo(
+    () => nativeLayout ?? synthesizeLayout(items),
+    [nativeLayout, items],
   );
 
   // Collect all unique sections from the layout, but only keep those with at least one non-hidden layout item
@@ -73,16 +91,6 @@ export const StashTabSpecial: React.FC<Props> = ({
       : sections.length > 0
         ? sections[0]
         : "";
-  const items = useMemo(() => {
-    return (
-      tab?.items?.filter((item) => {
-        if (highlightScoring && !item.objective_id) {
-          return false;
-        }
-        return true;
-      }) || []
-    );
-  }, [tab?.items, highlightScoring]);
   if (!tab || !tab.metadata || !layout) return null;
 
   // Filter layout by section if sections exist
@@ -131,7 +139,7 @@ export const StashTabSpecial: React.FC<Props> = ({
         </div>
       )}
       <div
-        className="relative rounded-lg border border-base-300 bg-base-200"
+        className="relative overflow-x-hidden overflow-y-auto rounded-lg border border-base-300 bg-base-200"
         style={{ width: size, height: size }}
       >
         {filteredLayout.map(([key, mapping]: [string, StashTabLayoutItem]) => {
@@ -151,8 +159,12 @@ export const StashTabSpecial: React.FC<Props> = ({
         {filteredItems?.map((item, idx) => {
           const mapping = getMapping(item, layout);
           if (!mapping) return null;
-          mapping.w = Math.max(mapping.w, item.w || 1);
-          mapping.h = Math.max(mapping.h, item.h || 1);
+          // The synthesized layout snaps every item to a uniform cell; only
+          // native GGG layouts describe per-item sizes.
+          if (nativeLayout) {
+            mapping.w = Math.max(mapping.w, item.w || 1);
+            mapping.h = Math.max(mapping.h, item.h || 1);
+          }
           return (
             <div
               key={idx}
@@ -161,7 +173,7 @@ export const StashTabSpecial: React.FC<Props> = ({
               onClick={() => onItemClick?.(item)}
             >
               <div
-                className="tooltip-white tooltip relative tooltip-bottom cursor-pointer"
+                className="tooltip-white tooltip relative flex h-full w-full items-center justify-center overflow-hidden tooltip-bottom cursor-pointer"
                 data-tip={`${item.name} ${item.typeLine}`}
               >
                 <img
