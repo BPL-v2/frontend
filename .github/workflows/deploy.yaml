@@ -1,29 +1,22 @@
-name: Deploy
+name: Deploy (Staging)
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 env:
   IMAGE: ghcr.io/bpl-v2/frontend
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Fetch all history for all tags and branches
-
-      - name: Get latest tag
-        id: get_tag
-        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         run: |
@@ -31,12 +24,31 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --build-arg VITE_PUBLIC_BPL_BACKEND_URL=https://bpl-poe.com/api -t ${{ env.IMAGE }}:${{ steps.get_tag.outputs.tag }} .
+          docker build \
+            --build-arg VITE_PUBLIC_BPL_BACKEND_URL="${{ vars.STAGING_SERVER_URL }}/api" \
+            -t ${{ env.IMAGE }}:sha-${{ github.sha }} .
 
       - name: Push Docker image
-        run: |
-          docker push ${{ env.IMAGE }}:${{ steps.get_tag.outputs.tag }}
+        run: docker push ${{ env.IMAGE }}:sha-${{ github.sha }}
 
-      - name: Notify watchtower
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Login to GitHub Container Registry
         run: |
-          curl -X POST "${{vars.SERVER_URL}}/watchtower/v1/update" -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Tag staging from build image
+        run: |
+          docker buildx imagetools create \
+            --tag ${{ env.IMAGE }}:staging \
+            ${{ env.IMAGE }}:sha-${{ github.sha }}
+
+      - name: Notify watchtower on staging
+        run: |
+          curl -f -X POST "${{ vars.STAGING_SERVER_URL }}/watchtower/v1/update" \
+            -H "Authorization: Bearer ${{ secrets.WATCHTOWER_STAGING_TOKEN }}"
