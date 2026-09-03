@@ -7,7 +7,7 @@ import { StashTabUnique } from "@components/stash/stash-tab-unique";
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { GlobalStateContext } from "@utils/context-provider";
 import { findObjective } from "@utils/utils";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type StashType = "Grid" | "Special" | "Unique";
@@ -46,7 +46,29 @@ export function GuildStashView({
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ItemWithCompletions | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const width = 700;
+  // Largest square that fits the available space (column width vs. remaining
+  // viewport height).
+  const [width, setWidth] = useState(700);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      const top = el.getBoundingClientRect().top;
+      const available = Math.min(
+        el.clientWidth,
+        window.innerHeight - top - 16,
+      );
+      setWidth(Math.max(300, Math.floor(available)));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [isPending, isError, currentTab]);
   if (isPending) {
     return (
       <div

@@ -88,14 +88,18 @@ export const StashTabGrid: React.FC<Props> = ({
                   src={item.icon}
                   alt={item.name}
                 />
-                <div
-                  className={twMerge(
-                    "absolute top-0 left-0 select-none",
-                    gridNum === 24 ? "px-0.5 text-xs" : "px-1",
-                  )}
-                >
-                  {(item.stackSize || 0) > 0 ? item.stackSize : null}
-                </div>
+                {(item.stackSize || 0) > 0 && (
+                  <div
+                    className={twMerge(
+                      "absolute top-0 left-0 rounded-br bg-black/30 font-semibold text-white tabular-nums select-none",
+                      gridNum === 24
+                        ? "px-0.5 text-[0.5rem] leading-tight"
+                        : "px-1 text-sm",
+                    )}
+                  >
+                    {item.stackSizeText || item.stackSize}
+                  </div>
+                )}
               </div>
             );
           }

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { Item, StashTabWithCompletions } from "@api";
 import {
   getLayout,
@@ -182,13 +183,19 @@ export const StashTabSpecial: React.FC<Props> = ({
                   tabIndex={0}
                   className="max-h-full max-w-full object-contain"
                 />{" "}
-                <div
-                  className={
-                    "absolute top-0.5 left-0.5 text-xs text-white select-none"
-                  }
-                >
-                  {(item.stackSize || 0) > 0 ? item.stackSize : null}
-                </div>
+                {(item.stackSize || 0) > 0 && (
+                  <div
+                    className={twMerge(
+                      "absolute top-0 left-0 rounded-br bg-black/75 px-0.5 text-xs leading-tight font-semibold text-white tabular-nums select-none",
+                      item.frameTypeId === "DivinationCard" &&
+                        (item.stackSize || 0) >=
+                          (item.maxStackSize || Infinity) &&
+                        "text-info",
+                    )}
+                  >
+                    {item.stackSizeText || item.stackSize}
+                  </div>
+                )}
               </div>
             </div>
           );
