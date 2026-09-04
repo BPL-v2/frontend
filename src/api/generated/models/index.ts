@@ -1,3 +1,4 @@
+export * from "./achievementCheckKey.ts";
 export * from "./achievementCreate.ts";
 export * from "./achievementGrant.ts";
 export * from "./achievementResponse.ts";

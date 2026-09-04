@@ -1,4 +1,4 @@
-import { Permission, AchievementResponse } from "@api";
+import { Permission, AchievementResponse, AchievementCheckKey } from "@api";
 import {
   useGetAchievements,
   useCreateAchievement,
@@ -7,6 +7,7 @@ import {
   useUploadAchievementIcon,
   useDeleteAchievementIcon,
   useGetUserAchievements,
+  useGetEvents,
 } from "@api";
 import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
@@ -30,6 +31,19 @@ export const Route = createFileRoute("/admin/achievements/")({
   ]),
 });
 
+const autoCheckKeyLabels: Record<AchievementCheckKey, string> = {
+  level_90: "Reached level 90",
+  level_95: "Reached level 95",
+  level_100: "Reached level 100",
+  participated_in_event: "Participated in an event",
+  played_5_leagues: "Played 5 leagues",
+  played_10_leagues: "Played 10 leagues",
+  played_5_ascendancies: "Played 5 different ascendancies",
+  played_10_ascendancies: "Played 10 different ascendancies",
+  teamlead: "Teamlead",
+  submitted_bounty: "Submitted a bounty",
+};
+
 
 interface AchievementFormModalProps {
   isOpen: boolean;
@@ -43,14 +57,20 @@ function AchievementFormModal({
   existing,
 }: AchievementFormModalProps) {
   const qc = useQueryClient();
+  const { events } = useGetEvents();
+  const eventOptions = events.map((event) => ({
+    label: event.name,
+    value: event.id,
+  }));
 
   const form = useAppForm({
-    defaultValues: { name: "", description: "" },
+    defaultValues: { name: "", description: "", event_id: null as number | null },
     onSubmit: (data) => {
+      const values = { ...data.value, event_id: data.value.event_id ?? undefined };
       if (existing?.id) {
-        updateAchievement(existing.id, data.value);
+        updateAchievement(existing.id, values);
       } else {
-        createAchievement(data.value);
+        createAchievement(values);
       }
     },
   });
@@ -72,6 +92,7 @@ function AchievementFormModal({
       setFormValues(form, {
         name: existing.name ?? "",
         description: existing.description ?? "",
+        event_id: existing.event_id ?? null,
       });
     }
   }, [isOpen, existing]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -97,6 +118,16 @@ function AchievementFormModal({
         <form.AppField
           name="description"
           children={(field) => <field.TextField label="Description" />}
+        />
+        <form.AppField
+          name="event_id"
+          children={(field) => (
+            <field.SelectField
+              label="Event"
+              options={eventOptions}
+              helperText="Scopes this achievement to one season - leave empty for an always-obtainable achievement."
+            />
+          )}
         />
         <div className="mt-4 flex flex-row justify-end gap-4">
           <button
@@ -180,6 +211,7 @@ function IconDeleteButton({
 function AchievementsPage() {
   const { achievements, isPending, isError } = useGetAchievements();
   const { userAchievements } = useGetUserAchievements();
+  const { events } = useGetEvents();
   const [isOpen, setIsOpen] = useState(false);
   const [toEdit, setToEdit] = useState<AchievementResponse | null>(null);
   const qc = useQueryClient();
@@ -217,6 +249,23 @@ function AchievementsPage() {
       header: "Custom",
       accessorKey: "is_custom",
       cell: (info) => (info.row.original.is_custom ? "Yes" : "No"),
+    },
+    {
+      header: "Auto-check",
+      accessorKey: "auto_check_key",
+      cell: (info) => {
+        const key = info.row.original.auto_check_key;
+        return key ? (autoCheckKeyLabels[key] ?? key) : "Manual";
+      },
+    },
+    {
+      header: "Event",
+      id: "event",
+      cell: (info) => {
+        const eventId = info.row.original.event_id;
+        if (!eventId) return "Any";
+        return events.find((e) => e.id === eventId)?.name ?? `Event #${eventId}`;
+      },
     },
     {
       header: "Players",
