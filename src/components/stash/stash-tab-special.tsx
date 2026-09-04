@@ -14,6 +14,8 @@ type Props = {
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
+  /** When set, items whose id is in the set are emphasised and all others dimmed. */
+  highlightedItemIds?: Set<string>;
 };
 
 function getMapping(
@@ -45,6 +47,7 @@ export const StashTabSpecial: React.FC<Props> = ({
   size = 1000,
   onItemClick,
   highlightScoring,
+  highlightedItemIds,
 }) => {
   const items = useMemo(() => {
     return (
@@ -166,10 +169,18 @@ export const StashTabSpecial: React.FC<Props> = ({
             mapping.w = Math.max(mapping.w, item.w || 1);
             mapping.h = Math.max(mapping.h, item.h || 1);
           }
+          const highlightClass = !highlightedItemIds
+            ? ""
+            : highlightedItemIds.has(item.id ?? "")
+              ? "z-10 ring-2 ring-primary"
+              : "opacity-30";
           return (
             <div
               key={idx}
-              className="absolute flex cursor-pointer items-center justify-center rounded border border-base-300 bg-base-100 p-1 select-none"
+              className={twMerge(
+                "absolute flex cursor-pointer items-center justify-center rounded border border-base-300 bg-base-100 p-1 transition-opacity select-none",
+                highlightClass,
+              )}
               style={getStyle(mapping, size)}
               onClick={() => onItemClick?.(item)}
             >

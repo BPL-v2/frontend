@@ -7,6 +7,8 @@ type Props = {
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
+  /** When set, items whose id is in the set are emphasised and all others dimmed. */
+  highlightedItemIds?: Set<string>;
 };
 
 function fixCategoryName(name?: string): string {
@@ -23,6 +25,7 @@ export const StashTabUnique: React.FC<Props> = ({
   size = 1000,
   onItemClick,
   highlightScoring = true,
+  highlightedItemIds,
 }) => {
   const [selectedCategory, setSelectedCategory] =
     React.useState<StashTabWithCompletions>(
@@ -73,10 +76,16 @@ export const StashTabUnique: React.FC<Props> = ({
             return (
               <div
                 className={clsx(
-                  "card w-[calc(25%-0.375rem)] shrink-0 cursor-pointer",
+                  "card w-[calc(25%-0.375rem)] shrink-0 cursor-pointer transition-opacity",
                   item.objective_id
                     ? "border-2 border-primary bg-base-300"
                     : "bg-base-200",
+                  highlightedItemIds &&
+                    !highlightedItemIds.has(item.id ?? "") &&
+                    "opacity-30",
+                  highlightedItemIds &&
+                    highlightedItemIds.has(item.id ?? "") &&
+                    "ring-2 ring-primary ring-offset-2 ring-offset-base-100",
                 )}
                 key={"item-" + idx}
                 onClick={() => onItemClick && onItemClick(item)}

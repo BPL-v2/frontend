@@ -7,6 +7,8 @@ type Props = {
   size?: number;
   onItemClick?: (item: Item) => void;
   highlightScoring?: boolean;
+  /** When set, items whose id is in the set are emphasised and all others dimmed. */
+  highlightedItemIds?: Set<string>;
 };
 
 export const StashTabGrid: React.FC<Props> = ({
@@ -14,6 +16,7 @@ export const StashTabGrid: React.FC<Props> = ({
   size = 1000,
   onItemClick,
   highlightScoring,
+  highlightedItemIds,
 }) => {
   const occupied = new Set<string>();
   const gridNum = tab?.type === "PremiumStash" ? 12 : 24;
@@ -65,12 +68,18 @@ export const StashTabGrid: React.FC<Props> = ({
                 borderColor = "border-magic";
                 break;
             }
+            const highlightClass = !highlightedItemIds
+              ? ""
+              : highlightedItemIds.has(item.id ?? "")
+                ? "z-10 ring-2 ring-primary ring-offset-1 ring-offset-base-100"
+                : "opacity-30";
             return (
               <div
                 key={`${i}-${j}-${item.id}`}
                 className={twMerge(
-                  "tooltip relative tooltip-bottom cursor-pointer",
+                  "tooltip relative tooltip-bottom cursor-pointer transition-opacity",
                   tooltipColor,
+                  highlightClass,
                 )}
                 data-tip={`${item.name} ${item.typeLine}`}
                 onClick={() => onItemClick && onItemClick(item)}
