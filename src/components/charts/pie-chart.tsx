@@ -1,35 +1,35 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const COLORS = [
-  "#4285F4",
-  "#EA4335",
-  "#FBBC04",
-  "#34A853",
-  "#FF6D01",
-  "#46BDC6",
-  "#7B61FF",
-  "#F542A7",
-  "#00ACC1",
-  "#9E9D24",
-  "#8E24AA",
-  "#3949AB",
-  "#00897B",
-  "#C0CA33",
-  "#F4511E",
-  "#6D4C41",
-  "#546E7A",
-  "#D81B60",
-  "#1E88E5",
-  "#43A047",
+// Tailwind text-color classes; the SVG slices and legend swatches pick them
+// up as `currentColor` via `fill-current` / `bg-current`.
+const DEFAULT_COLORS = [
+  "text-blue-500",
+  "text-red-500",
+  "text-amber-400",
+  "text-green-500",
+  "text-orange-500",
+  "text-cyan-500",
+  "text-violet-500",
+  "text-pink-500",
+  "text-teal-500",
+  "text-lime-600",
+  "text-purple-600",
+  "text-indigo-500",
+  "text-emerald-600",
+  "text-yellow-500",
+  "text-red-700",
+  "text-amber-700",
+  "text-slate-500",
+  "text-rose-600",
+  "text-sky-500",
+  "text-green-800",
 ];
 
 export type PieSlice = {
   label: string;
   value: number;
   players: string[];
-  // Explicit hex fill, e.g. to reuse the same colors as the corresponding
-  // Select field elsewhere. Falls back to the default rotating palette.
   color?: string;
 };
 
@@ -107,9 +107,11 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
               <path
                 key={slice.label}
                 d={donutSlicePath(startAngle, endAngle)}
-                fill={slice.color ?? COLORS[i % COLORS.length]}
                 opacity={active && !isActive ? 0.4 : 1}
-                className="cursor-pointer transition-opacity"
+                className={twMerge(
+                  "cursor-pointer fill-current transition-opacity",
+                  slice.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+                )}
                 onMouseEnter={() => setHovered(slice.label)}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => toggleSelection(slice.label)}
@@ -139,10 +141,10 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
               onClick={() => toggleSelection(slice.label)}
             >
               <span
-                className="size-3 shrink-0 rounded-sm"
-                style={{
-                  backgroundColor: slice.color ?? COLORS[i % COLORS.length],
-                }}
+                className={twMerge(
+                  "size-3 shrink-0 rounded-sm bg-current",
+                  slice.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+                )}
               />
               <span className="font-medium">{slice.label}</span>
               <span className="text-base-content/60">

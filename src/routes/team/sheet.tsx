@@ -36,7 +36,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { twMerge } from "tailwind-merge";
-import { classColorToHex, pickColor } from "@utils/color";
+import { pickColor } from "@utils/color";
 import { defaultPreferences } from "@mytypes/preferences";
 import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
 import { SKILL_GEMS, isTransfiguredGem } from "@mytypes/skill-gems";
@@ -568,9 +568,8 @@ function RouteComponent() {
     })),
   ).map((slice) => ({
     ...slice,
-    color: classColorToHex(
+    color:
       SPECIALIZATION_COLORS.Mapper?.[slice.label] ?? ROLE_COLORS[slice.label],
-    ),
   }));
 
   const columns: ColumnDef<SheetRow>[] = [

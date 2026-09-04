@@ -2,7 +2,6 @@ import { GameVersion, useGetEventStatus, useGetTeamSheet } from "@api";
 import { PieChart, PieSlice } from "@components/charts/pie-chart";
 import { GlobalStateContext } from "@utils/context-provider";
 import { tallyByPlayer } from "@utils/chart-tally";
-import { classColorToHex } from "@utils/color";
 import {
   ascendancies,
   UNDECIDED_ASCENDANCY_COLOR,
@@ -53,7 +52,7 @@ function RouteComponent() {
           })),
         ).map((slice) => ({
           ...slice,
-          color: classColorToHex(ROLE_COLORS[slice.label]),
+          color: ROLE_COLORS[slice.label],
         }));
       case "mainSpecialization":
         return tallyByPlayer(
@@ -67,7 +66,7 @@ function RouteComponent() {
           const [role, spec] = slice.label.split(": ");
           return {
             ...slice,
-            color: classColorToHex(SPECIALIZATION_COLORS[role]?.[spec]),
+            color: SPECIALIZATION_COLORS[role]?.[spec],
           };
         });
       case "secondRole":
@@ -81,7 +80,7 @@ function RouteComponent() {
           ),
         ).map((slice) => ({
           ...slice,
-          color: classColorToHex(ROLE_COLORS[slice.label]),
+          color: ROLE_COLORS[slice.label],
         }));
       case "secondSpecialization":
         return tallyByPlayer(
@@ -96,7 +95,7 @@ function RouteComponent() {
           const [role, spec] = slice.label.split(": ");
           return {
             ...slice,
-            color: classColorToHex(SPECIALIZATION_COLORS[role]?.[spec]),
+            color: SPECIALIZATION_COLORS[role]?.[spec],
           };
         });
       case "ascendancy":
@@ -107,11 +106,10 @@ function RouteComponent() {
           })),
         ).map((slice) => ({
           ...slice,
-          color: classColorToHex(
+          color:
             slice.label === "Undecided"
               ? UNDECIDED_ASCENDANCY_COLOR
               : ascendancies[GameVersion.poe1][slice.label]?.classColor,
-          ),
         }));
       case "altars":
         return tallyByPlayer(
@@ -123,7 +121,7 @@ function RouteComponent() {
             })),
         ).map((slice) => ({
           ...slice,
-          color: classColorToHex(ALTAR_COLORS[slice.label]),
+          color: ALTAR_COLORS[slice.label],
         }));
     }
   }, [tab, teamSheet]);
