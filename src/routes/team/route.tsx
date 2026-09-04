@@ -11,6 +11,7 @@ type teamTabKey =
   | "atlas"
   | "stashes"
   | "lfg"
+  | "alt-ascendancies"
   | "charts";
 
 function RouteComponent() {
@@ -48,6 +49,11 @@ function RouteComponent() {
     {
       name: "LFG",
       key: "lfg",
+      visible: true,
+    },
+    {
+      name: "Alt Ascendancies",
+      key: "alt-ascendancies",
       visible: true,
     },
     {

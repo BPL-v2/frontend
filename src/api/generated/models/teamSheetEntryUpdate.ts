@@ -1,4 +1,5 @@
 export interface TeamSheetEntryUpdate {
+  alt_ascendancy?: string;
   altars?: string;
   ascendancy?: string;
   build_notes?: string;
