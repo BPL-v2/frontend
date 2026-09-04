@@ -23,7 +23,7 @@ export const StashTabGrid: React.FC<Props> = ({
   const items = useMemo(() => {
     return (
       tab.items?.filter((item) => {
-        if (highlightScoring && !item.objective_id) {
+        if (highlightScoring && !item.objective_ids?.length) {
           return false;
         }
         return true;

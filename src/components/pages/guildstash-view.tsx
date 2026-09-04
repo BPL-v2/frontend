@@ -59,17 +59,17 @@ export function GuildStashView({
     const itemIds = new Map<number, Set<string>>();
     const collect = (tab: typeof currentTab) => {
       tab.items?.forEach((item) => {
-        if (item.objective_id) {
+        item.objective_ids?.forEach((objectiveId) => {
           counts.set(
-            item.objective_id,
-            (counts.get(item.objective_id) || 0) + (item.stackSize || 1),
+            objectiveId,
+            (counts.get(objectiveId) || 0) + (item.stackSize || 1),
           );
           if (item.id) {
-            const set = itemIds.get(item.objective_id) ?? new Set<string>();
+            const set = itemIds.get(objectiveId) ?? new Set<string>();
             set.add(item.id);
-            itemIds.set(item.objective_id, set);
+            itemIds.set(objectiveId, set);
           }
-        }
+        });
       });
       tab.children?.forEach(collect);
     };
@@ -266,13 +266,14 @@ export function GuildStashView({
               </>
             )}
           </div>
-          {selectedItem?.objective_id &&
-            `Counts for "${
-              findObjective(
-                rules,
-                (obj) => selectedItem.objective_id === obj.id,
-              )?.name
-            }"`}
+          {selectedItem?.objective_ids &&
+            selectedItem.objective_ids.length > 0 &&
+            `Counts for ${selectedItem.objective_ids
+              .map(
+                (objectiveId) =>
+                  `"${findObjective(rules, (obj) => objectiveId === obj.id)?.name}"`,
+              )
+              .join(", ")}`}
         </Dialog>
 
         {type == "Grid" && (

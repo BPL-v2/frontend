@@ -52,7 +52,7 @@ export const StashTabSpecial: React.FC<Props> = ({
   const items = useMemo(() => {
     return (
       tab?.items?.filter((item) => {
-        if (highlightScoring && !item.objective_id) {
+        if (highlightScoring && !item.objective_ids?.length) {
           return false;
         }
         return true;
@@ -185,7 +185,7 @@ export const StashTabSpecial: React.FC<Props> = ({
               onClick={() => onItemClick?.(item)}
             >
               <div
-                className="tooltip-white tooltip relative flex h-full w-full items-center justify-center overflow-hidden tooltip-bottom cursor-pointer"
+                className="tooltip-white tooltip relative tooltip-bottom flex h-full w-full cursor-pointer items-center justify-center overflow-hidden"
                 data-tip={`${item.name} ${item.typeLine}`}
               >
                 <img

@@ -113,7 +113,7 @@ export interface ItemWithCompletions {
   notableProperties?: ItemProperty[];
   /** Note user-generated text */
   note?: string;
-  objective_id?: number;
+  objective_ids?: number[];
   properties?: ItemProperty[];
   prophecyText?: string;
   rarity?: ItemRarity;

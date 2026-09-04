@@ -30,7 +30,9 @@ export const StashTabUnique: React.FC<Props> = ({
   const [selectedCategory, setSelectedCategory] =
     React.useState<StashTabWithCompletions>(
       tab.children?.filter(
-        (child) => !highlightScoring || child.items?.some((i) => i.objective_id),
+        (child) =>
+          !highlightScoring ||
+          child.items?.some((i) => i.objective_ids?.length),
       )?.[0] || tab,
     );
 
@@ -46,7 +48,10 @@ export const StashTabUnique: React.FC<Props> = ({
       <div className="mb-2 flex flex-row flex-wrap gap-1">
         {tab.children
           ?.filter((child) => {
-            if (highlightScoring && !child.items?.some((i) => i.objective_id)) {
+            if (
+              highlightScoring &&
+              !child.items?.some((i) => i.objective_ids?.length)
+            ) {
               return false;
             }
             return child.name;
@@ -69,7 +74,7 @@ export const StashTabUnique: React.FC<Props> = ({
       <div className="flex flex-wrap gap-2">
         {selectedCategory.items
           ?.filter((item) => {
-            return !highlightScoring || item.objective_id;
+            return !highlightScoring || item.objective_ids?.length;
           })
           .sort((a, b) => (b.h || 1) - (a.h || 1))
           .map((item, idx) => {
@@ -77,7 +82,7 @@ export const StashTabUnique: React.FC<Props> = ({
               <div
                 className={clsx(
                   "card w-[calc(25%-0.375rem)] shrink-0 cursor-pointer transition-opacity",
-                  item.objective_id
+                  item.objective_ids?.length
                     ? "border-2 border-primary bg-base-300"
                     : "bg-base-200",
                   highlightedItemIds &&
