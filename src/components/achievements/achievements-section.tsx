@@ -1,5 +1,6 @@
 import {
   useGetAchievements,
+  useGetEvents,
   useGetUserAchievements,
   AchievementResponse,
 } from "@api";
@@ -74,6 +75,7 @@ function AchievementBadge({
 export function AchievementsSection({ userId }: { userId: number }) {
   const { achievements } = useGetAchievements();
   const { userAchievements } = useGetUserAchievements(userId);
+  const { events } = useGetEvents();
   const [expanded, setExpanded] = useState(false);
 
   const grantedAt = new Map(
@@ -87,7 +89,12 @@ export function AchievementsSection({ userId }: { userId: number }) {
         String(grantedAt.get(a.id) ?? ""),
       ),
     );
-  const available = achievements.filter((a) => !grantedAt.has(a.id));
+  const available = achievements.filter(
+    (a) =>
+      !grantedAt.has(a.id) &&
+      (a.event_id === undefined ||
+        events.some((e) => e.id === a.event_id && e.is_current)),
+  );
 
   if (achievements.length === 0) return null;
 
