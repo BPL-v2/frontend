@@ -299,6 +299,7 @@ function RouteComponent() {
       saveItemWish({
         item_field: ItemField.BASE_TYPE,
         value: newSkill,
+        quantity: 1,
         build_enabling: DEFAULT_BUILD_ENABLING,
       });
     }
@@ -358,6 +359,7 @@ function RouteComponent() {
       if (!existingByValue.has(value)) {
         saveItemWish({
           item_field: ItemField.BASE_TYPE,
+          quantity: 1,
           value,
           build_enabling: DEFAULT_BUILD_ENABLING,
         });

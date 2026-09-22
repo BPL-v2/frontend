@@ -11,7 +11,10 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { GetItemMapBase200 } from "../models";
+import type {
+  GetItemMapBase200,
+  ImportPoBFromShareLinkBaseParams,
+} from "../models";
 
 import { customFetch } from "../../fetcher.ts";
 
@@ -158,6 +161,187 @@ export function useGetItemMapBase<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetItemMapBaseQueryOptions(options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getImportPoBFromShareLinkBaseUrl = (
+  params: ImportPoBFromShareLinkBaseParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/pob-import?${stringifiedParams}`
+    : `/pob-import`;
+};
+
+/**
+ * Resolves a Path of Building share link (Maxroll, pobb.in, pob.codes, PoE Ninja, Pastebin.com, PastebinP.com, Rentry.co, poedb.tw) into its raw PoB export code
+ */
+export const importPoBFromShareLinkBase = async (
+  params: ImportPoBFromShareLinkBaseParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<string> => {
+  return customFetch<string>(getImportPoBFromShareLinkBaseUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getImportPoBFromShareLinkBaseQueryKey = (
+  params?: ImportPoBFromShareLinkBaseParams,
+) => {
+  return [`/pob-import`, ...(params ? [params] : [])] as const;
+};
+
+export const getImportPoBFromShareLinkBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+  TError = unknown,
+>(
+  params: ImportPoBFromShareLinkBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getImportPoBFromShareLinkBaseQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof importPoBFromShareLinkBase>>
+  > = ({ signal }) =>
+    importPoBFromShareLinkBase(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type ImportPoBFromShareLinkBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof importPoBFromShareLinkBase>>
+>;
+export type ImportPoBFromShareLinkBaseQueryError = unknown;
+
+export function useImportPoBFromShareLinkBase<
+  TData = Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+  TError = unknown,
+>(
+  params: ImportPoBFromShareLinkBaseParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+          TError,
+          Awaited<ReturnType<typeof importPoBFromShareLinkBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useImportPoBFromShareLinkBase<
+  TData = Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+  TError = unknown,
+>(
+  params: ImportPoBFromShareLinkBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+          TError,
+          Awaited<ReturnType<typeof importPoBFromShareLinkBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useImportPoBFromShareLinkBase<
+  TData = Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+  TError = unknown,
+>(
+  params: ImportPoBFromShareLinkBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useImportPoBFromShareLinkBase<
+  TData = Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+  TError = unknown,
+>(
+  params: ImportPoBFromShareLinkBaseParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof importPoBFromShareLinkBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getImportPoBFromShareLinkBaseQueryOptions(
+    params,
+    options,
+  );
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

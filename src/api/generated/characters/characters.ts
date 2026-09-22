@@ -20,6 +20,7 @@ import type {
   CharacterStat,
   DelveHistoryEntry,
   DelveProgressionEntry,
+  FixPoBsBase202,
   GetDelveProgressionBaseParams,
   PoB,
 } from "../models";
@@ -46,6 +47,83 @@ const withQueryKey = <T extends object, K>(
   return result;
 };
 
+export const getFixPoBsBaseUrl = () => {
+  return `/admin/fix-pobs`;
+};
+
+/**
+ * Trigger the PoB maintenance/cleanup routine (admin only)
+ */
+export const fixPoBsBase = async (
+  options?: Parameters<typeof customFetch>[1],
+): Promise<FixPoBsBase202> => {
+  return customFetch<FixPoBsBase202>(getFixPoBsBaseUrl(), {
+    ...options,
+    method: "POST",
+  });
+};
+
+export const getFixPoBsBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof fixPoBsBase>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof fixPoBsBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["fixPoBsBase"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof fixPoBsBase>>,
+    void
+  > = () => {
+    return fixPoBsBase(requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type FixPoBsBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof fixPoBsBase>>
+>;
+
+export type FixPoBsBaseMutationError = unknown;
+
+export const useFixPoBsBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof fixPoBsBase>>,
+      TError,
+      void,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof fixPoBsBase>>,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(getFixPoBsBaseMutationOptions(options), queryClient);
+};
 export const getGetCharactersForEventBaseUrl = (eventId: number) => {
   return `/events/${eventId}/characters`;
 };
