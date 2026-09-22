@@ -293,7 +293,10 @@ function RouteComponent() {
       newSkill &&
       isTransfiguredGem(newSkill) &&
       !wishlist.some(
-        (w) => w.item_field === ItemField.BASE_TYPE && w.value === newSkill,
+        (w) =>
+          w.user_id === user?.id &&
+          w.item_field === ItemField.BASE_TYPE &&
+          w.value === newSkill,
       )
     ) {
       saveItemWish({
