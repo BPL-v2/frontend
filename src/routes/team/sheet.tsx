@@ -17,7 +17,10 @@ import {
   NeededUnique,
   UniquesPickerModal,
 } from "@components/form-dialogs/UniquesPickerModal";
-import { GemsPickerModal } from "@components/form-dialogs/GemsPickerModal";
+import {
+  GemsPickerModal,
+  NeededGem,
+} from "@components/form-dialogs/GemsPickerModal";
 import { SecondaryRolePickerModal } from "@components/form-dialogs/SecondaryRolePickerModal";
 import { ItemSetPickerModal } from "@components/form-dialogs/ItemSetPickerModal";
 import { TextNoteModal } from "@components/form-dialogs/TextNoteModal";
@@ -346,7 +349,7 @@ function RouteComponent() {
     }
   };
 
-  const handleGemsConfirm = (selected: string[]) => {
+  const handleGemsConfirm = (needed: NeededGem[]) => {
     // Only manage wishes that are actually transfigured gems here - a plain
     // gem wish added via "Add Item Wish" isn't shown in this picker and
     // must survive a confirm untouched.
@@ -357,19 +360,28 @@ function RouteComponent() {
         isTransfiguredGem(w.value),
     );
     const existingByValue = new Map(myGemWishes.map((w) => [w.value, w]));
-    const selectedSet = new Set(selected);
-    for (const value of selected) {
-      if (!existingByValue.has(value)) {
+    const neededValues = new Set(needed.map((n) => n.value));
+    for (const n of needed) {
+      const existing = existingByValue.get(n.value);
+      if (!existing) {
         saveItemWish({
           item_field: ItemField.BASE_TYPE,
-          quantity: 1,
-          value,
-          build_enabling: DEFAULT_BUILD_ENABLING,
+          value: n.value,
+          build_enabling: n.buildEnabling,
+          quantity: n.quantity,
+        });
+      } else if (
+        existing.build_enabling !== n.buildEnabling ||
+        existing.quantity !== n.quantity
+      ) {
+        updateItemWish(existing.id, {
+          build_enabling: n.buildEnabling,
+          quantity: n.quantity,
         });
       }
     }
     for (const wish of myGemWishes) {
-      if (!selectedSet.has(wish.value)) {
+      if (!neededValues.has(wish.value)) {
         deleteItemWish(wish.id);
       }
     }
@@ -1109,14 +1121,18 @@ function RouteComponent() {
       <GemsPickerModal
         isOpen={gemsPickerOpen}
         setIsOpen={setGemsPickerOpen}
-        initialSelected={wishlist
+        initialNeeded={wishlist
           .filter(
             (w) =>
               w.user_id === user?.id &&
               w.item_field === ItemField.BASE_TYPE &&
               isTransfiguredGem(w.value),
           )
-          .map((w) => w.value)}
+          .map((w) => ({
+            value: w.value,
+            buildEnabling: w.build_enabling,
+            quantity: w.quantity || 1,
+          }))}
         onConfirm={handleGemsConfirm}
       />
       <SecondaryRolePickerModal
