@@ -258,308 +258,113 @@ export function isTreeSocketedSlot(slot: string | null): boolean {
   return slot === "Socket";
 }
 
+// PoB stat names (as found in the export XML) to PlayerStats fields.
+const PLAYER_STAT_FIELDS: Record<string, keyof PlayerStats> = {
+  AverageDamage: "averageDamage",
+  AverageBurstDamage: "averageBurstDamage",
+  Speed: "speed",
+  PreEffectiveCritChance: "preEffectiveCritChance",
+  CritChance: "critChance",
+  CritMultiplier: "critMultiplier",
+  HitChance: "hitChance",
+  TotalDPS: "totalDPS",
+  TotalDot: "totalDot",
+  WithBleedDPS: "withBleedDPS",
+  WithIgniteDPS: "withIgniteDPS",
+  PoisonDPS: "poisonDPS",
+  PoisonDamage: "poisonDamage",
+  WithPoisonDPS: "withPoisonDPS",
+  TotalDotDPS: "totalDotDPS",
+  CullingDPS: "cullingDPS",
+  ReservationDPS: "reservationDPS",
+  CombinedDPS: "combinedDPS",
+  AreaOfEffectRadiusMetres: "areaOfEffectRadiusMetres",
+  ManaCost: "manaCost",
+  ManaPercentCost: "manaPercentCost",
+  ManaPerSecondCost: "manaPerSecondCost",
+  ManaPercentPerSecondCost: "manaPercentPerSecondCost",
+  LifeCost: "lifeCost",
+  LifePercentCost: "lifePercentCost",
+  LifePerSecondCost: "lifePerSecondCost",
+  LifePercentPerSecondCost: "lifePercentPerSecondCost",
+  ESCost: "esCost",
+  ESPerSecondCost: "esPerSecondCost",
+  ESPercentPerSecondCost: "esPercentPerSecondCost",
+  RageCost: "rageCost",
+  SoulCost: "soulCost",
+  Str: "str",
+  ReqStr: "reqStr",
+  Dex: "dex",
+  ReqDex: "reqDex",
+  Int: "int",
+  ReqInt: "reqInt",
+  Devotion: "devotion",
+  TotalEHP: "totalEHP",
+  PhysicalMaximumHitTaken: "physicalMaximumHitTaken",
+  LightningMaximumHitTaken: "lightningMaximumHitTaken",
+  FireMaximumHitTaken: "fireMaximumHitTaken",
+  ColdMaximumHitTaken: "coldMaximumHitTaken",
+  ChaosMaximumHitTaken: "chaosMaximumHitTaken",
+  MainHandAccuracy: "mainHandAccuracy",
+  Life: "life",
+  "Spec:LifeInc": "specLifeInc",
+  LifeUnreserved: "lifeUnreserved",
+  LifeRecoverable: "lifeRecoverable",
+  LifeUnreservedPercent: "lifeUnreservedPercent",
+  LifeRegenRecovery: "lifeRegenRecovery",
+  LifeLeechGainRate: "lifeLeechGainRate",
+  Mana: "mana",
+  "Spec:ManaInc": "specManaInc",
+  ManaUnreserved: "manaUnreserved",
+  ManaUnreservedPercent: "manaUnreservedPercent",
+  ManaRegenRecovery: "manaRegenRecovery",
+  ManaLeechGainRate: "manaLeechGainRate",
+  EnergyShield: "energyShield",
+  EnergyShieldRecoveryCap: "energyShieldRecoveryCap",
+  "Spec:EnergyShieldInc": "specEnergyShieldInc",
+  EnergyShieldRegenRecovery: "energyShieldRegenRecovery",
+  EnergyShieldLeechGainRate: "energyShieldLeechGainRate",
+  Ward: "ward",
+  RageRegenRecovery: "rageRegenRecovery",
+  TotalBuildDegen: "totalBuildDegen",
+  TotalNetRegen: "totalNetRegen",
+  NetLifeRegen: "netLifeRegen",
+  NetManaRegen: "netManaRegen",
+  NetEnergyShieldRegen: "netEnergyShieldRegen",
+  Evasion: "evasion",
+  "Spec:EvasionInc": "specEvasionInc",
+  MeleeEvadeChance: "meleeEvadeChance",
+  ProjectileEvadeChance: "projectileEvadeChance",
+  Armour: "armour",
+  "Spec:ArmourInc": "specArmourInc",
+  PhysicalDamageReduction: "physicalDamageReduction",
+  EffectiveBlockChance: "effectiveBlockChance",
+  EffectiveSpellBlockChance: "effectiveSpellBlockChance",
+  AttackDodgeChance: "attackDodgeChance",
+  SpellDodgeChance: "spellDodgeChance",
+  EffectiveSpellSuppressionChance: "effectiveSpellSuppressionChance",
+  FireResist: "fireResist",
+  FireResistOverCap: "fireResistOverCap",
+  ColdResist: "coldResist",
+  ColdResistOverCap: "coldResistOverCap",
+  LightningResist: "lightningResist",
+  LightningResistOverCap: "lightningResistOverCap",
+  ChaosResist: "chaosResist",
+  ChaosResistOverCap: "chaosResistOverCap",
+  EffectiveMovementSpeedMod: "effectiveMovementSpeedMod",
+  FullDPS: "fullDPS",
+  FullDotDPS: "fullDotDPS",
+  PowerCharges: "powerCharges",
+  PowerChargesMax: "powerChargesMax",
+  FrenzyCharges: "frenzyCharges",
+  FrenzyChargesMax: "frenzyChargesMax",
+  EnduranceCharges: "enduranceCharges",
+  EnduranceChargesMax: "enduranceChargesMax",
+};
+
 function setPlayerStat(stats: PlayerStats, stat: string, value: number): void {
-  switch (stat) {
-    case "AverageDamage":
-      stats.averageDamage = value;
-      break;
-    case "AverageBurstDamage":
-      stats.averageBurstDamage = value;
-      break;
-    case "Speed":
-      stats.speed = value;
-      break;
-    case "PreEffectiveCritChance":
-      stats.preEffectiveCritChance = value;
-      break;
-    case "CritChance":
-      stats.critChance = value;
-      break;
-    case "CritMultiplier":
-      stats.critMultiplier = value;
-      break;
-    case "HitChance":
-      stats.hitChance = value;
-      break;
-    case "TotalDPS":
-      stats.totalDPS = value;
-      break;
-    case "TotalDot":
-      stats.totalDot = value;
-      break;
-    case "WithBleedDPS":
-      stats.withBleedDPS = value;
-      break;
-    case "WithIgniteDPS":
-      stats.withIgniteDPS = value;
-      break;
-    case "PoisonDPS":
-      stats.poisonDPS = value;
-      break;
-    case "PoisonDamage":
-      stats.poisonDamage = value;
-      break;
-    case "WithPoisonDPS":
-      stats.withPoisonDPS = value;
-      break;
-    case "TotalDotDPS":
-      stats.totalDotDPS = value;
-      break;
-    case "CullingDPS":
-      stats.cullingDPS = value;
-      break;
-    case "ReservationDPS":
-      stats.reservationDPS = value;
-      break;
-    case "CombinedDPS":
-      stats.combinedDPS = value;
-      break;
-    case "AreaOfEffectRadiusMetres":
-      stats.areaOfEffectRadiusMetres = value;
-      break;
-    case "ManaCost":
-      stats.manaCost = value;
-      break;
-    case "ManaPercentCost":
-      stats.manaPercentCost = value;
-      break;
-    case "ManaPerSecondCost":
-      stats.manaPerSecondCost = value;
-      break;
-    case "ManaPercentPerSecondCost":
-      stats.manaPercentPerSecondCost = value;
-      break;
-    case "LifeCost":
-      stats.lifeCost = value;
-      break;
-    case "LifePercentCost":
-      stats.lifePercentCost = value;
-      break;
-    case "LifePerSecondCost":
-      stats.lifePerSecondCost = value;
-      break;
-    case "LifePercentPerSecondCost":
-      stats.lifePercentPerSecondCost = value;
-      break;
-    case "ESCost":
-      stats.esCost = value;
-      break;
-    case "ESPerSecondCost":
-      stats.esPerSecondCost = value;
-      break;
-    case "ESPercentPerSecondCost":
-      stats.esPercentPerSecondCost = value;
-      break;
-    case "RageCost":
-      stats.rageCost = value;
-      break;
-    case "SoulCost":
-      stats.soulCost = value;
-      break;
-    case "Str":
-      stats.str = value;
-      break;
-    case "ReqStr":
-      stats.reqStr = value;
-      break;
-    case "Dex":
-      stats.dex = value;
-      break;
-    case "ReqDex":
-      stats.reqDex = value;
-      break;
-    case "Int":
-      stats.int = value;
-      break;
-    case "ReqInt":
-      stats.reqInt = value;
-      break;
-    case "Devotion":
-      stats.devotion = value;
-      break;
-    case "TotalEHP":
-      stats.totalEHP = value;
-      break;
-    case "PhysicalMaximumHitTaken":
-      stats.physicalMaximumHitTaken = value;
-      break;
-    case "LightningMaximumHitTaken":
-      stats.lightningMaximumHitTaken = value;
-      break;
-    case "FireMaximumHitTaken":
-      stats.fireMaximumHitTaken = value;
-      break;
-    case "ColdMaximumHitTaken":
-      stats.coldMaximumHitTaken = value;
-      break;
-    case "ChaosMaximumHitTaken":
-      stats.chaosMaximumHitTaken = value;
-      break;
-    case "MainHandAccuracy":
-      stats.mainHandAccuracy = value;
-      break;
-    case "Life":
-      stats.life = value;
-      break;
-    case "Spec:LifeInc":
-      stats.specLifeInc = value;
-      break;
-    case "LifeUnreserved":
-      stats.lifeUnreserved = value;
-      break;
-    case "LifeRecoverable":
-      stats.lifeRecoverable = value;
-      break;
-    case "LifeUnreservedPercent":
-      stats.lifeUnreservedPercent = value;
-      break;
-    case "LifeRegenRecovery":
-      stats.lifeRegenRecovery = value;
-      break;
-    case "LifeLeechGainRate":
-      stats.lifeLeechGainRate = value;
-      break;
-    case "Mana":
-      stats.mana = value;
-      break;
-    case "Spec:ManaInc":
-      stats.specManaInc = value;
-      break;
-    case "ManaUnreserved":
-      stats.manaUnreserved = value;
-      break;
-    case "ManaUnreservedPercent":
-      stats.manaUnreservedPercent = value;
-      break;
-    case "ManaRegenRecovery":
-      stats.manaRegenRecovery = value;
-      break;
-    case "ManaLeechGainRate":
-      stats.manaLeechGainRate = value;
-      break;
-    case "EnergyShield":
-      stats.energyShield = value;
-      break;
-    case "EnergyShieldRecoveryCap":
-      stats.energyShieldRecoveryCap = value;
-      break;
-    case "Spec:EnergyShieldInc":
-      stats.specEnergyShieldInc = value;
-      break;
-    case "EnergyShieldRegenRecovery":
-      stats.energyShieldRegenRecovery = value;
-      break;
-    case "EnergyShieldLeechGainRate":
-      stats.energyShieldLeechGainRate = value;
-      break;
-    case "Ward":
-      stats.ward = value;
-      break;
-    case "RageRegenRecovery":
-      stats.rageRegenRecovery = value;
-      break;
-    case "TotalBuildDegen":
-      stats.totalBuildDegen = value;
-      break;
-    case "TotalNetRegen":
-      stats.totalNetRegen = value;
-      break;
-    case "NetLifeRegen":
-      stats.netLifeRegen = value;
-      break;
-    case "NetManaRegen":
-      stats.netManaRegen = value;
-      break;
-    case "NetEnergyShieldRegen":
-      stats.netEnergyShieldRegen = value;
-      break;
-    case "Evasion":
-      stats.evasion = value;
-      break;
-    case "Spec:EvasionInc":
-      stats.specEvasionInc = value;
-      break;
-    case "MeleeEvadeChance":
-      stats.meleeEvadeChance = value;
-      break;
-    case "ProjectileEvadeChance":
-      stats.projectileEvadeChance = value;
-      break;
-    case "Armour":
-      stats.armour = value;
-      break;
-    case "Spec:ArmourInc":
-      stats.specArmourInc = value;
-      break;
-    case "PhysicalDamageReduction":
-      stats.physicalDamageReduction = value;
-      break;
-    case "EffectiveBlockChance":
-      stats.effectiveBlockChance = value;
-      break;
-    case "EffectiveSpellBlockChance":
-      stats.effectiveSpellBlockChance = value;
-      break;
-    case "AttackDodgeChance":
-      stats.attackDodgeChance = value;
-      break;
-    case "SpellDodgeChance":
-      stats.spellDodgeChance = value;
-      break;
-    case "EffectiveSpellSuppressionChance":
-      stats.effectiveSpellSuppressionChance = value;
-      break;
-    case "FireResist":
-      stats.fireResist = value;
-      break;
-    case "FireResistOverCap":
-      stats.fireResistOverCap = value;
-      break;
-    case "ColdResist":
-      stats.coldResist = value;
-      break;
-    case "ColdResistOverCap":
-      stats.coldResistOverCap = value;
-      break;
-    case "LightningResist":
-      stats.lightningResist = value;
-      break;
-    case "LightningResistOverCap":
-      stats.lightningResistOverCap = value;
-      break;
-    case "ChaosResist":
-      stats.chaosResist = value;
-      break;
-    case "ChaosResistOverCap":
-      stats.chaosResistOverCap = value;
-      break;
-    case "EffectiveMovementSpeedMod":
-      stats.effectiveMovementSpeedMod = value;
-      break;
-    case "FullDPS":
-      stats.fullDPS = value;
-      break;
-    case "FullDotDPS":
-      stats.fullDotDPS = value;
-      break;
-    case "PowerCharges":
-      stats.powerCharges = value;
-      break;
-    case "PowerChargesMax":
-      stats.powerChargesMax = value;
-      break;
-    case "FrenzyCharges":
-      stats.frenzyCharges = value;
-      break;
-    case "FrenzyChargesMax":
-      stats.frenzyChargesMax = value;
-      break;
-    case "EnduranceCharges":
-      stats.enduranceCharges = value;
-      break;
-    case "EnduranceChargesMax":
-      stats.enduranceChargesMax = value;
-      break;
+  if (Object.hasOwn(PLAYER_STAT_FIELDS, stat)) {
+    stats[PLAYER_STAT_FIELDS[stat]] = value;
   }
 }
 
@@ -587,6 +392,73 @@ async function pobstringToXmlString(pob: string): Promise<string> {
   return new TextDecoder().decode(decompressed);
 }
 
+const isJewelSlot = (slot: string) =>
+  slot.includes("Abyssal") || slot.includes("Socket");
+
+function markItemDifferences(pob1: PathOfBuilding, pob2: PathOfBuilding) {
+  const pob1slot2items: Record<string, Item> = {};
+  for (const item of pob1.items) {
+    if (item.slot) pob1slot2items[item.slot] = item;
+  }
+  const jewels = pob1.items.filter(
+    (item) => item.slot && isJewelSlot(item.slot),
+  );
+  for (const item of pob2.items) {
+    if (!item.slot || !pob1slot2items[item.slot]) {
+      item.changedFromLastSnapshot = true;
+      continue;
+    }
+    let oldItem = pob1slot2items[item.slot];
+    if (isJewelSlot(item.slot)) {
+      // find matching jewel by id
+      const matchingJewel = jewels.find((jewel) => jewel.name === item.name);
+      if (!matchingJewel) {
+        item.changedFromLastSnapshot = true;
+        continue;
+      }
+      oldItem = matchingJewel;
+    }
+    determineModDifferences(oldItem.implicits, item.implicits);
+    determineModDifferences(oldItem.enchants, item.enchants);
+    determineModDifferences(oldItem.explicits, item.explicits);
+    item.modsChangedFromLastSnapshot = [
+      ...item.implicits,
+      ...item.enchants,
+      ...item.explicits,
+    ].some((mod) => mod.changedFromLastSnapshot);
+    if (oldItem.name !== item.name) {
+      item.changedFromLastSnapshot = true;
+    }
+  }
+}
+
+function markGemDifferences(pob1: PathOfBuilding, pob2: PathOfBuilding) {
+  const slot2gems: Record<string, Gem[]> = {};
+  for (const skill of pob1.skills.skillSets.flatMap((set) => set.skills)) {
+    (slot2gems[skill.slot] ??= []).push(...skill.gems);
+  }
+  for (const skill of pob2.skills.skillSets.flatMap((set) => set.skills)) {
+    const oldGems = slot2gems[skill.slot];
+    if (!oldGems) continue;
+    for (const gem of skill.gems) {
+      const matchingGem = oldGems.find(
+        (g) => g.gemId === gem.gemId && g.variantId === gem.variantId,
+      );
+      if (!matchingGem) {
+        gem.addedSinceLastSnapshot = true;
+        gem.levelChangedFromLastSnapshot = true;
+        continue;
+      }
+      if (matchingGem.level !== gem.level) {
+        gem.levelChangedFromLastSnapshot = true;
+      }
+      if (matchingGem.quality !== gem.quality) {
+        gem.qualityChangedFromLastSnapshot = true;
+      }
+    }
+  }
+}
+
 export function determineDifferences(
   pob1: PathOfBuilding,
   pob2: PathOfBuilding,
@@ -595,81 +467,8 @@ export function determineDifferences(
     addedNodes: pob2.spec.nodes.difference(pob1.spec.nodes),
     removedNodes: pob1.spec.nodes.difference(pob2.spec.nodes),
   };
-  const pob1slot2items = pob1.items.reduce(
-    (acc, item) => {
-      if (item.slot) {
-        acc[item.slot] = item;
-      }
-      return acc;
-    },
-    {} as Record<string, Item>,
-  );
-  const jewels = pob1.items.filter(
-    (item) =>
-      item.slot &&
-      (item.slot.includes("Abyssal") || item.slot.includes("Socket")),
-  );
-  for (const item of pob2.items) {
-    if (item.slot && pob1slot2items[item.slot]) {
-      let oldItem = pob1slot2items[item.slot];
-      if (item.slot.includes("Abyssal") || item.slot.includes("Socket")) {
-        // find matching jewel by id
-        const matchingJewel = jewels.find((jewel) => jewel.name === item.name);
-        if (matchingJewel) {
-          oldItem = matchingJewel;
-        } else {
-          item.changedFromLastSnapshot = true;
-          continue;
-        }
-      }
-      determineModDifferences(oldItem.implicits, item.implicits);
-      determineModDifferences(oldItem.enchants, item.enchants);
-      determineModDifferences(oldItem.explicits, item.explicits);
-      item.modsChangedFromLastSnapshot =
-        item.implicits.some((mod) => mod.changedFromLastSnapshot) ||
-        item.enchants.some((mod) => mod.changedFromLastSnapshot) ||
-        item.explicits.some((mod) => mod.changedFromLastSnapshot);
-      if (oldItem.name !== item.name) {
-        item.changedFromLastSnapshot = true;
-      }
-    } else {
-      item.changedFromLastSnapshot = true;
-    }
-  }
-  const slot2gems = pob1.skills.skillSets
-    .flatMap((set) => set.skills)
-    .reduce(
-      (acc, skill) => {
-        if (!acc[skill.slot]) {
-          acc[skill.slot] = [];
-        }
-        acc[skill.slot].push(...skill.gems);
-        return acc;
-      },
-      {} as Record<string, Gem[]>,
-    );
-  for (const skillSet of pob2.skills.skillSets) {
-    for (const skill of skillSet.skills) {
-      if (slot2gems[skill.slot]) {
-        for (const gem of skill.gems) {
-          const matchingGem = slot2gems[skill.slot].find(
-            (g) => g.gemId === gem.gemId && g.variantId === gem.variantId,
-          );
-          if (!matchingGem) {
-            gem.addedSinceLastSnapshot = true;
-            gem.levelChangedFromLastSnapshot = true;
-          } else {
-            if (matchingGem.level !== gem.level) {
-              gem.levelChangedFromLastSnapshot = true;
-            }
-            if (matchingGem.quality !== gem.quality) {
-              gem.qualityChangedFromLastSnapshot = true;
-            }
-          }
-        }
-      }
-    }
-  }
+  markItemDifferences(pob1, pob2);
+  markGemDifferences(pob1, pob2);
 }
 
 function determineModDifferences(oldMods: Mod[], newMods: Mod[]): void {
@@ -677,6 +476,200 @@ function determineModDifferences(oldMods: Mod[], newMods: Mod[]): void {
   for (const mod of newMods) {
     mod.changedFromLastSnapshot = !oldModLines.includes(mod.line);
   }
+}
+
+function attr(element: Element, name: string): string {
+  return element.getAttribute(name) || "";
+}
+
+function parseMasteryEffects(value: string | null): Record<number, number> {
+  return (
+    value
+      ?.slice(1, -1)
+      .split("},{")
+      .map((pair) => pair.split(",").map((num) => parseInt(num)))
+      .reduce(
+        (acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        },
+        {} as Record<number, number>,
+      ) || {}
+  );
+}
+
+function parseSpec(xmlDoc: Document): PathOfBuilding["spec"] {
+  const spec = xmlDoc.getElementsByTagName("Spec")[0];
+  return {
+    masteryEffects: parseMasteryEffects(spec.getAttribute("masteryEffects")),
+    nodes: new Set(
+      spec
+        .getAttribute("nodes")
+        ?.split(",")
+        .map((num) => parseInt(num)),
+    ),
+    treeVersion: attr(spec, "treeVersion").split("_").join("."),
+  };
+}
+
+function parseBuild(xmlDoc: Document): Build {
+  const build = xmlDoc.getElementsByTagName("Build")[0];
+  const playerStats = {} as PlayerStats;
+  for (const element of xmlDoc.getElementsByTagName("PlayerStat")) {
+    const stat = element.getAttribute("stat");
+    const value = element.getAttribute("value");
+    if (stat && value) {
+      setPlayerStat(playerStats, stat, parseFloat(value));
+    }
+  }
+  return {
+    playerStats,
+    bandit: attr(build, "bandit"),
+    level: parseInt(build.getAttribute("level") || "0"),
+    mainSocketGroup: parseInt(build.getAttribute("mainSocketGroup") || "0"),
+    pantheonMajorGod: attr(build, "pantheonMajorGod"),
+    pantheonMinorGod: attr(build, "pantheonMinorGod"),
+    className: attr(build, "className"),
+    ascendClassName: attr(build, "ascendClassName"),
+  };
+}
+
+function parseGem(element: Element): Gem {
+  const gem: Gem = {
+    gemId: attr(element, "gemId"),
+    variantId: attr(element, "variantId"),
+    enableGlobal1: attr(element, "enableGlobal1"),
+    nameSpec: attr(element, "nameSpec"),
+    qualityId: attr(element, "qualityId"),
+    enabled: attr(element, "enabled"),
+    enableGlobal2: attr(element, "enableGlobal2"),
+    quality: attr(element, "quality"),
+    skillId: attr(element, "skillId"),
+    count: attr(element, "count"),
+    level: attr(element, "level"),
+    addedSinceLastSnapshot: false,
+    levelChangedFromLastSnapshot: false,
+    qualityChangedFromLastSnapshot: false,
+  };
+  const skillPart = element.getAttribute("skillPart");
+  if (skillPart) {
+    gem.skillPart = parseInt(skillPart);
+  }
+  return gem;
+}
+
+function parseSkill(element: Element): Skill {
+  return {
+    label: attr(element, "label"),
+    slot: attr(element, "slot"),
+    mainActiveSkillCalcs: attr(element, "mainActiveSkillCalcs"),
+    mainActiveSkill: attr(element, "mainActiveSkill"),
+    includeInFullDPS: attr(element, "includeInFullDPS"),
+    enabled: attr(element, "enabled"),
+    gems: Array.from(element.getElementsByTagName("Gem"), parseGem),
+  };
+}
+
+function parseSkills(xmlDoc: Document, defaults: Skills): Skills {
+  const element = xmlDoc.getElementsByTagName("Skills")[0];
+  if (!element) {
+    return defaults;
+  }
+  return {
+    activeSkillSet: parseInt(element.getAttribute("activeSkillSet") || "0"),
+    sortGemsByDPS: attr(element, "sortGemsByDPS"),
+    sortGemsByDPSField: attr(element, "sortGemsByDPSField"),
+    showSupportGemTypes: attr(element, "showSupportGemTypes"),
+    showAltQualityGems: attr(element, "showAltQualityGems"),
+    defaultGemLevel: attr(element, "defaultGemLevel"),
+    defaultGemQuality: attr(element, "defaultGemQuality"),
+    skillSets: Array.from(
+      element.getElementsByTagName("SkillSet"),
+      (skillSet): SkillSet => ({
+        id: parseInt(skillSet.getAttribute("id") || "0"),
+        skills: Array.from(skillSet.getElementsByTagName("Skill"), parseSkill),
+      }),
+    ),
+  };
+}
+
+/** Item ids that are socketed into the passive tree of the active spec. */
+function findTreeSocketedItems(xmlDoc: Document): Record<string, string> {
+  const idToSlot: Record<string, string> = {};
+  const tree = xmlDoc.getElementsByTagName("Tree")[0];
+  if (tree) {
+    const specs = tree.getElementsByTagName("Spec");
+    const activeSpec = Number(tree.getAttribute("activeSpec"));
+    for (const socket of specs[activeSpec - 1].getElementsByTagName("Socket")) {
+      idToSlot[attr(socket, "itemId")] = "Socket";
+    }
+  }
+  return idToSlot;
+}
+
+/**
+ * Reads the item sets and returns which slot each item occupies in the
+ * active set, plus every set an item is equipped in - so callers (e.g. a
+ * "which item sets should we scan?" picker) can scope a search to specific
+ * sets instead of only ever the currently active one.
+ */
+function parseItemSets(itemsElement: Element): {
+  itemSets: ItemSetInfo[];
+  idToSlot: Record<string, string | null>;
+  itemIdToSetIds: Record<string, string[]>;
+} {
+  const itemSets: ItemSetInfo[] = [];
+  const idToSlot: Record<string, string | null> = {};
+  const itemIdToSetIds: Record<string, string[]> = {};
+  const setElements = itemsElement.getElementsByTagName("ItemSet");
+  // A build can have several item sets (e.g. a "before/after upgrade"
+  // comparison) - use whichever one is actually active instead of
+  // always the first, or slots from an unequipped set get picked up.
+  const activeItemSet = Number(itemsElement.getAttribute("activeItemSet"));
+  const activeIndex = setElements[activeItemSet - 1] ? activeItemSet - 1 : 0;
+  for (let i = 0; i < setElements.length; i++) {
+    const setElement = setElements[i];
+    const setId = setElement.getAttribute("id") || String(i + 1);
+    itemSets.push({
+      id: setId,
+      title: setElement.getAttribute("title") || "Default",
+      isActive: i === activeIndex,
+    });
+    for (const slot of setElement.getElementsByTagName("Slot")) {
+      const itemId = attr(slot, "itemId");
+      if (!itemId || itemId === "0") continue;
+      (itemIdToSetIds[itemId] ??= []).push(setId);
+      if (i === activeIndex) {
+        idToSlot[itemId] = slot.getAttribute("name");
+      }
+    }
+  }
+  return { itemSets, idToSlot, itemIdToSetIds };
+}
+
+function parseItems(
+  xmlDoc: Document,
+  itemsElement: Element,
+  baseTypes?: string[],
+): { items: Item[]; itemSets: ItemSetInfo[] } {
+  const { itemSets, idToSlot, itemIdToSetIds } = parseItemSets(itemsElement);
+  const slots: Record<string, string | null> = {
+    ...findTreeSocketedItems(xmlDoc),
+    ...idToSlot,
+  };
+  const items = Array.from(itemsElement.getElementsByTagName("Item"), (el) => {
+    let text = "";
+    for (const node of el.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.textContent || "";
+      }
+    }
+    const itemId = el.getAttribute("id")!;
+    const item = parseItem(text.trim(), slots[itemId], itemId, baseTypes);
+    item.equippedInSetIds = itemIdToSetIds[itemId] || [];
+    return item;
+  });
+  return { items, itemSets };
 }
 
 export async function decodePoBExport(
@@ -717,186 +710,13 @@ export async function decodePoBExport(
     return result;
   }
   const xmlDoc = await pobstringToXml(input);
-  const spec = xmlDoc.getElementsByTagName("Spec")[0];
-  result.spec.masteryEffects =
-    spec
-      .getAttribute("masteryEffects")
-      ?.slice(1, -1)
-      .split("},{")
-      .map((pair) => pair.split(",").map((num) => parseInt(num)))
-      .reduce(
-        (acc, [key, value]) => {
-          acc[key] = value;
-          return acc;
-        },
-        {} as Record<number, number>,
-      ) || {};
-  result.spec.nodes =
-    spec
-      .getAttribute("nodes")
-      ?.split(",")
-      .map((num) => parseInt(num))
-      .reduce((acc, node) => {
-        acc.add(node);
-        return acc;
-      }, new Set<number>()) || new Set<number>();
-  result.spec.treeVersion = (spec.getAttribute("treeVersion") || "")
-    .split("_")
-    .join(".");
-  const build = xmlDoc.getElementsByTagName("Build")[0];
-  result.build.bandit = build.getAttribute("bandit") || "";
-  result.build.level = parseInt(build.getAttribute("level") || "0");
-  result.build.pantheonMajorGod = build.getAttribute("pantheonMajorGod") || "";
-  result.build.pantheonMinorGod = build.getAttribute("pantheonMinorGod") || "";
-  result.build.className = build.getAttribute("className") || "";
-  result.build.ascendClassName = build.getAttribute("ascendClassName") || "";
-  result.build.mainSocketGroup = parseInt(
-    build.getAttribute("mainSocketGroup") || "0",
-  );
-
-  const playerStatElements = xmlDoc.getElementsByTagName("PlayerStat");
-  for (const element of playerStatElements) {
-    const stat = element.getAttribute("stat");
-    const value = element.getAttribute("value");
-    if (stat && value) {
-      setPlayerStat(result.build.playerStats, stat, parseFloat(value));
-    }
-  }
-
-  const skillsElement = xmlDoc.getElementsByTagName("Skills")[0];
-  if (skillsElement) {
-    result.skills.activeSkillSet = parseInt(
-      skillsElement.getAttribute("activeSkillSet") || "0",
-    );
-    result.skills.sortGemsByDPS =
-      skillsElement.getAttribute("sortGemsByDPS") || "";
-    result.skills.sortGemsByDPSField =
-      skillsElement.getAttribute("sortGemsByDPSField") || "";
-    result.skills.showSupportGemTypes =
-      skillsElement.getAttribute("showSupportGemTypes") || "";
-    result.skills.showAltQualityGems =
-      skillsElement.getAttribute("showAltQualityGems") || "";
-    result.skills.defaultGemLevel =
-      skillsElement.getAttribute("defaultGemLevel") || "";
-    result.skills.defaultGemQuality =
-      skillsElement.getAttribute("defaultGemQuality") || "";
-
-    const skillSetElements = skillsElement.getElementsByTagName("SkillSet");
-    for (const skillSetElement of skillSetElements) {
-      const skillSet: SkillSet = {
-        id: parseInt(skillSetElement.getAttribute("id") || "0"),
-        skills: [],
-      };
-
-      const skillElements = skillSetElement.getElementsByTagName("Skill");
-      for (const skillElement of skillElements) {
-        const skill: Skill = {
-          label: skillElement.getAttribute("label") || "",
-          slot: skillElement.getAttribute("slot") || "",
-          mainActiveSkillCalcs:
-            skillElement.getAttribute("mainActiveSkillCalcs") || "",
-          mainActiveSkill: skillElement.getAttribute("mainActiveSkill") || "",
-          includeInFullDPS: skillElement.getAttribute("includeInFullDPS") || "",
-          enabled: skillElement.getAttribute("enabled") || "",
-          gems: [],
-        };
-
-        const gemElements = skillElement.getElementsByTagName("Gem");
-        for (const gemElement of gemElements) {
-          const gem: Gem = {
-            gemId: gemElement.getAttribute("gemId") || "",
-            variantId: gemElement.getAttribute("variantId") || "",
-            enableGlobal1: gemElement.getAttribute("enableGlobal1") || "",
-            nameSpec: gemElement.getAttribute("nameSpec") || "",
-            qualityId: gemElement.getAttribute("qualityId") || "",
-            enabled: gemElement.getAttribute("enabled") || "",
-            enableGlobal2: gemElement.getAttribute("enableGlobal2") || "",
-            quality: gemElement.getAttribute("quality") || "",
-            skillId: gemElement.getAttribute("skillId") || "",
-            count: gemElement.getAttribute("count") || "",
-            level: gemElement.getAttribute("level") || "",
-            addedSinceLastSnapshot: false,
-            levelChangedFromLastSnapshot: false,
-            qualityChangedFromLastSnapshot: false,
-          };
-
-          const skillPart = gemElement.getAttribute("skillPart");
-          if (skillPart) {
-            gem.skillPart = parseInt(skillPart);
-          }
-
-          skill.gems.push(gem);
-        }
-
-        skillSet.skills.push(skill);
-      }
-
-      result.skills.skillSets.push(skillSet);
-    }
-  }
-
-  // Parse items
+  result.spec = parseSpec(xmlDoc);
+  result.build = parseBuild(xmlDoc);
+  result.skills = parseSkills(xmlDoc, result.skills);
   const itemsElement = xmlDoc.getElementsByTagName("Items")[0];
   if (itemsElement) {
-    const idToSlot: Record<string, string | null> = {};
-    const treeElements = xmlDoc.getElementsByTagName("Tree");
-    if (treeElements.length > 0) {
-      const tree = treeElements[0];
-      const specs = tree.getElementsByTagName("Spec");
-      const activeSpec = Number(tree.getAttribute("activeSpec"));
-      for (const socket of specs[activeSpec - 1].getElementsByTagName(
-        "Socket",
-      )) {
-        idToSlot[socket.getAttribute("itemId") || ""] = "Socket";
-      }
-    }
-
-    const itemSets = itemsElement.getElementsByTagName("ItemSet");
-    // itemId -> ids of every item set that places it in a slot, so callers
-    // (e.g. a "which item sets should we scan?" picker) can scope a search
-    // to specific sets instead of only ever the currently active one.
-    const itemIdToSetIds: Record<string, string[]> = {};
-    if (itemSets.length > 0) {
-      // A build can have several item sets (e.g. a "before/after upgrade"
-      // comparison) - use whichever one is actually active instead of
-      // always the first, or slots from an unequipped set get picked up.
-      const activeItemSet = Number(itemsElement.getAttribute("activeItemSet"));
-      const activeIndex = itemSets[activeItemSet - 1] ? activeItemSet - 1 : 0;
-      for (let i = 0; i < itemSets.length; i++) {
-        const itemSet = itemSets[i];
-        const setId = itemSet.getAttribute("id") || String(i + 1);
-        result.itemSets.push({
-          id: setId,
-          title: itemSet.getAttribute("title") || "Default",
-          isActive: i === activeIndex,
-        });
-        for (const slot of itemSet.getElementsByTagName("Slot")) {
-          const itemId = slot.getAttribute("itemId") || "";
-          if (!itemId || itemId === "0") continue;
-          (itemIdToSetIds[itemId] ??= []).push(setId);
-          if (i === activeIndex) {
-            idToSlot[itemId] = slot.getAttribute("name");
-          }
-        }
-      }
-    }
-    const items: Item[] = [];
-    const itemElements = itemsElement.getElementsByTagName("Item");
-    for (const itemElement of itemElements) {
-      let text = "";
-      for (const node of itemElement.childNodes) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          text += node.textContent || "";
-        }
-      }
-      const itemId = itemElement.getAttribute("id")!;
-      const item = parseItem(text.trim(), idToSlot[itemId], itemId, baseTypes);
-      item.equippedInSetIds = itemIdToSetIds[itemId] || [];
-      items.push(item);
-    }
-    result.items = items;
+    Object.assign(result, parseItems(xmlDoc, itemsElement, baseTypes));
   }
-
   return result;
 }
 
@@ -941,31 +761,21 @@ function parseInfluence(s: string): Influence | undefined {
   }
 }
 
+const CATALYST_ALT_QUALITY: Record<string, string> = {
+  Abrasive: "Attack Modifiers",
+  Accelerating: "Speed Modifiers",
+  Fertile: "Life and Mana Modifiers",
+  Imbued: "Caster Modifiers",
+  Intrinsic: "Attribute Modifiers",
+  Noxious: "Physical and Chaos Damage Modifiers",
+  Prismatic: "Resistance Modifiers",
+  Tempering: "Defense Modifiers",
+  Turbulent: "Elemental Modifiers",
+  Unstable: "Critical Modifiers",
+};
+
 function catalystToAltQuality(s: string): string {
-  switch (s) {
-    case "Abrasive":
-      return "Attack Modifiers";
-    case "Accelerating":
-      return "Speed Modifiers";
-    case "Fertile":
-      return "Life and Mana Modifiers";
-    case "Imbued":
-      return "Caster Modifiers";
-    case "Intrinsic":
-      return "Attribute Modifiers";
-    case "Noxious":
-      return "Physical and Chaos Damage Modifiers";
-    case "Prismatic":
-      return "Resistance Modifiers";
-    case "Tempering":
-      return "Defense Modifiers";
-    case "Turbulent":
-      return "Elemental Modifiers";
-    case "Unstable":
-      return "Critical Modifiers";
-    default:
-      return s;
-  }
+  return Object.hasOwn(CATALYST_ALT_QUALITY, s) ? CATALYST_ALT_QUALITY[s] : s;
 }
 
 function fixupItemName(name: string): string {
@@ -981,7 +791,7 @@ function parseAltQuality(
   arg: string,
 ): { alt: string; quality: number } | undefined {
   if (!cmd.startsWith("Quality (") || !cmd.endsWith(")")) return undefined;
-  const alt = cmd.slice(8, -1);
+  const alt = cmd.slice("Quality (".length, -1);
   const val = arg.replace(/^\+/, "").replace(/%$/, "");
   const quality = parseInt(val, 10);
   if (isNaN(quality)) return undefined;
@@ -1075,6 +885,176 @@ function extractMagicBase(
   return base;
 }
 
+type ItemProperties = {
+  itemLevel: number;
+  levelRequirement: number;
+  quality: number;
+  altQuality: string | undefined;
+  armour: number;
+  evasion: number;
+  energyShield: number;
+  influence1: Influence | undefined;
+  influence2: Influence | undefined;
+  selectedVariant: string;
+  implicits: Mod[];
+  enchants: Mod[];
+  id: string;
+};
+
+const NUMERIC_ITEM_PROPERTIES: Record<
+  string,
+  | "itemLevel"
+  | "levelRequirement"
+  | "quality"
+  | "armour"
+  | "evasion"
+  | "energyShield"
+> = {
+  "Item Level": "itemLevel",
+  LevelReq: "levelRequirement",
+  Quality: "quality",
+  CatalystQuality: "quality",
+  Armour: "armour",
+  Evasion: "evasion",
+  "Energy Shield": "energyShield",
+};
+
+/** Applies one "Command: argument" line; returns extra lines consumed. */
+function applyItemProperty(
+  props: ItemProperties,
+  lines: string[],
+  idx: number,
+  cmd: string,
+  arg: string,
+): number {
+  if (Object.hasOwn(NUMERIC_ITEM_PROPERTIES, cmd)) {
+    const key = NUMERIC_ITEM_PROPERTIES[cmd];
+    props[key] = parseInt(arg) || props[key];
+    return 0;
+  }
+  switch (cmd) {
+    case "Catalyst":
+      props.altQuality = catalystToAltQuality(arg);
+      break;
+    case "Implicits": {
+      const num = parseInt(arg) || 0;
+      for (let i = 0; i < num; i++) {
+        const line = lines[idx + 1 + i];
+        (line.startsWith("{crafted}") ? props.enchants : props.implicits).push(
+          parseMod(line),
+        );
+      }
+      return num;
+    }
+    case "Selected Variant":
+      props.selectedVariant = arg;
+      break;
+    case "Unique ID":
+      props.id = arg;
+      break;
+    default: {
+      const altQ = parseAltQuality(cmd, arg);
+      if (altQ) {
+        props.altQuality = altQ.alt;
+        props.quality = altQ.quality;
+      }
+    }
+  }
+  return 0;
+}
+
+/** Parses the property block after the item name; returns the index of the first unparsed line. */
+function parseItemProperties(
+  lines: string[],
+  startIdx: number,
+  base: string,
+  id: string,
+): { props: ItemProperties; idx: number } {
+  const props: ItemProperties = {
+    itemLevel: 0,
+    levelRequirement: 0,
+    quality: 0,
+    altQuality: undefined,
+    armour: 0,
+    evasion: 0,
+    energyShield: 0,
+    influence1: undefined,
+    influence2: undefined,
+    selectedVariant: "",
+    implicits: [],
+    enchants: [],
+    id,
+  };
+  let idx = startIdx;
+  while (idx < lines.length) {
+    const line = lines[idx];
+    if (!line) {
+      idx++;
+      continue;
+    }
+    const colon = line.indexOf(": ");
+    if (colon !== -1) {
+      idx += applyItemProperty(
+        props,
+        lines,
+        idx,
+        line.slice(0, colon),
+        line.slice(colon + 2),
+      );
+      idx++;
+      continue;
+    }
+    const infl = parseInfluence(line);
+    if (infl !== undefined) {
+      if (props.influence1 === undefined) props.influence1 = infl;
+      else if (props.influence2 === undefined) props.influence2 = infl;
+      idx++;
+      continue;
+    }
+    if (line === base) {
+      idx++;
+      continue;
+    }
+    break;
+  }
+  return { props, idx };
+}
+
+/** Reads trailing "Corrupted"/"Mirrored"/"Split" lines. */
+function parseItemStatusLines(lines: string[]) {
+  const status = { corrupted: false, mirrored: false, split: false };
+  let modsEnd = lines.length;
+  for (let i = lines.length - 1; i >= 0; i--) {
+    if (lines[i] === "Corrupted") status.corrupted = true;
+    else if (lines[i] === "Mirrored") status.mirrored = true;
+    else if (lines[i] === "Split") status.split = true;
+    else {
+      modsEnd = i + 1;
+      break;
+    }
+  }
+  return { ...status, modsEnd };
+}
+
+function parseExplicitMods(lines: string[], start: number, end: number) {
+  const explicits: Mod[] = [];
+  const mutatedMods: Mod[] = [];
+  let first = -1;
+  for (let i = start; i < end; i++) {
+    if (isModLine(lines[i])) {
+      first = i;
+      break;
+    }
+  }
+  if (first !== -1) {
+    for (let i = first; i < end; i++) {
+      const mod = parseMod(lines[i]);
+      (mod.mutated ? mutatedMods : explicits).push(mod);
+    }
+  }
+  return { explicits, mutatedMods };
+}
+
 function parseItem(
   item: string,
   slot: string | null,
@@ -1094,145 +1074,26 @@ function parseItem(
   if ([Rarity.Normal, Rarity.Magic].includes(rarity)) name = base;
   base = fixupItemName(base);
 
-  let itemLevel = 0,
-    levelRequirement = 0,
-    quality = 0,
-    altQuality: string | undefined = undefined;
-  let armour = 0,
-    evasion = 0,
-    energyShield = 0;
-  let influence1: Influence | undefined, influence2: Influence | undefined;
-  let selectedVariant = "";
-  const implicits: Mod[] = [];
-  const enchants: Mod[] = [];
+  const parsed = parseItemProperties(lines, idx, base, id);
+  const { props } = parsed;
+  const { corrupted, mirrored, split, modsEnd } = parseItemStatusLines(lines);
+  const { explicits, mutatedMods } = parseExplicitMods(
+    lines,
+    parsed.idx,
+    modsEnd,
+  );
 
-  while (idx < lines.length) {
-    const line = lines[idx];
-    if (!line) {
-      idx++;
-      continue;
-    }
-    const colon = line.indexOf(": ");
-    if (colon !== -1) {
-      const cmd = line.slice(0, colon),
-        arg = line.slice(colon + 2);
-      switch (cmd) {
-        case "Item Level":
-          itemLevel = parseInt(arg) || itemLevel;
-          break;
-        case "LevelReq":
-          levelRequirement = parseInt(arg) || levelRequirement;
-          break;
-        case "Quality":
-          quality = parseInt(arg) || quality;
-          break;
-        case "Catalyst":
-          altQuality = catalystToAltQuality(arg);
-          break;
-        case "CatalystQuality":
-          quality = parseInt(arg) || quality;
-          break;
-        case "Armour":
-          armour = parseInt(arg) || armour;
-          break;
-        case "Evasion":
-          evasion = parseInt(arg) || evasion;
-          break;
-        case "Energy Shield":
-          energyShield = parseInt(arg) || energyShield;
-          break;
-        case "Implicits": {
-          const num = parseInt(arg) || 0;
-          for (let i = 0; i < num; i++) {
-            if (lines[idx + 1 + i].startsWith("{crafted}")) {
-              enchants.push(parseMod(lines[idx + 1 + i]));
-            } else {
-              implicits.push(parseMod(lines[idx + 1 + i]));
-            }
-          }
-          idx += num;
-          break;
-        }
-        case "Selected Variant":
-          selectedVariant = arg;
-          break;
-        case "Unique ID":
-          id = arg;
-          break;
-        default: {
-          const altQ = parseAltQuality(cmd, arg);
-          if (altQ) {
-            altQuality = altQ.alt;
-            quality = altQ.quality;
-          }
-        }
-      }
-      idx++;
-      continue;
-    }
-    const infl = parseInfluence(line);
-    if (infl !== undefined) {
-      if (influence1 === undefined) influence1 = infl;
-      else if (influence2 === undefined) influence2 = infl;
-      idx++;
-      continue;
-    }
-    if (line === base) {
-      idx++;
-      continue;
-    }
-    break;
-  }
-
-  // Parse status lines at the end
-  let corrupted = false,
-    mirrored = false,
-    split = false;
-  let modsEnd = lines.length;
-  for (let i = lines.length - 1; i >= 0; i--) {
-    if (lines[i] === "Corrupted") corrupted = true;
-    else if (lines[i] === "Mirrored") mirrored = true;
-    else if (lines[i] === "Split") split = true;
-    else {
-      modsEnd = i + 1;
-      break;
-    }
-  }
-
-  // Parse explicits and mutated mods
-  let firstExplicitMod = -1;
-  for (let i = idx; i < modsEnd; i++) {
-    if (isModLine(lines[i])) {
-      firstExplicitMod = i;
-      break;
-    }
-  }
-  const explicits: Mod[] = [];
-  const mutatedMods: Mod[] = [];
-  if (firstExplicitMod !== -1) {
-    for (let i = firstExplicitMod; i < modsEnd; i++) {
-      const mod = parseMod(lines[i]);
-      if (mod.mutated) {
-        mutatedMods.push(mod);
-      } else {
-        explicits.push(mod);
-      }
-    }
-  }
-
-  // Magic base fix
   if (rarity === Rarity.Magic) {
     base = extractMagicBase(base, explicits.length, baseTypeDimensions);
   }
 
   // Fractured influence
-  if (influence1 === undefined) {
-    for (const mod of explicits) {
-      if (mod.tag === "fractured") {
-        influence1 = Influence.Fracture;
-        break;
-      }
-    }
+  let { influence1, influence2 } = props;
+  if (
+    influence1 === undefined &&
+    explicits.some((mod) => mod.tag === "fractured")
+  ) {
+    influence1 = Influence.Fracture;
   }
   if (influence2 === undefined && influence1 !== undefined) {
     influence2 = influence1;
@@ -1242,26 +1103,26 @@ function parseItem(
     rarity,
     name,
     base,
-    itemLevel,
-    levelRequirement,
-    quality,
-    altQuality,
-    armour,
-    evasion,
-    energyShield,
+    itemLevel: props.itemLevel,
+    levelRequirement: props.levelRequirement,
+    quality: props.quality,
+    altQuality: props.altQuality,
+    armour: props.armour,
+    evasion: props.evasion,
+    energyShield: props.energyShield,
     influence1,
     influence2,
     mirrored,
     split,
     corrupted,
-    selectedVariant,
-    implicits,
+    selectedVariant: props.selectedVariant,
+    implicits: props.implicits,
     explicits,
-    enchants,
+    enchants: props.enchants,
     mutatedMods,
     slot,
     equippedInSetIds: [],
-    id,
+    id: props.id,
     changedFromLastSnapshot: false,
     modsChangedFromLastSnapshot: false,
   };

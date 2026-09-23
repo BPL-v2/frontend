@@ -44,13 +44,7 @@ export function dateToHoursAfterEventStart(
 export function objectiveIsValid(objective?: ScoreObjective): boolean {
   if (!objective) return false;
   const now = new Date();
-  if (
-    objective.valid_from &&
-    objective.valid_from &&
-    now < objective.valid_from
-  )
-    return false;
-  if (objective.valid_to && objective.valid_to && now > objective.valid_to)
-    return false;
+  if (objective.valid_from && now < objective.valid_from) return false;
+  if (objective.valid_to && now > objective.valid_to) return false;
   return true;
 }

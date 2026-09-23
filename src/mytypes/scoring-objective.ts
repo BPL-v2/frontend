@@ -440,57 +440,59 @@ export function findFirstItemImage(
   return null;
 }
 
+function uniqueImage(
+  name: string,
+  objective: ScoreObjective | Objective,
+  gameVersion: GameVersion,
+): string {
+  const anomaly = anomalousUniques[gameVersion][name];
+  if (anomaly) {
+    return `/assets/${gameVersion}/items/uniques/${
+      anomaly[objective.extra] || Object.values(anomaly)[0]
+    }.webp`;
+  }
+  return `/assets/${gameVersion}/items/uniques/${encode(name)}.webp`;
+}
+
+function baseTypeImage(baseType: string, gameVersion: GameVersion): string {
+  const file = anomalousBaseTypes[gameVersion][baseType] ?? encode(baseType);
+  return `/assets/${gameVersion}/items/basetypes/${file}.webp`;
+}
+
+function imageForCondition(
+  condition: Condition,
+  objective: ScoreObjective | Objective,
+  gameVersion: GameVersion,
+): string | null | undefined {
+  const value = getFirstConditionValue(condition);
+  if (!value) return undefined;
+  switch (condition.field) {
+    case ItemField.NAME: {
+      const name = value.replaceAll("Foulborn ", "");
+      return name ? uniqueImage(name, objective, gameVersion) : undefined;
+    }
+    case ItemField.BASE_TYPE:
+      return baseTypeImage(value, gameVersion);
+    case ItemField.ITEM_CLASS: {
+      const baseType = classToBaseType[value];
+      return baseType
+        ? `/assets/${gameVersion}/items/basetypes/${encode(baseType)}.webp`
+        : null;
+    }
+  }
+}
+
+/**
+ * The first name, base type or item class condition with a value decides the
+ * image (`undefined` = keep looking, `null` = unknown item class).
+ */
 export function getImageLocation(
   objective: ScoreObjective | Objective,
   gameVersion: GameVersion = GameVersion.poe1,
 ): string | null {
-  if (!objective) {
-    return null;
-  }
-  // has to be this complicated because we want to privilege the name over the base type
-  const attributes: { name?: string; base_type?: string; item_class?: string } =
-    {
-      name: undefined,
-      base_type: undefined,
-      item_class: undefined,
-    };
-
-  for (const condition of objective.conditions) {
-    if (condition.field === ItemField.NAME) {
-      attributes.name = getFirstConditionValue(condition).replaceAll(
-        "Foulborn ",
-        "",
-      );
-    } else if (condition.field === ItemField.BASE_TYPE) {
-      attributes.base_type = getFirstConditionValue(condition);
-    } else if (condition.field === ItemField.ITEM_CLASS) {
-      attributes.item_class = getFirstConditionValue(condition);
-    }
-
-    if (attributes.name) {
-      const anomaly = anomalousUniques[gameVersion][attributes.name];
-      if (anomaly) {
-        return `/assets/${gameVersion}/items/uniques/${
-          anomaly[objective.extra] || Object.values(anomaly)[0]
-        }.webp`;
-      }
-      return `/assets/${gameVersion}/items/uniques/${encode(attributes.name)}.webp`;
-    }
-    if (attributes.base_type) {
-      if (anomalousBaseTypes[gameVersion][attributes.base_type]) {
-        return `/assets/${gameVersion}/items/basetypes/${
-          anomalousBaseTypes[gameVersion][attributes.base_type]
-        }.webp`;
-      }
-      return `/assets/${gameVersion}/items/basetypes/${encode(attributes.base_type)}.webp`;
-    }
-    if (attributes.item_class) {
-      const baseType = classToBaseType[attributes.item_class];
-      if (!baseType) {
-        return null;
-      }
-      return `/assets/${gameVersion}/items/basetypes/${encode(baseType)}.webp`;
-    }
+  for (const condition of objective?.conditions ?? []) {
+    const image = imageForCondition(condition, objective, gameVersion);
+    if (image !== undefined) return image;
   }
   return null;
 }

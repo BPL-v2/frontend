@@ -124,29 +124,29 @@ function getPotentialPointsForScoringMethod(
   return potentialPoints;
 }
 
+const RANKED_RULE_TYPES: ScoringRuleType[] = [
+  ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME,
+  ScoringRuleType.RANK_BY_COMPLETION_TIME,
+  ScoringRuleType.RANK_BY_LOWEST_VALUE,
+  ScoringRuleType.RANK_BY_HIGHEST_VALUE,
+  ScoringRuleType.BINGO_BOARD_RANKING,
+  ScoringRuleType.RANK_BY_CHILD_VALUE_SUM,
+];
+
 function getPotentialPointsForSinglePreset(
   objective: ScoreObjective,
   preset: ScoringRule,
 ): PotentialPoints {
+  if (RANKED_RULE_TYPES.includes(preset.scoring_rule)) {
+    return getPotentialPointsRanked(objective, preset);
+  }
   switch (preset.scoring_rule) {
     case ScoringRuleType.FIXED_POINTS_ON_COMPLETION:
       return potentialPointsPresence(objective, preset);
-    case ScoringRuleType.RANK_BY_CHILD_COMPLETION_TIME:
-      return getPotentialPointsRanked(objective, preset);
-    case ScoringRuleType.RANK_BY_COMPLETION_TIME:
-      return getPotentialPointsRanked(objective, preset);
-    case ScoringRuleType.RANK_BY_LOWEST_VALUE:
-      return getPotentialPointsRanked(objective, preset);
-    case ScoringRuleType.RANK_BY_HIGHEST_VALUE:
-      return getPotentialPointsRanked(objective, preset);
     case ScoringRuleType.POINTS_BY_VALUE:
       return getPotentialPointsValue(objective, preset);
     case ScoringRuleType.BONUS_PER_CHILD_COMPLETION:
       return getPotentialBonusPointsPerChild(objective, preset);
-    case ScoringRuleType.BINGO_BOARD_RANKING:
-      return getPotentialPointsRanked(objective, preset);
-    case ScoringRuleType.RANK_BY_CHILD_VALUE_SUM:
-      return getPotentialPointsRanked(objective, preset);
     default:
       return {};
   }
@@ -279,16 +279,8 @@ export function rank2text(rank: number) {
   if (!rank) {
     return "Unfinished";
   }
-  if (rank === 1) {
-    return "1st place";
-  }
-  if (rank === 2) {
-    return "2nd place";
-  }
-  if (rank === 3) {
-    return "3rd place";
-  }
-  return `${rank}th place`;
+  const suffix = { 1: "st", 2: "nd", 3: "rd" }[rank as 1 | 2 | 3] ?? "th";
+  return `${rank}${suffix} place`;
 }
 
 export function flatMap<T extends Objective | ScoreObjective>(

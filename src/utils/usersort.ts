@@ -15,15 +15,12 @@ export function sortUsers(
   signups: SortedSignup[],
   bucketConfig: SortBucketConfig,
 ): SortedSignup[] {
-  const lockedSignups = signups.reduce(
-    (acc, signup) => {
-      if (signup.team_id) {
-        acc[signup.user.id] = signup.team_id;
-      }
-      return acc;
-    },
-    {} as { [userId: number]: number },
-  );
+  const lockedSignups: LockedSignups = {};
+  for (const signup of signups) {
+    if (signup.team_id) {
+      lockedSignups[signup.user.id] = signup.team_id;
+    }
+  }
   let suggestion = getSortSuggestion(currentEvent, signups, bucketConfig);
   suggestion = improveFairness(suggestion, currentEvent, lockedSignups);
   suggestion = ensurePartners(suggestion, lockedSignups);
@@ -33,82 +30,58 @@ export function sortUsers(
 
 const randSort = () => Math.random() - 0.5;
 
+type LockedSignups = { [userId: number]: number };
+
+/** Users whose partner is already on the same team. */
+function findMatchedPartners(
+  signups: SortedSignup[],
+  userToSignup: Map<number, SortedSignup>,
+): Set<number> {
+  const matched = new Set<number>();
+  for (const signup of signups) {
+    const partner = signup.partner_id
+      ? userToSignup.get(signup.partner_id)
+      : undefined;
+    if (partner?.team_id && partner.team_id === signup.team_id) {
+      matched.add(partner.user.id);
+      matched.add(signup.user.id);
+    }
+  }
+  return matched;
+}
+
+/** Moves users onto the team of their (mutual) partner where possible. */
 function ensurePartners(
   signups: SortedSignup[],
-  lockedSignups: { [userId: number]: number },
-) {
-  const fixedSignups = [];
-  const userToSignup = new Map<number, SortedSignup>();
-  const teamToSignups = new Map<number, SortedSignup[]>();
-  const matchedPartners = new Set<number>();
-  for (const signup of signups) {
-    userToSignup.set(signup.user.id, signup);
-    if (signup.team_id) {
-      teamToSignups.set(signup.team_id, [
-        ...(teamToSignups.get(signup.team_id) || []),
-        signup,
-      ]);
-    }
-  }
+  lockedSignups: LockedSignups,
+): SortedSignup[] {
+  const userToSignup = new Map(
+    signups.map((signup) => [signup.user.id, signup]),
+  );
+  const matchedPartners = findMatchedPartners(signups, userToSignup);
 
-  for (const signup of signups) {
-    if (signup.partner_id) {
-      const partnerSignup = userToSignup.get(signup.partner_id);
-      if (
-        partnerSignup &&
-        partnerSignup.team_id &&
-        partnerSignup.team_id === signup.team_id
-      ) {
-        matchedPartners.add(signup.partner_id);
-        matchedPartners.add(signup.user.id);
-      }
-    }
-  }
-
-  for (const signup of signups) {
+  return signups.map((signup) => {
     if (
       lockedSignups[signup.user.id] ||
       !signup.partner_id ||
       matchedPartners.has(signup.user.id)
     ) {
-      fixedSignups.push(signup);
-      continue;
+      return signup;
     }
-    const partnerSignup = userToSignup.get(signup.partner_id);
-    if (
-      partnerSignup &&
-      partnerSignup.team_id &&
-      partnerSignup.partner_id === signup.user.id
-    ) {
-      let bestFittingPlaytimeDiff = 1000000;
-      for (const signup2 of teamToSignups.get(partnerSignup.team_id) || []) {
-        if (lockedSignups[signup2.user.id] || signup2.partner_id) {
-          continue;
-        }
-        const playtimeDiff = Math.abs(
-          signup.expected_playtime - signup2.expected_playtime,
-        );
-        if (
-          playtimeDiff < bestFittingPlaytimeDiff &&
-          !lockedSignups[signup2.user.id]
-        ) {
-          bestFittingPlaytimeDiff = playtimeDiff;
-        }
-      }
-      fixedSignups.push({ ...signup, team_id: partnerSignup.team_id });
-      matchedPartners.add(signup.user.id);
-      matchedPartners.add(signup.partner_id);
-    } else {
-      fixedSignups.push(signup);
+    const partner = userToSignup.get(signup.partner_id);
+    if (!partner?.team_id || partner.partner_id !== signup.user.id) {
+      return signup;
     }
-  }
-  return fixedSignups as SortedSignup[];
+    matchedPartners.add(signup.user.id);
+    matchedPartners.add(signup.partner_id);
+    return { ...signup, team_id: partner.team_id };
+  });
 }
 
 function improveFairness(
   signups: SortedSignup[],
   currentEvent: Event,
-  lockedSignups: { [userId: number]: number },
+  lockedSignups: LockedSignups,
 ) {
   // tries to balance out team sizes
   for (let i = 0; i < 100; i++) {
@@ -167,54 +140,58 @@ function getTeamCounts(
   );
 }
 
+/** Tracks how many signups of each bucket every team has. */
+function createBucketTracker(teamIds: number[], bucketKeys: string[]) {
+  const buckets: { [key: string]: { [teamId: number]: number } } = {};
+  const bucketTotals: { [key: string]: number } = {};
+  for (const bucketKey of bucketKeys) {
+    buckets[bucketKey] = Object.fromEntries(teamIds.map((id) => [id, 0]));
+    bucketTotals[bucketKey] = 0;
+  }
+
+  return {
+    add(teamId: number, signupBuckets: string[]) {
+      for (const bucketKey of signupBuckets) {
+        buckets[bucketKey][teamId] += 1;
+        bucketTotals[bucketKey] += 1;
+      }
+    },
+    countIn(bucketKey: string, teamId: number) {
+      return buckets[bucketKey][teamId];
+    },
+    /** Squared distance from a perfectly even spread if the signup joined `teamId`. */
+    scoreFor(teamId: number, signupBuckets: string[]) {
+      let score = 0;
+      for (const bucketKey of bucketKeys) {
+        const inBucket = signupBuckets.includes(bucketKey) ? 1 : 0;
+        const target = (bucketTotals[bucketKey] + inBucket) / teamIds.length;
+        for (const candidateTeamId of teamIds) {
+          const extra = candidateTeamId === teamId ? inBucket : 0;
+          const diff = buckets[bucketKey][candidateTeamId] + extra - target;
+          score += diff * diff;
+        }
+      }
+      return score;
+    },
+  };
+}
+
 function getSortSuggestion(
   currentEvent: Event,
   signups: SortedSignup[],
   bucketConfig: SortBucketConfig,
 ) {
   const teamIds = currentEvent.teams.map((team) => team.id);
-  const allBucketKeys = bucketConfig.bucketKeys;
-  const totalBucketKey = bucketConfig.totalBucketKey;
-
-  const buckets = allBucketKeys.reduce(
-    (acc, bucketKey) => {
-      acc[bucketKey] = teamIds.reduce(
-        (teamNumbers, teamId) => {
-          teamNumbers[teamId] = 0;
-          return teamNumbers;
-        },
-        {} as { [teamId: number]: number },
-      );
-      return acc;
-    },
-    {} as { [key: string]: { [teamId: number]: number } },
-  );
-
-  const bucketTotals = allBucketKeys.reduce(
-    (acc, bucketKey) => {
-      acc[bucketKey] = 0;
-      return acc;
-    },
-    {} as { [key: string]: number },
-  );
-
-  const addSignupToBuckets = (teamId: number, bucketKeys: string[]) => {
-    for (const bucketKey of bucketKeys) {
-      buckets[bucketKey][teamId] += 1;
-      bucketTotals[bucketKey] += 1;
-    }
-  };
+  const { totalBucketKey } = bucketConfig;
+  const tracker = createBucketTracker(teamIds, bucketConfig.bucketKeys);
 
   for (const signup of signups) {
-    if (!signup.team_id) {
-      continue;
+    if (signup.team_id) {
+      tracker.add(signup.team_id, bucketConfig.getSignupBuckets(signup));
     }
-    const bucketKeys = bucketConfig.getSignupBuckets(signup);
-    addSignupToBuckets(signup.team_id, bucketKeys);
   }
 
-  const newSignups = [];
-
+  const newSignups: SortedSignup[] = [];
   for (const signup of signups.slice().sort(randSort)) {
     if (signup.team_id) {
       newSignups.push(signup);
@@ -224,39 +201,22 @@ function getSortSuggestion(
 
     let bestTeamId: number | null = null;
     let bestScore = Number.POSITIVE_INFINITY;
-
     for (const teamId of teamIds) {
-      let score = 0;
-      for (const bucketKey of allBucketKeys) {
-        const extraTotal = signupBuckets.includes(bucketKey) ? 1 : 0;
-        const target = (bucketTotals[bucketKey] + extraTotal) / teamIds.length;
-        for (const candidateTeamId of teamIds) {
-          const extra =
-            candidateTeamId === teamId && signupBuckets.includes(bucketKey)
-              ? 1
-              : 0;
-          const diff = buckets[bucketKey][candidateTeamId] + extra - target;
-          score += diff * diff;
-        }
-      }
-
-      if (score < bestScore) {
+      const score = tracker.scoreFor(teamId, signupBuckets);
+      const tiedButSmaller =
+        score === bestScore &&
+        bestTeamId !== null &&
+        tracker.countIn(totalBucketKey, teamId) <
+          tracker.countIn(totalBucketKey, bestTeamId);
+      if (score < bestScore || tiedButSmaller) {
         bestScore = score;
         bestTeamId = teamId;
-        continue;
-      }
-      if (score === bestScore && bestTeamId !== null) {
-        if (
-          buckets[totalBucketKey][teamId] < buckets[totalBucketKey][bestTeamId]
-        ) {
-          bestTeamId = teamId;
-        }
       }
     }
 
     const assignedTeamId = bestTeamId ?? teamIds[0];
     newSignups.push({ ...signup, team_id: assignedTeamId });
-    addSignupToBuckets(assignedTeamId, signupBuckets);
+    tracker.add(assignedTeamId, signupBuckets);
   }
   return newSignups;
 }
