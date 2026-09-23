@@ -1,3 +1,4 @@
+import { useTeamLookup, useRankedLadder } from "@utils/ladder-hooks";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useContext, useMemo, useState } from "react";
 import { defaultPreferences } from "@mytypes/preferences";
@@ -6,7 +7,6 @@ import { MultiSelectPercentage } from "@components/form/multi-select-percentage"
 import {
   Event,
   LadderEntry,
-  Team,
   useGetItemMapping,
   useGetLadder,
   useGetStreams,
@@ -83,43 +83,8 @@ export function LadderDisplay() {
     currentEvent.id,
     hoursAfterEventStart,
   );
-  const ladder = useMemo(() => {
-    return (
-      unsortedLadder
-        ?.slice()
-        .sort((a, b) => {
-          if (b.level === a.level) {
-            return (b.xp || 0) - (a.xp || 0);
-          }
-          return b.level - a.level;
-        })
-        .map((entry, index) => ({ ...entry, rank: index + 1 })) || []
-    );
-  }, [unsortedLadder]);
-  const teamMap = useMemo(
-    () =>
-      currentEvent?.teams?.reduce((acc: { [teamId: number]: Team }, team) => {
-        acc[team.id] = team;
-        return acc;
-      }, {}) || {},
-    [currentEvent],
-  );
-  const getTeam = useMemo(() => {
-    const userToTeam =
-      users?.reduce(
-        (acc, user) => {
-          acc[user.id] = teamMap[user.team_id];
-          return acc;
-        },
-        {} as { [userId: number]: Team },
-      ) || {};
-    return (userId: number | undefined): Team | undefined => {
-      if (userId === undefined) {
-        return undefined;
-      }
-      return userToTeam[userId];
-    };
-  }, [users, teamMap]);
+  const ladder = useRankedLadder(unsortedLadder);
+  const getTeam = useTeamLookup(currentEvent, users);
 
   const filteredLadder = useMemo(() => {
     if (!ladder) {

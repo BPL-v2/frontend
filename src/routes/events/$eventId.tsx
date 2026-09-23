@@ -1,3 +1,4 @@
+import { useTeamLookup, useRankedLadder } from "@utils/ladder-hooks";
 import { Event, LadderEntry, Team } from "@api";
 import {
   useGetEvents,
@@ -100,17 +101,7 @@ function EventPage(): JSX.Element {
     );
   }, [rules, rawScore, event]);
 
-  const ladder = useMemo(
-    () =>
-      unsortedLadder
-        ?.slice()
-        .sort((a, b) => {
-          if (b.level === a.level) return (b.xp || 0) - (a.xp || 0);
-          return b.level - a.level;
-        })
-        .map((entry, index) => ({ ...entry, rank: index + 1 })) || [],
-    [unsortedLadder],
-  );
+  const ladder = useRankedLadder(unsortedLadder);
 
   const filteredLadder = useMemo(() => {
     if (selectedItems.length === 0) return ladder;
@@ -133,29 +124,7 @@ function EventPage(): JSX.Element {
     [filteredLadder],
   );
 
-  const teamMap = useMemo(
-    () =>
-      event?.teams.reduce((acc: { [teamId: number]: Team }, team) => {
-        acc[team.id] = team;
-        return acc;
-      }, {}) || {},
-    [event],
-  );
-
-  const getTeam = useMemo(() => {
-    const userToTeam =
-      users.reduce(
-        (acc, user) => {
-          acc[user.id] = teamMap[user.team_id];
-          return acc;
-        },
-        {} as { [userId: number]: Team },
-      ) || {};
-    return (userId: number | undefined): Team | undefined => {
-      if (userId === undefined) return undefined;
-      return userToTeam[userId];
-    };
-  }, [users, teamMap]);
+  const getTeam = useTeamLookup(event, users);
 
   const ladderColumns = useMemo(() => {
     if (!event) return [];

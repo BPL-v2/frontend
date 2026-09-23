@@ -7,7 +7,7 @@
     "orval.config.ts",
     "src/api/transformSpec.mjs"
   ],
-  "ignorePatterns": ["src/api/generated/**"],
+  "ignorePatterns": ["src/api/generated/**", "src/routeTree.gen.ts"],
   "rules": { "dev-dependencies-in-production": "off" },
   "overrides": [
     {

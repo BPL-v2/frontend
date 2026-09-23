@@ -1,33 +1,8 @@
-import { JSX } from "react";
+import { rankedPointsToText } from "./ranked-points-text";
 import { ScoreObjective } from "@mytypes/score";
 
-function convertArrayToText(points: number[]): JSX.Element[] {
-  const textParts = points.map((point, index) => {
-    if (index === 0) {
-      return (
-        <span key={index}>
-          The first team to complete the objective will be awarded{" "}
-          <b className="text-info">{point}</b> points
-        </span>
-      );
-    } else if (index === points.length - 1) {
-      return (
-        <span key={index}>
-          {" "}
-          and the remaining teams <b className="text-info">{point}</b> points
-        </span>
-      );
-    } else {
-      return (
-        <span key={index}>
-          {" "}
-          the next team will get <b className="text-info">{point}</b> points
-        </span>
-      );
-    }
-  });
-  return textParts;
-}
+const convertArrayToText = (points: number[]) =>
+  rankedPointsToText(points, "The first team to complete the objective");
 export function RaceTabRules({ category }: { category: ScoreObjective }) {
   return (
     <>

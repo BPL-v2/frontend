@@ -14,8 +14,7 @@ function racePointsToText(points: number[], name: string): JSX.Element[] {
     } else if (index === points.length - 1) {
       return (
         <span key={index}>
-          ,{" "}
-          and the rest will get <b className="text-info">{point}</b> points
+          , and the rest will get <b className="text-info">{point}</b> points
         </span>
       );
     } else {

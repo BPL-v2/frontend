@@ -1,33 +1,11 @@
+import { rankedPointsToText } from "../rules/ranked-points-text";
 import { ScoringRuleType } from "@api";
 import { ScoreObjective } from "@mytypes/score";
 
-function convertRacePointsToText(points: number[]) {
-  const textParts = points.map((point, index) => {
-    if (index === 0) {
-      return (
-        <span key={index}>
-          The first team to collect all items will be awarded{" "}
-          <b className="text-info">{point}</b> points
-        </span>
-      );
-    } else if (index === points.length - 1) {
-      return (
-        <span key={index}>
-          {" "}
-          and the remaining teams <b className="text-info">{point}</b> points.
-        </span>
-      );
-    } else {
-      return (
-        <span key={index}>
-          {" "}
-          the next team will get <b className="text-info">{point}</b> points
-        </span>
-      );
-    }
+const convertRacePointsToText = (points: number[]) =>
+  rankedPointsToText(points, "The first team to collect all items", {
+    endWithPeriod: true,
   });
-  return textParts;
-}
 
 function convertBonusPointsToText(points: number[]) {
   if (points.length === 1) {

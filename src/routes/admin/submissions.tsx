@@ -1,33 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useContext, useMemo } from "react";
-
-import { GlobalStateContext } from "@utils/context-provider";
-import { renderConditionally } from "@utils/token";
-
-import { Objective, ObjectiveType, Permission, Submission } from "@api";
-import { setBulkSubmissionForAdminBase } from "@api";
+import { useContext } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
+  ObjectiveType,
+  Permission,
+  setBulkSubmissionForAdminBase,
   useGetRules,
-  useGetSubmissions,
-  useGetUser,
-  useGetUsers,
-  useReviewSubmission,
 } from "@api";
 import Select from "@components/form/select";
-import VirtualizedTable from "@components/table/virtualized-table";
-import { TeamName } from "@components/team/team-name";
-import {
-  CheckCircleIcon,
-  EyeSlashIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
-import { useQueryClient } from "@tanstack/react-query";
-import { ColumnDef } from "@components/table/react-table-shim";
-import { renderStringWithUrl } from "@utils/text-utils";
-import { flatMap, iterateObjectives } from "@utils/utils";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseFormat);
+import { SubmissionsPage } from "@components/pages/submissions-page";
+import { GlobalStateContext } from "@utils/context-provider";
+import { renderConditionally } from "@utils/token";
+import { flatMap } from "@utils/utils";
 
 export const Route = createFileRoute("/admin/submissions")({
   component: renderConditionally(SubmissionPage, [
@@ -36,299 +20,81 @@ export const Route = createFileRoute("/admin/submissions")({
   ]),
 });
 
-function SubmissionPage() {
+function BulkSubmissionForm() {
   const { currentEvent } = useContext(GlobalStateContext);
   const qc = useQueryClient();
-  const { users, isLoading: usersLoading } = useGetUsers(currentEvent.id);
-  const { rules, isLoading: rulesLoading } = useGetRules(currentEvent.id);
-  const { user, isLoading: userLoading } = useGetUser();
-  const { submissions = [], isLoading: submissionsLoading } = useGetSubmissions(
-    currentEvent.id,
-  );
-  const { reviewSubmission, isPending: reviewPending } = useReviewSubmission(
-    qc,
-    currentEvent.id,
-  );
-
-  const objectiveMap: Record<number, Objective> = useMemo(() => {
-    const map: Record<number, Objective> = {};
-    iterateObjectives(rules, (objective) => {
-      if (objective.objective_type === ObjectiveType.SUBMISSION) {
-        map[objective.id] = objective;
-      }
-    });
-    return map;
-  }, [rules]);
-
-  const columns = React.useMemo(() => {
-    if (!currentEvent || !rules || !users) {
-      return [];
-    }
-    const columns: ColumnDef<Submission>[] = [
-      {
-        header: "",
-        accessorKey: "objective_id",
-        accessorFn: (row) => objectiveMap[row.objective_id]?.name,
-        cell: (info) => info.getValue(),
-        enableSorting: false,
-        size: 250,
-        filterFn: "includesString",
-        meta: {
-          filterVariant: "enum",
-          filterPlaceholder: "Objective",
-          options: Object.values(objectiveMap).map(
-            (objective) => objective.name,
-          ),
-        },
-      },
-      {
-        header: "Submitter",
-        accessorKey: "user_id",
-        cell: (info) => {
-          const user = users.find((u) => u.id === info.row.original.user_id);
-          return user ? user.display_name : "Unknown User";
-        },
-        size: 200,
-      },
-      {
-        header: "",
-        accessorKey: "team_id",
-        accessorFn: (row) =>
-          currentEvent?.teams.find((t) => t.id === row.team_id)?.name,
-        cell: (info) => {
-          return (
-            <TeamName
-              team={currentEvent?.teams.find(
-                (t) => t.id === info.row.original.team_id,
-              )}
-            />
-          );
-        },
-        enableSorting: false,
-        size: 180,
-        filterFn: "includesString",
-        meta: {
-          filterVariant: "enum",
-          filterPlaceholder: "Team",
-          options: currentEvent.teams.map((team) => team.name),
-        },
-      },
-      {
-        header: "Proof",
-        accessorKey: "proof",
-        size: 100,
-        cell: (info) => {
-          const proof = info.getValue();
-          if (!proof) {
-            return "No proof provided";
-          }
-          return renderStringWithUrl(info.row.original.proof);
-        },
-      },
-      {
-        header: "Comment",
-        accessorKey: "comment",
-        size: 200,
-        cell: (info) => info.getValue(),
-        enableSorting: false,
-      },
-      {
-        header: "Value",
-        accessorKey: "number",
-        cell: (info) => {
-          return info.getValue();
-        },
-        size: 100,
-      },
-      {
-        header: "Status",
-        accessorKey: "approval_status",
-        size: 100,
-        cell: (info) => {
-          switch (info.getValue()) {
-            case "PENDING":
-              return (
-                <div
-                  className="tooltip cursor-help text-warning"
-                  data-tip="Pending"
-                >
-                  <EyeSlashIcon className="size-6 text-warning" />
-                </div>
-              );
-            case "APPROVED":
-              return (
-                <div
-                  className="tooltip cursor-help text-success"
-                  data-tip="Approved"
-                >
-                  <CheckCircleIcon className="size-6 text-success" />
-                </div>
-              );
-            case "REJECTED":
-              return (
-                <div
-                  className="tooltip cursor-help text-error"
-                  data-tip="Rejected"
-                >
-                  <XCircleIcon className="size-6 text-error" />
-                </div>
-              );
-            default:
-              return "Unknown";
-          }
-        },
-      },
-      {
-        header: "Timestamp",
-        accessorKey: "timestamp",
-        cell: (info) => new Date(info.row.original.timestamp).toLocaleString(),
-        size: 170,
-      },
-    ];
-    if (user?.permissions.includes(Permission.submission_judge)) {
-      columns.push({
-        header: "Actions",
-        accessorKey: "id",
-        enableSorting: false,
-        cell: (info) => {
-          const submissionId = info.row.original.id;
-          return (
-            <div className="flex flex-col gap-1">
-              <button
-                className="btn btn-sm btn-success"
-                onClick={() => {
-                  reviewSubmission(submissionId, {
-                    approval_status: "APPROVED",
-                  });
-                }}
-                disabled={reviewPending}
-              >
-                {reviewPending ? (
-                  <span className="loading loading-xs loading-spinner"></span>
-                ) : null}
-                Approve
-              </button>
-              <button
-                className="btn btn-error btn-sm"
-                onClick={() => {
-                  reviewSubmission(submissionId, {
-                    approval_status: "REJECTED",
-                  });
-                }}
-                disabled={reviewPending}
-              >
-                {reviewPending ? (
-                  <span className="loading loading-xs loading-spinner"></span>
-                ) : null}
-                Reject
-              </button>
-            </div>
-          );
-        },
-      });
-    }
-    return columns;
-  }, [
-    currentEvent,
-    users,
-    user,
-    objectiveMap,
-    reviewSubmission,
-    rules,
-    reviewPending,
-  ]);
-
-  // Show loading state while any data is loading
-  if (usersLoading || rulesLoading || userLoading || submissionsLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <span className="loading loading-lg loading-spinner"></span>
-          <p className="text-lg">Loading submissions...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!currentEvent || !rules) {
-    return <div>No event selected</div>;
-  }
+  const { rules } = useGetRules(currentEvent.id);
   const submissionObjectives = flatMap(rules).filter(
     (objective) => objective.objective_type === ObjectiveType.SUBMISSION,
   );
   return (
-    <div className="mt-4 flex flex-col">
-      {" "}
-      <form
-        className="mb-4 flex flex-col items-center bg-base-200"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const form = e.target as HTMLFormElement;
-          const formData = new FormData(form);
-          const objectiveId = parseInt(formData.get("objective") as string);
-          const places = currentEvent.teams
-            .map((_, idx) => {
-              const place = formData.get("place-" + idx);
-              if (!place) {
-                alert("You have to select a team for each place");
-                return;
-              }
-              return parseInt(place as string);
-            })
-            .filter((place) => place !== undefined);
-          if (new Set(places).size !== places.length) {
-            alert("You have to select different teams for each place");
-            return;
-          }
-          setBulkSubmissionForAdminBase(currentEvent.id, {
-            objective_id: objectiveId,
-            team_ids: places,
-          }).then(() => {
-            qc.invalidateQueries({
-              queryKey: ["submissions", currentEvent.id],
-            });
-            form.reset();
+    <form
+      className="mb-4 flex flex-col items-center bg-base-200"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const objectiveId = parseInt(formData.get("objective") as string);
+        const places = currentEvent.teams
+          .map((_, idx) => {
+            const place = formData.get("place-" + idx);
+            if (!place) {
+              alert("You have to select a team for each place");
+              return;
+            }
+            return parseInt(place as string);
+          })
+          .filter((place) => place !== undefined);
+        if (new Set(places).size !== places.length) {
+          alert("You have to select different teams for each place");
+          return;
+        }
+        setBulkSubmissionForAdminBase(currentEvent.id, {
+          objective_id: objectiveId,
+          team_ids: places,
+        }).then(() => {
+          qc.invalidateQueries({
+            queryKey: ["submissions", currentEvent.id],
           });
-        }}
-      >
-        <fieldset className="m-4 mb-4 fieldset w-md rounded-box bg-base-300 p-4">
-          <label className="label">Objective</label>
-          <Select
-            className="w-full"
-            placeholder="Select an objective"
-            name="objective"
-            required
-            options={submissionObjectives.map((objective) => ({
-              label: objective.name,
-              value: String(objective.id),
-            }))}
-          ></Select>
-          {currentEvent.teams.map((_, idx) => (
-            <>
-              <label className="label">{idx + 1}. Place</label>
-              <Select
-                required
-                name={"place-" + idx}
-                className="w-full"
-                placeholder="Select a team"
-                options={currentEvent.teams.map((team) => ({
-                  label: team.name,
-                  value: String(team.id),
-                }))}
-              ></Select>
-            </>
-          ))}
-          <button className="btn mt-2 btn-primary" type="submit">
-            Submit
-          </button>
-        </fieldset>
-      </form>
-      <VirtualizedTable<Submission>
-        className="mt-4 h-[70vh]"
-        data={submissions}
-        columns={columns}
-        rowClassName={() => "hover:bg-base-200/50"}
-      ></VirtualizedTable>
-    </div>
+          form.reset();
+        });
+      }}
+    >
+      <fieldset className="m-4 mb-4 fieldset w-md rounded-box bg-base-300 p-4">
+        <label className="label">Objective</label>
+        <Select
+          className="w-full"
+          placeholder="Select an objective"
+          name="objective"
+          required
+          options={submissionObjectives.map((objective) => ({
+            label: objective.name,
+            value: String(objective.id),
+          }))}
+        ></Select>
+        {currentEvent.teams.map((_, idx) => (
+          <>
+            <label className="label">{idx + 1}. Place</label>
+            <Select
+              required
+              name={"place-" + idx}
+              className="w-full"
+              placeholder="Select a team"
+              options={currentEvent.teams.map((team) => ({
+                label: team.name,
+                value: String(team.id),
+              }))}
+            ></Select>
+          </>
+        ))}
+        <button className="btn mt-2 btn-primary" type="submit">
+          Submit
+        </button>
+      </fieldset>
+    </form>
   );
+}
+
+function SubmissionPage() {
+  return <SubmissionsPage header={<BulkSubmissionForm />} showAllValues />;
 }

@@ -1,4 +1,5 @@
-import { LadderEntry, Team, TrackedValue } from "@api";
+import { useTeamLookup } from "@utils/ladder-hooks";
+import { LadderEntry, TrackedValue } from "@api";
 import { preloadLadderData, useGetLadder, useGetUsers } from "@api";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
@@ -43,30 +44,7 @@ function DelveTab(): JSX.Element {
   const { data: ladder = [] } = useGetLadder(currentEvent.id);
   const { data: users } = useGetUsers(currentEvent.id);
   const category = scores?.children.find((c) => c.name === "Delve");
-  const teamMap = useMemo(
-    () =>
-      currentEvent?.teams?.reduce((acc: { [teamId: number]: Team }, team) => {
-        acc[team.id] = team;
-        return acc;
-      }, {}) || {},
-    [currentEvent],
-  );
-  const getTeam = useMemo(() => {
-    const userToTeam =
-      users?.reduce(
-        (acc, user) => {
-          acc[user.id] = teamMap[user.team_id];
-          return acc;
-        },
-        {} as { [userId: number]: Team },
-      ) || {};
-    return (userId: number | undefined): Team | undefined => {
-      if (userId === undefined) {
-        return undefined;
-      }
-      return userToTeam[userId];
-    };
-  }, [users, teamMap]);
+  const getTeam = useTeamLookup(currentEvent, users);
   const delveLadderColumns = useMemo(() => {
     if (!currentEvent) {
       return [];
