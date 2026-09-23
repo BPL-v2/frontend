@@ -57,9 +57,26 @@ function getTimeSelectOptions(currentEvent: Event) {
   }));
 }
 
-export function LadderDisplay() {
-  const { currentEvent, isMobile, preferences, setPreferences } =
-    useContext(GlobalStateContext);
+/**
+ * Ladder table with preference toggles and filters. Shows the current event
+ * by default; pass `event` and `archive` for a past event, which drops the
+ * stream/discord columns and the "active only" filter and always keeps the
+ * rank column visible.
+ */
+export function LadderDisplay({
+  event,
+  archive = false,
+}: {
+  event?: Event;
+  archive?: boolean;
+} = {}) {
+  const {
+    currentEvent: contextEvent,
+    isMobile,
+    preferences,
+    setPreferences,
+  } = useContext(GlobalStateContext);
+  const currentEvent = event ?? contextEvent;
   const { itemMapping = {} } = useGetItemMapping();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const { data: users = [], isError: usersIsError } = useGetUsers(
@@ -100,8 +117,6 @@ export function LadderDisplay() {
     });
   }, [ladder, selectedItems, filterActive]);
 
-  const showAlwaysLadder = ["Stream"];
-
   const percentagePlayersWithItem = useMemo(
     () =>
       filteredLadder?.reduce(
@@ -141,9 +156,9 @@ export function LadderDisplay() {
     if (!isMobile) {
       columns = [
         rankColumn(),
-        streamColumn(streamsByUser),
+        ...(archive ? [] : [streamColumn(streamsByUser)]),
         accountColumn(),
-        discordColumn(userMap),
+        ...(archive ? [] : [discordColumn(userMap)]),
         characterColumn(currentEvent),
         teamColumn(currentEvent, getTeam),
         ascendancyColumn(currentEvent),
@@ -163,14 +178,23 @@ export function LadderDisplay() {
         }),
       ];
     }
+    const alwaysVisible = archive ? "Rank" : "Stream";
     return columns.filter((col) => {
       return (
         isMobile ||
         preferences.ladder[col.id as keyof typeof preferences.ladder] ||
-        showAlwaysLadder.includes(col.id as string)
+        col.id === alwaysVisible
       );
     });
-  }, [isMobile, currentEvent, preferences, userMap, streamsByUser, getTeam]);
+  }, [
+    isMobile,
+    currentEvent,
+    archive,
+    preferences,
+    userMap,
+    streamsByUser,
+    getTeam,
+  ]);
 
   if (ladderIsError || usersIsError) {
     return (
@@ -245,15 +269,17 @@ export function LadderDisplay() {
               values={selectedItems}
               className="w-full md:w-100"
             />
-            <label className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-sm"
-                checked={filterActive}
-                onChange={(e) => setFilterActive(e.target.checked)}
-              />
-              Active only
-            </label>
+            {!archive && (
+              <label className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-sm"
+                  checked={filterActive}
+                  onChange={(e) => setFilterActive(e.target.checked)}
+                />
+                Active only
+              </label>
+            )}
           </div>
           {getTimeSelectOptions(currentEvent).length > 0 && (
             <Select
