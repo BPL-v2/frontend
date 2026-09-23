@@ -1,3 +1,13 @@
+import {
+  accountColumn,
+  ascendancyColumn,
+  characterColumn,
+  levelColumn,
+  mobilePortraitColumn,
+  progressColumns,
+  rankColumn,
+  teamColumn,
+} from "@components/ladder/ladder-columns";
 import { useTeamLookup, useRankedLadder } from "@utils/ladder-hooks";
 import { Event, LadderEntry, Team } from "@api";
 import {
@@ -8,31 +18,16 @@ import {
   useGetScore,
   useGetUsers,
 } from "@api";
-import { AscendancyName } from "@components/character/ascendancy-name";
-import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
-import { ExperienceBar } from "@components/character/experience-bar";
-import { LadderPortrait } from "@components/character/ladder-portrait";
 import { MultiSelectPercentage } from "@components/form/multi-select-percentage";
 import Select from "@components/form/select";
 import Table from "@components/table/table";
 import VirtualizedTable from "@components/table/virtualized-table";
 import TeamScoreDisplay from "@components/team/team-score";
 import { TeamName } from "@components/team/team-name";
-import {
-  ArrowTopRightOnSquareIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
 import { defaultPreferences } from "@mytypes/preferences";
-import {
-  CellContext,
-  ColumnDef,
-  sortingFns,
-} from "@components/table/react-table-shim";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
-import { getGemColor } from "@utils/gem-utils";
-import { totalPoPoints } from "@utils/personal-points";
 import { Score } from "@components/score";
 import { hidePOTotal, mergeScores, getTotalPoints } from "@utils/utils";
 import { JSX, useContext, useMemo, useState } from "react";
@@ -128,231 +123,28 @@ function EventPage(): JSX.Element {
 
   const ladderColumns = useMemo(() => {
     if (!event) return [];
-    let columns: ColumnDef<LadderEntry>[] = [];
+    let columns: ColumnDef<LadderEntry>[];
     if (!isMobile) {
       columns = [
-        {
-          id: "Rank",
-          accessorKey: "rank",
-          header: "#",
-          size: 50,
-        },
-        {
-          id: "Account",
-          accessorKey: "poe_account",
-          header: "",
-          cell: (info) => (
-            <a
-              className="flex cursor-pointer items-center gap-1 hover:text-primary"
-              href={`https://www.pathofexile.com/account/view-profile/${info.row.original.poe_account.replace("#", "-")}/characters`}
-              target="_blank"
-            >
-              <ArrowTopRightOnSquareIcon className="inline size-4" />
-              {info.row.original.poe_account}
-            </a>
-          ),
-          enableSorting: false,
-          size: 250,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Account",
-          },
-        },
-        {
-          id: "Character",
-          accessorKey: "character_name",
-          header: "",
-          enableSorting: false,
-          size: 250,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Character",
-          },
-          cell: (info) => (
-            <Link
-              to={"/profile/$userId/$eventId/$characterId"}
-              className="flex items-center gap-1 hover:text-primary"
-              params={{
-                userId: info.row.original.user_id || 0,
-                characterId: info.row.original.character_id || "",
-                eventId: event.id,
-              }}
-            >
-              <ArrowTopRightOnSquareIcon className="inline size-4" />
-              {info.row.original.character_name}
-            </Link>
-          ),
-        },
-        {
-          id: "Team",
-          accessorFn: (row) => getTeam(row.user_id)?.name,
-          header: " ",
-          cell: (info) => (
-            <TeamName team={getTeam(info.row.original.user_id)} />
-          ),
-          enableSorting: false,
-          size: 200,
-          filterFn: "includesString",
-          meta: {
-            align: "left",
-            filterVariant: "enum",
-            filterPlaceholder: "Team",
-            options: event.teams.map((team) => team.name),
-          },
-        },
-        {
-          id: "Ascendancy",
-          accessorFn: (row) => row.ascendancy + row.main_skill,
-          header: "",
-          cell: (info) => (
-            <div className="flex items-center gap-2">
-              <AscendancyPortrait
-                character_class={info.row.original.ascendancy}
-                game_version={event.game_version}
-                className="size-10 rounded-full object-cover"
-              />
-              <div className="flex flex-col">
-                <span className={getGemColor(info.row.original.main_skill)}>
-                  {info.row.original.main_skill}
-                </span>
-                <AscendancyName
-                  character_class={info.row.original.ascendancy}
-                  game_version={event.game_version}
-                />
-              </div>
-            </div>
-          ),
-          size: 300,
-          filterFn: "includesString",
-          enableSorting: false,
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Ascendancy / Skill",
-          },
-        },
-        {
-          id: "Level",
-          accessorKey: "experience",
-          header: "Level",
-          cell: (info) => (
-            <ExperienceBar
-              experience={info.row.original.xp}
-              level={info.row.original.level}
-              width={60}
-              className="text-lg font-bold"
-            />
-          ),
-          sortFn: sortingFns.basic,
-          size: 120,
-        },
-        {
-          id: "Delve",
-          accessorKey: "delve",
-          header: "Delve",
-          size: 100,
-        },
-        ...[
-          "DPS",
-          "EHP",
-          "Armour",
-          "Evasion",
-          "ES",
-          "Ele max hit",
-          "Phys max hit",
-          "HP",
-          "Mana",
-          "Movement Speed",
-        ].map((stat) => {
-          const key = stat
-            .replaceAll(" ", "_")
-            .toLowerCase() as keyof LadderEntry;
-          return {
-            id: stat,
-            accessorFn: (row: LadderEntry) => row[key] || 0,
-            header: () => (
-              <div
-                className="tooltip tooltip-bottom w-18 overflow-hidden text-ellipsis"
-                data-tip={stat}
-              >
-                <span>{stat}</span>
-              </div>
-            ),
-            cell: (info: CellContext<LadderEntry, unknown>) => {
-              const value = info.getValue<number>();
-              if (value === undefined) return 0;
-              if (value === 2147483647) return "inf";
-              return value.toLocaleString();
-            },
-            size: 100,
-            sortFn: sortingFns.basic,
-            meta: { filterVariant: "number" },
-          };
-        }),
-        {
-          id: "P.O.",
-          header: "P.O.",
-          accessorFn: (row) => totalPoPoints(row),
-          cell: (info) => info.getValue(),
-          size: 90,
-        },
-        {
-          id: "Pantheon",
-          header: "Pantheon",
-          accessorFn: (row) => row.pantheon,
-          cell: (info) =>
-            info.row.original.pantheon ? (
-              <CheckCircleIcon className="size-6 text-success" />
-            ) : (
-              <XCircleIcon className="size-6 text-error" />
-            ),
-          enableSorting: false,
-          meta: { filterVariant: "boolean" },
-        },
-        {
-          id: "Uber Lab",
-          accessorFn: (row) => (row.ascendancy_points || 0) > 6,
-          cell: (info) =>
-            (info.row.original.ascendancy_points || 0) > 6 ? (
-              <CheckCircleIcon className="size-6 text-success" />
-            ) : (
-              <XCircleIcon className="size-6 text-error" />
-            ),
-          enableSorting: false,
-          header: "Uber Lab",
-          meta: { filterVariant: "boolean" },
-        },
-        {
-          id: "Atlas",
-          accessorFn: (row) => row.atlas_points || 0,
-          header: "Atlas",
-        },
+        rankColumn(),
+        accountColumn(),
+        characterColumn(event),
+        teamColumn(event, getTeam),
+        ascendancyColumn(event),
+        levelColumn(),
+        ...progressColumns(),
       ];
     } else {
       columns = [
-        {
-          accessorFn: (row) =>
+        mobilePortraitColumn(event, getTeam, {
+          searchText: (row) =>
             row.poe_account +
             row.character_name +
             row.ascendancy +
             row.main_skill,
-          header: " ",
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Search",
-          },
-          cell: (info) => (
-            <LadderPortrait
-              entry={info.row.original}
-              team={getTeam(info.row.original.user_id)}
-              event={event}
-            />
-          ),
-          enableSorting: false,
+          placeholder: "Search",
           size: 375,
-        },
+        }),
       ];
     }
     return columns.filter(

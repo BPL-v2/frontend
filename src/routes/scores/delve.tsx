@@ -1,27 +1,25 @@
+import {
+  accountColumn,
+  ascendancyColumn,
+  characterColumn,
+  delveDepthColumn,
+  levelColumn,
+  mobilePortraitColumn,
+  teamColumn,
+} from "@components/ladder/ladder-columns";
 import { useTeamLookup } from "@utils/ladder-hooks";
 import { LadderEntry, TrackedValue } from "@api";
 import { preloadLadderData, useGetLadder, useGetUsers } from "@api";
-import { AscendancyName } from "@components/character/ascendancy-name";
-import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { CollectionCardTable } from "@components/cards/collection-card-table";
-import { ExperienceBar } from "@components/character/experience-bar";
 import { ObjectiveIcon } from "@components/objective-icon";
 import { Ranking } from "@components/ranking";
 import VirtualizedTable from "@components/table/virtualized-table";
-import { TeamName } from "@components/team/team-name";
 import TeamScoreDisplay from "@components/team/team-score";
 import { DelveTabRules } from "@rules/delve";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ColumnDef, sortingFns } from "@components/table/react-table-shim";
+import { createFileRoute } from "@tanstack/react-router";
+import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { JSX, useContext, useEffect, useMemo, useState } from "react";
-import {
-  ActivityDot,
-  LadderPortrait,
-} from "@components/character/ladder-portrait";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { getGemColor } from "@utils/gem-utils";
-import { progressiveDelveDepth } from "@utils/personal-points";
 import { ObjectiveCard } from "@components/cards/objective-card";
 
 export const Route = createFileRoute("/scores/delve")({
@@ -49,167 +47,27 @@ function DelveTab(): JSX.Element {
     if (!currentEvent) {
       return [];
     }
-    let columns: ColumnDef<LadderEntry>[] = [];
+    let columns: ColumnDef<LadderEntry>[];
     if (!isMobile) {
       columns = [
-        {
-          accessorKey: "delve_depth",
-          header: "Depth",
-          sortFn: sortingFns.basic,
-          cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-              {row.original.delve_depth}
-              {progressiveDelveDepth(row.original) > 0 && (
-                <span className="text-sm text-success">
-                  ({progressiveDelveDepth(row.original)})
-                </span>
-              )}
-            </div>
-          ),
-          size: 100,
-        },
-        {
-          id: "Account",
-          accessorKey: "poe_account",
-          header: "",
-          cell: (info) => (
-            <a
-              className="flex cursor-pointer items-center gap-1 hover:text-primary"
-              href={`https://www.pathofexile.com/account/view-profile/${info.row.original.poe_account.replace("#", "-")}/characters`}
-              target="_blank"
-            >
-              <ArrowTopRightOnSquareIcon className="inline size-4" />
-              {info.row.original.poe_account}
-            </a>
-          ),
-          enableSorting: false,
-          size: 250,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Account",
-          },
-        },
-        {
-          id: "Character",
-          accessorKey: "character_name",
-          header: "",
-          enableSorting: false,
-          size: 250,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Character",
-          },
-          cell: (info) => (
-            <Link
-              to={"/profile/$userId/$eventId/$characterId"}
-              className="flex items-center gap-1 hover:text-primary"
-              params={{
-                userId: info.row.original.user_id || 0,
-                characterId: info.row.original.character_id || "",
-                eventId: currentEvent.id,
-              }}
-            >
-              <ArrowTopRightOnSquareIcon className="inline size-4" />
-              {info.row.original.character_name}
-            </Link>
-          ),
-        },
-        {
-          id: "Team",
-          accessorFn: (row) => getTeam(row.user_id)?.name,
-          header: " ",
-          cell: (info) => (
-            <TeamName team={getTeam(info.row.original.user_id)} />
-          ),
-          enableSorting: false,
-          size: 200,
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "enum",
-            filterPlaceholder: "Team",
-            options: currentEvent.teams.map((team) => team.name),
-          },
-        },
-        {
-          id: "Ascendancy",
-          accessorFn: (row) => row.ascendancy + row.main_skill,
-          header: "",
-          cell: (info) => (
-            <div className="flex items-center gap-2">
-              <div className="relative shrink-0">
-                <AscendancyPortrait
-                  character_class={info.row.original.ascendancy}
-                  game_version={currentEvent.game_version}
-                  className="size-10 rounded-full object-cover"
-                />
-                <ActivityDot
-                  last_active={info.row.original.last_active}
-                  className="absolute top-0 right-0 size-2.5"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className={getGemColor(info.row.original.main_skill)}>
-                  {info.row.original.main_skill}
-                </span>
-                <AscendancyName
-                  character_class={info.row.original.ascendancy}
-                  game_version={currentEvent.game_version}
-                />
-              </div>
-            </div>
-          ),
-          size: 300,
-          filterFn: "includesString",
-          enableSorting: false,
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Ascendancy / Skill",
-          },
-        },
-        {
-          accessorKey: "experience",
-          header: "Level",
-          cell: (info) => (
-            <ExperienceBar
-              experience={info.row.original.xp}
-              level={info.row.original.level}
-              width={60}
-              className="text-lg font-bold"
-            />
-          ),
-          sortFn: sortingFns.basic,
-          size: 120,
-        },
+        delveDepthColumn({ showProgressive: true }),
+        accountColumn(),
+        characterColumn(currentEvent),
+        teamColumn(currentEvent, getTeam),
+        ascendancyColumn(currentEvent),
+        levelColumn(),
       ];
     } else {
       columns = [
-        {
-          accessorKey: "delve_depth",
-          header: "Depth",
-          sortFn: sortingFns.basic,
-          size: 100,
-        },
-        {
+        delveDepthColumn({ showProgressive: false }),
+        mobilePortraitColumn(currentEvent, getTeam, {
           id: "Character",
-          accessorFn: (row) =>
+          searchText: (row) =>
             row.poe_account + row.character_name + row.ascendancy,
-          header: " ",
-          filterFn: "includesString",
-          meta: {
-            filterVariant: "string",
-            filterPlaceholder: "Character",
-          },
-          cell: (info) => (
-            <LadderPortrait
-              entry={info.row.original}
-              team={getTeam(info.row.original.user_id)}
-              event={currentEvent}
-            />
-          ),
+          placeholder: "Character",
           size: windowWidth - 100,
-        },
+          enableSorting: true,
+        }),
       ];
     }
     return columns;
