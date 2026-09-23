@@ -1,64 +1,11 @@
 import {
-  MinimalUser,
   Objective,
-  ScoreDiff,
-  Team,
   Score,
   ScoringRuleType,
   CountingMethod,
 } from "@api/generated/models";
-import { getSubObjective } from "./scoring-objective";
 
-export type ScoreDiffMeta = {
-  parent?: ScoreObjective;
-  objective?: ScoreObjective;
-  userName?: string;
-  finished: boolean;
-  teamName: string;
-  rank: number;
-  points: number;
-};
-
-export function getMetaInfo(
-  scoreDiff: ScoreDiff,
-  users?: MinimalUser[],
-  scores?: ScoreObjective,
-  teams?: Team[],
-): ScoreDiffMeta {
-  const meta: ScoreDiffMeta = {
-    teamName: "",
-    finished: false,
-    points: 0,
-    rank: 0,
-  };
-  meta.objective = getSubObjective(scores, scoreDiff.objective_id);
-  if (meta.objective) {
-    meta.parent = getSubObjective(scores, meta.objective.parent_id);
-    const bonusPerCompletionPreset = meta.parent?.scoring_rules.find(
-      (preset) => preset.scoring_rule === "BONUS_PER_CHILD_COMPLETION",
-    );
-    if (meta.parent && bonusPerCompletionPreset) {
-      const finishedObjectives = Math.min(
-        meta.parent.children.filter((objective) =>
-          objective.team_score[scoreDiff.team_id].isFinished(),
-        ).length,
-        bonusPerCompletionPreset.points.length - 1,
-      );
-      meta.points += bonusPerCompletionPreset.points[finishedObjectives];
-    }
-  }
-
-  meta.teamName =
-    teams?.find((team) => team.id === scoreDiff.team_id)?.name || "";
-  meta.userName = users?.find(
-    (user) => user.id === scoreDiff.score.completions[0]?.user_id,
-  )?.display_name;
-  meta.finished = scoreDiff.score.completions[0]?.finished;
-  meta.rank = scoreDiff.score.completions[0]?.rank;
-  meta.points += scoreDiff.score.completions[0]?.points;
-  return meta;
-}
-
+// fallow-ignore-file unused-class-member
 export class ScoreClass {
   score: Score;
   constructor(score: Score) {

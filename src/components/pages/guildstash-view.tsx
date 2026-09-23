@@ -11,9 +11,6 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type StashType = "Grid" | "Special" | "Unique";
-export type ScoreQueryParams = {
-  highlightScoring: boolean;
-};
 
 function fixDivcardMods(mod: ItemMod): ItemMod[] {
   let cleanedText = mod.description;

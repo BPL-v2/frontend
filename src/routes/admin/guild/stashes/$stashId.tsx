@@ -1,7 +1,7 @@
 import { GuildStashView } from "@components/pages/guildstash-view";
 import { createFileRoute, useParams, useSearch } from "@tanstack/react-router";
 
-export type ScoreQueryParams = {
+type ScoreQueryParams = {
   highlightScoring: boolean;
 };
 export const Route = createFileRoute("/admin/guild/stashes/$stashId")({

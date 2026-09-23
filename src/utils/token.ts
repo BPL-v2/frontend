@@ -2,7 +2,7 @@ import { Permission } from "@api/generated/models";
 
 import { createElement, JSX } from "react";
 import { Navigate } from "@tanstack/react-router";
-export type TokenPayload = {
+type TokenPayload = {
   exp: number;
   permissions: Permission[];
   user_id: number;

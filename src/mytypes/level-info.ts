@@ -1,4 +1,4 @@
-export interface LevelInfo {
+interface LevelInfo {
   level: number;
   exp: number;
   expToLevel: number;

@@ -494,23 +494,3 @@ export function getImageLocation(
   }
   return null;
 }
-
-export function getSubObjective<
-  T extends Objective | ScoreObjective | undefined,
->(objective: T, subObjectiveId: number): T {
-  if (!objective) {
-    return undefined as T;
-  }
-  if (objective.id === subObjectiveId) {
-    return objective;
-  }
-  if (objective.children) {
-    for (const child of objective.children) {
-      const subObjective = getSubObjective(child, subObjectiveId);
-      if (subObjective) {
-        return subObjective as T;
-      }
-    }
-  }
-  return undefined as T;
-}

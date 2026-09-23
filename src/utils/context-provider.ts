@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { ScoreObjective } from "@mytypes/score";
 import { Event, GameVersion } from "@api";
 import { initPreferences, Preferences } from "@mytypes/preferences";
-export type GlobalState = {
+type GlobalState = {
   currentEvent: Event;
   setCurrentEvent: (c: Event) => void;
   scores: ScoreObjective | undefined;

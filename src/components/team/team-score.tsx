@@ -8,7 +8,7 @@ import { TeamName } from "@components/team/team-name";
 import { TeamLogo } from "@components/team/teamlogo";
 import { Score } from "@components/score";
 
-export type TeamScoreProps = {
+type TeamScoreProps = {
   selectedTeam?: number;
   setSelectedTeam?: (teamId: number) => void;
   objective?: ScoreObjective;
