@@ -593,7 +593,7 @@ interface IconRendererProps extends React.HTMLAttributes<HTMLDivElement> {
   objective?: ScoreObjective;
 }
 
-export function SvgForCategory(
+function SvgForCategory(
   name: string,
   color?: IconRendererProps["color"],
 ) {

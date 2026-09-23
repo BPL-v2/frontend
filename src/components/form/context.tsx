@@ -8,8 +8,10 @@ import { NumberField } from "@components/form/number-field";
 import { SelectField } from "@components/form/select-field";
 import { MultiSelectField } from "@components/form/multi-select-field";
 import { TextField } from "@components/form/text-field";
-export const { fieldContext, formContext, useFieldContext } =
+const { fieldContext, formContext, useFieldContext } =
   createFormHookContexts();
+export { useFieldContext };
+
 export const { useAppForm } = createFormHook({
   fieldContext,
   formContext,

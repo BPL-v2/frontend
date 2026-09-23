@@ -47,7 +47,7 @@ export function generalPoPoints(char: LadderEntry) {
   return points;
 }
 
-export function customPoPoints(char: LadderEntry) {
+function customPoPoints(char: LadderEntry) {
   const entries = calculatePolicyEntries(char);
   return Math.min(
     entries.reduce((sum, e) => sum + (e.earnedPoints ?? 0), 0),
@@ -69,7 +69,7 @@ const policies: POPolicies = {
   mana: [8_000, 12_000, 15_000],
   dps: [2_000_000, 5_000_000, 50_000_000],
   ehp: [50_000, 150_000, 400_000],
-  attack_block: [60, 70 ,80],
+  attack_block: [60, 70, 80],
   lowest_ele_res: [80, 85, 90],
   ele_max_hit: [40_000, 80_000, 120_000],
   phys_max_hit: [12_000, 16_000, 20_000],

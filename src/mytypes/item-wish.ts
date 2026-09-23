@@ -2,8 +2,8 @@
 // plain flag: 1 = nice to have, 5 = the build does not work without it. Legacy
 // boolean data was migrated false -> 1 and true -> 5.
 
-export const MIN_BUILD_ENABLING = 1;
-export const MAX_BUILD_ENABLING = 5;
+const MIN_BUILD_ENABLING = 1;
+const MAX_BUILD_ENABLING = 5;
 export const DEFAULT_BUILD_ENABLING = 1;
 
 // A wish counts as "build enabling" for the quick filter / summaries once it
@@ -43,13 +43,6 @@ export const BUILD_ENABLING_LEVELS: BuildEnablingLevel[] = [
     description: "The build does not function without this item.",
   },
 ];
-
-export function buildEnablingLevel(value: number): BuildEnablingLevel {
-  return (
-    BUILD_ENABLING_LEVELS.find((l) => l.value === value) ??
-    BUILD_ENABLING_LEVELS[0]
-  );
-}
 
 export function clampBuildEnabling(value: number): number {
   if (!Number.isFinite(value)) return DEFAULT_BUILD_ENABLING;

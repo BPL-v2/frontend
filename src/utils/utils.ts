@@ -28,33 +28,12 @@ function getEmptyScore(): ScoreClass {
     bonus_points: 0,
   });
 }
-export function lastTimestamp(score?: Score): number {
-  let timestamp = 0;
-  for (const completion of score?.completions || []) {
-    if (completion.timestamp > timestamp) {
-      timestamp = completion.timestamp;
-    }
-  }
-  return timestamp;
-}
-
 export function isFinished(score?: Score): boolean {
   return (
     ((score?.completions?.length || 0) > 0 &&
       score?.completions.every((completion) => completion.finished)) ||
     false
   );
-}
-
-export function totalPoints(score?: Score): number {
-  if (!score) {
-    return 0;
-  }
-  let points = score.bonus_points;
-  for (const completion of score.completions) {
-    points += completion.points;
-  }
-  return points;
 }
 
 const nullRule: ScoringRule[] = [
@@ -173,7 +152,7 @@ function getPotentialPointsForSinglePreset(
   }
 }
 
-export function potentialPointsPresence(
+function potentialPointsPresence(
   objective: ScoreObjective,
   preset: ScoringRule,
 ): PotentialPoints {
@@ -183,7 +162,7 @@ export function potentialPointsPresence(
   }, {} as PotentialPoints);
 }
 
-export function getPotentialPointsValue(
+function getPotentialPointsValue(
   objective: ScoreObjective,
   preset: ScoringRule,
 ): PotentialPoints {
@@ -197,7 +176,7 @@ export function getPotentialPointsValue(
   }, {} as PotentialPoints);
 }
 
-export function getPotentialPointsRanked(
+function getPotentialPointsRanked(
   objective: ScoreObjective,
   preset: ScoringRule,
 ): PotentialPoints {
@@ -402,15 +381,4 @@ export function getPath(
     }
   }
   return [];
-}
-
-export function timeSort<T, K extends keyof T>(
-  timefield: K,
-  direction: "asc" | "desc",
-): (a: T & Record<K, string>, b: T & Record<K, string>) => number {
-  return (a, b) => {
-    const timeA = new Date(a[timefield]).getTime();
-    const timeB = new Date(b[timefield]).getTime();
-    return direction === "asc" ? timeA - timeB : timeB - timeA;
-  };
 }

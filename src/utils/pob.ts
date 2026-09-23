@@ -193,7 +193,7 @@ export enum Rarity {
   Normal,
 }
 
-export enum Influence {
+enum Influence {
   Shaper,
   Elder,
   Crusader,
@@ -574,7 +574,7 @@ async function pobstringToXml(pob: string): Promise<Document> {
   return xmlDoc;
 }
 
-export async function pobstringToXmlString(pob: string): Promise<string> {
+async function pobstringToXmlString(pob: string): Promise<string> {
   const decoded = atob(pob.replace(/-/g, "+").replace(/_/g, "/"));
   const bytes = new Uint8Array(decoded.length);
   for (let i = 0; i < decoded.length; i++) {
@@ -585,21 +585,6 @@ export async function pobstringToXmlString(pob: string): Promise<string> {
     .pipeThrough(new DecompressionStream("deflate"));
   const decompressed = await new Response(stream).arrayBuffer();
   return new TextDecoder().decode(decompressed);
-}
-
-export async function xmlStringToPobstring(xmlString: string): Promise<string> {
-  const xmlBytes = new TextEncoder().encode(xmlString);
-  const stream = new Blob([xmlBytes])
-    .stream()
-    .pipeThrough(new CompressionStream("deflate"));
-  const compressedBytes = new Uint8Array(
-    await new Response(stream).arrayBuffer(),
-  );
-  let binary = "";
-  for (let i = 0; i < compressedBytes.length; i++) {
-    binary += String.fromCharCode(compressedBytes[i]);
-  }
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_");
 }
 
 export function determineDifferences(
@@ -1090,7 +1075,7 @@ function extractMagicBase(
   return base;
 }
 
-export function parseItem(
+function parseItem(
   item: string,
   slot: string | null,
   id: string,

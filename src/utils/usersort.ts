@@ -164,7 +164,7 @@ function getTeamCounts(
   );
 }
 
-export function getSortSuggestion(
+function getSortSuggestion(
   currentEvent: Event,
   signups: SortedSignup[],
   bucketConfig: SortBucketConfig,

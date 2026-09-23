@@ -40,7 +40,7 @@ const ROLE_ICONS: Record<string, typeof MapIcon> = {
 // A specialization is stored/displayed as "Role: Specialization" (e.g.
 // "Delver: Deep Delve") so it stays unambiguous if a specialization name
 // is ever reused across roles - none currently are, but nothing stops it.
-export function specializationLabel(role: string, specialization: string) {
+function specializationLabel(role: string, specialization: string) {
   return `${role}: ${specialization}`;
 }
 

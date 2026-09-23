@@ -8,7 +8,7 @@ export type TokenPayload = {
   user_id: number;
 };
 
-export function getJwtPayload(): TokenPayload | null {
+function getJwtPayload(): TokenPayload | null {
   const token = localStorage.getItem("auth");
   if (!token) {
     return null;
@@ -32,7 +32,7 @@ export function getPermissions(): Permission[] {
   return payload.permissions;
 }
 
-export function isValidJwt(payload: TokenPayload | null): boolean {
+function isValidJwt(payload: TokenPayload | null): boolean {
   return payload != null && payload.exp * 1000 > Date.now();
 }
 
@@ -49,7 +49,7 @@ export function isAdmin() {
   );
 }
 
-export function hasPermission(permissions: Permission[]): boolean {
+function hasPermission(permissions: Permission[]): boolean {
   const payload = getJwtPayload();
   return (
     payload != null &&

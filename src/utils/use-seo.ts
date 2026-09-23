@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { updateSEO, type SEOData, seoData } from "./seo";
 
-export const useSEO = (seoData: SEOData) => {
+const useSEO = (seoData: SEOData) => {
   useEffect(() => {
     updateSEO(seoData);
   }, [seoData]);

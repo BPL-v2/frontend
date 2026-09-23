@@ -13,7 +13,6 @@
 // feature set so the rest of the codebase doesn't have to deal with the
 // `TFeatures` generic directly.
 import {
-  type Cell as TsCell,
   type CellContext as TsCellContext,
   type Column as TsColumn,
   type ColumnDef as TsColumnDef,
@@ -24,8 +23,6 @@ import {
   createSortedRowModel,
   filterFn_equals,
   filterFn_includesString,
-  type Header as TsHeader,
-  type HeaderGroup as TsHeaderGroup,
   type ReactTable,
   type Row as TsRow,
   type RowData,
@@ -33,7 +30,6 @@ import {
   sortFn_basic,
   sortFn_text,
   type TableOptions as TsTableOptions,
-  type TableState as TsTableState,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
@@ -73,9 +69,5 @@ export function useReactTable<TData extends RowData>(
 export type ColumnDef<TData extends RowData, TValue = unknown> = TsColumnDef<Features, TData, TValue>;
 export type Column<TData extends RowData, TValue = unknown> = TsColumn<Features, TData, TValue>;
 export type Row<TData extends RowData> = TsRow<Features, TData>;
-export type Cell<TData extends RowData, TValue = unknown> = TsCell<Features, TData, TValue>;
-export type Header<TData extends RowData, TValue = unknown> = TsHeader<Features, TData, TValue>;
-export type HeaderGroup<TData extends RowData> = TsHeaderGroup<Features, TData>;
 export type TableOptions<TData extends RowData> = Omit<TsTableOptions<Features, TData>, "features">;
-export type TableState = TsTableState<Features>;
 export type CellContext<TData extends RowData, TValue = unknown> = TsCellContext<Features, TData, TValue>;

@@ -134,14 +134,6 @@ export class ScoreClass {
 
 export type TeamScore = { [teamId: number]: ScoreClass };
 
-export function points(score: Score): number {
-  let points = score.bonus_points;
-  for (const completion of score.completions) {
-    points += completion.points;
-  }
-  return points;
-}
-
 export type ScoreObjective = Omit<Objective, "children"> & {
   team_score: TeamScore;
   children: ScoreObjective[];

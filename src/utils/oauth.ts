@@ -17,7 +17,7 @@ export function redirectOauth(
     );
 }
 
-export function toAbsoluteUrl(url: string): string {
+function toAbsoluteUrl(url: string): string {
   return url.startsWith("http") ? url : `${window.location.origin}${url}`;
 }
 

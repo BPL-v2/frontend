@@ -1,36 +1,6 @@
 import { Objective, GameVersion, Operator, ItemField, Condition } from "@api";
 import { ScoreObjective } from "./score";
 
-export function operatorToString(operator: Operator): string {
-  switch (operator) {
-    case Operator.EQ:
-      return "=";
-    case Operator.NEQ:
-      return "≠";
-    case Operator.GT:
-      return ">";
-    case Operator.LT:
-      return "<";
-    case Operator.IN:
-      return "in";
-    case Operator.NOT_IN:
-      return "not in";
-    case Operator.MATCHES:
-      return "matches";
-    case Operator.CONTAINS:
-      return "contains";
-    case Operator.CONTAINS_MATCH:
-      return "contains match";
-    case Operator.LENGTH_EQ:
-      return "length =";
-    case Operator.LENGTH_GT:
-      return "length >";
-    case Operator.LENGTH_LT:
-      return "length <";
-  }
-  return "";
-}
-
 const anomalousUniques: {
   [gameVersion: string]: Record<string, Record<string, string>>;
 } = {
@@ -389,7 +359,7 @@ const classToBaseType: Record<string, string> = {
   BlightedMapKey: "Map (Tier 16)",
 };
 
-export const anomalousBaseTypes: {
+const anomalousBaseTypes: {
   [gameVersion: string]: Record<string, string>;
 } = {
   poe1: beasts.reduce(

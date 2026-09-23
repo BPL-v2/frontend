@@ -11,7 +11,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { SignupFormModal } from "@components/form-dialogs/SignupFormModal";
 
-export function SignupButton() {
+function SignupButton() {
   const { currentEvent } = useContext(GlobalStateContext);
   const [modalOpen, setModalOpen] = React.useState(false);
   const qc = useQueryClient();

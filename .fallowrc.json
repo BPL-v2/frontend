@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": [
+    "src/index.{ts,tsx,js,jsx}",
+    "src/main.{ts,tsx,js,jsx}",
+    "src/api/fetcher.ts",
+    "orval.config.ts",
+    "src/api/transformSpec.mjs"
+  ],
+  "ignorePatterns": ["src/api/generated/**"],
+  "rules": { "dev-dependencies-in-production": "off" },
+  "overrides": [
+    {
+      "files": ["src/styles.css"],
+      "rules": { "css-duplicate-block": "off" }
+    }
+  ],
+  "ignoreExports": [
+    {
+      "file": "src/components/form/multi-select-percentage.tsx",
+      "exports": ["*"]
+    },
+    {
+      "file": "src/components/form/multi-select.tsx",
+      "exports": ["*"]
+    },
+    {
+      "file": "src/components/form/select.tsx",
+      "exports": ["*"]
+    }
+  ]
+}

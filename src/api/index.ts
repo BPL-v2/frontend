@@ -4,10 +4,8 @@ export * from "./generated/models";
 // Raw API functions used directly (not via hooks)
 export { oauthCallbackBase, oauthRedirectBase } from "./generated/oauth/oauth";
 export { addEngagementBase } from "./generated/engagement/engagement";
-export { getAllUsersBase, changePermissionsBase } from "./generated/user/user";
 export {
   validateObjectivesBase,
-  getObjectiveTreeForEventBase,
 } from "./generated/objective/objective";
 export { setBulkSubmissionForAdminBase } from "./generated/submission/submission";
 
@@ -23,7 +21,6 @@ import {
   getCharacterHistoryBase,
   getGetCharacterHistoryBaseQueryKey,
   useDeletePoBExportBase,
-  useGetCharacterHistoryBase,
   useGetPoBsBase,
   useGetUserCharactersBase,
   useGetCharactersForEventBase,
@@ -135,7 +132,6 @@ import {
   getGetUserBaseQueryKey,
   getAtlasProgressionBase,
   getGetAtlasProgressionBaseQueryKey,
-  useGetAtlasProgressionBase,
   useGetUserBase,
   useGetUserByIdBase,
   useGetUsersForEventBase,
@@ -715,11 +711,6 @@ export function useChangeCategoryReleaseDates(
 
 // --- Scoring rules ---
 
-export function useGetScoringRules(eventId: number) {
-  const query = useGetScoringRulesForEventBase(eventId);
-  return { ...query, scoringRules: query.data };
-}
-
 export function useGetScoringRulesForEvent(eventId: number) {
   const query = useGetScoringRulesForEventBase(eventId, {
     query: {
@@ -955,17 +946,6 @@ export function useGetUserCharacters(userId: number) {
   return { ...query, userCharacters: query.data };
 }
 
-export function useGetCharacterTimeseries(characterId: string, userId: number) {
-  const query = useGetCharacterHistoryBase(userId, characterId, {
-    query: {
-      enabled: !!userId && !!characterId,
-      staleTime: 5 * 60 * 1000,
-      select: (data) => data.sort((a, b) => a.timestamp - b.timestamp),
-    },
-  });
-  return { ...query, characterTimeseries: query.data };
-}
-
 export function useGetPoBs(userId: number, characterId: string) {
   const query = useGetPoBsBase(userId, characterId, {
     query: {
@@ -1109,13 +1089,6 @@ export function useGetTeamAtlas(eventId: number, teamId?: number) {
     },
   });
   return { ...query, teamAtlas: query.data };
-}
-
-export function useGetUserAtlasProgress(eventId: number, userId: number) {
-  const query = useGetAtlasProgressionBase(eventId, userId, {
-    query: { enabled: !!userId, refetchOnMount: false },
-  });
-  return { ...query, atlasProgress: query.data };
 }
 
 // --- Item wishes ---

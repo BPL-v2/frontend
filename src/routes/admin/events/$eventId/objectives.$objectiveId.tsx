@@ -74,7 +74,7 @@ function areAllChildrenValidated(
   );
 }
 
-export function ScoringCategoryPage(): JSX.Element {
+function ScoringCategoryPage(): JSX.Element {
   const qc = useQueryClient();
   const { eventId, objectiveId } = useParams({ from: Route.id });
   const [isObjectiveModalOpen, setIsObjectiveModalOpen] = useState(false);

@@ -25,7 +25,7 @@ function getUrls(string: string): URL[] {
   return urls.map((url) => new URL(url));
 }
 
-export function getRelevantSubmission(
+function getRelevantSubmission(
   submissions: Submission[],
 ): Submission | undefined {
   if (submissions.length === 0) {

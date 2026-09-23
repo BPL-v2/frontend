@@ -4,7 +4,7 @@ export interface LevelInfo {
   expToLevel: number;
 }
 
-export const Levels: LevelInfo[] = [
+const Levels: LevelInfo[] = [
   { level: 1, exp: 0, expToLevel: 525 },
   { level: 2, exp: 525, expToLevel: 1235 },
   { level: 3, exp: 1760, expToLevel: 2021 },
@@ -106,12 +106,6 @@ export const Levels: LevelInfo[] = [
   { level: 99, exp: 3932818530, expToLevel: 317515914 },
   { level: 100, exp: 4250334444, expToLevel: 0 },
 ];
-
-export function getLevelFromExperience(experience: number): number {
-  const level = Levels.find((info) => info.exp + info.expToLevel > experience);
-  if (!level || level.level === 100) return 100;
-  return level.level + (experience - level.exp) / level.expToLevel;
-}
 
 export function getLevelProgress(experience: number, level: number) {
   if (!experience || !level) return 0;

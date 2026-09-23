@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const MAX_VISIBLE_PICKER_ROWS = 10;
+const MAX_VISIBLE_PICKER_ROWS = 10;
 
 interface UseSearchableChecklistOptions<T> {
   items: T[];
