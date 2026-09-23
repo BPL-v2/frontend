@@ -7,12 +7,12 @@ import {
   Link,
   Outlet,
   useRouterState,
+  useRouter,
 } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import { usePageSEO } from "@utils/use-seo";
 import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { router } from "../../main";
 import { useGetRules } from "@api";
 
 type scoringTabKey =
@@ -37,6 +37,8 @@ export const Route = createFileRoute("/scores")({
 });
 
 function ScoringPage() {
+  const router = useRouter();
+
   usePageSEO("scores");
   const { currentEvent } = useContext(GlobalStateContext);
   const { rules: categories } = useGetRules(currentEvent.id);
@@ -55,7 +57,7 @@ function ScoringPage() {
         replace: true,
       });
     }
-  }, [rules, selected]);
+  }, [rules, selected, router]);
 
   const scoringTabs: {
     key: scoringTabKey;

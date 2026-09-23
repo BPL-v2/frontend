@@ -6,17 +6,23 @@ import {
 } from "@api";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import {
+  Link,
+  Outlet,
+  useRouterState,
+  useRouter,
+} from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useContext, useState } from "react";
-import { router } from "../../main";
 import { isAdmin } from "@utils/token";
 
 type path = "/admin/guild/stashes/$stashId" | "/team/stashes/$stashId";
 
 export function GuildStashSelect({ path }: { path: path }) {
+  const router = useRouter();
+
   const { currentEvent } = useContext(GlobalStateContext);
   const stashId = useRouterState({
     select: (state) => state.location.pathname.split("/").slice(-1)[0],

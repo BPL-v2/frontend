@@ -29,7 +29,7 @@ function EventCard({ event }: { event: Event }) {
                 <span className="badge badge-secondary">Upcoming</span>
               )}
             </div>
-            <div className="text-base-content/70 text-sm">
+            <div className="text-sm text-base-content/70">
               {start.toLocaleDateString()} - {end.toLocaleDateString()}
             </div>
           </div>
@@ -51,7 +51,7 @@ function EventCard({ event }: { event: Event }) {
             <Link
               to="/events/$eventId"
               params={{ eventId: String(event.id) }}
-              className="btn btn-primary shrink-0"
+              className="btn shrink-0 btn-primary"
             >
               View Ladder
             </Link>

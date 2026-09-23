@@ -8,7 +8,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
-import { sortUsers, type SortBucketConfig } from "@utils/usersort";
+import {
+  sortUsers,
+  type SortBucketConfig,
+  type SortedSignup,
+} from "@utils/usersort";
 import { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -29,10 +33,6 @@ type TeamRow = {
   low: number;
   medium: number;
   large: number;
-};
-
-export type SortedSignup = ExtendedSignup & {
-  sorted?: boolean;
 };
 
 const totalBucketKey = "total";

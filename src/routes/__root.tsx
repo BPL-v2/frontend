@@ -4,6 +4,7 @@ import {
   createRootRoute,
   useRouterState,
   useSearch,
+  useRouter,
 } from "@tanstack/react-router";
 import { JSX, useContext, useEffect, useMemo } from "react";
 import "../App.css";
@@ -21,7 +22,6 @@ import { useGetEventStatus, useGetUser } from "@api";
 import { Footer } from "@components/footer";
 import { TwitchFilled } from "@icons/twitch";
 import { twMerge } from "tailwind-merge";
-import { router } from "../main";
 import { addEngagementBase } from "@api";
 
 export const Route = createRootRoute({
@@ -47,6 +47,8 @@ type MenuItem = {
 };
 
 function RootComponent() {
+  const router = useRouter();
+
   const { currentEvent } = useContext(GlobalStateContext);
   const { user } = useGetUser();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
@@ -125,14 +127,14 @@ function RootComponent() {
       addEngagementBase({ name: hello });
       router.navigate({ to: router.state.location.pathname, replace: true });
     }
-  }, [hello]);
+  }, [hello, router]);
   return (
     <>
       <div className="mx-auto max-w-360 overflow-x-hidden text-center">
         <div className="flex min-h-screen flex-col">
           <header className="sticky top-0 z-50 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
             <nav className="flex h-13 items-center px-3 sm:px-5">
-              <div className="flex-1 min-w-0 overflow-x-auto scrollbar-none">
+              <div className="min-w-0 flex-1 scrollbar-none overflow-x-auto">
                 <ul className="flex items-center gap-1">
                   {menu.map((item) => (
                     <li key={item.url}>
@@ -153,7 +155,7 @@ function RootComponent() {
                       >
                         {item.icon}
                         {item.path === "" ? (
-                          <span className="text-3xl font-bold tracking-wide text-base-content hover:text-primary transition-colors">
+                          <span className="text-3xl font-bold tracking-wide text-base-content transition-colors hover:text-primary">
                             BPL
                           </span>
                         ) : (

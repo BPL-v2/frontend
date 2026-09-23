@@ -6,12 +6,11 @@ import {
   ClipboardDocumentCheckIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { isLoggedIn } from "@utils/token";
 import { useContext } from "react";
-import { router } from "../main";
 
 export const Route = createFileRoute("/players")({
   component: RouteComponent,
@@ -24,6 +23,8 @@ function copyDiscordId(value: string | undefined) {
 }
 
 function RouteComponent() {
+  const router = useRouter();
+
   const { currentEvent } = useContext(GlobalStateContext);
   const { sortedPlayers } = useGetSortedPlayers(currentEvent.id);
   if (!isLoggedIn()) {

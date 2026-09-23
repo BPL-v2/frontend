@@ -1,5 +1,11 @@
-import { Objective, GameVersion, Operator, ItemField, Condition } from "@api";
-import { ScoreObjective } from "./score";
+import {
+  Objective,
+  GameVersion,
+  Operator,
+  ItemField,
+  Condition,
+} from "@api/generated/models";
+import type { ScoreObjective } from "./score";
 
 const anomalousUniques: {
   [gameVersion: string]: Record<string, Record<string, string>>;

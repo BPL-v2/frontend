@@ -40,7 +40,6 @@ const BADGE_SHADES = [
   "bg-primary/85",
 ];
 
-
 type UserRow = MinimalUser & {
   team_id: number;
   team_name: string;

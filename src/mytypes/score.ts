@@ -6,7 +6,7 @@ import {
   Score,
   ScoringRuleType,
   CountingMethod,
-} from "@api";
+} from "@api/generated/models";
 import { getSubObjective } from "./scoring-objective";
 
 export type ScoreDiffMeta = {

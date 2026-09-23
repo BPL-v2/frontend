@@ -4,7 +4,7 @@ import {
   ScoringRule,
   Score,
   CountingMethod,
-} from "@api";
+} from "@api/generated/models";
 import { ScoreClass, ScoreObjective } from "@mytypes/score";
 
 type TeamScores = { [teamId: number]: ScoreClass };

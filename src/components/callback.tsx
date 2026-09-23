@@ -1,8 +1,7 @@
 import { oauthCallbackBase, oauthRedirectBase } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { router } from "../main";
 import { getGetUserBaseQueryKey } from "@api/generated/user/user";
 import { getOauthStateOrigin } from "@utils/oauth";
 
@@ -27,6 +26,7 @@ export function Callback({
   error_description,
   provider,
 }: CallbackProps) {
+  const router = useRouter();
   const qc = useQueryClient();
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export function Callback({
         // Keep error logging in production for debugging purposes
         console.error(`[OAuth] ${provider} authentication failed:`, err);
       });
-  }, [state, code, provider, error, qc]);
+  }, [state, code, provider, error, qc, router]);
   if (error) {
     return (
       <>

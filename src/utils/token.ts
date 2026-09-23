@@ -1,7 +1,7 @@
-import { Permission } from "@api";
+import { Permission } from "@api/generated/models";
 
-import { JSX } from "react";
-import { router } from "../main";
+import { createElement, JSX } from "react";
+import { Navigate } from "@tanstack/react-router";
 export type TokenPayload = {
   exp: number;
   permissions: Permission[];
@@ -65,9 +65,6 @@ export function renderConditionally(
   if (hasPermission(permissions)) {
     return component;
   } else {
-    return () => {
-      router.navigate({ to: "/", replace: true });
-      return undefined;
-    };
+    return () => createElement(Navigate, { to: "/", replace: true });
   }
 }

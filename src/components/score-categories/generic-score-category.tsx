@@ -3,6 +3,7 @@ import { ScoreObjective } from "@mytypes/score";
 import { ItemTableScoreCategory } from "@components/score-categories/item-table-category";
 import { CategoryOfItemTableCategories } from "@components/score-categories/category-of-item-table-categories";
 import { ObjectiveCard } from "@components/cards/objective-card";
+import { isItemTableCategory } from "@components/score-categories/is-item-table-category";
 import { twMerge } from "tailwind-merge";
 import { SubmissionTable } from "@components/table/submission-table";
 
@@ -11,18 +12,6 @@ interface ScoreCategoryProps extends React.HTMLAttributes<HTMLSpanElement> {
   selectedCategories: Set<number>;
   selectedTeam?: number;
   handleCategoryClick: (objective: ScoreObjective) => void;
-}
-
-export function isItemTableCategory(category: ScoreObjective): boolean {
-  return (
-    category.tracked_value === TrackedValue.COMPLETED_CHILD_OBJECTIVE_COUNT &&
-    category.children.length > 0 &&
-    category.children.every(
-      (child) =>
-        child.objective_type === ObjectiveType.ITEM &&
-        child.required_number === 1,
-    )
-  );
 }
 
 function isSubmittableCategory(category: ScoreObjective): boolean {

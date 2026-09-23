@@ -1,4 +1,4 @@
-import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { createFormHook } from "@tanstack/react-form";
 import { ArrayField } from "@components/form/array-field";
 import { BooleanField } from "@components/form/bool-field";
 import { ColorField } from "@components/form/color-field";
@@ -8,9 +8,7 @@ import { NumberField } from "@components/form/number-field";
 import { SelectField } from "@components/form/select-field";
 import { MultiSelectField } from "@components/form/multi-select-field";
 import { TextField } from "@components/form/text-field";
-const { fieldContext, formContext, useFieldContext } =
-  createFormHookContexts();
-export { useFieldContext };
+import { fieldContext, formContext } from "@components/form/form-contexts";
 
 export const { useAppForm } = createFormHook({
   fieldContext,

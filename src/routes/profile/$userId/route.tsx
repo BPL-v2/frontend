@@ -1,11 +1,10 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import "uplot/dist/uPlot.min.css";
 
 import { useGetUserById, useGetUserCharacters } from "@api";
 import { useParams } from "@tanstack/react-router";
 import { usePageSEO } from "@utils/use-seo";
 import { useEffect } from "react";
-import { router } from "../../../main";
 import { ProfileCarousel } from "@components/carousel/profile-carousel";
 import { AchievementsSection } from "@components/achievements/achievements-section";
 
@@ -22,6 +21,8 @@ export const Route = createFileRoute("/profile/$userId")({
 });
 
 function ProfilePage() {
+  const router = useRouter();
+
   usePageSEO("profile");
   const { userId } = useParams({ from: Route.id });
 
@@ -44,7 +45,7 @@ function ProfilePage() {
         replace: true,
       });
     }
-  }, [userCharacters, characterId, userId]);
+  }, [userCharacters, characterId, userId, router]);
 
   if (!userId || !user) {
     return <div>Loading...</div>;

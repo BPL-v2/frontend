@@ -78,7 +78,7 @@ function TeamPage() {
       cell: (info) => (
         <div className="flex flex-row gap-2">
           <button
-            className="btn btn-sm btn-error"
+            className="btn btn-error btn-sm"
             onClick={() => deleteTeam(info.row.original.id)}
           >
             <TrashIcon className="size-4" />

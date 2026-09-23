@@ -44,7 +44,6 @@ const autoCheckKeyLabels: Record<AchievementCheckKey, string> = {
   submitted_bounty: "Submitted a bounty",
 };
 
-
 interface AchievementFormModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
@@ -64,9 +63,16 @@ function AchievementFormModal({
   }));
 
   const form = useAppForm({
-    defaultValues: { name: "", description: "", event_id: null as number | null },
+    defaultValues: {
+      name: "",
+      description: "",
+      event_id: null as number | null,
+    },
     onSubmit: (data) => {
-      const values = { ...data.value, event_id: data.value.event_id ?? undefined };
+      const values = {
+        ...data.value,
+        event_id: data.value.event_id ?? undefined,
+      };
       if (existing?.id) {
         updateAchievement(existing.id, values);
       } else {
@@ -169,7 +175,7 @@ function IconUploadButton({
         }}
       />
       <button
-        className="btn btn-xs btn-info"
+        className="btn btn-info btn-xs"
         disabled={uploadIconPending}
         onClick={() => fileInputRef.current?.click()}
       >
@@ -195,7 +201,7 @@ function IconDeleteButton({
 
   return (
     <button
-      className="btn btn-xs btn-warning"
+      className="btn btn-warning btn-xs"
       disabled={deleteIconPending}
       onClick={() => deleteIcon(achievement.id!)}
     >
@@ -264,7 +270,9 @@ function AchievementsPage() {
       cell: (info) => {
         const eventId = info.row.original.event_id;
         if (!eventId) return "Any";
-        return events.find((e) => e.id === eventId)?.name ?? `Event #${eventId}`;
+        return (
+          events.find((e) => e.id === eventId)?.name ?? `Event #${eventId}`
+        );
       },
     },
     {
@@ -287,7 +295,7 @@ function AchievementsPage() {
         <div className="flex gap-1">
           <div className="tooltip" data-tip="Edit">
             <button
-              className="btn btn-xs btn-warning"
+              className="btn btn-warning btn-xs"
               onClick={() => {
                 setToEdit(info.row.original);
                 setIsOpen(true);

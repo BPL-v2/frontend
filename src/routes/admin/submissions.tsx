@@ -209,7 +209,7 @@ function SubmissionPage() {
                 Approve
               </button>
               <button
-                className="btn btn-sm btn-error"
+                className="btn btn-error btn-sm"
                 onClick={() => {
                   reviewSubmission(submissionId, {
                     approval_status: "REJECTED",

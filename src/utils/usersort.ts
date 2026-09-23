@@ -1,5 +1,8 @@
-import { Event } from "@api";
-import { SortedSignup } from "../routes/admin/team-sort";
+import { Event, ExtendedSignup } from "@api";
+
+export type SortedSignup = ExtendedSignup & {
+  sorted?: boolean;
+};
 
 export type SortBucketConfig = {
   bucketKeys: string[];

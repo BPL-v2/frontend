@@ -27,9 +27,7 @@ function RouteComponent() {
     currentEvent.id,
     eventStatus?.team_id,
   );
-  const [selectedRealms, setSelectedRealms] = useState<Set<string>>(
-    new Set(),
-  );
+  const [selectedRealms, setSelectedRealms] = useState<Set<string>>(new Set());
 
   if (!eventStatus?.team_id) {
     return <div className="p-4">You need to be on a team to see this.</div>;
@@ -78,8 +76,7 @@ function RouteComponent() {
     <div className="flex flex-col gap-4 p-4">
       <div className="rounded-box bg-base-300 p-4 text-sm">
         This page is a quick way to find other people who have selected the
-        "Looking For Group" option, to make finding groups on your realm
-        easier.
+        "Looking For Group" option, to make finding groups on your realm easier.
       </div>
       <div className="flex flex-wrap gap-1">
         {REALMS.map((realm) => (

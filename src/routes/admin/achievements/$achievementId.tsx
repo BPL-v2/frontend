@@ -24,7 +24,6 @@ export const Route = createFileRoute("/admin/achievements/$achievementId")({
   },
 });
 
-
 type GrantRow = {
   user_id: number;
   display_name: string;
@@ -102,7 +101,7 @@ function AchievementDetailPage() {
       enableSorting: false,
       cell: (info) => (
         <button
-          className="btn btn-xs btn-error"
+          className="btn btn-error btn-xs"
           onClick={() =>
             revokeAchievement(info.row.original.user_id, achievementId)
           }
@@ -114,7 +113,7 @@ function AchievementDetailPage() {
     },
   ];
 
-  const iconUrl = achievement?.icon_url
+  const iconUrl = achievement?.icon_url;
   return (
     <div className="mt-4 flex flex-col gap-6">
       <div className="flex items-center gap-4">
