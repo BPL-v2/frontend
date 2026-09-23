@@ -1,6 +1,7 @@
 import { ScoreObjective } from "@mytypes/score";
 import { Dialog } from "@components/dialog";
-import { useFile, useSubmitBounty } from "@api";
+import { useSubmitBounty } from "@api";
+import { gems } from "@utils/gems";
 import { useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect } from "react";
@@ -26,11 +27,7 @@ export function SubmissionFormModal({
   const { currentEvent } = useContext(GlobalStateContext);
   const qc = useQueryClient();
   const { submitBounty } = useSubmitBounty(qc, currentEvent.id);
-  const { data: gems } = useFile<Record<string, string[]>>(
-    "/assets/poe1/items/gem_colors.json",
-  );
-
-  const allGems = new Set<string>(Object.values(gems || {}).flat());
+  const allGems = gems.poe1.map((gem) => gem.name);
 
   const form = useAppForm({
     defaultValues: {
@@ -83,10 +80,7 @@ export function SubmissionFormModal({
           <form.AppField
             name="timestamp"
             children={(field) => (
-              <field.DateTimeField
-                label="Time (in your timezone)"
-                required
-              />
+              <field.DateTimeField label="Time (in your timezone)" required />
             )}
           />
           {(objective?.counting_method == CountingMethod.HIGHEST_VALUE ||
@@ -111,7 +105,7 @@ export function SubmissionFormModal({
                 <field.MultiSelectField
                   label="Gems used"
                   required={true}
-                  options={Array.from(allGems).map((gem) => ({
+                  options={allGems.map((gem) => ({
                     label: gem,
                     value: gem,
                   }))}
@@ -126,10 +120,12 @@ export function SubmissionFormModal({
                 <field.MultiSelectField
                   label="Ascendancies used"
                   required={true}
-                  options={Object.keys(ascendancies.poe1).sort((a, b) => a.localeCompare(b)).map((ascendancy) => ({
-                    label: ascendancy,
-                    value: ascendancy,
-                  }))}
+                  options={Object.keys(ascendancies.poe1)
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((ascendancy) => ({
+                      label: ascendancy,
+                      value: ascendancy,
+                    }))}
                 />
               )}
             />

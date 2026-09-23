@@ -1,9 +1,10 @@
 import { Event, LadderEntry, Team } from "@api";
-import { getSkillColor } from "@utils/gems";
+import { getGemColor } from "@utils/gem-utils";
 import { Link } from "@tanstack/react-router";
 import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { ExperienceBar } from "@components/character/experience-bar";
+import { twMerge } from "tailwind-merge";
 
 export const ACTIVE_THRESHOLD_SECONDS = 20 * 60;
 
@@ -45,18 +46,18 @@ export function LadderPortrait({ entry, team, event }: Props) {
         <AscendancyPortrait
           character_class={entry.ascendancy}
           game_version={event.game_version}
-          className="size-12 md:size-20 rounded-full object-cover"
+          className="size-12 rounded-full object-cover md:size-20"
         />
         <ActivityDot
           last_active={entry.last_active}
-          className="size-3 md:size-4 absolute top-0 right-0"
+          className="absolute top-0 right-0 size-3 md:size-4"
         />
       </div>
       <div className="flex w-full flex-col">
         <span className="font-bold" style={{ color: team?.color || "inherit" }}>
           {entry.character_name}
         </span>
-        <span className={getSkillColor(entry.main_skill) + " font-bold"}>
+        <span className={twMerge(getGemColor(entry.main_skill), "font-bold")}>
           {entry.main_skill}
         </span>
         <AscendancyName

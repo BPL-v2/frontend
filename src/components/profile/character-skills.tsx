@@ -1,4 +1,5 @@
-import { GameVersion, useFile } from "@api";
+import { GameVersion } from "@api";
+import { getGemColorKey } from "@utils/gem-utils";
 import { InventoryIcon } from "@icons/inventory-icons";
 import { Gem, PathOfBuilding, Skill } from "@utils/pob";
 import { twMerge } from "tailwind-merge";
@@ -11,9 +12,6 @@ export function CharacterSkills({
   pob: PathOfBuilding;
   gameVersion: GameVersion;
 }) {
-  const { data: gemColors } = useFile<Record<"r" | "g" | "b" | "w", string[]>>(
-    `/assets/${gameVersion}/items/gem_colors.json`,
-  );
   var equipmentSlots = [
     "Helmet",
     "Body Armour",
@@ -92,7 +90,7 @@ export function CharacterSkills({
                         gem={gem}
                         skill={skill}
                         pob={pob}
-                        gemColors={gemColors}
+                        gameVersion={gameVersion}
                       />
                     ))}
                   </div>
@@ -111,16 +109,16 @@ function SkillGem({
   gem,
   skill,
   pob,
-  gemColors,
+  gameVersion,
 }: {
   id: number;
   gem: Gem;
   skill: Skill;
   pob: PathOfBuilding;
-  gemColors?: Record<"r" | "g" | "b" | "w", string[]>;
+  gameVersion: GameVersion;
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  let text = getGemColor(gem, gemColors);
+  let text = getGemColor(gem, gameVersion);
   let position = "";
   if (gem.skillId.includes("Support")) {
     position = id === skill.gems.length - 1 ? "gem-last" : "gem-middle";
@@ -185,31 +183,18 @@ function isMainSkill(skill: Skill, pob: PathOfBuilding): boolean {
   return true;
 }
 
-function getGemColor(
-  gem: Gem,
-  gemColors?: Record<"r" | "g" | "b" | "w", string[]>,
-): string {
-  if (!gemColors || !gem.gemId) {
+function getGemColor(gem: Gem, gameVersion: GameVersion): string {
+  if (!gem.gemId) {
     return "text-base-content";
   }
-  if (
-    gemColors.r.includes(gem.nameSpec.replace("Vaal ", "")) ||
-    gemColors.r.includes(gem.nameSpec + " Support")
-  ) {
-    return "text-strength";
+  switch (getGemColorKey(gem.nameSpec, gameVersion)) {
+    case "r":
+      return "text-strength";
+    case "g":
+      return "text-dexterity";
+    case "b":
+      return "text-intelligence";
+    default:
+      return "text-base-content";
   }
-  if (
-    gemColors.g.includes(gem.nameSpec.replace("Vaal ", "")) ||
-    gemColors.g.includes(gem.nameSpec + " Support")
-  ) {
-    return "text-dexterity";
-  }
-  if (
-    gemColors.b.includes(gem.nameSpec.replace("Vaal ", "")) ||
-    gemColors.b.includes(gem.nameSpec + " Support")
-  ) {
-    return "text-intelligence";
-  }
-
-  return "text-base-content";
 }

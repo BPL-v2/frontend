@@ -19,7 +19,11 @@ import {
 } from "@components/character/ladder-portrait";
 import VirtualizedTable from "@components/table/virtualized-table";
 import Select from "@components/form/select";
-import { CellContext, ColumnDef, sortingFns } from "@components/table/react-table-shim";
+import {
+  CellContext,
+  ColumnDef,
+  sortingFns,
+} from "@components/table/react-table-shim";
 import { totalPoPoints } from "@utils/personal-points";
 import { ExperienceBar } from "@components/character/experience-bar";
 import { AscendancyName } from "@components/character/ascendancy-name";
@@ -33,7 +37,7 @@ import {
   ClipboardDocumentListIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { getSkillColor } from "@utils/gems";
+import { getGemColor } from "@utils/gem-utils";
 
 function hoursToDaysAndHours(hours: number) {
   const days = Math.floor(hours / 24);
@@ -326,7 +330,7 @@ export function LadderDisplay() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className={getSkillColor(info.row.original.main_skill)}>
+                  <span className={getGemColor(info.row.original.main_skill)}>
                     {info.row.original.main_skill}
                   </span>
                   <AscendancyName

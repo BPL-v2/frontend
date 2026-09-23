@@ -10,7 +10,7 @@ import {
   useGetWishlist,
   useUpdateItemWish,
 } from "@api";
-import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
+import { TRANSFIGURED_SKILL_GEMS } from "@utils/gem-utils";
 import {
   BUILD_ENABLING_LEVELS,
   DEFAULT_BUILD_ENABLING,

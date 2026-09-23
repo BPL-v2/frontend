@@ -2,8 +2,7 @@ import { PickerDialog } from "@components/form-dialogs/PickerDialog";
 import { useSearchableChecklist } from "@components/form-dialogs/useSearchableChecklist";
 import { GlobalStateContext } from "@utils/context-provider";
 import { pickColor } from "@utils/color";
-import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
-import { TRANSFIGURED_SKILL_GEMS } from "@mytypes/skill-gems";
+import { getGemColor, TRANSFIGURED_SKILL_GEMS } from "@utils/gem-utils";
 import { twMerge } from "tailwind-merge";
 import { useContext, useEffect, useState } from "react";
 
@@ -106,7 +105,7 @@ export function GemsPickerModal({
           {visible.map((gem) => {
             const color = pickColor(
               preferences.colorfulMainSkill,
-              SKILL_GEM_COLORS[gem.split(" of ")[0]],
+              getGemColor(gem),
             );
             return (
               <label

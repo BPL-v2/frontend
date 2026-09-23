@@ -30,7 +30,7 @@ import {
 } from "@components/table/react-table-shim";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlobalStateContext } from "@utils/context-provider";
-import { getSkillColor } from "@utils/gems";
+import { getGemColor } from "@utils/gem-utils";
 import { totalPoPoints } from "@utils/personal-points";
 import { Score } from "@components/score";
 import { hidePOTotal, mergeScores, getTotalPoints } from "@utils/utils";
@@ -245,7 +245,7 @@ function EventPage(): JSX.Element {
                 className="size-10 rounded-full object-cover"
               />
               <div className="flex flex-col">
-                <span className={getSkillColor(info.row.original.main_skill)}>
+                <span className={getGemColor(info.row.original.main_skill)}>
                   {info.row.original.main_skill}
                 </span>
                 <AscendancyName

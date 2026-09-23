@@ -19,7 +19,7 @@ import {
   LadderPortrait,
 } from "@components/character/ladder-portrait";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { getSkillColor } from "@utils/gems";
+import { getGemColor } from "@utils/gem-utils";
 import { progressiveDelveDepth } from "@utils/personal-points";
 import { ObjectiveCard } from "@components/cards/objective-card";
 
@@ -172,7 +172,7 @@ function DelveTab(): JSX.Element {
                 />
               </div>
               <div className="flex flex-col">
-                <span className={getSkillColor(info.row.original.main_skill)}>
+                <span className={getGemColor(info.row.original.main_skill)}>
                   {info.row.original.main_skill}
                 </span>
                 <AscendancyName

@@ -6,7 +6,7 @@ import { GameVersion } from "@api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Ranking } from "@components/ranking";
 import { GemTabRules } from "@rules/gems";
-import { useFile } from "@api";
+import { gems } from "@utils/gems";
 import clsx from "clsx";
 
 export const Route = createFileRoute("/scores/gems")({
@@ -56,9 +56,6 @@ function toColor(color: string, active: boolean): React.ReactNode {
 function GemTab(): JSX.Element {
   const { currentEvent, scores } = useContext(GlobalStateContext);
   const [color, setColor] = React.useState<"r" | "g" | "b" | undefined>();
-  const { data: gemColors } = useFile<Record<"r" | "g" | "b" | "w", string[]>>(
-    "/assets/poe1/items/gem_colors.json",
-  );
   const { rules } = Route.useSearch();
   useEffect(() => {
     if (currentEvent.game_version !== GameVersion.poe1) {
@@ -72,7 +69,7 @@ function GemTab(): JSX.Element {
     (category) => category.name === "Gems",
   );
 
-  if (!gemCategory || !gemColors) {
+  if (!gemCategory) {
     return <></>;
   }
 
@@ -130,7 +127,9 @@ function GemTab(): JSX.Element {
                     (c) => c.field === "BASE_TYPE",
                   );
                   if (!baseType) return false;
-                  return gemColors[color].includes(baseType.value);
+                  return gems.poe1.some(
+                    (gem) => gem.name === baseType.value && gem.color === color,
+                  );
                 }}
                 className="h-[50vh] w-full"
                 styles={{

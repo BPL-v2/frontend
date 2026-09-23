@@ -39,8 +39,7 @@ import { twMerge } from "tailwind-merge";
 import { pickColor } from "@utils/color";
 import { defaultPreferences } from "@mytypes/preferences";
 import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
-import { SKILL_GEMS, isTransfiguredGem } from "@mytypes/skill-gems";
-import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
+import { SKILL_GEMS, getGemColor, isTransfiguredGem } from "@utils/gem-utils";
 import { REALMS, REALM_COLORS } from "@mytypes/realms";
 import { ascendancies, UNDECIDED_ASCENDANCY_COLOR } from "@mytypes/ascendancy";
 import { ALTARS, ALTAR_COLORS } from "@mytypes/altars";
@@ -133,7 +132,7 @@ function RouteComponent() {
   const SKILL_GEM_OPTIONS: SelectOption<string>[] = SKILL_GEMS.map((name) => ({
     label: name,
     value: name,
-    color: pickColor(preferences.colorfulMainSkill, SKILL_GEM_COLORS[name]),
+    color: pickColor(preferences.colorfulMainSkill, getGemColor(name)),
   }));
   const ALTAR_OPTIONS: SelectOption<string>[] = ALTARS.map((name) => ({
     label: name,

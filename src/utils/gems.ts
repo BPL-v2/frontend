@@ -1,762 +1,11617 @@
-export const gemColors = {
-  r: [
-    "Absolution",
-    "Absolution of Inspiring",
-    "Added Fire Damage Support",
-    "Ancestral Blademaster",
-    "Ancestral Call Support",
-    "Ancestral Cry",
-    "Ancestral Protector",
-    "Ancestral Warchief",
-    "Anger",
-    "Animate Guardian",
-    "Animate Guardian of Smiting",
-    "Arrogance Support",
-    "Autoexertion",
-    "Awakened Added Fire Damage Support",
-    "Awakened Ancestral Call Support",
-    "Awakened Brutality Support",
-    "Awakened Burning Damage Support",
-    "Awakened Elemental Damage with Attacks Support",
-    "Awakened Empower Support",
-    "Awakened Fire Penetration Support",
-    "Awakened Generosity Support",
-    "Awakened Melee Physical Damage Support",
-    "Awakened Melee Splash Support",
-    "Awakened Multistrike Support",
-    "Ballista Totem Support",
-    "Battlemage's Cry",
-    "Behead Support",
-    "Berserk",
-    "Bladestorm",
-    "Bladestorm of Uncertainty",
-    "Blood and Sand",
-    "Bloodlust Support",
-    "Bloodthirst Support",
-    "Boneshatter",
-    "Boneshatter of Carnage",
-    "Boneshatter of Complex Trauma",
-    "Brutality Support",
-    "Burning Damage Support",
-    "Cast on Melee Kill Support",
-    "Cast when Damage Taken Support",
-    "Chain Hook",
-    "Chain Hook of Trarthus",
-    "Chance to Bleed Support",
-    "Cleave",
-    "Cleave of Rage",
-    "Cold to Fire Support",
-    "Consecrated Path",
-    "Consecrated Path of Endurance",
-    "Controlled Blaze Support",
-    "Corrupting Cry Support",
-    "Corrupting Fever",
-    "Cruelty Support",
-    "Crushing Fist",
-    "Damage on Full Life Support",
-    "Decoy Totem",
-    "Defiance Banner",
-    "Determination",
-    "Devouring Totem",
-    "Discorectangle Slam",
-    "Divine Blessing Support",
-    "Dominating Blow",
-    "Dominating Blow of Inspiring",
-    "Dread Banner",
-    "Earthbreaker Support",
-    "Earthquake",
-    "Earthquake of Amplification",
-    "Earthshatter",
-    "Earthshatter of Fragility",
-    "Earthshatter of Prominence",
-    "Elemental Damage with Attacks Support",
-    "Empower Support",
-    "Endurance Charge on Melee Stun Support",
-    "Enduring Cry",
-    "Eternal Blessing Support",
-    "Eviscerate",
-    "Expert Retaliation Support",
-    "Exsanguinate",
-    "Exsanguinate of Transmission",
-    "Fire Penetration Support",
-    "Fist of War Support",
-    "Flame Link",
-    "Flamewood Support",
-    "Flesh and Stone",
-    "Fortify Support",
-    "Frozen Legion",
-    "Frozen Legion of Rallying",
-    "General's Cry",
-    "Generosity Support",
-    "Glacial Hammer",
-    "Glacial Hammer of Shattering",
-    "Ground Slam",
-    "Ground Slam of Earthshaking",
-    "Guardian's Blessing Support",
-    "Heavy Strike",
-    "Heavy Strike of Trarthus",
-    "Herald of Ash",
-    "Herald of Purity",
-    "Holy Flame Totem",
-    "Holy Flame Totem of Ire",
-    "Ice Crash",
-    "Ice Crash of Cadence",
-    "Immortal Call",
-    "Increased Duration Support",
-    "Infernal Blow",
-    "Infernal Blow of Immolation",
-    "Infernal Cry",
-    "Infernal Sweep",
-    "Inspiration Support",
-    "Intimidating Cry",
-    "Iron Grip Support",
-    "Iron Will Support",
-    "Item Quantity Support",
-    "Knockback Support",
-    "Leap Slam",
-    "Leap Slam of Groundbreaking",
-    "Less Duration Support",
-    "Lesser Reduced Mana Cost Support",
-    "Life Gain on Hit Support",
-    "Life Leech Support",
-    "Lifetap Support",
-    "Maim Support",
-    "Melee Physical Damage Support",
-    "Melee Splash Support",
-    "Molten Shell",
-    "Molten Strike",
-    "Molten Strike of the Zenith",
-    "More Duration Support",
-    "Multiple Totems Support",
-    "Multistrike Support",
-    "NewPunishment",
-    "Overexertion Support",
-    "Perforate",
-    "Perforate of Bloodshed",
-    "Perforate of Duality",
-    "Petrified Blood",
-    "Pride",
-    "Protective Link",
-    "Pulverise Support",
-    "Punishment",
-    "Purity of Fire",
-    "Rage Support",
-    "Rage Vortex",
-    "Rage Vortex of Berserking",
-    "Rallying Cry",
-    "Reap",
-    "Rejuvenation Totem",
-    "Rending Steel",
-    "Ruthless Support",
-    "Searing Bond",
-    "Seismic Cry",
-    "Shield Charge",
-    "Shield Crush",
-    "Shield Crush of the Chieftain",
-    "Shockwave Support",
-    "Shockwave Totem",
-    "Smite",
-    "Smite of Divine Judgement",
-    "Spell Totem Support",
-    "Static Strike",
-    "Steelskin",
-    "Stun Support",
-    "Summon Flame Golem",
-    "Summon Flame Golem of Hordes",
-    "Summon Flame Golem of the Meteor",
-    "Summon Stone Golem",
-    "Summon Stone Golem of Hordes",
-    "Summon Stone Golem of Safeguarding",
-    "Sunder",
-    "Sunder of Earthbreaking",
-    "Sunder of Trarthus",
-    "Sweep",
-    "Swordstorm",
-    "Tectonic Slam",
-    "Tectonic Slam of Cataclysm",
-    "Touch of God",
-    "Trauma Support",
-    "Urgent Orders Support",
-    "Vengeful Cry",
-    "Vigilant Strike",
-    "Vitality",
-    "Volatility Support",
-    "Volcanic Fissure",
-    "Volcanic Fissure of Snaking",
-    "Vulnerability",
-    "War Banner",
-    "Warlord's Mark",
-    "[UNUSED] Blitz",
-    "[UNUSED] Conflagration Support",
-    "[UNUSED] Quick Block",
-    "[UNUSED] Slice And Dice",
+// Generated by icon-generation/fetch_icons.py - do not edit.
+export const gems = {
+  "poe1": [
+    {
+      "name": "Absolution",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Absolution of Inspiring",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Added Chaos Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Added Cold Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Added Fire Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Added Lightning Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Additional Accuracy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Advanced Traps Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Alchemist's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ambush",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ancestral Blademaster",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Call Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Protector",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Warchief",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Anger",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Animate Guardian",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Animate Guardian of Smiting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Animate Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Animate Weapon of Ranged Arms",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Animate Weapon of Self Reflection",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Annihilation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Arc",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arc of Oscillating",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Arc of Surging",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Arcane Cloak",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arcane Surge Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arcanist Brand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Archmage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arctic Armour",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Armageddon Brand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Armageddon Brand of Recall",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Armageddon Brand of Volatility",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Arrogance Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Arrow Nova Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Artillery Ballista",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Artillery Ballista of Cross Strafe",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Artillery Ballista of Focus Fire",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Assassin's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Autoexertion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Automation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Added Chaos Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Added Cold Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Added Fire Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Added Lightning Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Ancestral Call Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Arrow Nova Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Blasphemy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Brutality Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Burning Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Cast On Critical Strike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Cast While Channelling Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Chain Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Cold Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Controlled Destruction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Deadly Ailments Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Elemental Damage with Attacks Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Elemental Focus Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Empower Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Enhance Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Enlighten Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Fire Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Fork Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Generosity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Greater Multiple Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Hextouch Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Increased Area of Effect Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Lightning Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Melee Physical Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Melee Splash Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Minion Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Multistrike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Awakened Spell Cascade Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Spell Echo Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Swift Affliction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Unbound Ailments Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Unleash Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Awakened Vicious Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Awakened Void Manipulation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Backstab",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ball Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ball Lightning of Orbiting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ball Lightning of Static",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ballista Totem Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bane",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bane of Condemnation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Barrage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Barrage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Barrage of Volley Fire",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Battlemage's Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bear Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bear Trap of Skewers",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Behead Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Berserk",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Blade Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blade Blast of Dagger Detonation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blade Blast of Unloading",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blade Flurry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blade Flurry of Incision",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blade Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blade Trap of Greatswords",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blade Trap of Laceration",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blade Vortex",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blade Vortex of the Scythe",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Bladefall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bladefall of Impaling",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Bladefall of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Bladefall of Volleys",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Bladestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bladestorm of Uncertainty",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Blasphemy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blast Rain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blast Rain of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blastchain Mine Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blazing Salvo",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blessed Call Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Blight",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blight of Atrophy",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Blight of Contagion",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Blind Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blinding Aura",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Blink Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blink Arrow of Bombarding Clones",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Blink Arrow of Prismatic Clones",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Block Chance Reduction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blood Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blood Rage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blood and Sand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bloodlust Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bloodsoaked Banner Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bloodthirst Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bodyswap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bodyswap of Sacrifice",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Bone Armour",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bone Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bonechill Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Boneshatter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Boneshatter of Carnage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Boneshatter of Complex Trauma",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Bonespire Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brand Recall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Brutality Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Burning Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Burning Arrow of Vigour",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Burning Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Call the Pyre",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Capture Monster",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast On Critical Strike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cast on Death Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cast on Melee Kill Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cast on Ward Break Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cast when Damage Taken Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cast when Stunned Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast while Channelling Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Caustic Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Caustic Arrow of Poison",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Chain Hook",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Chain Hook of Angling",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Chain Hook of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Chain Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chance to Bleed Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Chance to Flee Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chance to Poison Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charged Dash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charged Dash of Projection",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Charged Mines Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Charged Traps Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Clarity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cleave",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cleave of Rage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Close Combat Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cluster Traps Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cobra Lash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cold Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cold Snap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cold Snap of Power",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Cold to Fire Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Combustion Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Communion Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Companionship Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Concentrated Effect Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Conductivity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Conflagration",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Congregation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Consecrated Path",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Consecrated Path of Endurance",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Contagion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Contagion of Subsiding",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Contagion of Transference",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Controlled Blaze Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Controlled Destruction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Conversion Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Convocation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cooldown Recovery Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Corrupting Cry Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Corrupting Fever",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Coursing Current Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crackling Lance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crackling Lance of Branching",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Crackling Lance of Disintegration",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Creeping Frost",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Creeping Frost of Floes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Cremation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cremation of Exhuming",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Cremation of the Volcano",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Critical Strike Affliction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cruelty Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Crushing Fist",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Crystalfall Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cull the Weak Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Culling Strike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cursed Ground Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cyclone",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cyclone of Tumult",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Damage Infusion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Damage on Full Life Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dance in the White",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Dark Bargain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dark Bargain of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Dash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deadly Ailments Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Death Aura",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Decay Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Decoy Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Defiance Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Desecrate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Despair",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Destructive Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Determination",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Detonate Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Detonate Dead of Chain Reaction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Detonate Dead of Scavenging",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Detonate Mines",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Devour Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Devouring Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Discharge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Discharge of Misery",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Discipline",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Divine Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Divine Blast of Radiance",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Divine Blessing Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Divine Ire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Divine Ire of Disintegration",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Divine Ire of Holy Lightning",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Divine Retribution",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Divine Sentinel Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dominating Blow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dominating Blow of Inspiring",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Doryani's Touch",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Double Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Double Strike of Impaling",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Double Strike of Momentum",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Dread Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dual Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Dual Strike of Ambidexterity",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Earthbreaker Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Earthquake",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Earthquake of Amplification",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Earthshatter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Earthshatter of Fragility",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Earthshatter of Prominence",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Eclipse Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Edify Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Efficacy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Eldritch Blasphemy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Army Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Damage with Attacks Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Elemental Focus Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Hit",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Elemental Hit of the Spectrum",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Elemental Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Projectiles",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Proliferation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Weakness",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Empower Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Endurance Charge on Melee Stun Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Enduring Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Energy Blade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Energy Leech Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enervating Grasp",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enfeeble",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enhance Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Enlighten Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ensnaring Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Envy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Essence Drain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Essence Drain of Desperation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Essence Drain of Wickedness",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Eternal Blessing Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ethereal Knives",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ethereal Knives of Lingering Blades",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Ethereal Knives of the Massacre",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Eviscerate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Excommunicate Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Exemplar Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Expert Retaliation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Explosive Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Concoction of Destruction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Trap of Magnitude",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Trap of Shrapnel",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Exsanguinate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Exsanguinate of Transmission",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Eye of Winter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Eye of Winter of Finality",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Eye of Winter of Transience",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Falling Crystals",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Faster Attacks Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Faster Casting Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Faster Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Feeding Frenzy Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fire Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fire Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fire Trap of Blasting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Fire Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fireball",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Firestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Firestorm of Meteors",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Firestorm of Pelting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Fissure Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fist of War Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flame Dash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flame Dash of Return",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Flame Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flame Surge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flame Surge of Combusting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Flame Wall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flameblast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flameblast of Celerity",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Flameblast of Contraction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Flamethrower Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Flamethrower Trap of Stability",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Flamewood Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flammability",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flammable Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Flesh Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flesh and Stone",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flicker Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Flicker Strike of Power",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Focused Ballista Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Focused Channelling Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Forbidden Rite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Forbidden Rite of Soul Sacrifice",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Fork Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fortify Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Foulgrasp Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Freezing Pulse",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frenzy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Frenzy of Onslaught",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Fresh Meat Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frigid Bond Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Blades",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Frost Blades of Katabasis",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Frost Bomb",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Bomb of Forthcoming",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Frost Bomb of Instability",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Frost Shield",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Wall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Wall of Encroachment",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Frostbite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostblink",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostblink of Wintry Blast",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Frostbolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostmage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frozen Legion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Frozen Legion of Rallying",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Galvanic Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Galvanic Arrow of Energy",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Galvanic Arrow of Surging",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Galvanic Field",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Galvanic Field of Intensity",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "General's Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Generosity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Glacial Cascade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Glacial Cascade of the Fissure",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Glacial Hammer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Glacial Hammer of Shattering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Glacial Shield Swipe",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Glowing Silhouette",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Gluttony Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Gluttony of Elements",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Grace",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Greater Ancestral Call Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Greater Chain Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Greater Devour Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greater Fork Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Greater Kinetic Instability Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greater Multiple Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Greater Multistrike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Greater Spell Cascade Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greater Spell Echo Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greater Unleash Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greater Volley Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ground Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ground Slam of Earthshaking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Guardian's Blessing Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hallow Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Harrowing Throng Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Haste",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Hatred",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Heart of Flame",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Heavy Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Heavy Strike of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Herald of Agony",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Herald of Ash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Herald of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Herald of Purity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Herald of Thunder",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hex Bloom Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hexblast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hexblast of Contradiction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Hexblast of Havoc",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Hexpass Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hextoad Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hextouch Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "High-Impact Mine Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Burning Message",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hiveborn Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Holy Flame Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Holy Flame Totem of Ire",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Holy Hammers",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Holy Hammers of Spirals",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Holy Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Holy Sweep",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Holy Sweep of Hammerfalls",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Hydrosphere",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hypothermia Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ice Bite Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ice Crash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ice Crash of Cadence",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Ice Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Nova of Deep Freeze",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ice Nova of Frostbolts",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ice Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ice Shot of Penetration",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Ice Spear",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Spear of Splitting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ice Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ice Trap of Hollowness",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Icefire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Icicle Mine",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Icicle Mine of Fanning",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Icicle Mine of Sabotage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Ignite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ignite Proliferation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Immolate Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Immortal Call",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Impale Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Impending Doom Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Incinerate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Incinerate of Expanse",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Incinerate of Venting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Increased Area of Effect Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Increased Critical Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Increased Critical Strikes Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Increased Duration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Blow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Blow of Immolation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Legion Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Infernal Sweep",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infused Channelling Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Innervate Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Inspiration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Intensify Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Intimidating Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Intuitive Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Invention Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Invert the Rules Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Iron Grip Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Iron Will Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Item Quantity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Item Rarity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Blast of Clustering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Bolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Bolt of Fragmentation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Fusillade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Fusillade of Detonation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Instability Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Rain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kinetic Rain of Impact",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Knockback Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lacerate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lacerate of Butchering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Lacerate of Haemorrhage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Lancing Steel",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lancing Steel of Spraying",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Leap Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Leap Slam of Groundbreaking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Less Duration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lesser Reduced Mana Cost Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lethal Dose Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Life Gain on Hit Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Life Leech Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lifetap Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lightning Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Arrow of Electrocution",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Conduit",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Conduit of the Heavens",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Penetration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Spire Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Spire Trap of Overloading",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Spire Trap of Zapping",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Strike of Arcing",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Tendrils",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Tendrils of Eccentricity",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Tendrils of Escalation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Trap of Sparking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Warp",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Living Lightning Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Locus Mine Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Machinations Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Magnetism Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Maim Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Malevolence",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Leech Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mana-Infused Staff",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Manabond",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Manaforged Arrows Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mark On Hit Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Meat Shield Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Melee Physical Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Melee Splash Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Minefield Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Life Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Speed Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mirage Archer Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mirror Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mirror Arrow of Bombarding Clones",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Mirror Arrow of Prismatic Clones",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Molten Shell",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Molten Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Molten Strike of the Zenith",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Momentum Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "More Duration Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Multiple Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Multiple Totems Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Multiple Traps Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Multistrike Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Nightblade Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Orb of Storms",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Orb of Storms of Squalls",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Order: To me!",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Overcharge Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Overcharged Sinews",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Overexertion Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Overheat Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Overloaded Intensity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pacifism Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pact of Beidat",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Pact of Ghorr",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Pact of K'Tash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Pact of Lycia",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Penance Brand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Penance Brand of Conduction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Penance Brand of Dissipation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Perforate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Perforate of Bloodshed",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Perforate of Duality",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Pestilent Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Petrified Blood",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Phase Run",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Physical to Lightning Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pierce Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pinpoint Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Plague Bearer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poacher's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Point Blank Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poisonous Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poisonous Concoction of Bouncing",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Portal",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Power Charge On Critical Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Power Siphon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Power Siphon of the Archmage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Precision",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Predator Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Preserving Stillness",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pride",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Prismatic Burst Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Protective Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Pulverise Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Puncture",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Puncture of Shanking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Punishment",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Purifying Flame",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Purifying Flame of Revelations",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Purity of Elements",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Purity of Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Purity of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Purity of Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pyre Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Pyroclast Mine",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pyroclast Mine of Sabotage",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Quickstep",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rage Vortex",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rage Vortex of Berserking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Rain of Arrows",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rain of Arrows of Artillery",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Rain of Arrows of Saturation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Raise Spectre",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Raise Spectre of Transience",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Raise Zombie",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Raise Zombie of Falling",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Raise Zombie of Slamming",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Rallying Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Reap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Reap of Butchery",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Reave",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Reave of Refraction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Rejuvenation Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rending Steel (NOT CURRENTLY USED)",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Return to Dust",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Returning Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Righteous Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Righteous Fire of Arcane Devotion",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Righteous Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Riptide",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rolling Magma",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rupture Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ruthless Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Sacred Wisps Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sacrifice Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sadism Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Scorching Ray",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Scorching Ray of Immolation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Scornful Herald Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Scourge Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Scourge Arrow of Menace",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Searing Bond",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Searing Bond of Detonation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Second Wind Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Seismic Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Seismic Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Seismic Trap of Swells",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Seize the Flesh",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shadow Blades",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shattering Steel",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shattering Steel of Ammunition",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Shield Charge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shield Crush",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shield Crush of the Chieftain",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Shield of Light",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shock Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Shock Nova of Procession",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Shockwave Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shockwave Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shockwave Totem of Authority",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Shrapnel Ballista",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shrapnel Ballista of Steel",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Siege Ballista",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Siege Ballista of Splintering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Siege Ballista of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Sigil of Power",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Siphoning Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Siphoning Trap of Pain",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Slower Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Smite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Smite of Divine Judgement",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Smoke Mine",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Snipe",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Sniper's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Somatic Shell",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soul Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soulrend",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soulrend of Reaping",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Soulrend of the Spiral",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Spark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spark of Unpredictability",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Spark of the Nova",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Spectral Helix",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Helix of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Shield Throw",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Shield Throw of Shattering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Shield Throw of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Spinning Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Throw",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Throw of Materialising",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Throw of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Spell Cascade Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spell Echo Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spell Totem Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Spellblade Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spellslinger",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spirit Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Split Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Split Arrow of Splitting",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Split Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Splitting Steel",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Splitting Steel of Ammunition",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Static Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Static Strike of Gathering Lightning",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Static Tether",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Steelskin",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Storm Brand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Storm Brand of Indecision",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Storm Burst",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Storm Burst of Repulsion",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Storm Call",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Storm Call of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Storm Rain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Storm Rain of the Conduit",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Storm Rain of the Fence",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Stormbind",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Stormbind of Teleportation",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Stormblast Mine",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Stun Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Summon Carrion Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Carrion Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Carrion Golem of Scavenging",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Chaos Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Chaos Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Chaos Golem of the Maelstr\u00f6m",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Flame Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Summon Flame Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Summon Flame Golem of the Meteor",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Summon Holy Relic",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Holy Relic of Conviction",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Ice Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Summon Ice Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Summon Ice Golem of Shattering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Summon Lightning Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Lightning Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Phantasm Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Raging Spirit",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Raging Spirit of Enormity",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Reaper",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Reaper of Eviscerating",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Reaper of Revenants",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Skeletons",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Skeletons Channelled",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Skeletons of Archers",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Skeletons of Mages",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Summon Skitterbots",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Summon Stone Golem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Summon Stone Golem of Hordes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Summon Stone Golem of Safeguarding",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Sunder",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Sunder of Earthbreaking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Sunder of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Swift Affliction Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Swift Assembly Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Swiftbrand Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Swordstorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tectonic Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tectonic Slam of Cataclysm",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Tempest Shield",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Temporal Chains",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Temporal Rift",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tender Embrace",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "The Great Avalanche",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "The Grey Wind Howls",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Thunderstorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tornado",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tornado Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tornado Shot of Cloudburst",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Tornado of Elemental Turbulence",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Toxic Rain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Toxic Rain of Sporeburst",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Toxic Rain of Withering",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Transfusion Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Trap Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Trap and Mine Damage Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Trauma Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Trinity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unbound Ailments Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unearth",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Unholy Trinity Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Unleash Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unnamed2",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Urgent Orders Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Absolution",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Ancestral Warchief",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Animate Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Arc",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Arctic Armour",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Blade Flurry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Blade Vortex",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Blight",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Breach",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vaal Burning Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Caustic Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Clarity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Cleave",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Cold Snap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Cyclone",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Detonate Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Discipline",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Domination",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Double Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Earthquake",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Fire Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Fireball",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Firestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Flameblast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Flesh Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Flicker Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Glacial Hammer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Grace",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Ground Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Haste",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Heavy Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Ice Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Ice Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Immortal Call",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Impurity of Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Impurity of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Impurity of Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Lightning Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Lightning Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Lightning Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Lightning Warp",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Molten Shell",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Molten Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Power Siphon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Rain of Arrows",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Reap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Reave",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Rejuvenation Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Righteous Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Sacrifice Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Smite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Soul Harvesting",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vaal Spark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Spectral Throw",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Split Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Storm Call",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Summon Skeletons",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaal Sweep",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Temptation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vaal Venom Gyre",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vaal Volcanic Fissure",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vampiric Link",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vengeful Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Venom Gyre",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vicious Projectiles Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vigilant Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vile Toxins Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Violent Desire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Viper Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Viper Strike of the Mamba",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Vitality",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Void Manipulation Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Void Shockwave Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Void Sphere",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Void Sphere of Rending",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Voidstorm Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Volatile Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Volatile Dead of Confinement",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Volatile Dead of Seething",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Volatility Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Volcanic Fissure",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Volcanic Fissure of Snaking",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "r"
+    },
+    {
+      "name": "Volley Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Voltaxic Burst",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vortex",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vortex of Projection",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Vulnerability",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Wall of Force",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wand Teleport",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "War Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ward Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Warlord's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Wave of Conviction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wave of Conviction of Trarthus",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "b"
+    },
+    {
+      "name": "Whirling Blades",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wild Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wild Strike of Extremes",
+      "is_support": false,
+      "is_transfigured": true,
+      "color": "g"
+    },
+    {
+      "name": "Wildfire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Windburst Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Winter Orb",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wintertide Brand",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wither",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Withering Step",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Withering Touch Support",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wrath",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wreathed in Light",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Zealotry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    }
   ],
-  g: [
-    "Added Cold Damage Support",
-    "Additional Accuracy Support",
-    "Advanced Traps Support",
-    "Alchemist's Mark",
-    "Ambush",
-    "Animate Weapon",
-    "Animate Weapon of Ranged Arms",
-    "Animate Weapon of Self Reflection",
-    "Arctic Armour",
-    "Arrow Nova Support",
-    "Artillery Ballista",
-    "Artillery Ballista of Cross Strafe",
-    "Artillery Ballista of Focus Fire",
-    "Awakened Added Cold Damage Support",
-    "Awakened Arrow Nova Support",
-    "Awakened Cast On Critical Strike Support",
-    "Awakened Chain Support",
-    "Awakened Cold Penetration Support",
-    "Awakened Deadly Ailments Support",
-    "Awakened Enhance Support",
-    "Awakened Fork Support",
-    "Awakened Greater Multiple Projectiles Support",
-    "Awakened Swift Affliction Support",
-    "Awakened Vicious Projectiles Support",
-    "Awakened Void Manipulation Support",
-    "Backstab",
-    "Barrage",
-    "Barrage Support",
-    "Barrage of Volley Fire",
-    "Bear Trap",
-    "Bear Trap of Skewers",
-    "Blade Blast",
-    "Blade Blast of Dagger Detonation",
-    "Blade Blast of Unloading",
-    "Blade Flurry",
-    "Blade Flurry of Incision",
-    "Blade Trap",
-    "Blade Trap of Greatswords",
-    "Blade Trap of Laceration",
-    "Blade Vortex",
-    "Blade Vortex of the Scythe",
-    "Bladefall",
-    "Bladefall of Impaling",
-    "Bladefall of Trarthus",
-    "Bladefall of Volleys",
-    "Blast Rain",
-    "Blast Rain of Trarthus",
-    "Blind Support",
-    "Blink Arrow",
-    "Blink Arrow of Bombarding Clones",
-    "Blink Arrow of Prismatic Clones",
-    "Block Chance Reduction Support",
-    "Blood Rage",
-    "Burning Arrow",
-    "Burning Arrow of Vigour",
-    "Cast On Critical Strike Support",
-    "Cast on Death Support",
-    "Caustic Arrow",
-    "Caustic Arrow of Poison",
-    "Chain Support",
-    "Chance to Flee Support",
-    "Chance to Poison Support",
-    "Charged Dash",
-    "Charged Traps Support",
-    "Close Combat Support",
-    "Cluster Traps Support",
-    "Cobra Lash",
-    "Cold Penetration Support",
-    "Cremation",
-    "Cremation of Exhuming",
-    "Cremation of the Volcano",
-    "Critical Strike Affliction Support",
-    "Culling Strike Support",
-    "Cyclone",
-    "Cyclone of Tumult",
-    "Dash",
-    "Deadly Ailments Support",
-    "Desecrate",
-    "Detonate Dead",
-    "Detonate Dead of Chain Reaction",
-    "Detonate Dead of Scavenging",
-    "Double Strike",
-    "Double Strike of Impaling",
-    "Double Strike of Momentum",
-    "Dual Strike",
-    "Dual Strike of Ambidexterity",
-    "Elemental Hit",
-    "Elemental Hit of the Spectrum",
-    "Enhance Support",
-    "Ensnaring Arrow",
-    "Ethereal Knives",
-    "Ethereal Knives of Lingering Blades",
-    "Ethereal Knives of the Massacre",
-    "Explosive Arrow",
-    "Explosive Concoction",
-    "Explosive Concoction of Destruction",
-    "Explosive Trap",
-    "Explosive Trap of Magnitude",
-    "Explosive Trap of Shrapnel",
-    "Faster Attacks Support",
-    "Faster Projectiles Support",
-    "Fire Trap",
-    "Fire Trap of Blasting",
-    "Flamethrower Trap",
-    "Flammable Shot",
-    "Flicker Strike",
-    "Flicker Strike of Power",
-    "Focused Ballista Support",
-    "Fork Support",
-    "Frenzy",
-    "Frenzy of Onslaught",
-    "Frost Blades",
-    "Frost Blades of Katabasis",
-    "Galvanic Arrow",
-    "Galvanic Arrow of Energy",
-    "Galvanic Arrow of Surging",
-    "Glacial Shield Swipe",
-    "Grace",
-    "Greater Multiple Projectiles Support",
-    "Greater Volley Support",
-    "Haste",
-    "Hatred",
-    "Herald of Agony",
-    "Herald of Ice",
-    "Hypothermia Support",
-    "Ice Bite Support",
-    "Ice Shot",
-    "Ice Shot of Penetration",
-    "Ice Trap",
-    "Ice Trap of Hollowness",
-    "Impale Support",
-    "Intuitive Link",
-    "Lacerate",
-    "Lacerate of Butchering",
-    "Lacerate of Haemorrhage",
-    "Lancing Steel",
-    "Lancing Steel of Spraying",
-    "Lesser Multiple Projectiles Support",
-    "Lightning Arrow",
-    "Lightning Arrow of Electrocution",
-    "Lightning Strike",
-    "Lightning Strike of Arcing",
-    "Locus Mine Support",
-    "Mana Leech Support",
-    "Manaforged Arrows Support",
-    "Mark On Hit Support",
-    "Mirage Archer Support",
-    "Mirror Arrow",
-    "Mirror Arrow of Bombarding Clones",
-    "Mirror Arrow of Prismatic Clones",
-    "Momentum Support",
-    "Multiple Traps Support",
-    "New Blade Vortex",
-    "Nightblade Support",
-    "Pestilent Strike",
-    "Phase Run",
-    "Pierce Support",
-    "Plague Bearer",
-    "Poacher's Mark",
-    "Point Blank Support",
-    "Poisonous Concoction",
-    "Poisonous Concoction of Bouncing",
-    "Precision",
-    "Puncture",
-    "Puncture of Shanking",
-    "Purity of Ice",
-    "Rain of Arrows",
-    "Rain of Arrows of Artillery",
-    "Rain of Arrows of Saturation",
-    "Reave",
-    "Reave of Refraction",
-    "Returning Projectiles Support",
-    "Rupture Support",
-    "Sadism Support",
-    "Scourge Arrow",
-    "Scourge Arrow of Menace",
-    "Second Wind Support",
-    "Seismic Trap",
-    "Seismic Trap of Swells",
-    "Shadow Blades",
-    "Shattering Steel",
-    "Shattering Steel of Ammunition",
-    "Shrapnel Ballista",
-    "Shrapnel Ballista of Steel",
-    "Siege Ballista",
-    "Siege Ballista of Splintering",
-    "Siege Ballista of Trarthus",
-    "Slower Projectiles Support",
-    "Smoke Mine",
-    "Snipe",
-    "Sniper's Mark",
-    "Spectral Helix",
-    "Spectral Helix of Trarthus",
-    "Spectral Shield Throw",
-    "Spectral Shield Throw of Shattering",
-    "Spectral Shield Throw of Trarthus",
-    "Spectral Spinning Weapon",
-    "Spectral Throw",
-    "Spectral Throw of Materialising",
-    "Spectral Throw of Trarthus",
-    "Split Arrow",
-    "Split Arrow of Splitting",
-    "Split Projectiles Support",
-    "Splitting Steel",
-    "Splitting Steel of Ammunition",
-    "Storm Rain",
-    "Storm Rain of the Conduit",
-    "Storm Rain of the Fence",
-    "Summon Ice Golem",
-    "Summon Ice Golem of Hordes",
-    "Summon Ice Golem of Shattering",
-    "Swift Affliction Support",
-    "Swift Assembly Support",
-    "Temporal Chains",
-    "Temporal Rift",
-    "Tornado",
-    "Tornado Shot",
-    "Tornado Shot of Cloudburst",
-    "Tornado of Elemental Turbulence",
-    "Toxic Rain",
-    "Toxic Rain of Sporeburst",
-    "Toxic Rain of Withering",
-    "Trap Support",
-    "Trap and Mine Damage Support",
-    "Unearth",
-    "Vampiric Link",
-    "Venom Gyre",
-    "Vicious Projectiles Support",
-    "Vile Toxins Support",
-    "Viper Strike",
-    "Viper Strike of the Mamba",
-    "Void Manipulation Support",
-    "Volatile Dead",
-    "Volatile Dead of Confinement",
-    "Volatile Dead of Seething",
-    "Volley Support",
-    "Vortex Mine",
-    "Whirling Blades",
-    "Wild Strike",
-    "Wild Strike of Extremes",
-    "Withering Step",
-    "Withering Touch Support",
-    "[DNT] Call of the Wild",
-    "[UNUSED] Blood Whirl",
-    "[UNUSED] Coiling Assault",
-    "[UNUSED] Projectile Portal",
-    "[UNUSED] Replicate",
-    "[UNUSED] Serpent Strike",
-  ],
-  b: [
-    "Added Chaos Damage Support",
-    "Added Lightning Damage Support",
-    "Arc",
-    "Arc of Oscillating",
-    "Arc of Surging",
-    "Arcane Cloak",
-    "Arcane Surge Support",
-    "Arcanist Brand",
-    "Archmage Support",
-    "Armageddon Brand",
-    "Armageddon Brand of Recall",
-    "Armageddon Brand of Volatility",
-    "Assassin's Mark",
-    "Automation",
-    "Awakened Added Chaos Damage Support",
-    "Awakened Added Lightning Damage Support",
-    "Awakened Blasphemy Support",
-    "Awakened Cast While Channelling Support",
-    "Awakened Controlled Destruction Support",
-    "Awakened Elemental Focus Support",
-    "Awakened Enlighten Support",
-    "Awakened Hextouch Support",
-    "Awakened Increased Area of Effect Support",
-    "Awakened Lightning Penetration Support",
-    "Awakened Minion Damage Support",
-    "Awakened Spell Cascade Support",
-    "Awakened Spell Echo Support",
-    "Awakened Unbound Ailments Support",
-    "Awakened Unleash Support",
-    "Ball Lightning",
-    "Ball Lightning of Orbiting",
-    "Ball Lightning of Static",
-    "Bane",
-    "Bane of Condemnation",
-    "Blasphemy Support",
-    "Blastchain Mine Support",
-    "Blazing Salvo",
-    "Blight",
-    "Blight of Atrophy",
-    "Blight of Contagion",
-    "Blood Offering",
-    "Bodyswap",
-    "Bodyswap of Sacrifice",
-    "Bone Offering",
-    "Bonechill Support",
-    "Brand Recall",
-    "Cast when Stunned Support",
-    "Cast while Channelling Support",
-    "Charged Mines Support",
-    "Clarity",
-    "Cold Snap",
-    "Cold Snap of Power",
-    "Combustion Support",
-    "Concentrated Effect Support",
-    "Conductivity",
-    "Contagion",
-    "Contagion of Subsiding",
-    "Contagion of Transference",
-    "Controlled Destruction Support",
-    "Conversion Trap",
-    "Convocation",
-    "Crackling Lance",
-    "Crackling Lance of Branching",
-    "Crackling Lance of Disintegration",
-    "Creeping Frost",
-    "Cursed Ground Support",
-    "Damage Infusion",
-    "Dark Pact",
-    "Dark Pact of Trarthus",
-    "Decay Support",
-    "Despair",
-    "Destructive Link",
-    "Devour Support",
-    "Discharge",
-    "Discharge of Misery",
-    "Discipline",
-    "Divine Ire",
-    "Divine Ire of Disintegration",
-    "Divine Ire of Holy Lightning",
-    "Divine Retribution",
-    "Efficacy Support",
-    "Elemental Army Support",
-    "Elemental Focus Support",
-    "Elemental Penetration Support",
-    "Elemental Projectiles",
-    "Elemental Proliferation Support",
-    "Elemental Weakness",
-    "Energy Blade",
-    "Energy Leech Support",
-    "Enfeeble",
-    "Enlighten Support",
-    "Envy",
-    "Essence Drain",
-    "Essence Drain of Desperation",
-    "Essence Drain of Wickedness",
-    "Eye of Winter",
-    "Eye of Winter of Finality",
-    "Eye of Winter of Transience",
-    "Faster Casting Support",
-    "Feeding Frenzy Support",
-    "Fire Weapon",
-    "Fireball",
-    "Firestorm",
-    "Firestorm of Meteors",
-    "Firestorm of Pelting",
-    "Flame Dash",
-    "Flame Dash of Return",
-    "Flame Surge",
-    "Flame Surge of Combusting",
-    "Flame Wall",
-    "Flameblast",
-    "Flameblast of Celerity",
-    "Flameblast of Contraction",
-    "Flammability",
-    "Flesh Offering",
-    "Focused Channelling Support",
-    "Forbidden Rite",
-    "Forbidden Rite of Soul Sacrifice",
-    "Freezing Pulse",
-    "Fresh Meat Support",
-    "Frigid Bond Support",
-    "Frost Bomb",
-    "Frost Bomb of Forthcoming",
-    "Frost Bomb of Instability",
-    "Frost Shield",
-    "Frost Wall",
-    "Frostbite",
-    "Frostblink",
-    "Frostblink of Wintry Blast",
-    "Frostbolt",
-    "Galvanic Field",
-    "Galvanic Field of Intensity",
-    "Glacial Cascade",
-    "Glacial Cascade of the Fissure",
-    "Herald of Thunder",
-    "Hex Bloom Support",
-    "Hexblast",
-    "Hexblast of Contradiction",
-    "Hexblast of Havoc",
-    "Hextouch Support",
-    "High-Impact Mine Support",
-    "Hydrosphere",
-    "Ice Nova",
-    "Ice Nova of Deep Freeze",
-    "Ice Nova of Frostbolts",
-    "Ice Spear",
-    "Ice Spear of Splitting",
-    "Icefire",
-    "Icicle Mine",
-    "Icicle Mine of Fanning",
-    "Icicle Mine of Sabotage",
-    "Ignite",
-    "Ignite Proliferation Support",
-    "Immolate Support",
-    "Impending Doom Support",
-    "Incinerate",
-    "Incinerate of Expanse",
-    "Incinerate of Venting",
-    "Increased Area of Effect Support",
-    "Increased Critical Damage Support",
-    "Increased Critical Strikes Support",
-    "Infernal Legion Support",
-    "Infused Channelling Support",
-    "Innervate Support",
-    "Intensify Support",
-    "Item Rarity Support",
-    "Kinetic Blast",
-    "Kinetic Blast of Clustering",
-    "Kinetic Bolt",
-    "Kinetic Bolt of Fragmentation",
-    "Lightning Channel",
-    "Lightning Circle",
-    "Lightning Conduit",
-    "Lightning Conduit of the Heavens",
-    "Lightning Penetration Support",
-    "Lightning Spire Trap",
-    "Lightning Spire Trap of Overloading",
-    "Lightning Spire Trap of Zapping",
-    "Lightning Tendrils",
-    "Lightning Tendrils of Eccentricity",
-    "Lightning Tendrils of Escalation",
-    "Lightning Trap",
-    "Lightning Trap of Sparking",
-    "Lightning Warp",
-    "Malevolence",
-    "Manabond",
-    "Meat Shield Support",
-    "Minefield Support",
-    "Minion Damage Support",
-    "Minion Life Support",
-    "Minion Speed Support",
-    "New Shock Nova",
-    "Orb of Storms",
-    "Overcharge Support",
-    "Penance Brand",
-    "Penance Brand of Conduction",
-    "Penance Brand of Dissipation",
-    "Physical to Lightning Support",
-    "Pinpoint Support",
-    "Power Charge On Critical Support",
-    "Power Siphon",
-    "Power Siphon of the Archmage",
-    "Predator Support",
-    "Prismatic Burst Support",
-    "Purifying Flame",
-    "Purifying Flame of Revelations",
-    "Purity of Elements",
-    "Purity of Lightning",
-    "Pyroclast Mine",
-    "Pyroclast Mine of Sabotage",
-    "Raise Spectre",
-    "Raise Spectre of Transience",
-    "Raise Zombie",
-    "Raise Zombie of Falling",
-    "Raise Zombie of Slamming",
-    "Righteous Fire",
-    "Righteous Fire of Arcane Devotion",
-    "Righteous Lightning",
-    "Riptide",
-    "Rolling Magma",
-    "Sacred Wisps Support",
-    "Sacrifice Support",
-    "Scorching Ray",
-    "Scorching Ray of Immolation",
-    "Shock Nova",
-    "Sigil of Power",
-    "Siphoning Trap",
-    "Soul Link",
-    "Soulrend",
-    "Soulrend of Reaping",
-    "Soulrend of the Spiral",
-    "Spark",
-    "Spark of Unpredictability",
-    "Spark of the Nova",
-    "Spell Cascade Support",
-    "Spell Echo Support",
-    "Spellblade Support",
-    "Spellslinger",
-    "Spirit Offering",
-    "Static Tether",
-    "Storm Brand",
-    "Storm Brand of Indecision",
-    "Storm Burst",
-    "Storm Call",
-    "Storm Call of Trarthus",
-    "Stormbind",
-    "Stormbind of Teleportation",
-    "Stormblast Mine",
-    "Summon Carrion Golem",
-    "Summon Carrion Golem of Hordes",
-    "Summon Carrion Golem of Scavenging",
-    "Summon Chaos Golem",
-    "Summon Chaos Golem of Hordes",
-    "Summon Chaos Golem of the Maelstr\u00f6m",
-    "Summon Holy Relic",
-    "Summon Holy Relic of Conviction",
-    "Summon Lightning Golem",
-    "Summon Lightning Golem of Hordes",
-    "Summon Phantasm Support",
-    "Summon Raging Spirit",
-    "Summon Raging Spirit of Enormity",
-    "Summon Reaper",
-    "Summon Reaper of Eviscerating",
-    "Summon Reaper of Revenants",
-    "Summon Skeletons",
-    "Summon Skeletons Channelled",
-    "Summon Skeletons of Archers",
-    "Summon Skeletons of Mages",
-    "Summon Skitterbots",
-    "Swiftbrand Support",
-    "Tempest Shield",
-    "Trinity Support",
-    "Unbound Ailments Support",
-    "Unleash Support",
-    "Void Sphere",
-    "Void Sphere of Rending",
-    "Voltaxic Burst",
-    "Vortex",
-    "Vortex of Projection",
-    "Wave of Conviction",
-    "Wave of Conviction of Trarthus",
-    "Wildfire",
-    "Winter Orb",
-    "Wintertide Brand",
-    "Wither",
-    "Wrath",
-    "Zealotry",
-  ],
-  w: [
-    "Blinding Aura",
-    "Capture Monster",
-    "Death Aura",
-    "Detonate Mines",
-    "Order: To me!",
-    "Playtest Attack",
-    "Playtest Slam",
-    "Playtest Spell",
-    "Portal",
-    "Quickstep",
-    "Vaal Soul Harvesting",
-    "Wand Teleport",
-  ],
+  "poe2": [
+    {
+      "name": "Abiding Hex",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Abyssal Apparition",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Abyssal Pact",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Accelerated Growth",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Accelerated Growth II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Acidic Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Acrimony",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Adhesive Grenades I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Adhesive Grenades II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Adhesive Grenades III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Admixture",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Advancing Storm",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Aftershock I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Aftershock II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Aftershock III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ahn's Citadel",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ailith's Chimes",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Alchemist's Boon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Align Fate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Alignment I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Alignment II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Alignment III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Amanamu's Tithe",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ambrosia",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ambrosia II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ambush",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ammo Conservation I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ammo Conservation II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ammo Conservation III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ancestral Aid",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Call I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Call II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Call III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ancestral Spirits",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ancestral Warrior Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Animus Exchange",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Animus Splinters",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Apocalypse",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Arakaali's Lust",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Arbiter's Ignition",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arbiter's Reach",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Arc",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arcane Surge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Archmage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Archon of Chayula",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Arctic Armour",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Arctic Howl",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Arjun's Medal",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Armour Break I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Break II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Break III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Breaker",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Demolisher I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Demolisher II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Explosion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Armour Piercing Rounds",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Arms Length",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Artillery Ballista",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Astral Projection",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Atalui's Bloodletting",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Attrition",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Atziri's Allure",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Atziri's Call",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Atziri's Communion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Atziri's Impatience",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Auto Reload",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Axe Slash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Azmerian Swarms",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Azmerian Wolf",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ball Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Barbs I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Barbs II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Barbs III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Barkskin",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Barrage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Barrier Invocation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Battershout",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Behead I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Behead II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Berserk",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bhatair's Vengeance",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bidding I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bidding II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bidding III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bind Spectre",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Biting Frost I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Biting Frost II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bitter Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Black Powder Blitz",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Blasphemy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Blazing Critical",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bleed I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bleed II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bleed III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bleed IV",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bleeding Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Blind I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blind II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blindside",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Blink",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Blood Boil",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Blood Hunt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bloodhound's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bloodlust",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bone Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bone Cage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bone Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bone Shrapnel",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Boneshatter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Bonestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Boundless Energy I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Boundless Energy II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bounty I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bounty II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Bow Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Brambleslam",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Branching Fissures I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Branching Fissures II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Breachlord's Amalgam",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Breachlord's Rift",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Break Endurance",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Break Posture",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Briarpatch",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Brink I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brink II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brittle Armour",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Brutality I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brutality II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brutality III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Brutus' Brain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Burgeon I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Burgeon II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Burning Inscription",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Bursting Fen Toad",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Bursting Plague",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cackling Companions",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cadence",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Called Shots",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Caltrops",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cannibalism I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cannibalism II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cast on Block",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast on Charm Use",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast on Critical",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast on Death",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast on Dodge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast on Elemental Ailment",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast on Freeze",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast on Ignite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast on Melee Kill",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast on Melee Stun",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cast on Minion Death",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast on Shock",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast when Damage Taken",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cast when Stunned",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cast while Channelling",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Catalysing Elements",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Catha's Brilliance",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Catharsis",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Chain I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chain II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chain III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chance to Freeze",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Chaos Attunement",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Chaos Bolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Chaos Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Chaotic Freeze",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Chaotic Surge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Charge Profusion I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charge Profusion II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charge Regulation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Charged Mark",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charged Shots I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charged Shots II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Charged Staff",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Charm Bounty",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cirel's Cultivation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Clarity I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Clarity II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Clash",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Claw Stab",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Close Combat I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Close Combat II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cluster Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Coiling Bolts",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cold Attunement",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cold Exposure",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cold Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cold Penetration",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Combat Frenzy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Combo Finisher I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Combo Finisher II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Comet",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Coming Soon",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Commandment",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Commiserate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Companion: {0}",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Compressed Duration I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Compressed Duration II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Concentrated Area",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Concoct I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Concoct II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Concussive Runes",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Concussive Spells",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Conductive Runes",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Conductivity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Consecrate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Considered Casting",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Contagion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Controlled Destruction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Controlled Hazard",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Convalescence",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cool Headed",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Cooldown Recovery I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Cooldown Recovery II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Corpse Conservation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Corrosion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Corrupting Cry I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Corrupting Cry II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Coursing Current",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crackling Barrier",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crackling Palm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Crater",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Crazed Minions",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Creeping Chill",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crescendo I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crescendo II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Crescendo III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cross Slash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Crossbow Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Crushing Fear",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Crystalline Shards",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Cull The Weak",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Culling Strike I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Culling Strike II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Culmination I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Culmination II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Curse on Block",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Cursed Ground",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dagger Stab",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Danse Macabre",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Daresso's Passion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dark Effigy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dark Pact",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dauntless",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Daze",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Dazing Cry",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Dazzle",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deadly Herald",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deadly Poison I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deadly Poison II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deadly Resolve",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Deathmarch",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Decaying Hex",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Decompose",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Deep Cuts I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Deep Cuts II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Deep Freeze",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Defiance Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Defy I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Defy II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Delayed Gratification",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Delayed Reaction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Deliberation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Demon Form",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Demon Magus",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Derange",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Despair",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Desperation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Detonate Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Detonate Living",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Detonate Minion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Detonating Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Devastate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Devour",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Dialla's Desire",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Direstrike I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Direstrike II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Discipline",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Disengage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Doedre's Undoing",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dominus' Grasp",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Double Barrel I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Double Barrel II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Double Barrel III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Drain Ailments",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Dread Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Dreamer's Knell",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Durability",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Earthquake",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Earthshatter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Echoing Cry",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Efficiency I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Efficiency II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Einhar's Beastrite",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Electrocute",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Electrocuting Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Electromagnetism",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Armament I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Elemental Armament II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Elemental Armament III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Elemental Army",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Conflux",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Discharge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Expression",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Elemental Focus",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Elemental Invocation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Elemental Siphon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Elemental Storm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Elemental Sundering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Elemental Surge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Elemental Weakness",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ember Fusillade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Embitter",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Emergency Reload",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Empowered Sparks I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Empowered Sparks II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Encase in Jade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Encroaching Ground",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enduring Impact I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Enduring Impact II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Energy Barrier",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Energy Capacitor",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Energy Retention",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enervating Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enervation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enfeeble",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Enraged Warcry I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Enraged Warcry II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Entangle",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Eonyr's Thunder",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Escalating Poison",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Escape Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Esh's Prowess",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Esh's Radiance",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Essence Drain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Essence Harvest",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Eternal Flame I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Eternal Flame II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Eternal Flame III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Eternal March",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Eternal Mark",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Eternal Rage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Excise",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Excoriate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Execrate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Execute I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Execute II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Execute III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Expand",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Expanse",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Exploit Weakness",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Explosive Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Explosive Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Explosive Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Explosive Spear",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Explosive Transmutation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Exposing Cry",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Exsanguinate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Extraction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Eye of Winter",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Falling Thunder",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fan The Flames",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fan The Flames II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fangs of Frost",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Feast of Flesh",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Feeding Frenzy I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Feeding Frenzy II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Feral Invocation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ferocious Roar",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ferocity",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fiery Death",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fire Attunement",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fire Exposure",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fire Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fire Penetration I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fire Penetration II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fire Spell on Hit",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fireball",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Firebolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Firestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "First Blood",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fist Of Kalguur",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fist of War I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fist of War II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fist of War III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flail Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Flame Breath",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Flame Pillar",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flame Wall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flameblast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flamepierce",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Flammability",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Flash Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Flicker Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Flow",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fluke",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Focused Curse",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Font of Blood",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Font of Mana",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Font of Rage",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Forge Hammer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fork",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fortifying Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fortress I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fortress II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fragmentation Rounds",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fragments Of The Past",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Freeze",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Freezefork",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Freezing Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Freezing Salvo",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Freezing Shards",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frenzied Riposte",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Fresh Clip I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Fresh Clip II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Frost Bomb",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Darts",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Nexus",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frost Wall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostbolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostfire",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Frostflame Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Frozen Locus",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Frozen Spite",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Frozen Vortex",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Fulminating Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fulmination",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Furious Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fury of the Mountain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Fusillade",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Future-Past",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Galvanic Field",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Galvanic Shards",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Gambleshot",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Garukhan's Resolve",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Gas Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Gas Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Gathering Storm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Gelid Palm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Gemini Surge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ghost Dance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Glacial Bolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Glacial Cascade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Glacial Lance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Glacier",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Gorge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Greatwood II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Grim Feast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Grim Pillars",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Guatelitzi's Ablation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Haemocrystals",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hailstorm Rounds",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hammer of the Gods",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hand of Chayula",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Harbinger of Madness",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hardy Totems I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hardy Totems II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Harmonic Remnants I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Harmonic Remnants II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hayoxi's Fulmination",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Healing Runes",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Heart of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Heavy Swing",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Heft",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Heightened Accuracy I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Heightened Accuracy II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Heightened Charges",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Heightened Curse",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Helbrym's Hide",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Her Declaration",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herald of Ash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herald of Blood",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herald of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herald of Plague",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Herald of Thunder",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herald of the Royal Queen",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Herbalism I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Herbalism II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hex Bloom",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hexblast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "High Velocity Rounds",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hinder",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Dark Horizon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Foul Emergence",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Grave Command",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Scattering Calamity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Vile Intrusion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "His Winnowing Flame",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hit and Run",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Hoarfrost",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hobble",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Hollow Focus",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hollow Form",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hollow Resonance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Hollow Shell",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Holy Descent",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Hourglass",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hulking Minions",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hydra Familiar",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Hypothermia",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Bite I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Bite II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Fragments",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ice Nova",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ice Shards",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ice Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ice Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ice-Tipped Arrows",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Icestorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Icicle",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Ignite I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ignite II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ignite III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Immolate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Impact Shockwave",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Impale",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Impending Doom",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Impurity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Incendiary Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Incinerate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Incision",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Inevitable Agony",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Inexorable Critical I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Inexorable Critical II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Infernal Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Legion I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Legion II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infernal Legion III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Infusion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Inhibitor",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Innervate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Intense Agony",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Into the Breach",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Invocation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Iron Ward",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ixchel's Torment",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Jagged Ground I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Jagged Ground II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Kalisa's Crescendo",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kaom's Madness",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Kelari's Deception",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Kelari's Judgment",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Kelari's Malediction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Kelari, the Tainted Sands",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Khatal's Rejuvenation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Killing Palm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Kinetic Bash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Knockback",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Kulemak's Dominion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Kurgal's Leash",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Last Gasp",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lasting Ground",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lasting Shock",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Leap Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Leverage",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Leylines",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Life Bounty",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Life Drain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Life Leech I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Life Leech II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Life Leech III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Life Remnants",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Lifetap",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Lightning Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Attunement",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Bolt",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Conduit",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Exposure",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lightning Penetration",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Rod",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Spear",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Lightning Warp",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lingering Illusion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Living Bomb",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Living Lightning",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Living Lightning II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lockdown",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Long Fuse I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Long Fuse II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Longshot I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Longshot II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Loyalty",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Lunar Assault",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Lunar Blessing",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Mace Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Magma Barrier",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Magnetic Remnants",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Magnetic Salvo",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Magnified Area I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Magnified Area II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Maim",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Malady",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Malice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Bounty",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mana Drain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Flare",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Leech",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Remnants",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mana Tempest",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Manifest Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Mantra of Destruction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Mark for Death",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Mark for Death II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Mark of Siphoning",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mark of Siphoning II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Maul",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Meat Shield I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Meat Shield II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Meditate",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Medved's Felling",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Midnight Zenith",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Minion Instability",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Pact I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Pact II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Minion Splash I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Minion Splash II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Mirage Archer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Mirage Deadeye",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Mirror of Refraction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mist Raven",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Mobility",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Molten Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Molten Crash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Molten Shower",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Moment of Vulnerability",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Momentum",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Morgana's Tempest",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mortar Cannon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Multishot I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Multishot II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Murderous Intent",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Muster",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mysticism I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Mysticism II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "M\u00f3rrigan's Insight",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Nadir",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Navira's Fracturing",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Navira's Oasis",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Navira's Well",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Navira, the Last Mirage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Neural Overload",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Nimble Reload",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Nova Projectiles I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Nova Projectiles II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Oil Barrage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Oil Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ois\u00edn's Oath",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Olroth's Conviction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Olroth's Hubris",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Opening Move",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Orb of Storms",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Outmaneuver",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overabundance I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overabundance II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overabundance III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overcharge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overextend",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overreach",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Overwhelming Presence",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Pain Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Paquate's Pact",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Parry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Payload",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Perfect Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Perfected Endurance",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Perfection",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Permafrost Bolts",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Perpetual Charge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Persistent Ground I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Persistent Ground II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Persistent Ground III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Phantasmal Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Physical Mastery",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pierce I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pierce II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pierce III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pin I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pin II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pin III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pinnacle of Power",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Pinpoint Critical",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Plague Bearer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Plasma Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Poison I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poison II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poison III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poison Spores",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Poisonburst Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Potent Exposure",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Potential",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pounce",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Power Siphon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Powered by Verisium",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Practical Magic I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Practical Magic II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Practiced Combo",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Precision I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Precision II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Premeditation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Primal Avatar",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Primal Bounty",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Primal Strikes",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Profane Ritual",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Profanity I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Profanity II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Projectile Acceleration I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Projectile Acceleration II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Projectile Acceleration III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Projectile Deceleration I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Projectile Deceleration II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Prolonged Duration I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Prolonged Duration II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Prolonged Duration III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Prototype Seventeen",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Punch",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Punch Through",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Purity of Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Purity of Ice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Purity of Lightning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Pursuit I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pursuit II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Pursuit III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Quarterstaff Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Queen's Procession",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Quill Burst",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rage I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rage II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rage III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rageforged I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rageforged II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Raging Cry",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Raging Spirits",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rain of Arrows",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rain of Blades",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Raise Shield",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Raise Zombie",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rake",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rakiata's Flow",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rally",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rampage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rapid Assault",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rapid Attacks I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rapid Attacks II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rapid Attacks III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rapid Casting I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rapid Casting II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rapid Casting III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rapid Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ratha's Assault",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ravenous Swarm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Reap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Reaper's Invocation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rearm I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rearm II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Refraction I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Refraction II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Refraction III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Refutation",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Reinforced Totems I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Reinforced Totems II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Relentless Rage",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Remnant Potency I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Remnant Potency II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Remnant Potency III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Remnants of Kalguur",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Removed Skill",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rend",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rending Apex",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Repulsion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Requiem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Resonating Shield",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Retaliate I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Retaliate II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Retreat I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Retreat II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Retreat III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Reverberate",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rhoa Mount",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ricochet I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ricochet II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Ricochet III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Righteous Descent",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rigwald's Ferocity",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Rime",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rip",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rising Tempest",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rite of Restoration",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ritual Sacrifice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ritualistic Curse",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Rolling Magma",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rolling Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Romira's Requital",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Runeforged Blades",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Runic Extraction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Runic Infusion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Runic Reprieve",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Runic Tempering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Rupture",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Rusted Spikes",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ruthless",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Ruzhan's Fury",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ruzhan's Reckoning",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ruzhan's Trap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Ruzhan, the Blazing Sword",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Sacrifice",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sacrificial Lamb I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sacrificial Lamb II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sacrificial Offering",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Salvo",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Sanguine Revelry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Savage Fury",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Scavenged Plating",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Scouring Flame",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Searing Flame I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Searing Flame II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Second Wind I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Second Wind II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Second Wind III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "See Red",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Seismic Cry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Selfless Remnants",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Seraph's Heart",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shard Scavenger",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shattering Concoction",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shattering Palm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shattering Spite",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shield Charge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shield Wall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shock",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shock Conduction",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Shock Conduction II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Shock Siphon",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Shockburst Rounds",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shockchain Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shocking Leap",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Shockwave Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Short Fuse I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Short Fuse II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Shred",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Shroud",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Siege Ballista",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Siege Cascade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Sigil of Power",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sione's Temper",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Siphon Elements",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Siphoning Strike",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Skeletal Arsonist",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Brute",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Cleric",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Frost Mage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Reaver",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Sniper",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Storm Mage",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skeletal Warrior",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Skittering Stone I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Skittering Stone II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Skyfall",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Slow Potency",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Smash to Smithereens",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Snap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Snipe",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Sniper's Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Soaring Midnight",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Solar Orb",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Sorcery Ward",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Soul Crystal: {0}",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soul Drain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Soul Offering",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soulbreaker",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Soulrend",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spar",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Spark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spear Stab",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Spear Throw",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Spear of Solaris",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spearfield",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectral Volley",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spectre: {0}",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spell Cascade",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spell Echo",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spell Totem",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Spellslinger",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spinning Inferno",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Spiral Volley",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Spiraling Conspiracy",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Spirit Vessel",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Splinter Totem I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Splinter Totem II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Spreading Frost",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Staggering Palm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Stampede",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Starborn Onslaught",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Static Shocks",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Steadfast I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Steadfast II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Stoicism I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Stoicism II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Stomping Ground",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Storm Lance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Storm Wave",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Stormblast Bolts",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Stormcaller Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Stormchain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Stormfire",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Streamlined Rounds",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Strong Hearted",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Stun I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Stun II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Stun III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Styrn's Anthem",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Styrn's Ferocity",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Styrn's Mountain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Summon Companion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Summon Infernal Hound",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Sunder",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Supercharged Slam",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Supercritical",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Supporting Fire",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Swift Affliction I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Swift Affliction II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Swift Affliction III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Sword Slash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Syzygy",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tacati's Ire",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tame Beast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tangmazu's Thurible",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tasalio's Rhythm",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tawhoa's Tending",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tear",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tecrod's Revenge",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Tectonic Slams",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Temper Weapon",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tempest Bell",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tempest Flurry",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Temporal Chains",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Temporal Rift",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "The Stars Answer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Thornskin I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Thornskin II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Thrashing Vines",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Thrill of the Kill",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Thrill of the Kill II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Thundergod's Wrath",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Thunderous Leap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Thunderstorm",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Time Freeze",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Time Snap",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Time of Need",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tireless",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Tornado",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tornado Shot",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Toxic Domain",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Toxic Growth",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Trail of Caltrops",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tremors",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Trickster's Shard",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Trinity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Triskelion Cascade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tul's Avalanche",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Tul's Stillness",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Tumult",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Twister",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Uhtred's Augury",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Uhtred's Constellation",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Uhtred's Exodus",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Uhtred's Omen",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Uhtred's Rite",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Unabating",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Unbending",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unbound Avatar",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Unbreakable",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Undermine",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Unearth",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unerring Power",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Unleash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Unsteady Tempo",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Untether",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Untouchable",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Unyielding",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Upheaval I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Upheaval II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Upwelling I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Upwelling II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Urgent Totems I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Urgent Totems II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Urgent Totems III",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Uruk's Smelting",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Uul-Netol's Embrace",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Valako's Charge",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vanguard I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vanguard II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Varashta's Blessing",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vaulting Impact",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Verglas",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Verisium Manifestations",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vilenta's Propulsion",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Vine Arrow",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Virtuous Barrier",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vitality I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vitality II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vivid Stampede",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Void Illusion",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Volatile Dead",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Volatile Power",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Volatility",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Volcanic Eruption",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Volcanic Fissure",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Volcano",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Volt",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Voltaic Barrier",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Voltaic Grenade",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Voltaic Mark",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Vorana's Siege",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vruun's Aftermath",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Vruun's Inevitability",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Vulnerability",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Walking Calamity",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "War Banner",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Wardbound Minions",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Warm Blooded",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wave of Frost",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Whirling Assault",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Whirling Slash",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Whirlwind Lance",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wild Protector",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Wildfire",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wildshards I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wildshards II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wildwood's Gifts",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Wind Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Wind Dancer",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wind Serpent's Fury",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wind Wave",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Window of Opportunity I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Window of Opportunity II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "g"
+    },
+    {
+      "name": "Wing Blast",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Wither",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Withering Presence",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Withering Touch",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Wolf Pack",
+      "is_support": false,
+      "is_transfigured": false,
+      "color": "w"
+    },
+    {
+      "name": "Xibaqua's Rending",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Xoph's Pyre",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    },
+    {
+      "name": "Zarokh's Refrain",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Zarokh's Revolt",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Zenith I",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Zenith II",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "b"
+    },
+    {
+      "name": "Zerphi's Infamy",
+      "is_support": true,
+      "is_transfigured": false,
+      "color": "r"
+    }
+  ]
 };
-
-export function getSkillColor(skillName?: string): string {
-  if (!skillName) {
-    return "text-white";
-  }
-  const cleanedSkillName = skillName.replace("Vaal ", "");
-  if (gemColors.r.includes(cleanedSkillName)) {
-    return "text-strength";
-  } else if (gemColors.g.includes(cleanedSkillName)) {
-    return "text-dexterity";
-  } else if (gemColors.b.includes(cleanedSkillName)) {
-    return "text-intelligence";
-  }
-  return "text-white";
-}
