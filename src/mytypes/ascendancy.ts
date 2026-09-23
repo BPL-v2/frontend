@@ -6,6 +6,8 @@ export type ClassDef = {
   classColor: string;
 };
 
+export const UNDECIDED_ASCENDANCY_COLOR = "text-yellow-400";
+
 export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
   [GameVersion.poe2]: {
     Warrior: {
@@ -186,12 +188,12 @@ export const ascendancies: Record<GameVersion, Record<string, ClassDef>> = {
     },
     Reliquarian: {
       thumbnail: "/assets/poe1/ascendancies/thumbnails/Reliquarian.png",
-      image: "/assets/poe1/ascendancies/Reliquarian.jpg",
+      image: "/assets/poe1/ascendancies/Reliquarian.png",
       classColor: "text-highlight-content",
     },
     Luminary: {
-      thumbnail: "/assets/poe1/ascendancies/thumbnails/Reliquarian.png",
-      image: "/assets/poe1/ascendancies/Reliquarian.jpg",
+      thumbnail: "/assets/poe1/ascendancies/thumbnails/Luminary.png",
+      image: "/assets/poe1/ascendancies/Luminary.png",
       classColor: "text-highlight-content",
     },
     Shadow: {

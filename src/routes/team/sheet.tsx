@@ -42,10 +42,7 @@ import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
 import { SKILL_GEMS, isTransfiguredGem } from "@mytypes/skill-gems";
 import { SKILL_GEM_COLORS } from "@mytypes/main-skill";
 import { REALMS, REALM_COLORS } from "@mytypes/realms";
-import {
-  ascendancies,
-  UNDECIDED_ASCENDANCY_COLOR,
-} from "@mytypes/ascendancy_DeKa";
+import { ascendancies, UNDECIDED_ASCENDANCY_COLOR } from "@mytypes/ascendancy";
 import { ALTARS, ALTAR_COLORS } from "@mytypes/altars";
 import {
   ROLES,

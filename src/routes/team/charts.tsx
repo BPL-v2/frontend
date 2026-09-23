@@ -2,10 +2,7 @@ import { GameVersion, useGetEventStatus, useGetTeamSheet } from "@api";
 import { PieChart, PieSlice } from "@components/charts/pie-chart";
 import { GlobalStateContext } from "@utils/context-provider";
 import { tallyByPlayer } from "@utils/chart-tally";
-import {
-  ascendancies,
-  UNDECIDED_ASCENDANCY_COLOR,
-} from "@mytypes/ascendancy_DeKa";
+import { ascendancies, UNDECIDED_ASCENDANCY_COLOR } from "@mytypes/ascendancy";
 import { ROLE_COLORS, SPECIALIZATION_COLORS } from "@mytypes/roles";
 import { ALTAR_COLORS } from "@mytypes/altars";
 import { createFileRoute } from "@tanstack/react-router";
