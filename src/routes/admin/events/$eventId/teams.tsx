@@ -1,4 +1,8 @@
-import { Permission, Team } from "@api";
+import {
+  eventIdParams,
+  OBJECTIVE_DESIGNER_PERMISSIONS,
+} from "@utils/admin-event-route";
+import { Team } from "@api";
 import { useDeleteTeam, useGetEvents } from "@api";
 import { TeamFormModal } from "@components/form-dialogs/TeamFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
@@ -10,19 +14,9 @@ import { renderConditionally } from "@utils/token";
 import { useState } from "react";
 
 export const Route = createFileRoute("/admin/events/$eventId/teams")({
-  component: renderConditionally(TeamPage, [
-    Permission.admin,
-    Permission.objective_designer,
-  ]),
+  component: renderConditionally(TeamPage, OBJECTIVE_DESIGNER_PERMISSIONS),
 
-  params: {
-    parse: (params) => ({
-      eventId: Number(params.eventId),
-    }),
-    stringify: (params) => ({
-      eventId: params.eventId.toString(),
-    }),
-  },
+  params: eventIdParams,
 });
 
 function TeamPage() {

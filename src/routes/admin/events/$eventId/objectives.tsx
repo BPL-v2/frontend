@@ -1,4 +1,7 @@
-import { Permission } from "@api";
+import {
+  eventIdParams,
+  OBJECTIVE_MANAGER_PERMISSIONS,
+} from "@utils/admin-event-route";
 import { useGetRules } from "@api";
 import {
   Outlet,
@@ -11,19 +14,8 @@ import { renderConditionally } from "@utils/token";
 import { useEffect } from "react";
 
 export const Route = createFileRoute("/admin/events/$eventId/objectives")({
-  component: renderConditionally(RouteComponent, [
-    Permission.admin,
-    Permission.objective_designer,
-    Permission.manager,
-  ]),
-  params: {
-    parse: (params) => ({
-      eventId: Number(params.eventId),
-    }),
-    stringify: (params) => ({
-      eventId: params.eventId.toString(),
-    }),
-  },
+  component: renderConditionally(RouteComponent, OBJECTIVE_MANAGER_PERMISSIONS),
+  params: eventIdParams,
 });
 
 function RouteComponent() {

@@ -1,3 +1,4 @@
+import { useParams, useSearch } from "@tanstack/react-router";
 import { ItemWithCompletions, ItemMod } from "@api";
 import { useGetEventStatus, useGetGuildStashTab, useGetRules } from "@api";
 import { Dialog } from "@components/dialog";
@@ -24,7 +25,7 @@ function fixDivcardMods(mod: ItemMod): ItemMod[] {
     .filter((line) => line.trim())
     .map((line) => ({ description: line, flags: mod.flags }));
 }
-export function GuildStashView({
+function GuildStashView({
   highlightScoring,
   stashId,
 }: {
@@ -339,5 +340,20 @@ export function GuildStashView({
         </aside>
       )}
     </div>
+  );
+}
+
+export function validateStashSearch(search: Record<string, boolean>) {
+  return { highlightScoring: search.highlightScoring };
+}
+
+/** Shared route component for the admin and team stash routes. */
+export function GuildStashRoute() {
+  const { stashId } = useParams({ strict: false }) as { stashId: string };
+  const { highlightScoring } = useSearch({ strict: false }) as {
+    highlightScoring: boolean;
+  };
+  return (
+    <GuildStashView stashId={stashId} highlightScoring={highlightScoring} />
   );
 }

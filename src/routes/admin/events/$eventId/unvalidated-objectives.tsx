@@ -1,17 +1,20 @@
 import {
-  GameVersion,
-  Objective,
-  ObjectiveType,
-  ObjectiveValidation,
-  Permission,
-} from "@api";
+  conditionsColumn,
+  objectiveDetailColumns,
+  objectiveIconColumn,
+  scoringRuleColumn,
+} from "@components/objectives/objective-columns";
+import {
+  eventIdParams,
+  OBJECTIVE_DESIGNER_PERMISSIONS,
+} from "@utils/admin-event-route";
+import { Objective, ObjectiveType, ObjectiveValidation } from "@api";
 import {
   useGetEvents,
   useGetObjectiveValidations,
   useGetRules,
   useGetScoringRulesForEvent,
 } from "@api";
-import { ObjectiveIcon } from "@components/objective-icon";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
@@ -22,18 +25,11 @@ import { useMemo } from "react";
 export const Route = createFileRoute(
   "/admin/events/$eventId/unvalidated-objectives",
 )({
-  component: renderConditionally(RouteComponent, [
-    Permission.admin,
-    Permission.objective_designer,
-  ]),
-  params: {
-    parse: (params) => ({
-      eventId: Number(params.eventId),
-    }),
-    stringify: (params) => ({
-      eventId: params.eventId.toString(),
-    }),
-  },
+  component: renderConditionally(
+    RouteComponent,
+    OBJECTIVE_DESIGNER_PERMISSIONS,
+  ),
+  params: eventIdParams,
 });
 
 function RouteComponent() {
@@ -53,90 +49,10 @@ function RouteComponent() {
 
   const objectiveColumns: ColumnDef<Objective>[] = useMemo(
     () => [
-      {
-        header: "",
-        accessorKey: "id",
-        cell: ({ row }) => {
-          return (
-            <ObjectiveIcon
-              objective={row.original}
-              gameVersion={event?.game_version ?? GameVersion.poe1}
-            />
-          );
-        },
-        size: 80,
-      },
-      {
-        header: "Name",
-        accessorKey: "name",
-        size: 200,
-      },
-      {
-        header: "Extra",
-        accessorKey: "extra",
-        size: 190,
-      },
-      {
-        header: "Num",
-        accessorKey: "required_number",
-        size: 50,
-      },
-      {
-        header: "Type",
-        accessorKey: "objective_type",
-        size: 100,
-      },
-      {
-        header: "Counting Method",
-        accessorKey: "counting_method",
-        size: 180,
-      },
-      {
-        header: "Scoring Rule",
-        cell: ({ row }) => {
-          return scoringRules
-            .filter((rule) =>
-              row.original.scoring_rules.map((r) => r.id).includes(rule.id),
-            )
-            .map((rule) => rule.name)
-            .join(", ");
-        },
-      },
-      {
-        header: "Conditions",
-        accessorKey: "conditions",
-        size: 150,
-        cell: ({ row }) => {
-          return (
-            <div className="flex flex-col gap-1">
-              {row.original.conditions.map((condition) => {
-                return (
-                  <div
-                    className="tooltip"
-                    key={
-                      "condition-" +
-                      condition.field +
-                      "-" +
-                      condition.operator +
-                      "-" +
-                      condition.value
-                    }
-                  >
-                    <span className="tooltip-content flex flex-row items-center gap-1">
-                      <span className="text-success">{condition.field}</span>
-                      <span className="text-info">{condition.operator}</span>
-                      <span className="text-error">{condition.value}</span>
-                    </span>
-                    <div className="badge pr-px badge-sm whitespace-nowrap badge-primary select-none">
-                      {condition.field}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        },
-      },
+      objectiveIconColumn(event?.game_version),
+      ...objectiveDetailColumns(),
+      scoringRuleColumn(scoringRules),
+      conditionsColumn(),
     ],
     [scoringRules, event],
   );

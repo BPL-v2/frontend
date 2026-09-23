@@ -1,24 +1,10 @@
-import { GuildStashView } from "@components/pages/guildstash-view";
-import { createFileRoute, useParams, useSearch } from "@tanstack/react-router";
+import {
+  GuildStashRoute,
+  validateStashSearch,
+} from "@components/pages/guildstash-view";
+import { createFileRoute } from "@tanstack/react-router";
 
-type ScoreQueryParams = {
-  highlightScoring: boolean;
-};
 export const Route = createFileRoute("/admin/guild/stashes/$stashId")({
-  component: RouteComponent,
-  validateSearch: (search: Record<string, boolean>): ScoreQueryParams => {
-    return {
-      highlightScoring: search.highlightScoring,
-    };
-  },
+  component: GuildStashRoute,
+  validateSearch: validateStashSearch,
 });
-
-function RouteComponent() {
-  const { stashId } = useParams({ from: Route.id });
-  const { highlightScoring } = useSearch({
-    from: Route.id,
-  });
-  return (
-    <GuildStashView stashId={stashId} highlightScoring={highlightScoring} />
-  );
-}

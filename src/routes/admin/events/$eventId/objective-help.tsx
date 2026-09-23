@@ -1,4 +1,7 @@
-import { Permission } from "@api";
+import {
+  eventIdParams,
+  OBJECTIVE_MANAGER_PERMISSIONS,
+} from "@utils/admin-event-route";
 import { useGetEvents } from "@api";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
@@ -263,19 +266,8 @@ const examples = [
 ];
 
 export const Route = createFileRoute("/admin/events/$eventId/objective-help")({
-  component: renderConditionally(RouteComponent, [
-    Permission.admin,
-    Permission.objective_designer,
-    Permission.manager,
-  ]),
-  params: {
-    parse: (params) => ({
-      eventId: Number(params.eventId),
-    }),
-    stringify: (params) => ({
-      eventId: params.eventId.toString(),
-    }),
-  },
+  component: renderConditionally(RouteComponent, OBJECTIVE_MANAGER_PERMISSIONS),
+  params: eventIdParams,
 });
 
 function HelpTable({

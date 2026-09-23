@@ -1,15 +1,19 @@
+import {
+  conditionsColumn,
+  objectiveDetailColumns,
+  objectiveIconColumn,
+  scoringRuleColumn,
+} from "@components/objectives/objective-columns";
+import { OBJECTIVE_MANAGER_PERMISSIONS } from "@utils/admin-event-route";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { JSX, useMemo, useState } from "react";
 
 import {
-  GameVersion,
   Objective,
   ObjectiveType,
   ObjectiveValidation,
-  Permission,
   useDuplicateObjective,
 } from "@api";
-import { ObjectiveIcon } from "@components/objective-icon";
 import { useParams } from "@tanstack/react-router";
 
 import {
@@ -29,7 +33,6 @@ import {
   PencilSquareIcon,
   PlusIcon,
   TrashIcon,
-  XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@components/table/react-table-shim";
@@ -46,11 +49,10 @@ import { ReleaseDatesFormModal } from "@components/form-dialogs/ReleaseDatesForm
 export const Route = createFileRoute(
   "/admin/events/$eventId/objectives/$objectiveId",
 )({
-  component: renderConditionally(ScoringCategoryPage, [
-    Permission.admin,
-    Permission.objective_designer,
-    Permission.manager,
-  ]),
+  component: renderConditionally(
+    ScoringCategoryPage,
+    OBJECTIVE_MANAGER_PERMISSIONS,
+  ),
   params: {
     parse: (params) => ({
       objectiveId: Number(params.objectiveId),
@@ -117,19 +119,7 @@ function ScoringCategoryPage(): JSX.Element {
 
   const objectiveColumns = useMemo<ColumnDef<Objective>[]>(
     () => [
-      {
-        header: "",
-        accessorKey: "id",
-        cell: ({ row }) => {
-          return (
-            <ObjectiveIcon
-              objective={row.original}
-              gameVersion={event?.game_version ?? GameVersion.poe1}
-            />
-          );
-        },
-        size: 80,
-      },
+      objectiveIconColumn(event?.game_version),
       {
         header: "Valid",
         cell: ({ row }) => {
@@ -160,91 +150,15 @@ function ScoringCategoryPage(): JSX.Element {
         },
         size: 60,
       },
-      {
-        header: "Name",
-        accessorKey: "name",
-        size: 200,
-      },
-      {
-        header: "Extra",
-        accessorKey: "extra",
-        size: 190,
-      },
-      {
-        header: "Num",
-        accessorKey: "required_number",
-        size: 50,
-      },
-      {
-        header: "Type",
-        accessorKey: "objective_type",
-        size: 100,
-      },
-      {
-        header: "Counting Method",
-        accessorKey: "counting_method",
-        size: 180,
-      },
-      {
-        header: "Scoring Rule",
-        cell: ({ row }) => {
-          return scoringRules
-            .filter((rule) =>
-              row.original.scoring_rules.map((r) => r.id).includes(rule.id),
-            )
-            .map((rule) => rule.name)
-            .join(", ");
-        },
-      },
-      {
-        header: "Conditions",
-        accessorKey: "conditions",
-        size: 150,
-        cell: ({ row }) => {
-          return (
-            <div className="flex flex-col gap-1">
-              {row.original.conditions.map((condition) => {
-                return (
-                  <div
-                    className="tooltip"
-                    key={
-                      "condition-" +
-                      condition.field +
-                      "-" +
-                      condition.operator +
-                      "-" +
-                      condition.value
-                    }
-                  >
-                    <span className="tooltip-content flex flex-row items-center gap-1">
-                      <span className="text-success">{condition.field}</span>
-                      <span className="text-info">{condition.operator}</span>
-                      <span className="text-error">{condition.value}</span>
-                    </span>
-                    <div className="badge pr-px badge-sm whitespace-nowrap badge-primary select-none">
-                      {condition.field}
-                      <XCircleIcon
-                        className="size-4 cursor-pointer"
-                        onClick={() =>
-                          createObjective({
-                            ...row.original,
-                            scoring_rule_ids: row.original.scoring_rules.map(
-                              (rule) => rule.id,
-                            ),
-                            conditions: row.original.conditions.filter(
-                              (c) => c !== condition,
-                            ),
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        },
-      },
+      ...objectiveDetailColumns(),
+      scoringRuleColumn(scoringRules),
+      conditionsColumn((objective, condition) =>
+        createObjective({
+          ...objective,
+          scoring_rule_ids: objective.scoring_rules.map((rule) => rule.id),
+          conditions: objective.conditions.filter((c) => c !== condition),
+        }),
+      ),
       {
         header: "Actions",
         cell: ({ row }) => {

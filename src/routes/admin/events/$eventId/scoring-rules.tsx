@@ -1,6 +1,10 @@
+import {
+  eventIdParams,
+  OBJECTIVE_MANAGER_PERMISSIONS,
+} from "@utils/admin-event-route";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Permission, ScoringRule, useGetRules } from "@api";
+import { ScoringRule, useGetRules } from "@api";
 import {
   useDeleteScoringRule,
   useGetEvents,
@@ -17,20 +21,12 @@ import { useState } from "react";
 import { flatMap } from "@utils/utils";
 
 export const Route = createFileRoute("/admin/events/$eventId/scoring-rules")({
-  component: renderConditionally(ScoringRulesPage, [
-    Permission.admin,
-    Permission.objective_designer,
-    Permission.manager,
-  ]),
+  component: renderConditionally(
+    ScoringRulesPage,
+    OBJECTIVE_MANAGER_PERMISSIONS,
+  ),
 
-  params: {
-    parse: (params) => ({
-      eventId: Number(params.eventId),
-    }),
-    stringify: (params) => ({
-      eventId: params.eventId.toString(),
-    }),
-  },
+  params: eventIdParams,
 });
 
 function pointsRenderer(points: number[]) {

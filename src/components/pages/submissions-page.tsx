@@ -1,8 +1,21 @@
-import React, { ReactNode, useContext, useMemo } from "react";
+import {
+  SubmissionsLoading,
+  useSubmissionObjectiveMap,
+} from "@components/submissions/submission-hooks";
+import {
+  commentColumn,
+  objectiveColumn,
+  proofColumn,
+  statusColumn,
+  submitterColumn,
+  timestampColumn,
+  valueColumn,
+} from "@components/submissions/submission-columns";
+import React, { ReactNode, useContext } from "react";
 
 import { GlobalStateContext } from "@utils/context-provider";
 
-import { Objective, ObjectiveType, Permission, Submission } from "@api";
+import { Permission, Submission } from "@api";
 import {
   useGetRules,
   useGetSubmissions,
@@ -12,15 +25,8 @@ import {
 } from "@api";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { TeamName } from "@components/team/team-name";
-import {
-  CheckCircleIcon,
-  EyeSlashIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@components/table/react-table-shim";
-import { renderStringWithUrl } from "@utils/text-utils";
-import { iterateObjectives } from "@utils/utils";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -45,46 +51,19 @@ export function SubmissionsPage({
     currentEvent.id,
   );
 
-  const objectiveMap: Record<number, Objective> = useMemo(() => {
-    const map: Record<number, Objective> = {};
-    iterateObjectives(rules, (objective) => {
-      if (objective.objective_type === ObjectiveType.SUBMISSION) {
-        map[objective.id] = objective;
-      }
-    });
-    return map;
-  }, [rules]);
+  const objectiveMap = useSubmissionObjectiveMap(rules);
 
   const columns = React.useMemo(() => {
     if (!currentEvent || !rules || !users) {
       return [];
     }
     const columns: ColumnDef<Submission>[] = [
-      {
+      objectiveColumn(objectiveMap, {
         header: "",
-        accessorKey: "objective_id",
-        accessorFn: (row) => objectiveMap[row.objective_id]?.name,
-        cell: (info) => info.getValue(),
-        enableSorting: false,
         size: 250,
-        filterFn: "includesString",
-        meta: {
-          filterVariant: "enum",
-          filterPlaceholder: "Objective",
-          options: Object.values(objectiveMap).map(
-            (objective) => objective.name,
-          ),
-        },
-      },
-      {
-        header: "Submitter",
-        accessorKey: "user_id",
-        cell: (info) => {
-          const user = users.find((u) => u.id === info.row.original.user_id);
-          return user ? user.display_name : "Unknown User";
-        },
-        size: 200,
-      },
+        enableSorting: false,
+      }),
+      submitterColumn(users, 200),
       {
         header: "",
         accessorKey: "team_id",
@@ -108,78 +87,13 @@ export function SubmissionsPage({
           options: currentEvent.teams.map((team) => team.name),
         },
       },
-      {
-        header: "Proof",
-        accessorKey: "proof",
-        size: 100,
-        cell: (info) => {
-          const proof = info.getValue();
-          if (!proof) {
-            return "No proof provided";
-          }
-          return renderStringWithUrl(info.row.original.proof);
-        },
-      },
-      {
-        header: "Comment",
-        accessorKey: "comment",
-        size: 200,
-        cell: (info) => info.getValue(),
-        enableSorting: false,
-      },
-      {
-        header: "Value",
-        accessorKey: "number",
-        cell: (info) => {
-          if (showAllValues) return info.getValue();
-          return info.row.original.number > 1 ? info.row.original.number : "";
-        },
-        size: 100,
-      },
-      {
-        header: "Status",
-        accessorKey: "approval_status",
-        size: 100,
-        cell: (info) => {
-          switch (info.getValue()) {
-            case "PENDING":
-              return (
-                <div
-                  className="tooltip cursor-help text-warning"
-                  data-tip="Pending"
-                >
-                  <EyeSlashIcon className="size-6 text-warning" />
-                </div>
-              );
-            case "APPROVED":
-              return (
-                <div
-                  className="tooltip cursor-help text-success"
-                  data-tip="Approved"
-                >
-                  <CheckCircleIcon className="size-6 text-success" />
-                </div>
-              );
-            case "REJECTED":
-              return (
-                <div
-                  className="tooltip cursor-help text-error"
-                  data-tip="Rejected"
-                >
-                  <XCircleIcon className="size-6 text-error" />
-                </div>
-              );
-            default:
-              return "Unknown";
-          }
-        },
-      },
-      {
-        header: "Timestamp",
-        accessorKey: "timestamp",
-        cell: (info) => new Date(info.row.original.timestamp).toLocaleString(),
-        size: 170,
-      },
+      proofColumn(100),
+      commentColumn(200),
+      valueColumn(100, (info) =>
+        showAllValues || info.row.original.number > 1 ? info.getValue() : "",
+      ),
+      statusColumn(100),
+      timestampColumn(170),
     ];
     if (user?.permissions.includes(Permission.submission_judge)) {
       columns.push({
@@ -237,14 +151,7 @@ export function SubmissionsPage({
 
   // Show loading state while any data is loading
   if (usersLoading || rulesLoading || userLoading || submissionsLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <span className="loading loading-lg loading-spinner"></span>
-          <p className="text-lg">Loading submissions...</p>
-        </div>
-      </div>
-    );
+    return <SubmissionsLoading />;
   }
 
   if (!currentEvent || !rules) {
