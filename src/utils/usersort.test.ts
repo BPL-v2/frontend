@@ -29,7 +29,7 @@ function makeSignup(
   return {
     user: { id },
     team_id: undefined,
-    partner_id: undefined,
+    group_key: undefined,
     expected_playtime: id % 2 === 0 ? 20 : 5,
     ...extra,
   } as unknown as SortedSignup;
@@ -80,38 +80,34 @@ describe("sortUsers", () => {
     expect(Math.max(...c) - Math.min(...c)).toBeLessThanOrEqual(1);
   });
 
-  it("puts mutual partners on the same team", () => {
+  it("keeps explicit groups of three together", () => {
     for (const seed of [1, 2, 3, 4, 5]) {
       vi.spyOn(Math, "random").mockImplementation(seededRandom(seed));
       const signups = [
-        makeSignup(1, { partner_id: 2 }),
-        makeSignup(2, { partner_id: 1 }),
-        makeSignup(3, { partner_id: 4 }),
-        makeSignup(4, { partner_id: 3 }),
-        ...Array.from({ length: 8 }, (_, i) => makeSignup(i + 5)),
+        makeSignup(1, { group_key: "a" }),
+        makeSignup(2, { group_key: "a" }),
+        makeSignup(3, { group_key: "a" }),
+        ...Array.from({ length: 9 }, (_, i) => makeSignup(i + 4)),
       ];
       const sorted = sortUsers(event, signups, config);
       const team = (id: number) =>
         sorted.find((s) => s.user.id === id)!.team_id;
       expect(team(1)).toBe(team(2));
-      expect(team(3)).toBe(team(4));
+      expect(team(2)).toBe(team(3));
     }
   });
 
-  it("moves a user next to a locked partner", () => {
+  it("moves group members next to a locked member", () => {
     const signups = [
-      makeSignup(1, { team_id: 2, partner_id: 2 }),
-      makeSignup(2, { team_id: 3, partner_id: 1 }),
-      makeSignup(3),
-      makeSignup(4),
-      makeSignup(5),
-      makeSignup(6),
+      makeSignup(1, { team_id: 2, group_key: "a" }),
+      makeSignup(2, { group_key: "a" }),
+      makeSignup(3, { group_key: "a" }),
+      ...Array.from({ length: 6 }, (_, i) => makeSignup(i + 4)),
     ];
     const sorted = sortUsers(event, signups, config);
-    const byId = new Map(sorted.map((s) => [s.user.id, s]));
-    // 1 is locked on team 2, so its partner 2 (also locked) stays where it is
-    expect(byId.get(1)!.team_id).toBe(2);
-    expect(byId.get(2)!.team_id).toBe(3);
+    for (const id of [1, 2, 3]) {
+      expect(sorted.find((s) => s.user.id === id)!.team_id).toBe(2);
+    }
   });
 
   it("handles no signups", () => {

@@ -33,7 +33,7 @@ export function EventFormModal({
       is_public: false,
       is_locked: false,
       uses_medals: false,
-      duo_signups: false,
+      max_group_size: 1,
     } as EventCreate,
     onSubmit: (data) => createEvent(data.value),
   });
@@ -134,9 +134,12 @@ export function EventFormModal({
             children={(field) => <field.BooleanField label="Is Locked" />}
           />
           <form.AppField
-            name="duo_signups"
+            name="max_group_size"
             children={(field) => (
-              <field.BooleanField label="Duo Signups enabled" />
+              <field.NumberField
+                label="Max group size (1 = no group signups)"
+                min={1}
+              />
             )}
           />
           <form.AppField

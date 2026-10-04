@@ -6,14 +6,17 @@ import {
   useDeleteSignup,
   useGetEvents,
   useGetEventStatus,
+  useGetOwnSignup,
   useGetUser,
 } from "@api";
 import { useQueryClient } from "@tanstack/react-query";
 import { SignupFormModal } from "@components/form-dialogs/SignupFormModal";
+import { SignupGroupModal } from "@components/form-dialogs/SignupGroupModal";
 
 function SignupButton() {
   const { currentEvent } = useContext(GlobalStateContext);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [groupModalOpen, setGroupModalOpen] = React.useState(false);
   const qc = useQueryClient();
   const { user, isLoading: userLoading, isError: userError } = useGetUser();
   const { events } = useGetEvents();
@@ -28,6 +31,8 @@ function SignupButton() {
     upcomingEvent.id,
   );
   const { deleteSignup } = useDeleteSignup(qc);
+  const { signup } = useGetOwnSignup(upcomingEvent.id);
+  const groupSize = signup?.group?.members.length ?? 0;
 
   const dialog = useMemo(() => {
     return (
@@ -36,10 +41,17 @@ function SignupButton() {
         setIsOpen={setModalOpen}
         eventId={upcomingEvent.id}
         discordId={user?.discord_id}
-        duoSignupsEnabled={upcomingEvent?.duo_signups}
       />
     );
   }, [modalOpen, upcomingEvent.id, user?.discord_id]);
+
+  const groupDialog = (
+    <SignupGroupModal
+      isOpen={groupModalOpen}
+      setIsOpen={setGroupModalOpen}
+      eventId={upcomingEvent.id}
+    />
+  );
 
   const userTeam = useMemo(() => {
     return (
@@ -72,25 +84,16 @@ function SignupButton() {
       (eventStatus.number_of_signups_before - currentEvent.max_size + 1)
     );
   }
-  const partner = eventStatus?.partner_wish;
-  const partnerConfirmed = eventStatus?.users_who_want_to_sign_up_with_you
-    ?.map((u) => u.toLowerCase().split("#")[0])
-    ?.includes(partner?.toLowerCase().split("#")[0] || "");
-
   if (eventStatus?.application_status === ApplicationStatus.applied) {
     return (
       <>
         {dialog}
+        {upcomingEvent.max_group_size > 1 && groupDialog}
         <div className="dropdown">
-          <button className={"cursor-pointer underline"}>
-            <span className="text-2xl">
-              Signed up {partnerConfirmed && "with "}
-            </span>
-            {partnerConfirmed && <span className="text-info">{partner}</span>}
-            {partner && !partnerConfirmed && (
-              <span className="text-warning">
-                ({partner} has not confirmed yet)
-              </span>
+          <button className={"cursor-pointer"}>
+            <span className="text-2xl">Signed up</span>
+            {groupSize > 1 && (
+              <span className="text-info"> in a group of {groupSize}</span>
             )}
           </button>
           <ul
@@ -111,6 +114,9 @@ function SignupButton() {
               >
                 Edit Application
               </div>
+              {upcomingEvent.max_group_size > 1 && (
+                <div onClick={() => setGroupModalOpen(true)}>Manage Group</div>
+              )}
               <div
                 className={"text-error hover:bg-error hover:text-error-content"}
                 onClick={() => deleteSignup(upcomingEvent.id, user.id)}

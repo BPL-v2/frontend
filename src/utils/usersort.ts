@@ -23,7 +23,7 @@ export function sortUsers(
   }
   let suggestion = getSortSuggestion(currentEvent, signups, bucketConfig);
   suggestion = improveFairness(suggestion, currentEvent, lockedSignups);
-  suggestion = ensurePartners(suggestion, lockedSignups);
+  suggestion = ensureGroups(suggestion, lockedSignups);
   suggestion = improveFairness(suggestion, currentEvent, lockedSignups);
   return suggestion;
 }
@@ -32,49 +32,58 @@ const randSort = () => Math.random() - 0.5;
 
 type LockedSignups = { [userId: number]: number };
 
-/** Users whose partner is already on the same team. */
-function findMatchedPartners(
-  signups: SortedSignup[],
-  userToSignup: Map<number, SortedSignup>,
-): Set<number> {
-  const matched = new Set<number>();
+/**
+ * Maps every user that signed up as part of a group to their group id.
+ */
+export function buildGroups(signups: ExtendedSignup[]): Map<number, string> {
+  const groups = new Map<number, string>();
   for (const signup of signups) {
-    const partner = signup.partner_id
-      ? userToSignup.get(signup.partner_id)
-      : undefined;
-    if (partner?.team_id && partner.team_id === signup.team_id) {
-      matched.add(partner.user.id);
-      matched.add(signup.user.id);
+    if (signup.group_key) {
+      groups.set(signup.user.id, `group:${signup.group_key}`);
     }
   }
-  return matched;
+  // groups with a single member are no group
+  const sizes = new Map<string, number>();
+  for (const id of groups.values()) sizes.set(id, (sizes.get(id) ?? 0) + 1);
+  for (const [userId, id] of groups) {
+    if (sizes.get(id) === 1) groups.delete(userId);
+  }
+  return groups;
 }
 
-/** Moves users onto the team of their (mutual) partner where possible. */
-function ensurePartners(
+/** Moves all unlocked members of a group onto the team most of the group is on. */
+function ensureGroups(
   signups: SortedSignup[],
   lockedSignups: LockedSignups,
 ): SortedSignup[] {
-  const userToSignup = new Map(
-    signups.map((signup) => [signup.user.id, signup]),
-  );
-  const matchedPartners = findMatchedPartners(signups, userToSignup);
-
+  const groups = buildGroups(signups);
+  const members = new Map<string, SortedSignup[]>();
+  for (const signup of signups) {
+    const id = groups.get(signup.user.id);
+    if (id) members.set(id, [...(members.get(id) ?? []), signup]);
+  }
+  const targetTeams = new Map<string, number>();
+  for (const [id, group] of members) {
+    // locked members decide first, then the most common team of the group
+    const candidates = group.some((m) => lockedSignups[m.user.id])
+      ? group.filter((m) => lockedSignups[m.user.id])
+      : group;
+    const votes = new Map<number, number>();
+    for (const member of candidates) {
+      if (member.team_id) {
+        votes.set(member.team_id, (votes.get(member.team_id) ?? 0) + 1);
+      }
+    }
+    const best = [...votes.entries()].sort((a, b) => b[1] - a[1])[0];
+    if (best) targetTeams.set(id, best[0]);
+  }
   return signups.map((signup) => {
-    if (
-      lockedSignups[signup.user.id] ||
-      !signup.partner_id ||
-      matchedPartners.has(signup.user.id)
-    ) {
+    const id = groups.get(signup.user.id);
+    const team = id ? targetTeams.get(id) : undefined;
+    if (!team || lockedSignups[signup.user.id] || signup.team_id === team) {
       return signup;
     }
-    const partner = userToSignup.get(signup.partner_id);
-    if (!partner?.team_id || partner.partner_id !== signup.user.id) {
-      return signup;
-    }
-    matchedPartners.add(signup.user.id);
-    matchedPartners.add(signup.partner_id);
-    return { ...signup, team_id: partner.team_id };
+    return { ...signup, team_id: team };
   });
 }
 
@@ -83,6 +92,7 @@ function improveFairness(
   currentEvent: Event,
   lockedSignups: LockedSignups,
 ) {
+  const groups = buildGroups(signups);
   // tries to balance out team sizes
   for (let i = 0; i < 100; i++) {
     const counts = getTeamCounts(signups, currentEvent);
@@ -99,7 +109,7 @@ function improveFairness(
       (key) => counts[parseInt(key)] === maxval,
     );
     for (const signup of signups.sort(randSort)) {
-      if (lockedSignups[signup.user.id] || signup.partner_id) {
+      if (lockedSignups[signup.user.id] || groups.has(signup.user.id)) {
         continue;
       }
       // switch out a user from the max team to the min team

@@ -9,6 +9,7 @@ import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
 import {
+  buildGroups,
   sortUsers,
   type SortBucketConfig,
   type SortedSignup,
@@ -121,44 +122,23 @@ function UserSortPage() {
   const qc = useQueryClient();
   const { signups = [], isLoading, isError } = useGetSignups(currentEvent.id);
   const { deleteSignup } = useDeleteSignup(qc);
-  const userIdToSignupMap = signups.reduce(
-    (acc, signup) => {
-      acc[signup.user.id] = signup;
-      return acc;
-    },
-    {} as Record<number, ExtendedSignup>,
-  );
   const { addUsersToTeams } = useAddUsersToTeams(qc);
   const [suggestionsOverride, setSuggestions] = useState<
     SortedSignup[] | undefined
   >(undefined);
   const suggestions = suggestionsOverride ?? signups;
-  let count = 0;
+  const groupIds = new Map<string, number>();
   const partnerMap = new Map<number, number>();
-  const signupMap = new Map<number, ExtendedSignup>();
-  for (const signup of signups) {
-    signupMap.set(signup.user.id, signup);
-  }
-  for (const signup of signups) {
-    if (signup.partner_id) {
-      const partner = signupMap.get(signup.partner_id);
-      if (!partner || partner.partner_id !== signup.user.id) {
-        continue;
-      }
-      if (!partnerMap.has(signup.partner_id)) {
-        partnerMap.set(signup.user.id, count);
-        partnerMap.set(signup.partner_id, count);
-        count++;
-      } else {
-        partnerMap.set(signup.user.id, partnerMap.get(signup.partner_id)!);
-      }
-    }
+  const groups = buildGroups(signups);
+  for (const [userId, groupId] of groups) {
+    if (!groupIds.has(groupId)) groupIds.set(groupId, groupIds.size);
+    partnerMap.set(userId, groupIds.get(groupId)!);
   }
 
   const sortColumns = (() => {
     const columns: ColumnDef<ExtendedSignup>[] = [
       {
-        header: "Partners",
+        header: "Group",
         accessorFn: (row) => partnerMap.get(row.user.id),
         size: 120,
       },
@@ -380,7 +360,7 @@ function UserSortPage() {
       "Needs Help",
       "Wants to Help",
       "Team Lead",
-      "Partner",
+      "Group",
     ];
     const teamMap = currentEvent.teams.reduce(
       (acc, team) => {
@@ -402,7 +382,7 @@ function UserSortPage() {
         signup.needs_help ? "X" : "",
         signup.wants_to_help ? "X" : "",
         signup.team_lead ? "X" : "",
-        userIdToSignupMap[signup.partner_id || 0]?.user.account_name || "",
+        groupIds.get(groups.get(signup.user.id) ?? "")?.toString() ?? "",
       ]);
 
     const csvContent = [headers, ...rows]

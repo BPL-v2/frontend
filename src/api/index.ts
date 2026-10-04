@@ -4,9 +4,7 @@ export * from "./generated/models";
 // Raw API functions used directly (not via hooks)
 export { oauthCallbackBase, oauthRedirectBase } from "./generated/oauth/oauth";
 export { addEngagementBase } from "./generated/engagement/engagement";
-export {
-  validateObjectivesBase,
-} from "./generated/objective/objective";
+export { validateObjectivesBase } from "./generated/objective/objective";
 export { setBulkSubmissionForAdminBase } from "./generated/submission/submission";
 
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
@@ -85,6 +83,9 @@ import {
 import {
   getGetPersonalSignupBaseQueryKey,
   useCreateSignupBase,
+  useCreateSignupGroupBase,
+  useJoinSignupGroupBase,
+  useLeaveSignupGroupBase,
   useDeleteSignupBase,
   useGetEventSignupsBase,
   useGetPersonalSignupBase,
@@ -384,6 +385,88 @@ export function useDeleteSignup(qc: QueryClient) {
     deleteSignup: (eventId: number, userId: number) =>
       m.mutate({ eventId, userId }),
     deleteSignupPending: m.isPending,
+  };
+}
+
+export function useCreateSignupGroup(
+  qc: QueryClient,
+  successCallback?: () => void,
+  errorCallback?: (msg: string) => void,
+) {
+  const m = useCreateSignupGroupBase({
+    mutation: {
+      onSuccess: (data, { eventId }) => {
+        qc.setQueryData(getGetPersonalSignupBaseQueryKey(eventId), data);
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        successCallback?.();
+      },
+      onError: (error) => {
+        errorCallback?.(
+          error instanceof Error ? error.message : "An error occurred",
+        );
+      },
+    },
+  });
+  return {
+    createGroup: (eventId: number) => m.mutate({ eventId }),
+    createGroupPending: m.isPending,
+  };
+}
+
+export function useJoinSignupGroup(
+  qc: QueryClient,
+  successCallback?: () => void,
+  errorCallback?: (msg: string) => void,
+) {
+  const m = useJoinSignupGroupBase({
+    mutation: {
+      onSuccess: (data, { eventId }) => {
+        qc.setQueryData(getGetPersonalSignupBaseQueryKey(eventId), data);
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        successCallback?.();
+      },
+      onError: (error) => {
+        errorCallback?.(
+          error instanceof Error ? error.message : "An error occurred",
+        );
+      },
+    },
+  });
+  return {
+    joinGroup: (eventId: number, groupKey: string) =>
+      m.mutate({ eventId, data: { group_key: groupKey } }),
+    joinGroupPending: m.isPending,
+  };
+}
+
+export function useLeaveSignupGroup(
+  qc: QueryClient,
+  successCallback?: () => void,
+  errorCallback?: (msg: string) => void,
+) {
+  const m = useLeaveSignupGroupBase({
+    mutation: {
+      onSuccess: (data, { eventId }) => {
+        qc.setQueryData(getGetPersonalSignupBaseQueryKey(eventId), data);
+        qc.invalidateQueries({
+          queryKey: getGetEventStatusBaseQueryKey(eventId),
+        });
+        successCallback?.();
+      },
+      onError: (error) => {
+        errorCallback?.(
+          error instanceof Error ? error.message : "An error occurred",
+        );
+      },
+    },
+  });
+  return {
+    leaveGroup: (eventId: number) => m.mutate({ eventId }),
+    leaveGroupPending: m.isPending,
   };
 }
 

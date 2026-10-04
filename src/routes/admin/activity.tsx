@@ -68,7 +68,7 @@ function ActivityPage() {
         activeHours: activeMilliseconds / (1000 * 60 * 60),
         ladderEntry: ladderMap[userId],
         teamId: user.team_id,
-        duo: !!userMap[userId].signup?.partner_id,
+        duo: !!userMap[userId].signup?.group,
       });
     }
   }

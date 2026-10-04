@@ -13,7 +13,6 @@ interface SignupFormModalProps {
   setIsOpen: (open: boolean) => void;
   eventId: number;
   discordId: string | null | undefined;
-  duoSignupsEnabled?: boolean;
 }
 
 export function SignupFormModal({
@@ -21,7 +20,6 @@ export function SignupFormModal({
   setIsOpen,
   eventId,
   discordId,
-  duoSignupsEnabled,
 }: SignupFormModalProps) {
   const qc = useQueryClient();
   const state = useRouterState();
@@ -41,7 +39,6 @@ export function SignupFormModal({
       expected_playtime: 1,
       needs_help: false,
       wants_to_help: false,
-      partner_account_name: "",
     } as SignupCreate,
     onSubmit: (data) => {
       if (!discordId) {
@@ -62,7 +59,6 @@ export function SignupFormModal({
         expected_playtime: signup.expected_playtime ?? 1,
         needs_help: signup.needs_help ?? false,
         wants_to_help: signup.wants_to_help ?? false,
-        partner_account_name: signup.partnerWish ?? "",
       });
     }
   }, [isOpen, signup]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -109,14 +105,6 @@ export function SignupFormModal({
               <field.BooleanField label="I'm experienced and would like to help others" />
             )}
           />
-          {duoSignupsEnabled && (
-            <form.AppField
-              name="partner_account_name"
-              children={(field) => (
-                <field.TextField label="Partner Wish (account name)" />
-              )}
-            />
-          )}
           <label className="fieldset-label">
             <input
               type="checkbox"
