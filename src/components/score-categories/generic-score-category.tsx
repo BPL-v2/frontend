@@ -74,7 +74,7 @@ export function GenericScoreCategory({
 
   childmap.push(
     <div
-      className="flex w-full flex-row justify-center gap-4 rounded-box bg-base-200 p-4"
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       key={category.id + "-children"}
     >
       {category.children
@@ -93,6 +93,7 @@ export function GenericScoreCategory({
       />,
     );
   }
+  console.log("childmap", childmap);
   return (
     <div className={twMerge(props.className, "justify-end")}>
       <div className="flex flex-col gap-4">{childmap}</div>

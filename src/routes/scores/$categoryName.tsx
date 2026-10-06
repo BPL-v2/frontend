@@ -29,6 +29,7 @@ function RouteComponent() {
     currentEvent?.teams?.sort((a, b) => b.id - a.id)[0]?.id;
   const { categoryName } = Route.useParams();
   const { scores } = useContext(GlobalStateContext);
+  console.log("scores", scores);
   const category = scores?.children.find(
     (cat) =>
       cat.name.toLowerCase().replace(/\s/g, "-") === categoryName.toLowerCase(),
