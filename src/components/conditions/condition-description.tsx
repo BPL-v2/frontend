@@ -79,6 +79,7 @@ const fieldToName: Record<ItemField, string> = {
   IS_MIRRORED: "Mirrored",
   IS_VEILED: "Veiled",
   IS_VESTIGAL: "Vestigial",
+  IS_FORESEEING: "Foreseeing",
   SANCTUM_AFFLICTIONS: "Sanctum Afflictions",
   TEMPLE_ROOMS: "Temple Rooms",
   TEMPLE_ROOMS_OPEN: "Open Temple Rooms",
