@@ -58,6 +58,9 @@ export const loginDiscordBotBase = async (
   });
 };
 
+export const getLoginDiscordBotBaseMutationKey = () =>
+  ["loginDiscordBotBase"] as const;
+
 export const getLoginDiscordBotBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -75,7 +78,7 @@ export const getLoginDiscordBotBaseMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["loginDiscordBotBase"];
+  const mutationKey = getLoginDiscordBotBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -136,13 +139,40 @@ export const oauthCallbackBase = async (
   oauthCallbackBaseBody: OauthCallbackBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<CallbackResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<CallbackResponse>(getOauthCallbackBaseUrl(provider), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(oauthCallbackBaseBody),
   });
 };
+
+export const getOauthCallbackBaseMutationKey = () =>
+  ["oauthCallbackBase"] as const;
 
 export const getOauthCallbackBaseMutationOptions = <
   TError = unknown,
@@ -151,17 +181,17 @@ export const getOauthCallbackBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof oauthCallbackBase>>,
     TError,
-    { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+    OauthCallbackBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof oauthCallbackBase>>,
   TError,
-  { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+  OauthCallbackBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["oauthCallbackBase"];
+  const mutationKey = getOauthCallbackBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -172,7 +202,7 @@ export const getOauthCallbackBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof oauthCallbackBase>>,
-    { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody }
+    OauthCallbackBaseMutationVariables
   > = (props) => {
     const { provider, data } = props ?? {};
 
@@ -187,13 +217,17 @@ export type OauthCallbackBaseMutationResult = NonNullable<
 >;
 export type OauthCallbackBaseMutationBody = OauthCallbackBaseBody;
 export type OauthCallbackBaseMutationError = unknown;
+export type OauthCallbackBaseMutationVariables = {
+  provider: "poe" | "twitch" | "discord";
+  data: OauthCallbackBaseBody;
+};
 
 export const useOauthCallbackBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof oauthCallbackBase>>,
       TError,
-      { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+      OauthCallbackBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -202,7 +236,7 @@ export const useOauthCallbackBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof oauthCallbackBase>>,
   TError,
-  { provider: "poe" | "twitch" | "discord"; data: OauthCallbackBaseBody },
+  OauthCallbackBaseMutationVariables,
   TContext
 > => {
   return useMutation(getOauthCallbackBaseMutationOptions(options), queryClient);

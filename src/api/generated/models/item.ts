@@ -7,7 +7,6 @@ import type { ItemHybrid } from "./itemHybrid.ts";
 import type { ItemIncubatedItem } from "./itemIncubatedItem.ts";
 import type { ItemInfluences } from "./itemInfluences.ts";
 import type { ItemLogbookMod } from "./itemLogbookMod.ts";
-import type { ItemMercenarySkill } from "./itemMercenarySkill.ts";
 import type { ItemMod } from "./itemMod.ts";
 import type { ItemProperty } from "./itemProperty.ts";
 import type { ItemRarity } from "./itemRarity.ts";
@@ -15,6 +14,7 @@ import type { ItemReward } from "./itemReward.ts";
 import type { ItemScourged } from "./itemScourged.ts";
 import type { ItemSocket } from "./itemSocket.ts";
 import type { ItemUltimatumMod } from "./itemUltimatumMod.ts";
+import type { MercenarySkill } from "./mercenarySkill.ts";
 import type { Realm } from "./realm.ts";
 
 export interface Item {
@@ -102,7 +102,7 @@ export interface Item {
   maxStackSize?: number;
   /** MemoryItem always true if present */
   memoryItem?: boolean;
-  mercenarySkills?: ItemMercenarySkill[];
+  mercenarySkills?: MercenarySkill[];
   /** MonsterLevel PoE1 only; used for items that always display their monster level */
   monsterLevel?: number;
   /** Mutated PoE1: true on Foulborn Uniques, PoE2: true on all Vaal Uniques */

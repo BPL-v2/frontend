@@ -389,13 +389,40 @@ export const createSignupBase = async (
   createSignupBaseBody: CreateSignupBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Signup> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Signup>(getCreateSignupBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createSignupBaseBody),
   });
 };
+
+export const getCreateSignupBaseMutationKey = () =>
+  ["createSignupBase"] as const;
 
 export const getCreateSignupBaseMutationOptions = <
   TError = unknown,
@@ -404,17 +431,17 @@ export const getCreateSignupBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createSignupBase>>,
     TError,
-    { eventId: number; data: CreateSignupBaseBody },
+    CreateSignupBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createSignupBase>>,
   TError,
-  { eventId: number; data: CreateSignupBaseBody },
+  CreateSignupBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createSignupBase"];
+  const mutationKey = getCreateSignupBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -425,7 +452,7 @@ export const getCreateSignupBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createSignupBase>>,
-    { eventId: number; data: CreateSignupBaseBody }
+    CreateSignupBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -440,13 +467,17 @@ export type CreateSignupBaseMutationResult = NonNullable<
 >;
 export type CreateSignupBaseMutationBody = CreateSignupBaseBody;
 export type CreateSignupBaseMutationError = unknown;
+export type CreateSignupBaseMutationVariables = {
+  eventId: number;
+  data: CreateSignupBaseBody;
+};
 
 export const useCreateSignupBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createSignupBase>>,
       TError,
-      { eventId: number; data: CreateSignupBaseBody },
+      CreateSignupBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -455,10 +486,301 @@ export const useCreateSignupBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createSignupBase>>,
   TError,
-  { eventId: number; data: CreateSignupBaseBody },
+  CreateSignupBaseMutationVariables,
   TContext
 > => {
   return useMutation(getCreateSignupBaseMutationOptions(options), queryClient);
+};
+export const getLeaveSignupGroupBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/signups/self/group`;
+};
+
+/**
+ * Removes the authenticated user from their group
+ */
+export const leaveSignupGroupBase = async (
+  eventId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<Signup> => {
+  return customFetch<Signup>(getLeaveSignupGroupBaseUrl(eventId), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getLeaveSignupGroupBaseMutationKey = () =>
+  ["leaveSignupGroupBase"] as const;
+
+export const getLeaveSignupGroupBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof leaveSignupGroupBase>>,
+    TError,
+    LeaveSignupGroupBaseMutationVariables,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof leaveSignupGroupBase>>,
+  TError,
+  LeaveSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  const mutationKey = getLeaveSignupGroupBaseMutationKey();
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof leaveSignupGroupBase>>,
+    LeaveSignupGroupBaseMutationVariables
+  > = (props) => {
+    const { eventId } = props ?? {};
+
+    return leaveSignupGroupBase(eventId, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type LeaveSignupGroupBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof leaveSignupGroupBase>>
+>;
+
+export type LeaveSignupGroupBaseMutationError = unknown;
+export type LeaveSignupGroupBaseMutationVariables = { eventId: number };
+
+export const useLeaveSignupGroupBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof leaveSignupGroupBase>>,
+      TError,
+      LeaveSignupGroupBaseMutationVariables,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof leaveSignupGroupBase>>,
+  TError,
+  LeaveSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getLeaveSignupGroupBaseMutationOptions(options),
+    queryClient,
+  );
+};
+export const getCreateSignupGroupBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/signups/self/group`;
+};
+
+/**
+ * Creates a new group containing the authenticated user and returns the signup
+ */
+export const createSignupGroupBase = async (
+  eventId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<Signup> => {
+  return customFetch<Signup>(getCreateSignupGroupBaseUrl(eventId), {
+    ...options,
+    method: "POST",
+  });
+};
+
+export const getCreateSignupGroupBaseMutationKey = () =>
+  ["createSignupGroupBase"] as const;
+
+export const getCreateSignupGroupBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createSignupGroupBase>>,
+    TError,
+    CreateSignupGroupBaseMutationVariables,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createSignupGroupBase>>,
+  TError,
+  CreateSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  const mutationKey = getCreateSignupGroupBaseMutationKey();
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createSignupGroupBase>>,
+    CreateSignupGroupBaseMutationVariables
+  > = (props) => {
+    const { eventId } = props ?? {};
+
+    return createSignupGroupBase(eventId, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateSignupGroupBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createSignupGroupBase>>
+>;
+
+export type CreateSignupGroupBaseMutationError = unknown;
+export type CreateSignupGroupBaseMutationVariables = { eventId: number };
+
+export const useCreateSignupGroupBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof createSignupGroupBase>>,
+      TError,
+      CreateSignupGroupBaseMutationVariables,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createSignupGroupBase>>,
+  TError,
+  CreateSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getCreateSignupGroupBaseMutationOptions(options),
+    queryClient,
+  );
+};
+export const getJoinSignupGroupBaseUrl = (eventId: number) => {
+  return `/events/${eventId}/signups/self/group/join`;
+};
+
+/**
+ * Joins the group with the given key and returns the signup
+ */
+export const joinSignupGroupBase = async (
+  eventId: number,
+  joinSignupGroupBaseBody: JoinSignupGroupBaseBody,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<Signup> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<Signup>(getJoinSignupGroupBaseUrl(eventId), {
+    ...options,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
+    body: JSON.stringify(joinSignupGroupBaseBody),
+  });
+};
+
+export const getJoinSignupGroupBaseMutationKey = () =>
+  ["joinSignupGroupBase"] as const;
+
+export const getJoinSignupGroupBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof joinSignupGroupBase>>,
+    TError,
+    JoinSignupGroupBaseMutationVariables,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof joinSignupGroupBase>>,
+  TError,
+  JoinSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  const mutationKey = getJoinSignupGroupBaseMutationKey();
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof joinSignupGroupBase>>,
+    JoinSignupGroupBaseMutationVariables
+  > = (props) => {
+    const { eventId, data } = props ?? {};
+
+    return joinSignupGroupBase(eventId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type JoinSignupGroupBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof joinSignupGroupBase>>
+>;
+export type JoinSignupGroupBaseMutationBody = JoinSignupGroupBaseBody;
+export type JoinSignupGroupBaseMutationError = unknown;
+export type JoinSignupGroupBaseMutationVariables = {
+  eventId: number;
+  data: JoinSignupGroupBaseBody;
+};
+
+export const useJoinSignupGroupBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof joinSignupGroupBase>>,
+      TError,
+      JoinSignupGroupBaseMutationVariables,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof joinSignupGroupBase>>,
+  TError,
+  JoinSignupGroupBaseMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getJoinSignupGroupBaseMutationOptions(options),
+    queryClient,
+  );
 };
 export const getDeleteSignupBaseUrl = (eventId: number, userId: number) => {
   return `/events/${eventId}/signups/${userId}`;
@@ -478,6 +800,9 @@ export const deleteSignupBase = async (
   });
 };
 
+export const getDeleteSignupBaseMutationKey = () =>
+  ["deleteSignupBase"] as const;
+
 export const getDeleteSignupBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -485,17 +810,17 @@ export const getDeleteSignupBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteSignupBase>>,
     TError,
-    { eventId: number; userId: number },
+    DeleteSignupBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteSignupBase>>,
   TError,
-  { eventId: number; userId: number },
+  DeleteSignupBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteSignupBase"];
+  const mutationKey = getDeleteSignupBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -506,7 +831,7 @@ export const getDeleteSignupBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteSignupBase>>,
-    { eventId: number; userId: number }
+    DeleteSignupBaseMutationVariables
   > = (props) => {
     const { eventId, userId } = props ?? {};
 
@@ -521,13 +846,17 @@ export type DeleteSignupBaseMutationResult = NonNullable<
 >;
 
 export type DeleteSignupBaseMutationError = unknown;
+export type DeleteSignupBaseMutationVariables = {
+  eventId: number;
+  userId: number;
+};
 
 export const useDeleteSignupBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteSignupBase>>,
       TError,
-      { eventId: number; userId: number },
+      DeleteSignupBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -536,263 +865,8 @@ export const useDeleteSignupBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteSignupBase>>,
   TError,
-  { eventId: number; userId: number },
+  DeleteSignupBaseMutationVariables,
   TContext
 > => {
   return useMutation(getDeleteSignupBaseMutationOptions(options), queryClient);
-};
-
-export const getCreateSignupGroupBaseUrl = (eventId: number) => {
-  return `/events/${eventId}/signups/self/group`;
-};
-
-/**
- * Creates a new group containing the authenticated user and returns the signup
- */
-export const createSignupGroupBase = async (
-  eventId: number,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<Signup> => {
-  return customFetch<Signup>(getCreateSignupGroupBaseUrl(eventId), {
-    ...options,
-    method: "POST",
-  });
-};
-
-export const getCreateSignupGroupBaseMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createSignupGroupBase>>,
-    TError,
-    { eventId: number },
-    TContext
-  >;
-  request?: SecondParameter<typeof customFetch>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createSignupGroupBase>>,
-  TError,
-  { eventId: number },
-  TContext
-> => {
-  const mutationKey = ["createSignupGroupBase"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createSignupGroupBase>>,
-    { eventId: number }
-  > = (props) => {
-    const { eventId } = props ?? {};
-
-    return createSignupGroupBase(eventId, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type CreateSignupGroupBaseMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createSignupGroupBase>>
->;
-
-export type CreateSignupGroupBaseMutationError = unknown;
-
-export const useCreateSignupGroupBase = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof createSignupGroupBase>>,
-      TError,
-      { eventId: number },
-      TContext
-    >;
-    request?: SecondParameter<typeof customFetch>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof createSignupGroupBase>>,
-  TError,
-  { eventId: number },
-  TContext
-> => {
-  return useMutation(
-    getCreateSignupGroupBaseMutationOptions(options),
-    queryClient,
-  );
-};
-
-export const getJoinSignupGroupBaseUrl = (eventId: number) => {
-  return `/events/${eventId}/signups/self/group/join`;
-};
-
-/**
- * Joins the group with the given key and returns the signup
- */
-export const joinSignupGroupBase = async (
-  eventId: number,
-  joinSignupGroupBaseBody: JoinSignupGroupBaseBody,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<Signup> => {
-  return customFetch<Signup>(getJoinSignupGroupBaseUrl(eventId), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(joinSignupGroupBaseBody),
-  });
-};
-
-export const getJoinSignupGroupBaseMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof joinSignupGroupBase>>,
-    TError,
-    { eventId: number; data: JoinSignupGroupBaseBody },
-    TContext
-  >;
-  request?: SecondParameter<typeof customFetch>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof joinSignupGroupBase>>,
-  TError,
-  { eventId: number; data: JoinSignupGroupBaseBody },
-  TContext
-> => {
-  const mutationKey = ["joinSignupGroupBase"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof joinSignupGroupBase>>,
-    { eventId: number; data: JoinSignupGroupBaseBody }
-  > = (props) => {
-    const { eventId, data } = props ?? {};
-
-    return joinSignupGroupBase(eventId, data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type JoinSignupGroupBaseMutationResult = NonNullable<
-  Awaited<ReturnType<typeof joinSignupGroupBase>>
->;
-export type JoinSignupGroupBaseMutationBody = JoinSignupGroupBaseBody;
-export type JoinSignupGroupBaseMutationError = unknown;
-
-export const useJoinSignupGroupBase = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof joinSignupGroupBase>>,
-      TError,
-      { eventId: number; data: JoinSignupGroupBaseBody },
-      TContext
-    >;
-    request?: SecondParameter<typeof customFetch>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof joinSignupGroupBase>>,
-  TError,
-  { eventId: number; data: JoinSignupGroupBaseBody },
-  TContext
-> => {
-  return useMutation(
-    getJoinSignupGroupBaseMutationOptions(options),
-    queryClient,
-  );
-};
-
-export const getLeaveSignupGroupBaseUrl = (eventId: number) => {
-  return `/events/${eventId}/signups/self/group`;
-};
-
-/**
- * Removes the authenticated user from their group
- */
-export const leaveSignupGroupBase = async (
-  eventId: number,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<Signup> => {
-  return customFetch<Signup>(getLeaveSignupGroupBaseUrl(eventId), {
-    ...options,
-    method: "DELETE",
-  });
-};
-
-export const getLeaveSignupGroupBaseMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof leaveSignupGroupBase>>,
-    TError,
-    { eventId: number },
-    TContext
-  >;
-  request?: SecondParameter<typeof customFetch>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof leaveSignupGroupBase>>,
-  TError,
-  { eventId: number },
-  TContext
-> => {
-  const mutationKey = ["leaveSignupGroupBase"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof leaveSignupGroupBase>>,
-    { eventId: number }
-  > = (props) => {
-    const { eventId } = props ?? {};
-
-    return leaveSignupGroupBase(eventId, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type LeaveSignupGroupBaseMutationResult = NonNullable<
-  Awaited<ReturnType<typeof leaveSignupGroupBase>>
->;
-
-export type LeaveSignupGroupBaseMutationError = unknown;
-
-export const useLeaveSignupGroupBase = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof leaveSignupGroupBase>>,
-      TError,
-      { eventId: number },
-      TContext
-    >;
-    request?: SecondParameter<typeof customFetch>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof leaveSignupGroupBase>>,
-  TError,
-  { eventId: number },
-  TContext
-> => {
-  return useMutation(
-    getLeaveSignupGroupBaseMutationOptions(options),
-    queryClient,
-  );
 };

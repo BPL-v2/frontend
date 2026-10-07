@@ -205,13 +205,39 @@ export const createTeamBase = async (
   createTeamBaseBody: CreateTeamBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Team> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Team>(getCreateTeamBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createTeamBaseBody),
   });
 };
+
+export const getCreateTeamBaseMutationKey = () => ["createTeamBase"] as const;
 
 export const getCreateTeamBaseMutationOptions = <
   TError = unknown,
@@ -220,17 +246,17 @@ export const getCreateTeamBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createTeamBase>>,
     TError,
-    { eventId: number; data: CreateTeamBaseBody },
+    CreateTeamBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createTeamBase>>,
   TError,
-  { eventId: number; data: CreateTeamBaseBody },
+  CreateTeamBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createTeamBase"];
+  const mutationKey = getCreateTeamBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -241,7 +267,7 @@ export const getCreateTeamBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createTeamBase>>,
-    { eventId: number; data: CreateTeamBaseBody }
+    CreateTeamBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -256,13 +282,17 @@ export type CreateTeamBaseMutationResult = NonNullable<
 >;
 export type CreateTeamBaseMutationBody = CreateTeamBaseBody;
 export type CreateTeamBaseMutationError = unknown;
+export type CreateTeamBaseMutationVariables = {
+  eventId: number;
+  data: CreateTeamBaseBody;
+};
 
 export const useCreateTeamBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createTeamBase>>,
       TError,
-      { eventId: number; data: CreateTeamBaseBody },
+      CreateTeamBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -271,7 +301,7 @@ export const useCreateTeamBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createTeamBase>>,
   TError,
-  { eventId: number; data: CreateTeamBaseBody },
+  CreateTeamBaseMutationVariables,
   TContext
 > => {
   return useMutation(getCreateTeamBaseMutationOptions(options), queryClient);
@@ -455,13 +485,40 @@ export const addUsersToTeamsBase = async (
   addUsersToTeamsBaseBody: AddUsersToTeamsBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<void>(getAddUsersToTeamsBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(addUsersToTeamsBaseBody),
   });
 };
+
+export const getAddUsersToTeamsBaseMutationKey = () =>
+  ["addUsersToTeamsBase"] as const;
 
 export const getAddUsersToTeamsBaseMutationOptions = <
   TError = unknown,
@@ -470,17 +527,17 @@ export const getAddUsersToTeamsBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addUsersToTeamsBase>>,
     TError,
-    { eventId: number; data: AddUsersToTeamsBaseBody },
+    AddUsersToTeamsBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addUsersToTeamsBase>>,
   TError,
-  { eventId: number; data: AddUsersToTeamsBaseBody },
+  AddUsersToTeamsBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["addUsersToTeamsBase"];
+  const mutationKey = getAddUsersToTeamsBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -491,7 +548,7 @@ export const getAddUsersToTeamsBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addUsersToTeamsBase>>,
-    { eventId: number; data: AddUsersToTeamsBaseBody }
+    AddUsersToTeamsBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -506,13 +563,17 @@ export type AddUsersToTeamsBaseMutationResult = NonNullable<
 >;
 export type AddUsersToTeamsBaseMutationBody = AddUsersToTeamsBaseBody;
 export type AddUsersToTeamsBaseMutationError = unknown;
+export type AddUsersToTeamsBaseMutationVariables = {
+  eventId: number;
+  data: AddUsersToTeamsBaseBody;
+};
 
 export const useAddUsersToTeamsBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof addUsersToTeamsBase>>,
       TError,
-      { eventId: number; data: AddUsersToTeamsBaseBody },
+      AddUsersToTeamsBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -521,7 +582,7 @@ export const useAddUsersToTeamsBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof addUsersToTeamsBase>>,
   TError,
-  { eventId: number; data: AddUsersToTeamsBaseBody },
+  AddUsersToTeamsBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -547,6 +608,8 @@ export const deleteTeamBase = async (
   });
 };
 
+export const getDeleteTeamBaseMutationKey = () => ["deleteTeamBase"] as const;
+
 export const getDeleteTeamBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -554,17 +617,17 @@ export const getDeleteTeamBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteTeamBase>>,
     TError,
-    { eventId: number; teamId: number },
+    DeleteTeamBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteTeamBase>>,
   TError,
-  { eventId: number; teamId: number },
+  DeleteTeamBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteTeamBase"];
+  const mutationKey = getDeleteTeamBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -575,7 +638,7 @@ export const getDeleteTeamBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteTeamBase>>,
-    { eventId: number; teamId: number }
+    DeleteTeamBaseMutationVariables
   > = (props) => {
     const { eventId, teamId } = props ?? {};
 
@@ -590,13 +653,17 @@ export type DeleteTeamBaseMutationResult = NonNullable<
 >;
 
 export type DeleteTeamBaseMutationError = unknown;
+export type DeleteTeamBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+};
 
 export const useDeleteTeamBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteTeamBase>>,
       TError,
-      { eventId: number; teamId: number },
+      DeleteTeamBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -605,7 +672,7 @@ export const useDeleteTeamBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteTeamBase>>,
   TError,
-  { eventId: number; teamId: number },
+  DeleteTeamBaseMutationVariables,
   TContext
 > => {
   return useMutation(getDeleteTeamBaseMutationOptions(options), queryClient);
@@ -969,16 +1036,43 @@ export const saveMyTeamSheetEntryBase = async (
   saveMyTeamSheetEntryBaseBody: SaveMyTeamSheetEntryBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<TeamSheetEntry> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<TeamSheetEntry>(
     getSaveMyTeamSheetEntryBaseUrl(eventId, teamId),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(saveMyTeamSheetEntryBaseBody),
     },
   );
 };
+
+export const getSaveMyTeamSheetEntryBaseMutationKey = () =>
+  ["saveMyTeamSheetEntryBase"] as const;
 
 export const getSaveMyTeamSheetEntryBaseMutationOptions = <
   TError = unknown,
@@ -987,17 +1081,17 @@ export const getSaveMyTeamSheetEntryBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
     TError,
-    { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+    SaveMyTeamSheetEntryBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
   TError,
-  { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+  SaveMyTeamSheetEntryBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["saveMyTeamSheetEntryBase"];
+  const mutationKey = getSaveMyTeamSheetEntryBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1008,7 +1102,7 @@ export const getSaveMyTeamSheetEntryBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
-    { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody }
+    SaveMyTeamSheetEntryBaseMutationVariables
   > = (props) => {
     const { eventId, teamId, data } = props ?? {};
 
@@ -1023,6 +1117,11 @@ export type SaveMyTeamSheetEntryBaseMutationResult = NonNullable<
 >;
 export type SaveMyTeamSheetEntryBaseMutationBody = SaveMyTeamSheetEntryBaseBody;
 export type SaveMyTeamSheetEntryBaseMutationError = unknown;
+export type SaveMyTeamSheetEntryBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  data: SaveMyTeamSheetEntryBaseBody;
+};
 
 export const useSaveMyTeamSheetEntryBase = <
   TError = unknown,
@@ -1032,7 +1131,7 @@ export const useSaveMyTeamSheetEntryBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
       TError,
-      { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+      SaveMyTeamSheetEntryBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1041,7 +1140,7 @@ export const useSaveMyTeamSheetEntryBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof saveMyTeamSheetEntryBase>>,
   TError,
-  { eventId: number; teamId: number; data: SaveMyTeamSheetEntryBaseBody },
+  SaveMyTeamSheetEntryBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1266,6 +1365,9 @@ export const deleteObjectiveTeamSuggestionBase = async (
   );
 };
 
+export const getDeleteObjectiveTeamSuggestionBaseMutationKey = () =>
+  ["deleteObjectiveTeamSuggestionBase"] as const;
+
 export const getDeleteObjectiveTeamSuggestionBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -1273,17 +1375,17 @@ export const getDeleteObjectiveTeamSuggestionBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteObjectiveTeamSuggestionBase>>,
     TError,
-    { eventId: number; teamId: number; objectiveId: number },
+    DeleteObjectiveTeamSuggestionBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteObjectiveTeamSuggestionBase>>,
   TError,
-  { eventId: number; teamId: number; objectiveId: number },
+  DeleteObjectiveTeamSuggestionBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteObjectiveTeamSuggestionBase"];
+  const mutationKey = getDeleteObjectiveTeamSuggestionBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1294,7 +1396,7 @@ export const getDeleteObjectiveTeamSuggestionBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteObjectiveTeamSuggestionBase>>,
-    { eventId: number; teamId: number; objectiveId: number }
+    DeleteObjectiveTeamSuggestionBaseMutationVariables
   > = (props) => {
     const { eventId, teamId, objectiveId } = props ?? {};
 
@@ -1314,6 +1416,11 @@ export type DeleteObjectiveTeamSuggestionBaseMutationResult = NonNullable<
 >;
 
 export type DeleteObjectiveTeamSuggestionBaseMutationError = unknown;
+export type DeleteObjectiveTeamSuggestionBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  objectiveId: number;
+};
 
 export const useDeleteObjectiveTeamSuggestionBase = <
   TError = unknown,
@@ -1323,7 +1430,7 @@ export const useDeleteObjectiveTeamSuggestionBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteObjectiveTeamSuggestionBase>>,
       TError,
-      { eventId: number; teamId: number; objectiveId: number },
+      DeleteObjectiveTeamSuggestionBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1332,7 +1439,7 @@ export const useDeleteObjectiveTeamSuggestionBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteObjectiveTeamSuggestionBase>>,
   TError,
-  { eventId: number; teamId: number; objectiveId: number },
+  DeleteObjectiveTeamSuggestionBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1358,16 +1465,43 @@ export const createObjectiveTeamSuggestionBase = async (
   createObjectiveTeamSuggestionBaseBody: CreateObjectiveTeamSuggestionBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<CreateObjectiveTeamSuggestionBase201> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<CreateObjectiveTeamSuggestionBase201>(
     getCreateObjectiveTeamSuggestionBaseUrl(eventId, teamId, objectiveId),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(createObjectiveTeamSuggestionBaseBody),
     },
   );
 };
+
+export const getCreateObjectiveTeamSuggestionBaseMutationKey = () =>
+  ["createObjectiveTeamSuggestionBase"] as const;
 
 export const getCreateObjectiveTeamSuggestionBaseMutationOptions = <
   TError = unknown,
@@ -1376,27 +1510,17 @@ export const getCreateObjectiveTeamSuggestionBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
     TError,
-    {
-      eventId: number;
-      teamId: number;
-      objectiveId: number;
-      data: CreateObjectiveTeamSuggestionBaseBody;
-    },
+    CreateObjectiveTeamSuggestionBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
   TError,
-  {
-    eventId: number;
-    teamId: number;
-    objectiveId: number;
-    data: CreateObjectiveTeamSuggestionBaseBody;
-  },
+  CreateObjectiveTeamSuggestionBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createObjectiveTeamSuggestionBase"];
+  const mutationKey = getCreateObjectiveTeamSuggestionBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1407,12 +1531,7 @@ export const getCreateObjectiveTeamSuggestionBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
-    {
-      eventId: number;
-      teamId: number;
-      objectiveId: number;
-      data: CreateObjectiveTeamSuggestionBaseBody;
-    }
+    CreateObjectiveTeamSuggestionBaseMutationVariables
   > = (props) => {
     const { eventId, teamId, objectiveId, data } = props ?? {};
 
@@ -1434,6 +1553,12 @@ export type CreateObjectiveTeamSuggestionBaseMutationResult = NonNullable<
 export type CreateObjectiveTeamSuggestionBaseMutationBody =
   CreateObjectiveTeamSuggestionBaseBody;
 export type CreateObjectiveTeamSuggestionBaseMutationError = unknown;
+export type CreateObjectiveTeamSuggestionBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  objectiveId: number;
+  data: CreateObjectiveTeamSuggestionBaseBody;
+};
 
 export const useCreateObjectiveTeamSuggestionBase = <
   TError = unknown,
@@ -1443,12 +1568,7 @@ export const useCreateObjectiveTeamSuggestionBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
       TError,
-      {
-        eventId: number;
-        teamId: number;
-        objectiveId: number;
-        data: CreateObjectiveTeamSuggestionBaseBody;
-      },
+      CreateObjectiveTeamSuggestionBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1457,12 +1577,7 @@ export const useCreateObjectiveTeamSuggestionBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof createObjectiveTeamSuggestionBase>>,
   TError,
-  {
-    eventId: number;
-    teamId: number;
-    objectiveId: number;
-    data: CreateObjectiveTeamSuggestionBaseBody;
-  },
+  CreateObjectiveTeamSuggestionBaseMutationVariables,
   TContext
 > => {
   return useMutation(

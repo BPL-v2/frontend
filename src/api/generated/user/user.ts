@@ -583,6 +583,8 @@ export const removeAuthBase = async (
   });
 };
 
+export const getRemoveAuthBaseMutationKey = () => ["removeAuthBase"] as const;
+
 export const getRemoveAuthBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -590,17 +592,17 @@ export const getRemoveAuthBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeAuthBase>>,
     TError,
-    { params: RemoveAuthBaseParams },
+    RemoveAuthBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof removeAuthBase>>,
   TError,
-  { params: RemoveAuthBaseParams },
+  RemoveAuthBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["removeAuthBase"];
+  const mutationKey = getRemoveAuthBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -611,7 +613,7 @@ export const getRemoveAuthBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof removeAuthBase>>,
-    { params: RemoveAuthBaseParams }
+    RemoveAuthBaseMutationVariables
   > = (props) => {
     const { params } = props ?? {};
 
@@ -626,13 +628,14 @@ export type RemoveAuthBaseMutationResult = NonNullable<
 >;
 
 export type RemoveAuthBaseMutationError = unknown;
+export type RemoveAuthBaseMutationVariables = { params: RemoveAuthBaseParams };
 
 export const useRemoveAuthBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof removeAuthBase>>,
       TError,
-      { params: RemoveAuthBaseParams },
+      RemoveAuthBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -641,7 +644,7 @@ export const useRemoveAuthBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof removeAuthBase>>,
   TError,
-  { params: RemoveAuthBaseParams },
+  RemoveAuthBaseMutationVariables,
   TContext
 > => {
   return useMutation(getRemoveAuthBaseMutationOptions(options), queryClient);
@@ -789,13 +792,39 @@ export const updateUserBase = async (
   updateUserBaseBody: UpdateUserBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<User>(getUpdateUserBaseUrl(), {
     ...options,
     method: "PATCH",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(updateUserBaseBody),
   });
 };
+
+export const getUpdateUserBaseMutationKey = () => ["updateUserBase"] as const;
 
 export const getUpdateUserBaseMutationOptions = <
   TError = unknown,
@@ -804,17 +833,17 @@ export const getUpdateUserBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateUserBase>>,
     TError,
-    { data: UpdateUserBaseBody },
+    UpdateUserBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateUserBase>>,
   TError,
-  { data: UpdateUserBaseBody },
+  UpdateUserBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["updateUserBase"];
+  const mutationKey = getUpdateUserBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -825,7 +854,7 @@ export const getUpdateUserBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateUserBase>>,
-    { data: UpdateUserBaseBody }
+    UpdateUserBaseMutationVariables
   > = (props) => {
     const { data } = props ?? {};
 
@@ -840,13 +869,14 @@ export type UpdateUserBaseMutationResult = NonNullable<
 >;
 export type UpdateUserBaseMutationBody = UpdateUserBaseBody;
 export type UpdateUserBaseMutationError = unknown;
+export type UpdateUserBaseMutationVariables = { data: UpdateUserBaseBody };
 
 export const useUpdateUserBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateUserBase>>,
       TError,
-      { data: UpdateUserBaseBody },
+      UpdateUserBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -855,7 +885,7 @@ export const useUpdateUserBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateUserBase>>,
   TError,
-  { data: UpdateUserBaseBody },
+  UpdateUserBaseMutationVariables,
   TContext
 > => {
   return useMutation(getUpdateUserBaseMutationOptions(options), queryClient);
@@ -1037,13 +1067,40 @@ export const changePermissionsBase = async (
   changePermissionsBaseBody: ChangePermissionsBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<User> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<User>(getChangePermissionsBaseUrl(userId), {
     ...options,
     method: "PATCH",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(changePermissionsBaseBody),
   });
 };
+
+export const getChangePermissionsBaseMutationKey = () =>
+  ["changePermissionsBase"] as const;
 
 export const getChangePermissionsBaseMutationOptions = <
   TError = unknown,
@@ -1052,17 +1109,17 @@ export const getChangePermissionsBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof changePermissionsBase>>,
     TError,
-    { userId: number; data: ChangePermissionsBaseBody },
+    ChangePermissionsBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof changePermissionsBase>>,
   TError,
-  { userId: number; data: ChangePermissionsBaseBody },
+  ChangePermissionsBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["changePermissionsBase"];
+  const mutationKey = getChangePermissionsBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1073,7 +1130,7 @@ export const getChangePermissionsBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof changePermissionsBase>>,
-    { userId: number; data: ChangePermissionsBaseBody }
+    ChangePermissionsBaseMutationVariables
   > = (props) => {
     const { userId, data } = props ?? {};
 
@@ -1088,13 +1145,17 @@ export type ChangePermissionsBaseMutationResult = NonNullable<
 >;
 export type ChangePermissionsBaseMutationBody = ChangePermissionsBaseBody;
 export type ChangePermissionsBaseMutationError = unknown;
+export type ChangePermissionsBaseMutationVariables = {
+  userId: number;
+  data: ChangePermissionsBaseBody;
+};
 
 export const useChangePermissionsBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof changePermissionsBase>>,
       TError,
-      { userId: number; data: ChangePermissionsBaseBody },
+      ChangePermissionsBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1103,7 +1164,7 @@ export const useChangePermissionsBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof changePermissionsBase>>,
   TError,
-  { userId: number; data: ChangePermissionsBaseBody },
+  ChangePermissionsBaseMutationVariables,
   TContext
 > => {
   return useMutation(

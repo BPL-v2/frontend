@@ -186,13 +186,39 @@ export const createEventBase = async (
   createEventBaseBody: CreateEventBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Event> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Event>(getCreateEventBaseUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createEventBaseBody),
   });
 };
+
+export const getCreateEventBaseMutationKey = () => ["createEventBase"] as const;
 
 export const getCreateEventBaseMutationOptions = <
   TError = unknown,
@@ -201,17 +227,17 @@ export const getCreateEventBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createEventBase>>,
     TError,
-    { data: CreateEventBaseBody },
+    CreateEventBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createEventBase>>,
   TError,
-  { data: CreateEventBaseBody },
+  CreateEventBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createEventBase"];
+  const mutationKey = getCreateEventBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -222,7 +248,7 @@ export const getCreateEventBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createEventBase>>,
-    { data: CreateEventBaseBody }
+    CreateEventBaseMutationVariables
   > = (props) => {
     const { data } = props ?? {};
 
@@ -237,13 +263,14 @@ export type CreateEventBaseMutationResult = NonNullable<
 >;
 export type CreateEventBaseMutationBody = CreateEventBaseBody;
 export type CreateEventBaseMutationError = unknown;
+export type CreateEventBaseMutationVariables = { data: CreateEventBaseBody };
 
 export const useCreateEventBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createEventBase>>,
       TError,
-      { data: CreateEventBaseBody },
+      CreateEventBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -252,7 +279,7 @@ export const useCreateEventBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createEventBase>>,
   TError,
-  { data: CreateEventBaseBody },
+  CreateEventBaseMutationVariables,
   TContext
 > => {
   return useMutation(getCreateEventBaseMutationOptions(options), queryClient);
@@ -274,6 +301,8 @@ export const deleteEventBase = async (
   });
 };
 
+export const getDeleteEventBaseMutationKey = () => ["deleteEventBase"] as const;
+
 export const getDeleteEventBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -281,17 +310,17 @@ export const getDeleteEventBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteEventBase>>,
     TError,
-    { eventId: number },
+    DeleteEventBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteEventBase>>,
   TError,
-  { eventId: number },
+  DeleteEventBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteEventBase"];
+  const mutationKey = getDeleteEventBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -302,7 +331,7 @@ export const getDeleteEventBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteEventBase>>,
-    { eventId: number }
+    DeleteEventBaseMutationVariables
   > = (props) => {
     const { eventId } = props ?? {};
 
@@ -317,13 +346,14 @@ export type DeleteEventBaseMutationResult = NonNullable<
 >;
 
 export type DeleteEventBaseMutationError = unknown;
+export type DeleteEventBaseMutationVariables = { eventId: number };
 
 export const useDeleteEventBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteEventBase>>,
       TError,
-      { eventId: number },
+      DeleteEventBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -332,7 +362,7 @@ export const useDeleteEventBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteEventBase>>,
   TError,
-  { eventId: number },
+  DeleteEventBaseMutationVariables,
   TContext
 > => {
   return useMutation(getDeleteEventBaseMutationOptions(options), queryClient);
@@ -494,13 +524,40 @@ export const duplicateEventBase = async (
   duplicateEventBaseBody: DuplicateEventBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Event> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Event>(getDuplicateEventBaseUrl(eventId), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(duplicateEventBaseBody),
   });
 };
+
+export const getDuplicateEventBaseMutationKey = () =>
+  ["duplicateEventBase"] as const;
 
 export const getDuplicateEventBaseMutationOptions = <
   TError = unknown,
@@ -509,17 +566,17 @@ export const getDuplicateEventBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof duplicateEventBase>>,
     TError,
-    { eventId: number; data: DuplicateEventBaseBody },
+    DuplicateEventBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof duplicateEventBase>>,
   TError,
-  { eventId: number; data: DuplicateEventBaseBody },
+  DuplicateEventBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["duplicateEventBase"];
+  const mutationKey = getDuplicateEventBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -530,7 +587,7 @@ export const getDuplicateEventBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof duplicateEventBase>>,
-    { eventId: number; data: DuplicateEventBaseBody }
+    DuplicateEventBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -545,13 +602,17 @@ export type DuplicateEventBaseMutationResult = NonNullable<
 >;
 export type DuplicateEventBaseMutationBody = DuplicateEventBaseBody;
 export type DuplicateEventBaseMutationError = unknown;
+export type DuplicateEventBaseMutationVariables = {
+  eventId: number;
+  data: DuplicateEventBaseBody;
+};
 
 export const useDuplicateEventBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof duplicateEventBase>>,
       TError,
-      { eventId: number; data: DuplicateEventBaseBody },
+      DuplicateEventBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -560,7 +621,7 @@ export const useDuplicateEventBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof duplicateEventBase>>,
   TError,
-  { eventId: number; data: DuplicateEventBaseBody },
+  DuplicateEventBaseMutationVariables,
   TContext
 > => {
   return useMutation(

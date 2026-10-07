@@ -206,13 +206,39 @@ export const saveGuildBase = async (
   guild: Guild,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Guild> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Guild>(getSaveGuildBaseUrl(eventId, guildId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(guild),
   });
 };
+
+export const getSaveGuildBaseMutationKey = () => ["saveGuildBase"] as const;
 
 export const getSaveGuildBaseMutationOptions = <
   TError = unknown,
@@ -221,17 +247,17 @@ export const getSaveGuildBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof saveGuildBase>>,
     TError,
-    { eventId: number; guildId: number; data: Guild },
+    SaveGuildBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof saveGuildBase>>,
   TError,
-  { eventId: number; guildId: number; data: Guild },
+  SaveGuildBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["saveGuildBase"];
+  const mutationKey = getSaveGuildBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -242,7 +268,7 @@ export const getSaveGuildBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof saveGuildBase>>,
-    { eventId: number; guildId: number; data: Guild }
+    SaveGuildBaseMutationVariables
   > = (props) => {
     const { eventId, guildId, data } = props ?? {};
 
@@ -257,13 +283,18 @@ export type SaveGuildBaseMutationResult = NonNullable<
 >;
 export type SaveGuildBaseMutationBody = Guild;
 export type SaveGuildBaseMutationError = unknown;
+export type SaveGuildBaseMutationVariables = {
+  eventId: number;
+  guildId: number;
+  data: Guild;
+};
 
 export const useSaveGuildBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof saveGuildBase>>,
       TError,
-      { eventId: number; guildId: number; data: Guild },
+      SaveGuildBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -272,7 +303,7 @@ export const useSaveGuildBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof saveGuildBase>>,
   TError,
-  { eventId: number; guildId: number; data: Guild },
+  SaveGuildBaseMutationVariables,
   TContext
 > => {
   return useMutation(getSaveGuildBaseMutationOptions(options), queryClient);
@@ -511,16 +542,43 @@ export const addGuildstashHistoryBase = async (
   guildStashChangeResponse: GuildStashChangeResponse,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<AddGuildStashHistoryResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<AddGuildStashHistoryResponse>(
     getAddGuildstashHistoryBaseUrl(eventId, guildId),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(guildStashChangeResponse),
     },
   );
 };
+
+export const getAddGuildstashHistoryBaseMutationKey = () =>
+  ["addGuildstashHistoryBase"] as const;
 
 export const getAddGuildstashHistoryBaseMutationOptions = <
   TError = unknown,
@@ -529,17 +587,17 @@ export const getAddGuildstashHistoryBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addGuildstashHistoryBase>>,
     TError,
-    { eventId: number; guildId: number; data: GuildStashChangeResponse },
+    AddGuildstashHistoryBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addGuildstashHistoryBase>>,
   TError,
-  { eventId: number; guildId: number; data: GuildStashChangeResponse },
+  AddGuildstashHistoryBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["addGuildstashHistoryBase"];
+  const mutationKey = getAddGuildstashHistoryBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -550,7 +608,7 @@ export const getAddGuildstashHistoryBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addGuildstashHistoryBase>>,
-    { eventId: number; guildId: number; data: GuildStashChangeResponse }
+    AddGuildstashHistoryBaseMutationVariables
   > = (props) => {
     const { eventId, guildId, data } = props ?? {};
 
@@ -565,6 +623,11 @@ export type AddGuildstashHistoryBaseMutationResult = NonNullable<
 >;
 export type AddGuildstashHistoryBaseMutationBody = GuildStashChangeResponse;
 export type AddGuildstashHistoryBaseMutationError = unknown;
+export type AddGuildstashHistoryBaseMutationVariables = {
+  eventId: number;
+  guildId: number;
+  data: GuildStashChangeResponse;
+};
 
 export const useAddGuildstashHistoryBase = <
   TError = unknown,
@@ -574,7 +637,7 @@ export const useAddGuildstashHistoryBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof addGuildstashHistoryBase>>,
       TError,
-      { eventId: number; guildId: number; data: GuildStashChangeResponse },
+      AddGuildstashHistoryBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -583,7 +646,7 @@ export const useAddGuildstashHistoryBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof addGuildstashHistoryBase>>,
   TError,
-  { eventId: number; guildId: number; data: GuildStashChangeResponse },
+  AddGuildstashHistoryBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1201,16 +1264,43 @@ export const switchStashFetchingBase = async (
   tabSwitchRequest: TabSwitchRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<void>(
     getSwitchStashFetchingBaseUrl(eventId, teamId, stashId),
     {
       ...options,
       method: "PATCH",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(tabSwitchRequest),
     },
   );
 };
+
+export const getSwitchStashFetchingBaseMutationKey = () =>
+  ["switchStashFetchingBase"] as const;
 
 export const getSwitchStashFetchingBaseMutationOptions = <
   TError = unknown,
@@ -1219,22 +1309,17 @@ export const getSwitchStashFetchingBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof switchStashFetchingBase>>,
     TError,
-    {
-      eventId: number;
-      teamId: number;
-      stashId: string;
-      data: TabSwitchRequest;
-    },
+    SwitchStashFetchingBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof switchStashFetchingBase>>,
   TError,
-  { eventId: number; teamId: number; stashId: string; data: TabSwitchRequest },
+  SwitchStashFetchingBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["switchStashFetchingBase"];
+  const mutationKey = getSwitchStashFetchingBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1245,7 +1330,7 @@ export const getSwitchStashFetchingBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof switchStashFetchingBase>>,
-    { eventId: number; teamId: number; stashId: string; data: TabSwitchRequest }
+    SwitchStashFetchingBaseMutationVariables
   > = (props) => {
     const { eventId, teamId, stashId, data } = props ?? {};
 
@@ -1266,6 +1351,12 @@ export type SwitchStashFetchingBaseMutationResult = NonNullable<
 >;
 export type SwitchStashFetchingBaseMutationBody = TabSwitchRequest;
 export type SwitchStashFetchingBaseMutationError = unknown;
+export type SwitchStashFetchingBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  stashId: string;
+  data: TabSwitchRequest;
+};
 
 export const useSwitchStashFetchingBase = <
   TError = unknown,
@@ -1275,12 +1366,7 @@ export const useSwitchStashFetchingBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof switchStashFetchingBase>>,
       TError,
-      {
-        eventId: number;
-        teamId: number;
-        stashId: string;
-        data: TabSwitchRequest;
-      },
+      SwitchStashFetchingBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1289,7 +1375,7 @@ export const useSwitchStashFetchingBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof switchStashFetchingBase>>,
   TError,
-  { eventId: number; teamId: number; stashId: string; data: TabSwitchRequest },
+  SwitchStashFetchingBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1320,6 +1406,9 @@ export const updateStashTabBase = async (
   });
 };
 
+export const getUpdateStashTabBaseMutationKey = () =>
+  ["updateStashTabBase"] as const;
+
 export const getUpdateStashTabBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -1327,17 +1416,17 @@ export const getUpdateStashTabBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateStashTabBase>>,
     TError,
-    { eventId: number; teamId: number; stashId: string },
+    UpdateStashTabBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateStashTabBase>>,
   TError,
-  { eventId: number; teamId: number; stashId: string },
+  UpdateStashTabBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["updateStashTabBase"];
+  const mutationKey = getUpdateStashTabBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1348,7 +1437,7 @@ export const getUpdateStashTabBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateStashTabBase>>,
-    { eventId: number; teamId: number; stashId: string }
+    UpdateStashTabBaseMutationVariables
   > = (props) => {
     const { eventId, teamId, stashId } = props ?? {};
 
@@ -1363,13 +1452,18 @@ export type UpdateStashTabBaseMutationResult = NonNullable<
 >;
 
 export type UpdateStashTabBaseMutationError = unknown;
+export type UpdateStashTabBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  stashId: string;
+};
 
 export const useUpdateStashTabBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateStashTabBase>>,
       TError,
-      { eventId: number; teamId: number; stashId: string },
+      UpdateStashTabBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1378,7 +1472,7 @@ export const useUpdateStashTabBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateStashTabBase>>,
   TError,
-  { eventId: number; teamId: number; stashId: string },
+  UpdateStashTabBaseMutationVariables,
   TContext
 > => {
   return useMutation(

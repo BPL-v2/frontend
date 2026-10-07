@@ -181,13 +181,39 @@ export const startJobBase = async (
   startJobBaseBody: StartJobBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<RecurringJob> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<RecurringJob>(getStartJobBaseUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(startJobBaseBody),
   });
 };
+
+export const getStartJobBaseMutationKey = () => ["startJobBase"] as const;
 
 export const getStartJobBaseMutationOptions = <
   TError = unknown,
@@ -196,17 +222,17 @@ export const getStartJobBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof startJobBase>>,
     TError,
-    { data: StartJobBaseBody },
+    StartJobBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof startJobBase>>,
   TError,
-  { data: StartJobBaseBody },
+  StartJobBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["startJobBase"];
+  const mutationKey = getStartJobBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -217,7 +243,7 @@ export const getStartJobBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof startJobBase>>,
-    { data: StartJobBaseBody }
+    StartJobBaseMutationVariables
   > = (props) => {
     const { data } = props ?? {};
 
@@ -232,13 +258,14 @@ export type StartJobBaseMutationResult = NonNullable<
 >;
 export type StartJobBaseMutationBody = StartJobBaseBody;
 export type StartJobBaseMutationError = unknown;
+export type StartJobBaseMutationVariables = { data: StartJobBaseBody };
 
 export const useStartJobBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof startJobBase>>,
       TError,
-      { data: StartJobBaseBody },
+      StartJobBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -247,7 +274,7 @@ export const useStartJobBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof startJobBase>>,
   TError,
-  { data: StartJobBaseBody },
+  StartJobBaseMutationVariables,
   TContext
 > => {
   return useMutation(getStartJobBaseMutationOptions(options), queryClient);

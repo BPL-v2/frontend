@@ -12,6 +12,7 @@ export interface Event {
   is_locked: boolean;
   is_main_event: boolean;
   is_public: boolean;
+  /** @minimum 1 */
   max_group_size: number;
   max_size: number;
   name: string;

@@ -4,6 +4,8 @@ import type { Item } from "./item.ts";
 import type { Realm } from "./realm.ts";
 
 export interface Character {
+  /** ActiveMercenaryIndex PoE1 only */
+  active_mercenary_index?: number;
   class: string;
   /** Current always true if present */
   current?: boolean;

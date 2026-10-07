@@ -227,13 +227,40 @@ export const createScoringRuleBase = async (
   createScoringRuleBaseBody: CreateScoringRuleBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<ScoringRule> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<ScoringRule>(getCreateScoringRuleBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createScoringRuleBaseBody),
   });
 };
+
+export const getCreateScoringRuleBaseMutationKey = () =>
+  ["createScoringRuleBase"] as const;
 
 export const getCreateScoringRuleBaseMutationOptions = <
   TError = unknown,
@@ -242,17 +269,17 @@ export const getCreateScoringRuleBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createScoringRuleBase>>,
     TError,
-    { eventId: number; data: CreateScoringRuleBaseBody },
+    CreateScoringRuleBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createScoringRuleBase>>,
   TError,
-  { eventId: number; data: CreateScoringRuleBaseBody },
+  CreateScoringRuleBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createScoringRuleBase"];
+  const mutationKey = getCreateScoringRuleBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -263,7 +290,7 @@ export const getCreateScoringRuleBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createScoringRuleBase>>,
-    { eventId: number; data: CreateScoringRuleBaseBody }
+    CreateScoringRuleBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -278,13 +305,17 @@ export type CreateScoringRuleBaseMutationResult = NonNullable<
 >;
 export type CreateScoringRuleBaseMutationBody = CreateScoringRuleBaseBody;
 export type CreateScoringRuleBaseMutationError = unknown;
+export type CreateScoringRuleBaseMutationVariables = {
+  eventId: number;
+  data: CreateScoringRuleBaseBody;
+};
 
 export const useCreateScoringRuleBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createScoringRuleBase>>,
       TError,
-      { eventId: number; data: CreateScoringRuleBaseBody },
+      CreateScoringRuleBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -293,7 +324,7 @@ export const useCreateScoringRuleBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createScoringRuleBase>>,
   TError,
-  { eventId: number; data: CreateScoringRuleBaseBody },
+  CreateScoringRuleBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -322,6 +353,9 @@ export const deleteScoringRuleBase = async (
   );
 };
 
+export const getDeleteScoringRuleBaseMutationKey = () =>
+  ["deleteScoringRuleBase"] as const;
+
 export const getDeleteScoringRuleBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -329,17 +363,17 @@ export const getDeleteScoringRuleBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteScoringRuleBase>>,
     TError,
-    { eventId: number; id: number },
+    DeleteScoringRuleBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteScoringRuleBase>>,
   TError,
-  { eventId: number; id: number },
+  DeleteScoringRuleBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteScoringRuleBase"];
+  const mutationKey = getDeleteScoringRuleBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -350,7 +384,7 @@ export const getDeleteScoringRuleBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteScoringRuleBase>>,
-    { eventId: number; id: number }
+    DeleteScoringRuleBaseMutationVariables
   > = (props) => {
     const { eventId, id } = props ?? {};
 
@@ -365,13 +399,17 @@ export type DeleteScoringRuleBaseMutationResult = NonNullable<
 >;
 
 export type DeleteScoringRuleBaseMutationError = unknown;
+export type DeleteScoringRuleBaseMutationVariables = {
+  eventId: number;
+  id: number;
+};
 
 export const useDeleteScoringRuleBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteScoringRuleBase>>,
       TError,
-      { eventId: number; id: number },
+      DeleteScoringRuleBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -380,7 +418,7 @@ export const useDeleteScoringRuleBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteScoringRuleBase>>,
   TError,
-  { eventId: number; id: number },
+  DeleteScoringRuleBaseMutationVariables,
   TContext
 > => {
   return useMutation(

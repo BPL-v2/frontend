@@ -227,13 +227,40 @@ export const createObjectiveBase = async (
   createObjectiveBaseBody: CreateObjectiveBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Objective>(getCreateObjectiveBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createObjectiveBaseBody),
   });
 };
+
+export const getCreateObjectiveBaseMutationKey = () =>
+  ["createObjectiveBase"] as const;
 
 export const getCreateObjectiveBaseMutationOptions = <
   TError = unknown,
@@ -242,17 +269,17 @@ export const getCreateObjectiveBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createObjectiveBase>>,
     TError,
-    { eventId: number; data: CreateObjectiveBaseBody },
+    CreateObjectiveBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createObjectiveBase>>,
   TError,
-  { eventId: number; data: CreateObjectiveBaseBody },
+  CreateObjectiveBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createObjectiveBase"];
+  const mutationKey = getCreateObjectiveBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -263,7 +290,7 @@ export const getCreateObjectiveBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createObjectiveBase>>,
-    { eventId: number; data: CreateObjectiveBaseBody }
+    CreateObjectiveBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -278,13 +305,17 @@ export type CreateObjectiveBaseMutationResult = NonNullable<
 >;
 export type CreateObjectiveBaseMutationBody = CreateObjectiveBaseBody;
 export type CreateObjectiveBaseMutationError = unknown;
+export type CreateObjectiveBaseMutationVariables = {
+  eventId: number;
+  data: CreateObjectiveBaseBody;
+};
 
 export const useCreateObjectiveBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createObjectiveBase>>,
       TError,
-      { eventId: number; data: CreateObjectiveBaseBody },
+      CreateObjectiveBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -293,7 +324,7 @@ export const useCreateObjectiveBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createObjectiveBase>>,
   TError,
-  { eventId: number; data: CreateObjectiveBaseBody },
+  CreateObjectiveBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -653,13 +684,40 @@ export const validateObjectivesBase = async (
   validateObjectivesBaseBody: ValidateObjectivesBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<void> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<void>(getValidateObjectivesBaseUrl(eventId), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(validateObjectivesBaseBody),
   });
 };
+
+export const getValidateObjectivesBaseMutationKey = () =>
+  ["validateObjectivesBase"] as const;
 
 export const getValidateObjectivesBaseMutationOptions = <
   TError = unknown,
@@ -668,17 +726,17 @@ export const getValidateObjectivesBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof validateObjectivesBase>>,
     TError,
-    { eventId: number; data: ValidateObjectivesBaseBody },
+    ValidateObjectivesBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof validateObjectivesBase>>,
   TError,
-  { eventId: number; data: ValidateObjectivesBaseBody },
+  ValidateObjectivesBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["validateObjectivesBase"];
+  const mutationKey = getValidateObjectivesBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -689,7 +747,7 @@ export const getValidateObjectivesBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof validateObjectivesBase>>,
-    { eventId: number; data: ValidateObjectivesBaseBody }
+    ValidateObjectivesBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -704,13 +762,17 @@ export type ValidateObjectivesBaseMutationResult = NonNullable<
 >;
 export type ValidateObjectivesBaseMutationBody = ValidateObjectivesBaseBody;
 export type ValidateObjectivesBaseMutationError = unknown;
+export type ValidateObjectivesBaseMutationVariables = {
+  eventId: number;
+  data: ValidateObjectivesBaseBody;
+};
 
 export const useValidateObjectivesBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof validateObjectivesBase>>,
       TError,
-      { eventId: number; data: ValidateObjectivesBaseBody },
+      ValidateObjectivesBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -719,7 +781,7 @@ export const useValidateObjectivesBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof validateObjectivesBase>>,
   TError,
-  { eventId: number; data: ValidateObjectivesBaseBody },
+  ValidateObjectivesBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -745,6 +807,9 @@ export const deleteObjectiveBase = async (
   });
 };
 
+export const getDeleteObjectiveBaseMutationKey = () =>
+  ["deleteObjectiveBase"] as const;
+
 export const getDeleteObjectiveBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -752,17 +817,17 @@ export const getDeleteObjectiveBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteObjectiveBase>>,
     TError,
-    { eventId: number; id: number },
+    DeleteObjectiveBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteObjectiveBase>>,
   TError,
-  { eventId: number; id: number },
+  DeleteObjectiveBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteObjectiveBase"];
+  const mutationKey = getDeleteObjectiveBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -773,7 +838,7 @@ export const getDeleteObjectiveBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteObjectiveBase>>,
-    { eventId: number; id: number }
+    DeleteObjectiveBaseMutationVariables
   > = (props) => {
     const { eventId, id } = props ?? {};
 
@@ -788,13 +853,17 @@ export type DeleteObjectiveBaseMutationResult = NonNullable<
 >;
 
 export type DeleteObjectiveBaseMutationError = unknown;
+export type DeleteObjectiveBaseMutationVariables = {
+  eventId: number;
+  id: number;
+};
 
 export const useDeleteObjectiveBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteObjectiveBase>>,
       TError,
-      { eventId: number; id: number },
+      DeleteObjectiveBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -803,7 +872,7 @@ export const useDeleteObjectiveBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteObjectiveBase>>,
   TError,
-  { eventId: number; id: number },
+  DeleteObjectiveBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1001,13 +1070,40 @@ export const copyObjectiveBase = async (
   copyObjectiveBaseBody: CopyObjectiveBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Objective> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Objective>(getCopyObjectiveBaseUrl(eventId, id), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(copyObjectiveBaseBody),
   });
 };
+
+export const getCopyObjectiveBaseMutationKey = () =>
+  ["copyObjectiveBase"] as const;
 
 export const getCopyObjectiveBaseMutationOptions = <
   TError = unknown,
@@ -1016,17 +1112,17 @@ export const getCopyObjectiveBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof copyObjectiveBase>>,
     TError,
-    { eventId: number; id: number; data: CopyObjectiveBaseBody },
+    CopyObjectiveBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof copyObjectiveBase>>,
   TError,
-  { eventId: number; id: number; data: CopyObjectiveBaseBody },
+  CopyObjectiveBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["copyObjectiveBase"];
+  const mutationKey = getCopyObjectiveBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1037,7 +1133,7 @@ export const getCopyObjectiveBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof copyObjectiveBase>>,
-    { eventId: number; id: number; data: CopyObjectiveBaseBody }
+    CopyObjectiveBaseMutationVariables
   > = (props) => {
     const { eventId, id, data } = props ?? {};
 
@@ -1052,13 +1148,18 @@ export type CopyObjectiveBaseMutationResult = NonNullable<
 >;
 export type CopyObjectiveBaseMutationBody = CopyObjectiveBaseBody;
 export type CopyObjectiveBaseMutationError = unknown;
+export type CopyObjectiveBaseMutationVariables = {
+  eventId: number;
+  id: number;
+  data: CopyObjectiveBaseBody;
+};
 
 export const useCopyObjectiveBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof copyObjectiveBase>>,
       TError,
-      { eventId: number; id: number; data: CopyObjectiveBaseBody },
+      CopyObjectiveBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1067,7 +1168,7 @@ export const useCopyObjectiveBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof copyObjectiveBase>>,
   TError,
-  { eventId: number; id: number; data: CopyObjectiveBaseBody },
+  CopyObjectiveBaseMutationVariables,
   TContext
 > => {
   return useMutation(getCopyObjectiveBaseMutationOptions(options), queryClient);

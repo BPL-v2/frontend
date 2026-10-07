@@ -222,13 +222,40 @@ export const submitBountyBase = async (
   submitBountyBaseBody: SubmitBountyBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Submission>(getSubmitBountyBaseUrl(eventId), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(submitBountyBaseBody),
   });
 };
+
+export const getSubmitBountyBaseMutationKey = () =>
+  ["submitBountyBase"] as const;
 
 export const getSubmitBountyBaseMutationOptions = <
   TError = unknown,
@@ -237,17 +264,17 @@ export const getSubmitBountyBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof submitBountyBase>>,
     TError,
-    { eventId: number; data: SubmitBountyBaseBody },
+    SubmitBountyBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof submitBountyBase>>,
   TError,
-  { eventId: number; data: SubmitBountyBaseBody },
+  SubmitBountyBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["submitBountyBase"];
+  const mutationKey = getSubmitBountyBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -258,7 +285,7 @@ export const getSubmitBountyBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof submitBountyBase>>,
-    { eventId: number; data: SubmitBountyBaseBody }
+    SubmitBountyBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -273,13 +300,17 @@ export type SubmitBountyBaseMutationResult = NonNullable<
 >;
 export type SubmitBountyBaseMutationBody = SubmitBountyBaseBody;
 export type SubmitBountyBaseMutationError = unknown;
+export type SubmitBountyBaseMutationVariables = {
+  eventId: number;
+  data: SubmitBountyBaseBody;
+};
 
 export const useSubmitBountyBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof submitBountyBase>>,
       TError,
-      { eventId: number; data: SubmitBountyBaseBody },
+      SubmitBountyBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -288,7 +319,7 @@ export const useSubmitBountyBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof submitBountyBase>>,
   TError,
-  { eventId: number; data: SubmitBountyBaseBody },
+  SubmitBountyBaseMutationVariables,
   TContext
 > => {
   return useMutation(getSubmitBountyBaseMutationOptions(options), queryClient);
@@ -305,16 +336,43 @@ export const setBulkSubmissionForAdminBase = async (
   setBulkSubmissionForAdminBaseBody: SetBulkSubmissionForAdminBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission[]> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Submission[]>(
     getSetBulkSubmissionForAdminBaseUrl(eventId),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(setBulkSubmissionForAdminBaseBody),
     },
   );
 };
+
+export const getSetBulkSubmissionForAdminBaseMutationKey = () =>
+  ["setBulkSubmissionForAdminBase"] as const;
 
 export const getSetBulkSubmissionForAdminBaseMutationOptions = <
   TError = unknown,
@@ -323,17 +381,17 @@ export const getSetBulkSubmissionForAdminBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
     TError,
-    { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+    SetBulkSubmissionForAdminBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
   TError,
-  { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+  SetBulkSubmissionForAdminBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["setBulkSubmissionForAdminBase"];
+  const mutationKey = getSetBulkSubmissionForAdminBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -344,7 +402,7 @@ export const getSetBulkSubmissionForAdminBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
-    { eventId: number; data: SetBulkSubmissionForAdminBaseBody }
+    SetBulkSubmissionForAdminBaseMutationVariables
   > = (props) => {
     const { eventId, data } = props ?? {};
 
@@ -360,6 +418,10 @@ export type SetBulkSubmissionForAdminBaseMutationResult = NonNullable<
 export type SetBulkSubmissionForAdminBaseMutationBody =
   SetBulkSubmissionForAdminBaseBody;
 export type SetBulkSubmissionForAdminBaseMutationError = unknown;
+export type SetBulkSubmissionForAdminBaseMutationVariables = {
+  eventId: number;
+  data: SetBulkSubmissionForAdminBaseBody;
+};
 
 export const useSetBulkSubmissionForAdminBase = <
   TError = unknown,
@@ -369,7 +431,7 @@ export const useSetBulkSubmissionForAdminBase = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
       TError,
-      { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+      SetBulkSubmissionForAdminBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -378,7 +440,7 @@ export const useSetBulkSubmissionForAdminBase = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof setBulkSubmissionForAdminBase>>,
   TError,
-  { eventId: number; data: SetBulkSubmissionForAdminBaseBody },
+  SetBulkSubmissionForAdminBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -407,6 +469,9 @@ export const deleteSubmissionBase = async (
   });
 };
 
+export const getDeleteSubmissionBaseMutationKey = () =>
+  ["deleteSubmissionBase"] as const;
+
 export const getDeleteSubmissionBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -414,17 +479,17 @@ export const getDeleteSubmissionBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteSubmissionBase>>,
     TError,
-    { eventId: number; submissionId: number },
+    DeleteSubmissionBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteSubmissionBase>>,
   TError,
-  { eventId: number; submissionId: number },
+  DeleteSubmissionBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteSubmissionBase"];
+  const mutationKey = getDeleteSubmissionBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -435,7 +500,7 @@ export const getDeleteSubmissionBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteSubmissionBase>>,
-    { eventId: number; submissionId: number }
+    DeleteSubmissionBaseMutationVariables
   > = (props) => {
     const { eventId, submissionId } = props ?? {};
 
@@ -450,13 +515,17 @@ export type DeleteSubmissionBaseMutationResult = NonNullable<
 >;
 
 export type DeleteSubmissionBaseMutationError = unknown;
+export type DeleteSubmissionBaseMutationVariables = {
+  eventId: number;
+  submissionId: number;
+};
 
 export const useDeleteSubmissionBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteSubmissionBase>>,
       TError,
-      { eventId: number; submissionId: number },
+      DeleteSubmissionBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -465,7 +534,7 @@ export const useDeleteSubmissionBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteSubmissionBase>>,
   TError,
-  { eventId: number; submissionId: number },
+  DeleteSubmissionBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -489,16 +558,43 @@ export const reviewSubmissionBase = async (
   reviewSubmissionBaseBody: ReviewSubmissionBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<Submission> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<Submission>(
     getReviewSubmissionBaseUrl(eventId, submissionId),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(reviewSubmissionBaseBody),
     },
   );
 };
+
+export const getReviewSubmissionBaseMutationKey = () =>
+  ["reviewSubmissionBase"] as const;
 
 export const getReviewSubmissionBaseMutationOptions = <
   TError = unknown,
@@ -507,17 +603,17 @@ export const getReviewSubmissionBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof reviewSubmissionBase>>,
     TError,
-    { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+    ReviewSubmissionBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof reviewSubmissionBase>>,
   TError,
-  { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+  ReviewSubmissionBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["reviewSubmissionBase"];
+  const mutationKey = getReviewSubmissionBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -528,7 +624,7 @@ export const getReviewSubmissionBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof reviewSubmissionBase>>,
-    { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody }
+    ReviewSubmissionBaseMutationVariables
   > = (props) => {
     const { eventId, submissionId, data } = props ?? {};
 
@@ -543,13 +639,18 @@ export type ReviewSubmissionBaseMutationResult = NonNullable<
 >;
 export type ReviewSubmissionBaseMutationBody = ReviewSubmissionBaseBody;
 export type ReviewSubmissionBaseMutationError = unknown;
+export type ReviewSubmissionBaseMutationVariables = {
+  eventId: number;
+  submissionId: number;
+  data: ReviewSubmissionBaseBody;
+};
 
 export const useReviewSubmissionBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof reviewSubmissionBase>>,
       TError,
-      { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+      ReviewSubmissionBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -558,7 +659,7 @@ export const useReviewSubmissionBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof reviewSubmissionBase>>,
   TError,
-  { eventId: number; submissionId: number; data: ReviewSubmissionBaseBody },
+  ReviewSubmissionBaseMutationVariables,
   TContext
 > => {
   return useMutation(

@@ -72,6 +72,7 @@ const fieldToName: Record<ItemField, string> = {
   SOCKETS: "Sockets",
   INCUBATOR_KILLS: "Incubator Kills",
   IS_CORRUPTED: "Corrupted",
+  IS_ELDRITCH: "Eldritch",
   IS_VAAL: "Vaal",
   IS_SPLIT: "Split",
   IS_IDENTIFIED: "Identified",

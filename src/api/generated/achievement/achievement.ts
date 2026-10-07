@@ -213,13 +213,40 @@ export const createAchievementBase = async (
   createAchievementBaseBody: CreateAchievementBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<AchievementResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<AchievementResponse>(getCreateAchievementBaseUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createAchievementBaseBody),
   });
 };
+
+export const getCreateAchievementBaseMutationKey = () =>
+  ["createAchievementBase"] as const;
 
 export const getCreateAchievementBaseMutationOptions = <
   TError = unknown,
@@ -228,17 +255,17 @@ export const getCreateAchievementBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createAchievementBase>>,
     TError,
-    { data: CreateAchievementBaseBody },
+    CreateAchievementBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createAchievementBase>>,
   TError,
-  { data: CreateAchievementBaseBody },
+  CreateAchievementBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createAchievementBase"];
+  const mutationKey = getCreateAchievementBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -249,7 +276,7 @@ export const getCreateAchievementBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createAchievementBase>>,
-    { data: CreateAchievementBaseBody }
+    CreateAchievementBaseMutationVariables
   > = (props) => {
     const { data } = props ?? {};
 
@@ -264,6 +291,9 @@ export type CreateAchievementBaseMutationResult = NonNullable<
 >;
 export type CreateAchievementBaseMutationBody = CreateAchievementBaseBody;
 export type CreateAchievementBaseMutationError = unknown;
+export type CreateAchievementBaseMutationVariables = {
+  data: CreateAchievementBaseBody;
+};
 
 /**
  * @summary Create a custom achievement
@@ -273,7 +303,7 @@ export const useCreateAchievementBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createAchievementBase>>,
       TError,
-      { data: CreateAchievementBaseBody },
+      CreateAchievementBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -282,7 +312,7 @@ export const useCreateAchievementBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof createAchievementBase>>,
   TError,
-  { data: CreateAchievementBaseBody },
+  CreateAchievementBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -306,6 +336,9 @@ export const syncAchievementsBase = async (
   });
 };
 
+export const getSyncAchievementsBaseMutationKey = () =>
+  ["syncAchievementsBase"] as const;
+
 export const getSyncAchievementsBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -323,7 +356,7 @@ export const getSyncAchievementsBaseMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["syncAchievementsBase"];
+  const mutationKey = getSyncAchievementsBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -390,6 +423,9 @@ export const deleteAchievementBase = async (
   });
 };
 
+export const getDeleteAchievementBaseMutationKey = () =>
+  ["deleteAchievementBase"] as const;
+
 export const getDeleteAchievementBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -397,17 +433,17 @@ export const getDeleteAchievementBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteAchievementBase>>,
     TError,
-    { achievementId: number },
+    DeleteAchievementBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteAchievementBase>>,
   TError,
-  { achievementId: number },
+  DeleteAchievementBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteAchievementBase"];
+  const mutationKey = getDeleteAchievementBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -418,7 +454,7 @@ export const getDeleteAchievementBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteAchievementBase>>,
-    { achievementId: number }
+    DeleteAchievementBaseMutationVariables
   > = (props) => {
     const { achievementId } = props ?? {};
 
@@ -433,6 +469,7 @@ export type DeleteAchievementBaseMutationResult = NonNullable<
 >;
 
 export type DeleteAchievementBaseMutationError = unknown;
+export type DeleteAchievementBaseMutationVariables = { achievementId: number };
 
 /**
  * @summary Delete a custom achievement
@@ -442,7 +479,7 @@ export const useDeleteAchievementBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteAchievementBase>>,
       TError,
-      { achievementId: number },
+      DeleteAchievementBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -451,7 +488,7 @@ export const useDeleteAchievementBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteAchievementBase>>,
   TError,
-  { achievementId: number },
+  DeleteAchievementBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -471,16 +508,43 @@ export const updateAchievementBase = async (
   updateAchievementBaseBody: UpdateAchievementBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<AchievementResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<AchievementResponse>(
     getUpdateAchievementBaseUrl(achievementId),
     {
       ...options,
       method: "PATCH",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(updateAchievementBaseBody),
     },
   );
 };
+
+export const getUpdateAchievementBaseMutationKey = () =>
+  ["updateAchievementBase"] as const;
 
 export const getUpdateAchievementBaseMutationOptions = <
   TError = unknown,
@@ -489,17 +553,17 @@ export const getUpdateAchievementBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateAchievementBase>>,
     TError,
-    { achievementId: number; data: UpdateAchievementBaseBody },
+    UpdateAchievementBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateAchievementBase>>,
   TError,
-  { achievementId: number; data: UpdateAchievementBaseBody },
+  UpdateAchievementBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["updateAchievementBase"];
+  const mutationKey = getUpdateAchievementBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -510,7 +574,7 @@ export const getUpdateAchievementBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateAchievementBase>>,
-    { achievementId: number; data: UpdateAchievementBaseBody }
+    UpdateAchievementBaseMutationVariables
   > = (props) => {
     const { achievementId, data } = props ?? {};
 
@@ -525,6 +589,10 @@ export type UpdateAchievementBaseMutationResult = NonNullable<
 >;
 export type UpdateAchievementBaseMutationBody = UpdateAchievementBaseBody;
 export type UpdateAchievementBaseMutationError = unknown;
+export type UpdateAchievementBaseMutationVariables = {
+  achievementId: number;
+  data: UpdateAchievementBaseBody;
+};
 
 /**
  * @summary Update a custom achievement
@@ -534,7 +602,7 @@ export const useUpdateAchievementBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateAchievementBase>>,
       TError,
-      { achievementId: number; data: UpdateAchievementBaseBody },
+      UpdateAchievementBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -543,7 +611,7 @@ export const useUpdateAchievementBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateAchievementBase>>,
   TError,
-  { achievementId: number; data: UpdateAchievementBaseBody },
+  UpdateAchievementBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -719,6 +787,8 @@ export const uploadIconBase = async (
   });
 };
 
+export const getUploadIconBaseMutationKey = () => ["uploadIconBase"] as const;
+
 export const getUploadIconBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -726,17 +796,17 @@ export const getUploadIconBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof uploadIconBase>>,
     TError,
-    { achievementId: number; data: unknown | UploadIconBaseBodyTwo },
+    UploadIconBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof uploadIconBase>>,
   TError,
-  { achievementId: number; data: unknown | UploadIconBaseBodyTwo },
+  UploadIconBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["uploadIconBase"];
+  const mutationKey = getUploadIconBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -747,7 +817,7 @@ export const getUploadIconBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadIconBase>>,
-    { achievementId: number; data: unknown | UploadIconBaseBodyTwo }
+    UploadIconBaseMutationVariables
   > = (props) => {
     const { achievementId, data } = props ?? {};
 
@@ -762,6 +832,10 @@ export type UploadIconBaseMutationResult = NonNullable<
 >;
 export type UploadIconBaseMutationBody = unknown | UploadIconBaseBodyTwo;
 export type UploadIconBaseMutationError = unknown;
+export type UploadIconBaseMutationVariables = {
+  achievementId: number;
+  data: unknown | UploadIconBaseBodyTwo;
+};
 
 /**
  * @summary Upload an icon for an achievement
@@ -771,7 +845,7 @@ export const useUploadIconBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof uploadIconBase>>,
       TError,
-      { achievementId: number; data: unknown | UploadIconBaseBodyTwo },
+      UploadIconBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -780,7 +854,7 @@ export const useUploadIconBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof uploadIconBase>>,
   TError,
-  { achievementId: number; data: unknown | UploadIconBaseBodyTwo },
+  UploadIconBaseMutationVariables,
   TContext
 > => {
   return useMutation(getUploadIconBaseMutationOptions(options), queryClient);
@@ -980,13 +1054,40 @@ export const grantAchievementBase = async (
   grantAchievementBaseBody: GrantAchievementBaseBody,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<GrantAchievementBase201> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
   return customFetch<GrantAchievementBase201>(getGrantAchievementBaseUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(grantAchievementBaseBody),
   });
 };
+
+export const getGrantAchievementBaseMutationKey = () =>
+  ["grantAchievementBase"] as const;
 
 export const getGrantAchievementBaseMutationOptions = <
   TError = unknown,
@@ -995,17 +1096,17 @@ export const getGrantAchievementBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof grantAchievementBase>>,
     TError,
-    { data: GrantAchievementBaseBody },
+    GrantAchievementBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof grantAchievementBase>>,
   TError,
-  { data: GrantAchievementBaseBody },
+  GrantAchievementBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["grantAchievementBase"];
+  const mutationKey = getGrantAchievementBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1016,7 +1117,7 @@ export const getGrantAchievementBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof grantAchievementBase>>,
-    { data: GrantAchievementBaseBody }
+    GrantAchievementBaseMutationVariables
   > = (props) => {
     const { data } = props ?? {};
 
@@ -1031,6 +1132,9 @@ export type GrantAchievementBaseMutationResult = NonNullable<
 >;
 export type GrantAchievementBaseMutationBody = GrantAchievementBaseBody;
 export type GrantAchievementBaseMutationError = unknown;
+export type GrantAchievementBaseMutationVariables = {
+  data: GrantAchievementBaseBody;
+};
 
 /**
  * @summary Grant an achievement to a user
@@ -1040,7 +1144,7 @@ export const useGrantAchievementBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof grantAchievementBase>>,
       TError,
-      { data: GrantAchievementBaseBody },
+      GrantAchievementBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1049,7 +1153,7 @@ export const useGrantAchievementBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof grantAchievementBase>>,
   TError,
-  { data: GrantAchievementBaseBody },
+  GrantAchievementBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1078,6 +1182,9 @@ export const revokeAchievementBase = async (
   });
 };
 
+export const getRevokeAchievementBaseMutationKey = () =>
+  ["revokeAchievementBase"] as const;
+
 export const getRevokeAchievementBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -1085,17 +1192,17 @@ export const getRevokeAchievementBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof revokeAchievementBase>>,
     TError,
-    { userId: number; achievementId: number },
+    RevokeAchievementBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof revokeAchievementBase>>,
   TError,
-  { userId: number; achievementId: number },
+  RevokeAchievementBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["revokeAchievementBase"];
+  const mutationKey = getRevokeAchievementBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1106,7 +1213,7 @@ export const getRevokeAchievementBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof revokeAchievementBase>>,
-    { userId: number; achievementId: number }
+    RevokeAchievementBaseMutationVariables
   > = (props) => {
     const { userId, achievementId } = props ?? {};
 
@@ -1121,6 +1228,10 @@ export type RevokeAchievementBaseMutationResult = NonNullable<
 >;
 
 export type RevokeAchievementBaseMutationError = unknown;
+export type RevokeAchievementBaseMutationVariables = {
+  userId: number;
+  achievementId: number;
+};
 
 /**
  * @summary Revoke an achievement from a user
@@ -1130,7 +1241,7 @@ export const useRevokeAchievementBase = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof revokeAchievementBase>>,
       TError,
-      { userId: number; achievementId: number },
+      RevokeAchievementBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1139,7 +1250,7 @@ export const useRevokeAchievementBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof revokeAchievementBase>>,
   TError,
-  { userId: number; achievementId: number },
+  RevokeAchievementBaseMutationVariables,
   TContext
 > => {
   return useMutation(

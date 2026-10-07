@@ -63,6 +63,8 @@ export const fixPoBsBase = async (
   });
 };
 
+export const getFixPoBsBaseMutationKey = () => ["fixPoBsBase"] as const;
+
 export const getFixPoBsBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -80,7 +82,7 @@ export const getFixPoBsBaseMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["fixPoBsBase"];
+  const mutationKey = getFixPoBsBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -878,6 +880,9 @@ export const updateCharacterBase = async (
   );
 };
 
+export const getUpdateCharacterBaseMutationKey = () =>
+  ["updateCharacterBase"] as const;
+
 export const getUpdateCharacterBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -885,17 +890,17 @@ export const getUpdateCharacterBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateCharacterBase>>,
     TError,
-    { userId: number; characterId: string },
+    UpdateCharacterBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateCharacterBase>>,
   TError,
-  { userId: number; characterId: string },
+  UpdateCharacterBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["updateCharacterBase"];
+  const mutationKey = getUpdateCharacterBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -906,7 +911,7 @@ export const getUpdateCharacterBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateCharacterBase>>,
-    { userId: number; characterId: string }
+    UpdateCharacterBaseMutationVariables
   > = (props) => {
     const { userId, characterId } = props ?? {};
 
@@ -921,13 +926,17 @@ export type UpdateCharacterBaseMutationResult = NonNullable<
 >;
 
 export type UpdateCharacterBaseMutationError = unknown;
+export type UpdateCharacterBaseMutationVariables = {
+  userId: number;
+  characterId: string;
+};
 
 export const useUpdateCharacterBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateCharacterBase>>,
       TError,
-      { userId: number; characterId: string },
+      UpdateCharacterBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -936,7 +945,7 @@ export const useUpdateCharacterBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateCharacterBase>>,
   TError,
-  { userId: number; characterId: string },
+  UpdateCharacterBaseMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1317,6 +1326,9 @@ export const deletePoBExportBase = async (
   );
 };
 
+export const getDeletePoBExportBaseMutationKey = () =>
+  ["deletePoBExportBase"] as const;
+
 export const getDeletePoBExportBaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
@@ -1324,17 +1336,17 @@ export const getDeletePoBExportBaseMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deletePoBExportBase>>,
     TError,
-    { userId: number; characterId: string; pobId: number },
+    DeletePoBExportBaseMutationVariables,
     TContext
   >;
   request?: SecondParameter<typeof customFetch>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deletePoBExportBase>>,
   TError,
-  { userId: number; characterId: string; pobId: number },
+  DeletePoBExportBaseMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deletePoBExportBase"];
+  const mutationKey = getDeletePoBExportBaseMutationKey();
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1345,7 +1357,7 @@ export const getDeletePoBExportBaseMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deletePoBExportBase>>,
-    { userId: number; characterId: string; pobId: number }
+    DeletePoBExportBaseMutationVariables
   > = (props) => {
     const { userId, characterId, pobId } = props ?? {};
 
@@ -1360,13 +1372,18 @@ export type DeletePoBExportBaseMutationResult = NonNullable<
 >;
 
 export type DeletePoBExportBaseMutationError = unknown;
+export type DeletePoBExportBaseMutationVariables = {
+  userId: number;
+  characterId: string;
+  pobId: number;
+};
 
 export const useDeletePoBExportBase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deletePoBExportBase>>,
       TError,
-      { userId: number; characterId: string; pobId: number },
+      DeletePoBExportBaseMutationVariables,
       TContext
     >;
     request?: SecondParameter<typeof customFetch>;
@@ -1375,7 +1392,7 @@ export const useDeletePoBExportBase = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deletePoBExportBase>>,
   TError,
-  { userId: number; characterId: string; pobId: number },
+  DeletePoBExportBaseMutationVariables,
   TContext
 > => {
   return useMutation(
