@@ -378,6 +378,25 @@ const anomalousBaseTypes: {
   poe2: {},
 };
 
+// Splits on commas; `\,` keeps a literal comma and `\\` a literal backslash.
+export function splitEscaped(value: string): string[] {
+  const parts: string[] = [];
+  let current = "";
+  for (let i = 0; i < value.length; i++) {
+    const c = value[i];
+    if (c === "\\" && (value[i + 1] === "," || value[i + 1] === "\\")) {
+      current += value[++i];
+    } else if (c === ",") {
+      parts.push(current.trim());
+      current = "";
+    } else {
+      current += c;
+    }
+  }
+  parts.push(current.trim());
+  return parts;
+}
+
 export function getItemName(
   objective: ScoreObjective | Objective,
 ): string | null {
@@ -389,13 +408,13 @@ export function getItemName(
       if (condition.operator === Operator.EQ) {
         return condition.value.replaceAll("Foulborn ", "");
       } else if (condition.operator === Operator.IN) {
-        return condition.value.split(",")[0].replaceAll("Foulborn ", "");
+        return splitEscaped(condition.value)[0].replaceAll("Foulborn ", "");
       }
     } else if (condition.field === ItemField.BASE_TYPE) {
       if (condition.operator === Operator.EQ) {
         return condition.value;
       } else if (condition.operator === Operator.IN) {
-        return condition.value.split(",")[0];
+        return splitEscaped(condition.value)[0];
       }
     }
   }
@@ -405,7 +424,7 @@ function getFirstConditionValue(condition: Condition): string {
   if (condition.operator === Operator.EQ) {
     return condition.value;
   } else if (condition.operator === Operator.IN) {
-    return condition.value.split(",")[0];
+    return splitEscaped(condition.value)[0];
   }
   return "";
 }
