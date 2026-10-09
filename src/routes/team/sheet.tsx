@@ -26,7 +26,7 @@ import { tallyByPlayer } from "@utils/chart-tally";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useContext, useEffect, useState } from "react";
 import {
   CheckIcon,
@@ -576,14 +576,17 @@ function RouteComponent() {
       accessorKey: "displayName",
       size: 160,
       cell: (info) => (
-        <div>
+        <Link
+          to={"/profile/$userId"}
+          params={{ userId: info.row.original.userId }}
+        >
           <div className="font-semibold">{info.row.original.displayName}</div>
           {info.row.original.poeAccountName && (
             <div className="text-xs text-base-content/60">
               {info.row.original.poeAccountName}
             </div>
           )}
-        </div>
+        </Link>
       ),
     },
     {

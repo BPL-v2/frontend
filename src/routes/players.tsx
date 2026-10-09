@@ -6,7 +6,7 @@ import {
   ClipboardDocumentCheckIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { isLoggedIn } from "@utils/token";
@@ -57,6 +57,14 @@ function RouteComponent() {
       size: 300,
       filterFn: "includesString",
       enableSorting: false,
+      cell: (info) => (
+        <Link
+          to={"/profile/$userId"}
+          params={{ userId: info.row.original.user_id }}
+        >
+          {info.row.original.poe_name}
+        </Link>
+      ),
       meta: {
         filterVariant: "string",
         filterPlaceholder: "PoE Name",
