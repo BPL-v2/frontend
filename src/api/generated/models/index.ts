@@ -184,6 +184,7 @@ export * from "./updateAchievementBaseBody.ts";
 export * from "./updateItemWish.ts";
 export * from "./updateUserBaseBody.ts";
 export * from "./uploadIconBaseBodyTwo.ts";
+export * from "./uploadTeamIconBaseBodyTwo.ts";
 export * from "./user.ts";
 export * from "./userAchievementResponse.ts";
 export * from "./userUpdate.ts";

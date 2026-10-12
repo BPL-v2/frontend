@@ -105,6 +105,8 @@ import {
   useCreateTeamBase,
   useDeleteObjectiveTeamSuggestionBase,
   useDeleteTeamBase,
+  getUploadTeamIconBaseUrl,
+  getDeleteTeamIconBaseUrl,
   useGetSortedUsersBase,
   useGetTeamSheetBase,
   useGetTeamSuggestionsBase,
@@ -522,6 +524,42 @@ export function useDeleteTeam(qc: QueryClient, eventId: number) {
   return {
     deleteTeam: (teamId: number) => m.mutate({ eventId, teamId }),
     deleteTeamPending: m.isPending,
+  };
+}
+
+export function useUploadTeamIcon(qc: QueryClient, eventId: number) {
+  const m = useMutation({
+    mutationFn: ({ teamId, file }: { teamId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append("icon", file);
+      return customFetch<void>(getUploadTeamIconBaseUrl(eventId, teamId), {
+        method: "PUT",
+        body: formData,
+      });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
+    },
+  });
+  return {
+    uploadIcon: (teamId: number, file: File) => m.mutate({ teamId, file }),
+    uploadIconPending: m.isPending,
+  };
+}
+
+export function useDeleteTeamIcon(qc: QueryClient, eventId: number) {
+  const m = useMutation({
+    mutationFn: ({ teamId }: { teamId: number }) =>
+      customFetch<void>(getDeleteTeamIconBaseUrl(eventId, teamId), {
+        method: "DELETE",
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: getGetEventsBaseQueryKey() });
+    },
+  });
+  return {
+    deleteIcon: (teamId: number) => m.mutate({ teamId }),
+    deleteIconPending: m.isPending,
   };
 }
 

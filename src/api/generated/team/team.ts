@@ -24,6 +24,7 @@ import type {
   Team,
   TeamSheetEntry,
   TeamSuggestion,
+  UploadTeamIconBaseBodyTwo,
 } from "../models";
 
 import { customFetch } from "../../fetcher.ts";
@@ -833,6 +834,368 @@ export function useGetTeamBase<
   return withQueryKey(query, queryOptions.queryKey);
 }
 
+export const getDeleteTeamIconBaseUrl = (eventId: number, teamId: number) => {
+  return `/events/${eventId}/teams/${teamId}/icon`;
+};
+
+/**
+ * Removes the icon of a team
+ */
+export const deleteTeamIconBase = async (
+  eventId: number,
+  teamId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<void> => {
+  return customFetch<void>(getDeleteTeamIconBaseUrl(eventId, teamId), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+export const getDeleteTeamIconBaseMutationKey = () =>
+  ["deleteTeamIconBase"] as const;
+
+export const getDeleteTeamIconBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteTeamIconBase>>,
+    TError,
+    DeleteTeamIconBaseMutationVariables,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteTeamIconBase>>,
+  TError,
+  DeleteTeamIconBaseMutationVariables,
+  TContext
+> => {
+  const mutationKey = getDeleteTeamIconBaseMutationKey();
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteTeamIconBase>>,
+    DeleteTeamIconBaseMutationVariables
+  > = (props) => {
+    const { eventId, teamId } = props ?? {};
+
+    return deleteTeamIconBase(eventId, teamId, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteTeamIconBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteTeamIconBase>>
+>;
+
+export type DeleteTeamIconBaseMutationError = unknown;
+export type DeleteTeamIconBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+};
+
+export const useDeleteTeamIconBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteTeamIconBase>>,
+      TError,
+      DeleteTeamIconBaseMutationVariables,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteTeamIconBase>>,
+  TError,
+  DeleteTeamIconBaseMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getDeleteTeamIconBaseMutationOptions(options),
+    queryClient,
+  );
+};
+export const getGetTeamIconBaseUrl = (eventId: number, teamId: number) => {
+  return `/events/${eventId}/teams/${teamId}/icon`;
+};
+
+/**
+ * Fetches the icon of a team
+ */
+export const getTeamIconBase = async (
+  eventId: number,
+  teamId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<Blob> => {
+  return customFetch<Blob>(getGetTeamIconBaseUrl(eventId, teamId), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetTeamIconBaseQueryKey = (eventId: number, teamId: number) => {
+  return [`/events/${eventId}/teams/${teamId}/icon`] as const;
+};
+
+export const getGetTeamIconBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTeamIconBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamIconBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetTeamIconBaseQueryKey(eventId, teamId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getTeamIconBase>>> = ({
+    signal,
+  }) => getTeamIconBase(eventId, teamId, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      teamId !== null &&
+      teamId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTeamIconBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetTeamIconBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTeamIconBase>>
+>;
+export type GetTeamIconBaseQueryError = unknown;
+
+export function useGetTeamIconBase<
+  TData = Awaited<ReturnType<typeof getTeamIconBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamIconBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTeamIconBase>>,
+          TError,
+          Awaited<ReturnType<typeof getTeamIconBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamIconBase<
+  TData = Awaited<ReturnType<typeof getTeamIconBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamIconBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTeamIconBase>>,
+          TError,
+          Awaited<ReturnType<typeof getTeamIconBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTeamIconBase<
+  TData = Awaited<ReturnType<typeof getTeamIconBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamIconBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetTeamIconBase<
+  TData = Awaited<ReturnType<typeof getTeamIconBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  teamId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTeamIconBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTeamIconBaseQueryOptions(eventId, teamId, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getUploadTeamIconBaseUrl = (eventId: number, teamId: number) => {
+  return `/events/${eventId}/teams/${teamId}/icon`;
+};
+
+/**
+ * Uploads an icon for a team
+ */
+export const uploadTeamIconBase = async (
+  eventId: number,
+  teamId: number,
+  uploadTeamIconBaseBody: unknown | UploadTeamIconBaseBodyTwo,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<void> => {
+  return customFetch<void>(getUploadTeamIconBaseUrl(eventId, teamId), {
+    ...options,
+    method: "PUT",
+    body: JSON.stringify(uploadTeamIconBaseBody),
+  });
+};
+
+export const getUploadTeamIconBaseMutationKey = () =>
+  ["uploadTeamIconBase"] as const;
+
+export const getUploadTeamIconBaseMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof uploadTeamIconBase>>,
+    TError,
+    UploadTeamIconBaseMutationVariables,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof uploadTeamIconBase>>,
+  TError,
+  UploadTeamIconBaseMutationVariables,
+  TContext
+> => {
+  const mutationKey = getUploadTeamIconBaseMutationKey();
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadTeamIconBase>>,
+    UploadTeamIconBaseMutationVariables
+  > = (props) => {
+    const { eventId, teamId, data } = props ?? {};
+
+    return uploadTeamIconBase(eventId, teamId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UploadTeamIconBaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadTeamIconBase>>
+>;
+export type UploadTeamIconBaseMutationBody =
+  unknown | UploadTeamIconBaseBodyTwo;
+export type UploadTeamIconBaseMutationError = unknown;
+export type UploadTeamIconBaseMutationVariables = {
+  eventId: number;
+  teamId: number;
+  data: unknown | UploadTeamIconBaseBodyTwo;
+};
+
+export const useUploadTeamIconBase = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof uploadTeamIconBase>>,
+      TError,
+      UploadTeamIconBaseMutationVariables,
+      TContext
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof uploadTeamIconBase>>,
+  TError,
+  UploadTeamIconBaseMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getUploadTeamIconBaseMutationOptions(options),
+    queryClient,
+  );
+};
 export const getGetTeamSheetBaseUrl = (eventId: number, teamId: number) => {
   return `/events/${eventId}/teams/${teamId}/sheet`;
 };

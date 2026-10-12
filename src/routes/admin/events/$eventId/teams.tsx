@@ -3,21 +3,77 @@ import {
   OBJECTIVE_DESIGNER_PERMISSIONS,
 } from "@utils/admin-event-route";
 import { Team } from "@api";
-import { useDeleteTeam, useGetEvents } from "@api";
+import {
+  useDeleteTeam,
+  useDeleteTeamIcon,
+  useGetEvents,
+  useUploadTeamIcon,
+} from "@api";
 import { TeamFormModal } from "@components/form-dialogs/TeamFormModal";
 import VirtualizedTable from "@components/table/virtualized-table";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  PencilSquareIcon,
+  PhotoIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { renderConditionally } from "@utils/token";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const Route = createFileRoute("/admin/events/$eventId/teams")({
   component: renderConditionally(TeamPage, OBJECTIVE_DESIGNER_PERMISSIONS),
 
   params: eventIdParams,
 });
+
+function TeamIconButtons({ team, eventId }: { team: Team; eventId: number }) {
+  const qc = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploadIcon, uploadIconPending } = useUploadTeamIcon(qc, eventId);
+  const { deleteIcon, deleteIconPending } = useDeleteTeamIcon(qc, eventId);
+
+  return (
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) uploadIcon(team.id, file);
+          e.target.value = "";
+        }}
+      />
+      <div className="tooltip tooltip-info" data-tip="Upload icon">
+        <button
+          className="btn btn-info btn-sm"
+          disabled={uploadIconPending}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          {uploadIconPending ? (
+            <span className="loading loading-xs loading-spinner" />
+          ) : (
+            <PhotoIcon className="size-4" />
+          )}
+        </button>
+      </div>
+      {team.icon_url && (
+        <div className="tooltip tooltip-warning" data-tip="Remove icon">
+          <button
+            className="btn btn-sm btn-warning"
+            disabled={deleteIconPending}
+            onClick={() => deleteIcon(team.id)}
+          >
+            <TrashIcon className="size-4" />
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
 
 function TeamPage() {
   const { eventId } = useParams({ from: Route.id });
@@ -32,6 +88,18 @@ function TeamPage() {
     {
       header: "ID",
       accessorKey: "id",
+    },
+    {
+      header: "Icon",
+      enableSorting: false,
+      cell: (info) =>
+        info.row.original.icon_url ? (
+          <img
+            src={info.row.original.icon_url}
+            alt=""
+            className="size-8 object-contain"
+          />
+        ) : null,
     },
     {
       header: "Name",
@@ -86,6 +154,7 @@ function TeamPage() {
           >
             <PencilSquareIcon className="size-4" />
           </button>
+          <TeamIconButtons team={info.row.original} eventId={eventId} />
         </div>
       ),
     },
