@@ -2,6 +2,7 @@ import {
   eventIdParams,
   OBJECTIVE_DESIGNER_PERMISSIONS,
 } from "@utils/admin-event-route";
+import { backendUrl } from "@api/fetcher";
 import { Team } from "@api";
 import {
   useDeleteTeam,
@@ -96,7 +97,7 @@ function TeamPage() {
       cell: (info) =>
         info.row.original.icon_url ? (
           <img
-            src={info.row.original.icon_url}
+            src={backendUrl(info.row.original.icon_url)}
             alt=""
             className="size-8 object-contain"
           />

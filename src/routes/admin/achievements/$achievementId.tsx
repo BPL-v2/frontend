@@ -5,6 +5,7 @@ import {
   useRevokeAchievement,
   useGetAllUsers,
 } from "@api";
+import { backendUrl } from "@api/fetcher";
 import Table from "@components/table/table";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -121,7 +122,11 @@ function AchievementDetailPage() {
           ← Back
         </Link>
         {iconUrl && (
-          <img src={iconUrl} alt="" className="size-12 object-contain" />
+          <img
+            src={backendUrl(iconUrl)}
+            alt=""
+            className="size-12 object-contain"
+          />
         )}
         <div>
           <h1 className="text-2xl font-bold">

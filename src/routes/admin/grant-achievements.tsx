@@ -11,6 +11,7 @@ import {
   useGetCharactersForEvent,
   useGetUserAchievements,
 } from "@api";
+import { backendUrl } from "@api/fetcher";
 import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
@@ -243,7 +244,11 @@ function GrantAchievementsPage() {
                 title={a.description ?? a.name}
               >
                 {url && (
-                  <img src={url} alt="" className="h-4 w-4 object-contain" />
+                  <img
+                    src={backendUrl(url)}
+                    alt=""
+                    className="h-4 w-4 object-contain"
+                  />
                 )}
                 <span className="text-xs">{a.name}</span>
                 <button

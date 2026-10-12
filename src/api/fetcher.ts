@@ -1,5 +1,10 @@
 const baseUrl = process.env.VITE_PUBLIC_BPL_BACKEND_URL;
 
+/** Prefixes a backend-relative path (e.g. an `icon_url`) with the API base url. */
+export function backendUrl(path: string): string {
+  return `${baseUrl}${path}`;
+}
+
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
 
 function dateReviver(_key: string, value: unknown): unknown {

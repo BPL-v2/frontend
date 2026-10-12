@@ -1,4 +1,5 @@
 import { Permission, AchievementResponse, AchievementCheckKey } from "@api";
+import { backendUrl } from "@api/fetcher";
 import {
   useGetAchievements,
   useCreateAchievement,
@@ -239,7 +240,7 @@ function AchievementsPage() {
       cell: (info) => {
         const url = info.row.original.icon_url;
         return url ? (
-          <img src={url} alt="" className="size-8 object-contain" />
+          <img src={backendUrl(url)} alt="" className="size-8 object-contain" />
         ) : null;
       },
     },
