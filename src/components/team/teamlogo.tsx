@@ -1,4 +1,5 @@
 import { Team } from "@api";
+import { backendUrl } from "@api/fetcher";
 import { contrastColor } from "@utils/color";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -11,7 +12,12 @@ interface TeamLogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
   const [errorCount, setErrorCount] = useState(0);
   if (!team?.name) return null;
-  if (errorCount == 1) {
+  // uploaded icon first, then the static asset, then the text fallback
+  const sources = [
+    ...(team.icon_url ? [backendUrl(team.icon_url)] : []),
+    `/assets/team/${eventId}/${team.name.replaceAll(" ", "").replaceAll("-", "").toLowerCase()}-min.svg`,
+  ];
+  if (errorCount >= sources.length) {
     return (
       <div
         {...props}
@@ -27,8 +33,12 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
       >
         <div
           className={twMerge(
-            "wrap-break-word text-center font-bold leading-tight",
-            team.name.length <= 4 ? "text-xl" : team.name.length <= 8 ? "text-sm" : "text-xs",
+            "text-center leading-tight font-bold wrap-break-word",
+            team.name.length <= 4
+              ? "text-xl"
+              : team.name.length <= 8
+                ? "text-sm"
+                : "text-xs",
           )}
           style={{
             color:
@@ -48,7 +58,7 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
       onError={() => {
         setErrorCount(errorCount + 1);
       }}
-      src={`/assets/team/${eventId}/${team?.name.replaceAll(" ", "").replaceAll("-", "").toLowerCase()}-min.svg`}
+      src={sources[errorCount]}
       alt={team?.name || "Team Logo"}
     />
   );
