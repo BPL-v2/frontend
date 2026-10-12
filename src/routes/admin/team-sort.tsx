@@ -4,7 +4,7 @@ import { DeleteButton } from "@components/form/delete-button";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
@@ -150,7 +150,14 @@ function UserSortPage() {
       {
         header: "PoE Name",
         accessorKey: "user.account_name",
-        size: 200,
+        cell: ({ row }) => (
+          <Link
+            to={`/profile/$userId`}
+            params={{ userId: row.original.user.id }}
+          >
+            {row.original.user.account_name}
+          </Link>
+        ),
       },
       {
         header: "#BPLs",
