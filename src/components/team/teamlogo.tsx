@@ -6,18 +6,12 @@ import { twMerge } from "tailwind-merge";
 
 interface TeamLogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   team?: Team;
-  eventId: number;
 }
 
-export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
-  const [errorCount, setErrorCount] = useState(0);
+export function TeamLogo({ team, ...props }: TeamLogoProps) {
+  const [failedUrl, setFailedUrl] = useState<string>();
   if (!team?.name) return null;
-  // uploaded icon first, then the static asset, then the text fallback
-  const sources = [
-    ...(team.icon_url ? [backendUrl(team.icon_url)] : []),
-    `/assets/team/${eventId}/${team.name.replaceAll(" ", "").replaceAll("-", "").toLowerCase()}-min.svg`,
-  ];
-  if (errorCount >= sources.length) {
+  if (!team.icon_url || failedUrl === team.icon_url) {
     return (
       <div
         {...props}
@@ -55,10 +49,8 @@ export function TeamLogo({ team, eventId, ...props }: TeamLogoProps) {
   return (
     <img
       {...props}
-      onError={() => {
-        setErrorCount(errorCount + 1);
-      }}
-      src={sources[errorCount]}
+      onError={() => setFailedUrl(team.icon_url)}
+      src={backendUrl(team.icon_url)}
       alt={team?.name || "Team Logo"}
     />
   );

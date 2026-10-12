@@ -168,7 +168,7 @@ function Home() {
                     <div key={team.id} className="card bg-base-200">
                       <div className="card-body">
                         {/* <div className="grid h-full grid-cols-1 items-center gap-4 lg:grid-cols-1"> */}
-                        <TeamLogo team={team} eventId={nextEvent.id} />
+                        <TeamLogo team={team} />
                         {/* <div className="flex flex-row flex-wrap gap-1 md:gap-2">
                             {team.allowed_classes.map((character_class) => (
                               <div

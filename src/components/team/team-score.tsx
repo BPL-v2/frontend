@@ -102,7 +102,6 @@ const TeamScoreDisplay = ({
                   </div>
                   <TeamLogo
                     team={team}
-                    eventId={currentEvent.id}
                     className="row-span-2 hidden size-24 md:flex"
                   />
                 </div>
