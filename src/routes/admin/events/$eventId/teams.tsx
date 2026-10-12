@@ -15,6 +15,7 @@ import {
   PencilSquareIcon,
   PhotoIcon,
   TrashIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
@@ -67,7 +68,7 @@ function TeamIconButtons({ team, eventId }: { team: Team; eventId: number }) {
             disabled={deleteIconPending}
             onClick={() => deleteIcon(team.id)}
           >
-            <TrashIcon className="size-4" />
+            <XMarkIcon className="size-4" />
           </button>
         </div>
       )}
