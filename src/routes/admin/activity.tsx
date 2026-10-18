@@ -16,13 +16,23 @@ import { getTotalPoints } from "@utils/utils";
 export const Route = createFileRoute("/admin/activity")({
   component: renderConditionally(ActivityPage, [Permission.admin]),
 });
-
+const degenHours = 14;
 function ActivityPage() {
   const { currentEvent, scores } = useContext(GlobalStateContext);
   const { activities } = useGetActivitiesForEvent(currentEvent?.id);
   const { users = [] } = useGetUsers(currentEvent.id);
   const { ladder = [] } = useGetLadder(currentEvent.id);
   const { signups = [] } = useGetSignups(currentEvent.id);
+  if (
+    !activities ||
+    !users ||
+    !ladder ||
+    !signups ||
+    !currentEvent.event_end_time
+  ) {
+    return <div>Loading...</div>;
+  }
+
   const signupMap = signups.reduce(
     (map, signup) => {
       map[String(signup.user.id)] = signup;
@@ -72,13 +82,9 @@ function ActivityPage() {
       });
     }
   }
-  const daysOfEvent =
-    (currentEvent?.event_end_time
-      ? (new Date(currentEvent.event_end_time).getTime() -
-          new Date(currentEvent.event_start_time).getTime()) /
-        (1000 * 60 * 60 * 24)
-      : 0) || 3;
-  const hoursOfEvent = daysOfEvent * 24;
+  const end = Math.min((currentEvent.event_end_time.getTime(), Date.now()));
+  const durationOfEventHours =
+    (currentEvent.event_end_time.getTime() - end) / 3600 / 1000;
   const teamTableData = userActivities.reduce(
     (map, activity) => {
       const teamId = activity.teamId as number;
@@ -98,7 +104,7 @@ function ActivityPage() {
         : 0;
       map[teamId].numberDuoMembers += activity.duo ? 1 : 0;
       map[teamId].activeMembers += 1;
-      if (activity.activeHours > 10 * daysOfEvent) {
+      if (activity.activeHours > (degenHours * durationOfEventHours) / 24) {
         map[teamId].degens += 1;
       }
       return map;
@@ -140,14 +146,14 @@ function ActivityPage() {
             size: 200,
           },
           {
-            header: "10h+ Players",
+            header: `${degenHours}h+ Players`,
             accessorKey: "degens",
             size: 200,
           },
           {
             header: "Hours/day",
             accessorFn: (row) =>
-              row.totalActiveHours / row.activeMembers / daysOfEvent,
+              row.totalActiveHours / row.activeMembers / durationOfEventHours,
             cell: (info) => (info.getValue() as number).toFixed(2),
             size: 150,
           },
@@ -162,7 +168,9 @@ function ActivityPage() {
             accessorKey: "numberDuoMembers",
             accessorFn: (row) =>
               row.numberDuoMembers > 0
-                ? row.totalActiveDuoHours / row.numberDuoMembers / daysOfEvent
+                ? row.totalActiveDuoHours /
+                  row.numberDuoMembers /
+                  durationOfEventHours
                 : 0,
             cell: (info) => (info.getValue() as number).toFixed(2),
             size: 150,
@@ -228,15 +236,20 @@ function ActivityPage() {
             accessorKey: "activeHours",
             id: "hoursPerDay",
             cell: (info) =>
-              ((info.getValue() as number) / (hoursOfEvent / 24)).toFixed(2),
+              (
+                (info.getValue() as number) /
+                (durationOfEventHours / 24)
+              ).toFixed(2),
           },
           {
             header: "Percentage Active",
             accessorKey: "activeHours",
             id: "percentageActive",
             cell: (info) =>
-              (((info.getValue() as number) / hoursOfEvent) * 100).toFixed(2) +
-              "%",
+              (
+                ((info.getValue() as number) / durationOfEventHours) *
+                100
+              ).toFixed(2) + "%",
           },
         ]}
       />
