@@ -85,7 +85,8 @@ function ActivityPage() {
   }
   const end = Math.min((currentEvent.event_end_time.getTime(), Date.now()));
   const durationOfEventHours =
-    (currentEvent.event_end_time.getTime() - end) / 3600 / 1000;
+    (end - currentEvent.event_start_time.getTime()) / 3600 / 1000;
+  console.log("durationOfEventHours", durationOfEventHours);
   const teamTableData = userActivities.reduce(
     (map, activity) => {
       const teamId = activity.teamId as number;
