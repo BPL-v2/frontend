@@ -11,6 +11,7 @@ import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {
   useGetEventActivitiesBase,
   useGetEventActivitiesForUserBase,
+  useGetEventActivityTimestampsForUserBase,
 } from "./generated/activity/activity";
 import { useGetTeamAtlasesForEventBase } from "./generated/atlas/atlas";
 import {
@@ -1198,6 +1199,13 @@ export function useGetUserActivity(eventId: number, userId: number) {
     },
   });
   return { ...query, activity: query.data };
+}
+
+export function useGetUserActivityTimestamps(eventId: number, userId: number) {
+  const query = useGetEventActivityTimestampsForUserBase(eventId, userId, {
+    query: { enabled: userId !== 0 },
+  });
+  return { ...query, timestamps: query.data ?? [] };
 }
 
 // --- Atlas ---

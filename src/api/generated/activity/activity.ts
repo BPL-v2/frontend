@@ -455,3 +455,197 @@ export function useGetEventActivitiesForUserBase<
 
   return withQueryKey(query, queryOptions.queryKey);
 }
+
+export const getGetEventActivityTimestampsForUserBaseUrl = (
+  eventId: number,
+  userId: number,
+) => {
+  return `/events/${eventId}/activity/${userId}/timestamps`;
+};
+
+/**
+ * Get the raw activity timestamps of a user in an event
+ */
+export const getEventActivityTimestampsForUserBase = async (
+  eventId: number,
+  userId: number,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<string[]> => {
+  return customFetch<string[]>(
+    getGetEventActivityTimestampsForUserBaseUrl(eventId, userId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getGetEventActivityTimestampsForUserBaseQueryKey = (
+  eventId: number,
+  userId: number,
+) => {
+  return [`/events/${eventId}/activity/${userId}/timestamps`] as const;
+};
+
+export const getGetEventActivityTimestampsForUserBaseQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetEventActivityTimestampsForUserBaseQueryKey(eventId, userId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>
+  > = ({ signal }) =>
+    getEventActivityTimestampsForUserBase(eventId, userId, {
+      signal,
+      ...requestOptions,
+    });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled:
+      eventId !== null &&
+      eventId !== undefined &&
+      userId !== null &&
+      userId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetEventActivityTimestampsForUserBaseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>
+>;
+export type GetEventActivityTimestampsForUserBaseQueryError = unknown;
+
+export function useGetEventActivityTimestampsForUserBase<
+  TData = Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+          TError,
+          Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventActivityTimestampsForUserBase<
+  TData = Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+          TError,
+          Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetEventActivityTimestampsForUserBase<
+  TData = Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetEventActivityTimestampsForUserBase<
+  TData = Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+  TError = unknown,
+>(
+  eventId: number,
+  userId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEventActivityTimestampsForUserBase>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetEventActivityTimestampsForUserBaseQueryOptions(
+    eventId,
+    userId,
+    options,
+  );
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}

@@ -13,7 +13,7 @@ import { GlobalStateContext } from "@utils/context-provider";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { getTotalPoints } from "@utils/utils";
 
-export const Route = createFileRoute("/admin/activity")({
+export const Route = createFileRoute("/admin/activity/")({
   component: renderConditionally(ActivityPage, [Permission.admin]),
 });
 const degenHours = 14;
@@ -28,6 +28,7 @@ function ActivityPage() {
     !users ||
     !ladder ||
     !signups ||
+    !currentEvent.event_start_time ||
     !currentEvent.event_end_time
   ) {
     return <div>Loading...</div>;
@@ -153,7 +154,9 @@ function ActivityPage() {
           {
             header: "Hours/day",
             accessorFn: (row) =>
-              row.totalActiveHours / row.activeMembers / durationOfEventHours,
+              row.totalActiveHours /
+              row.activeMembers /
+              (durationOfEventHours / 24),
             cell: (info) => (info.getValue() as number).toFixed(2),
             size: 150,
           },
@@ -196,6 +199,19 @@ function ActivityPage() {
               </Link>
             ),
             size: 250,
+          },
+          {
+            header: "Graph",
+            id: "graph",
+            cell: (info) => (
+              <Link
+                to="/admin/activity/$userId"
+                params={{ userId: String(info.row.original.id) }}
+              >
+                View
+              </Link>
+            ),
+            size: 100,
           },
           {
             header: "Level",
