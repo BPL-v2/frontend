@@ -83,10 +83,9 @@ function ActivityPage() {
       });
     }
   }
-  const end = Math.min((currentEvent.event_end_time.getTime(), Date.now()));
+  const end = Math.min(currentEvent.event_end_time.getTime(), Date.now());
   const durationOfEventHours =
     (end - currentEvent.event_start_time.getTime()) / 3600 / 1000;
-  console.log("durationOfEventHours", durationOfEventHours);
   const teamTableData = userActivities.reduce(
     (map, activity) => {
       const teamId = activity.teamId as number;
