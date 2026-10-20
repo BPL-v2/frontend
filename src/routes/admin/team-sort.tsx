@@ -6,6 +6,17 @@ import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
+import {
+  atlasBucketWeight,
+  atlasMilestones,
+  atlasSpeedBucketKey,
+  atlasSpeedBuckets,
+  describeAtlasSpeedBucket,
+  getAtlasMilestoneHours,
+  getAtlasSpeedBucket,
+  type AtlasMilestone,
+  type AtlasSpeedBucket,
+} from "@utils/atlas-speed";
 import { GlobalStateContext } from "@utils/context-provider";
 import { renderConditionally } from "@utils/token";
 import {
@@ -34,7 +45,17 @@ type TeamRow = {
   low: number;
   medium: number;
   large: number;
+  atlas: AtlasCounts;
 };
+
+type AtlasCounts = Record<AtlasMilestone, Record<AtlasSpeedBucket, number>>;
+
+function emptyAtlasCounts(): AtlasCounts {
+  return {
+    firstPoint: { fast: 0, medium: 0, slow: 0, unknown: 0 },
+    eightyPoints: { fast: 0, medium: 0, slow: 0, unknown: 0 },
+  };
+}
 
 const totalBucketKey = "total";
 const participationBucketKeys = {
@@ -79,6 +100,10 @@ function getPlaytimeBucket(
   return "large";
 }
 
+const atlasBucketKeys = atlasMilestones.flatMap((milestone) =>
+  atlasSpeedBuckets.map((bucket) => atlasSpeedBucketKey(milestone, bucket)),
+);
+
 function buildBucketConfig(): SortBucketConfig {
   const bucketKeys = [
     totalBucketKey,
@@ -88,11 +113,15 @@ function buildBucketConfig(): SortBucketConfig {
     playtimeBucketKeys.low,
     playtimeBucketKeys.medium,
     playtimeBucketKeys.large,
+    ...atlasBucketKeys,
   ];
 
   return {
     bucketKeys,
     totalBucketKey,
+    bucketWeights: Object.fromEntries(
+      atlasBucketKeys.map((key) => [key, atlasBucketWeight]),
+    ),
     getSignupBuckets: (signup: ExtendedSignup) => {
       const buckets = [
         totalBucketKey,
@@ -101,6 +130,15 @@ function buildBucketConfig(): SortBucketConfig {
       const playtimeBucket = getPlaytimeBucket(signup);
       if (playtimeBucket) {
         buckets.push(playtimeBucketKeys[playtimeBucket]);
+      }
+      // players without atlas data get spread out as well, in the unknown buckets
+      for (const milestone of atlasMilestones) {
+        buckets.push(
+          atlasSpeedBucketKey(
+            milestone,
+            getAtlasSpeedBucket(signup, milestone),
+          ),
+        );
       }
       return buckets;
     },
@@ -171,6 +209,19 @@ function UserSortPage() {
         cell: ({ getValue }) => {
           const playtime = getValue() as number;
           return playtime ? playtime.toFixed(1) + " h / day" : "N/A";
+        },
+        size: 200,
+      },
+      {
+        header: "Atlas 1 / 80 points",
+        accessorFn: (row) =>
+          getAtlasMilestoneHours(row, "firstPoint") ?? Number.POSITIVE_INFINITY,
+        cell: ({ row }) => {
+          const hours = (milestone: AtlasMilestone) => {
+            const value = getAtlasMilestoneHours(row.original, milestone);
+            return value === null ? "N/A" : `${value.toFixed(1)} h`;
+          };
+          return `${hours("firstPoint")} / ${hours("eightyPoints")}`;
         },
         size: 200,
       },
@@ -303,6 +354,9 @@ function UserSortPage() {
             if (playtimeBucket) {
               acc[playtimeBucket] += 1;
             }
+            for (const milestone of atlasMilestones) {
+              acc.atlas[milestone][getAtlasSpeedBucket(signup, milestone)] += 1;
+            }
 
             return acc;
           },
@@ -317,6 +371,7 @@ function UserSortPage() {
             low: 0,
             medium: 0,
             large: 0,
+            atlas: emptyAtlasCounts(),
           } as TeamRow,
         ),
   );
@@ -340,6 +395,11 @@ function UserSortPage() {
         // @ts-ignore: dynamic key access on typed object
         acc[key] += row[key] || 0;
       }
+      for (const milestone of atlasMilestones) {
+        for (const bucket of atlasSpeedBuckets) {
+          acc.atlas[milestone][bucket] += row.atlas[milestone][bucket];
+        }
+      }
       return acc;
     },
     {
@@ -352,6 +412,7 @@ function UserSortPage() {
       low: 0,
       medium: 0,
       large: 0,
+      atlas: emptyAtlasCounts(),
     } as TeamRow,
   );
   const exportToCSV = (signups: Signup[]) => {
@@ -424,6 +485,12 @@ function UserSortPage() {
             <th colSpan={3} className="text-center">
               Playtime per day (last event)
             </th>
+            <th colSpan={4} className="text-center">
+              Time to 1 atlas point
+            </th>
+            <th colSpan={4} className="text-center">
+              Time to 80 atlas points
+            </th>
           </tr>
           <tr>
             <th>
@@ -456,6 +523,20 @@ function UserSortPage() {
                 Large
               </div>
             </th>
+            {atlasMilestones.flatMap((milestone) =>
+              atlasSpeedBuckets.map((bucket) => (
+                <th key={`${milestone}-${bucket}`}>
+                  <div
+                    className="tooltip"
+                    data-tip={describeAtlasSpeedBucket(milestone, bucket)}
+                  >
+                    {bucket === "unknown"
+                      ? "?"
+                      : bucket[0].toUpperCase() + bucket.slice(1)}
+                  </div>
+                </th>
+              )),
+            )}
           </tr>
         </thead>
         <tbody className="bg-base-300">
@@ -469,6 +550,13 @@ function UserSortPage() {
               <td>{row.low}</td>
               <td>{row.medium}</td>
               <td>{row.large}</td>
+              {atlasMilestones.flatMap((milestone) =>
+                atlasSpeedBuckets.map((bucket) => (
+                  <td key={`${milestone}-${bucket}`}>
+                    {row.atlas[milestone][bucket]}
+                  </td>
+                )),
+              )}
             </tr>
           ))}
         </tbody>

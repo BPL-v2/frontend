@@ -8,6 +8,8 @@ export type SortBucketConfig = {
   bucketKeys: string[];
   totalBucketKey: string;
   getSignupBuckets: (signup: SortedSignup) => string[];
+  /** How much a bucket counts in the balance score, 1 if not given. */
+  bucketWeights?: { [bucketKey: string]: number };
 };
 
 export function sortUsers(
@@ -151,7 +153,11 @@ function getTeamCounts(
 }
 
 /** Tracks how many signups of each bucket every team has. */
-function createBucketTracker(teamIds: number[], bucketKeys: string[]) {
+function createBucketTracker(
+  teamIds: number[],
+  bucketKeys: string[],
+  bucketWeights: { [bucketKey: string]: number } = {},
+) {
   const buckets: { [key: string]: { [teamId: number]: number } } = {};
   const bucketTotals: { [key: string]: number } = {};
   for (const bucketKey of bucketKeys) {
@@ -169,16 +175,17 @@ function createBucketTracker(teamIds: number[], bucketKeys: string[]) {
     countIn(bucketKey: string, teamId: number) {
       return buckets[bucketKey][teamId];
     },
-    /** Squared distance from a perfectly even spread if the signup joined `teamId`. */
+    /** Weighted squared distance from a perfectly even spread if the signup joined `teamId`. */
     scoreFor(teamId: number, signupBuckets: string[]) {
       let score = 0;
       for (const bucketKey of bucketKeys) {
         const inBucket = signupBuckets.includes(bucketKey) ? 1 : 0;
         const target = (bucketTotals[bucketKey] + inBucket) / teamIds.length;
+        const weight = bucketWeights[bucketKey] ?? 1;
         for (const candidateTeamId of teamIds) {
           const extra = candidateTeamId === teamId ? inBucket : 0;
           const diff = buckets[bucketKey][candidateTeamId] + extra - target;
-          score += diff * diff;
+          score += weight * diff * diff;
         }
       }
       return score;
@@ -193,7 +200,11 @@ function getSortSuggestion(
 ) {
   const teamIds = currentEvent.teams.map((team) => team.id);
   const { totalBucketKey } = bucketConfig;
-  const tracker = createBucketTracker(teamIds, bucketConfig.bucketKeys);
+  const tracker = createBucketTracker(
+    teamIds,
+    bucketConfig.bucketKeys,
+    bucketConfig.bucketWeights,
+  );
 
   for (const signup of signups) {
     if (signup.team_id) {

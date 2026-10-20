@@ -114,3 +114,37 @@ describe("sortUsers", () => {
     expect(sortUsers(event, [], config)).toEqual([]);
   });
 });
+
+describe("sortUsers bucket weights", () => {
+  const twoTeams = { teams: [{ id: 1 }, { id: 2 }] } as unknown as Event;
+  const buckets: Record<number, string[]> = {
+    1: ["total", "a"], // sorted to team 1
+    2: ["total", "b"], // sorted to team 2
+    3: ["total", "a", "b"], // to be sorted
+  };
+  const sorted = (bucketWeights?: Record<string, number>) => {
+    const signups = [
+      makeSignup(1, { team_id: 1 }),
+      makeSignup(2, { team_id: 2 }),
+      makeSignup(3),
+    ];
+    return sortUsers(twoTeams, signups, {
+      bucketKeys: ["total", "a", "b"],
+      totalBucketKey: "total",
+      getSignupBuckets: (signup) => buckets[signup.user.id],
+      bucketWeights,
+    }).find((s) => s.user.id === 3)!.team_id;
+  };
+
+  it("lets the bucket that counts more decide", () => {
+    // team 2 balances bucket a, team 1 balances bucket b
+    expect(sorted({ b: 0.1 })).toBe(2);
+    expect(sorted({ a: 0.1 })).toBe(1);
+  });
+
+  it("counts every bucket as 1 without weights", () => {
+    // both choices are equally good, the first team wins the tie
+    expect(sorted()).toBe(1);
+    expect(sorted({})).toBe(1);
+  });
+});
