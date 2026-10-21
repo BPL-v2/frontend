@@ -47,6 +47,8 @@ export type Preferences = {
     Guide: boolean;
   };
   limitTeams: number;
+  // Removes the max horizontal width constraint of the page for big screens.
+  fullWidth: boolean;
   // Per-category toggles for the per-option colors on the team sheet's
   // pickers. Charts always keep their colors regardless of these.
   colorfulRoles: boolean;
@@ -106,6 +108,7 @@ export const defaultPreferences: Preferences = {
     Guide: false,
   },
   limitTeams: 0,
+  fullWidth: false,
   colorfulRoles: false,
   colorfulSpecializations: false,
   colorfulAscendancy: false,

@@ -1,3 +1,4 @@
+import { useCardGridClass } from "@utils/card-grid";
 import { createFileRoute } from "@tanstack/react-router";
 import { useGetEventStatus } from "@api";
 import { ItemTable } from "@components/table/item-table";
@@ -100,12 +101,15 @@ export function CategoryGrid({
   ...htmlDivProps
 }: CategoryGridProps) {
   const { currentEvent } = useContext(GlobalStateContext);
+  const gridCols = useCardGridClass(
+    "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5",
+  );
   if (categories.length === 0) return;
   return (
     <>
       <div {...htmlDivProps} className={twMerge("", htmlDivProps.className)}>
         <div className="flex flex-col gap-4 rounded-box rounded-tl-none bg-base-200 p-8 outline outline-base-300">
-          <div className="m-2 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+          <div className={twMerge("m-2 grid gap-4", gridCols)}>
             {categories
               .sort((a, b) => a.name.localeCompare(b.name))
               .sort(

@@ -10,6 +10,7 @@ import { JSX, useContext, useEffect, useMemo } from "react";
 import "../App.css";
 
 import AuthButton from "@components/auth-button";
+import WidthToggle from "@components/width-toggle";
 import {
   BookOpenIcon,
   ChartBarIcon,
@@ -49,7 +50,7 @@ type MenuItem = {
 function RootComponent() {
   const router = useRouter();
 
-  const { currentEvent } = useContext(GlobalStateContext);
+  const { currentEvent, preferences } = useContext(GlobalStateContext);
   const { user } = useGetUser();
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const menu: MenuItem[] = useMemo(() => {
@@ -130,7 +131,12 @@ function RootComponent() {
   }, [hello, router]);
   return (
     <>
-      <div className="mx-auto max-w-360 overflow-x-hidden text-center">
+      <div
+        className={twMerge(
+          "mx-auto overflow-x-hidden text-center",
+          !preferences.fullWidth && "max-w-360",
+        )}
+      >
         <div className="flex min-h-screen flex-col">
           <header className="sticky top-0 z-50 border-b border-base-content/8 bg-base-100/80 backdrop-blur-md">
             <nav className="flex h-13 items-center px-3 sm:px-5">
@@ -166,7 +172,8 @@ function RootComponent() {
                   ))}
                 </ul>
               </div>
-              <div className="shrink-0 pl-2">
+              <div className="flex shrink-0 items-center pl-2">
+                <WidthToggle />
                 <AuthButton />
               </div>
             </nav>
@@ -177,7 +184,12 @@ function RootComponent() {
               characters.
             </div>
           )}
-          <main className="flex-1">
+          <main
+            className={twMerge(
+              "flex-1",
+              preferences.fullWidth && "lg:px-[4em]",
+            )}
+          >
             <Outlet />
           </main>
           <Footer />

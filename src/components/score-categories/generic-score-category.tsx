@@ -4,6 +4,7 @@ import { ItemTableScoreCategory } from "@components/score-categories/item-table-
 import { CategoryOfItemTableCategories } from "@components/score-categories/category-of-item-table-categories";
 import { ObjectiveCard } from "@components/cards/objective-card";
 import { isItemTableCategory } from "@components/score-categories/is-item-table-category";
+import { useCardGridClass } from "@utils/card-grid";
 import { twMerge } from "tailwind-merge";
 import { SubmissionTable } from "@components/table/submission-table";
 
@@ -37,6 +38,9 @@ export function GenericScoreCategory({
   category,
   ...props
 }: ScoreCategoryProps) {
+  const gridCols = useCardGridClass(
+    "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+  );
   if (!category) {
     return <></>;
   }
@@ -50,7 +54,7 @@ export function GenericScoreCategory({
   }
   if (isGridCategory(category)) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className={twMerge("grid gap-4", gridCols)}>
         {category.children
           .sort((objA: ScoreObjective, objB: ScoreObjective) => {
             const releaseA = objA.valid_from
@@ -74,7 +78,7 @@ export function GenericScoreCategory({
 
   childmap.push(
     <div
-      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      className={twMerge("grid gap-4", gridCols)}
       key={category.id + "-children"}
     >
       {category.children

@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+import { useCardGridClass } from "@utils/card-grid";
 import {
   accountColumn,
   ascendancyColumn,
@@ -31,6 +33,9 @@ export const Route = createFileRoute("/scores/delve")({
 });
 
 function DelveTab(): JSX.Element {
+  const gridCols = useCardGridClass(
+    "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  );
   const { scores, currentEvent, isMobile } = useContext(GlobalStateContext);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -132,7 +137,7 @@ function DelveTab(): JSX.Element {
               }
               maximum={fossilRaceCategory.required_number}
             />
-            <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={twMerge("my-4 grid gap-4", gridCols)}>
               {fossilRaceCategory.children.map((objective) => {
                 return (
                   <div className="card bg-base-300" key={objective.id}>
