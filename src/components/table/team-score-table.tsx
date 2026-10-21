@@ -20,9 +20,15 @@ type RowDef = {
   Dailies: number;
 };
 
+// Categories that do not get their own column. They still count towards the total.
+const ignoredCategories = ["Does not have a separate tab"];
+
 export function TeamScoreTable() {
   const { scores, currentEvent, isMobile } = useContext(GlobalStateContext);
-  const categoryNames = scores?.children.map((category) => category.name) || [];
+  const categoryNames =
+    scores?.children
+      .map((category) => category.name)
+      .filter((name) => !ignoredCategories.includes(name)) || [];
   const rows = currentEvent.teams.map((team) => {
     return {
       team: team,
