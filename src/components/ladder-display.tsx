@@ -211,7 +211,7 @@ export function LadderDisplay({
       <div className="divider divider-primary">Ladder</div>
       <div className="flex flex-col gap-2">
         {!isMobile && (
-          <div className="flex flex-wrap justify-between gap-1">
+          <div className="flex flex-wrap justify-start gap-1">
             {Object.keys(defaultPreferences.ladder).map((label) => {
               const key = label as keyof typeof preferences.ladder;
               return (
