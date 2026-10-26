@@ -7,6 +7,7 @@ import { isItemTableCategory } from "@components/score-categories/is-item-table-
 import { useCardGridClass } from "@utils/card-grid";
 import { twMerge } from "tailwind-merge";
 import { SubmissionTable } from "@components/table/submission-table";
+import { useNow } from "@utils/use-now";
 
 interface ScoreCategoryProps extends React.HTMLAttributes<HTMLSpanElement> {
   category: ScoreObjective;
@@ -38,6 +39,7 @@ export function GenericScoreCategory({
   category,
   ...props
 }: ScoreCategoryProps) {
+  const now = useNow();
   const gridCols = useCardGridClass(
     "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   );
@@ -57,12 +59,8 @@ export function GenericScoreCategory({
       <div className={twMerge("grid gap-4", gridCols)}>
         {category.children
           .sort((objA: ScoreObjective, objB: ScoreObjective) => {
-            const releaseA = objA.valid_from
-              ? new Date(objA.valid_from)
-              : new Date();
-            const releaseB = objB.valid_from
-              ? new Date(objB.valid_from)
-              : new Date();
+            const releaseA = objA.valid_from ? new Date(objA.valid_from) : now;
+            const releaseB = objB.valid_from ? new Date(objB.valid_from) : now;
             return releaseA.getTime() - releaseB.getTime();
           })
           .map((objective) => (

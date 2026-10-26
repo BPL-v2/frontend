@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const MAX_VISIBLE_PICKER_ROWS = 10;
 
@@ -31,11 +31,15 @@ export function useSearchableChecklist<T>({
   const [search, setSearch] = useState("");
   const [sortBySelected, setSortBySelected] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) return;
-    setSearch("");
-    setSortBySelected(false);
-  }, [isOpen]);
+  // Reset when the modal closes ("adjust state during render", not an effect).
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (wasOpen !== isOpen) {
+    setWasOpen(isOpen);
+    if (!isOpen) {
+      setSearch("");
+      setSortBySelected(false);
+    }
+  }
 
   const query = search.toLowerCase();
   const filtered = search

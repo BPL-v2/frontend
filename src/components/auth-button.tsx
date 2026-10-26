@@ -9,8 +9,10 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { redirectOauth } from "@utils/oauth";
+import { useNow } from "@utils/use-now";
 
 const AuthButton = () => {
+  const now = useNow();
   const qc = useQueryClient();
   const state = useRouterState();
   const { user } = useGetUser();
@@ -18,7 +20,7 @@ const AuthButton = () => {
   if (
     user &&
     user.token_expiry_timestamp &&
-    new Date(user.token_expiry_timestamp) > new Date()
+    new Date(user.token_expiry_timestamp) > now
   ) {
     return (
       <div className="dropdown dropdown-end">

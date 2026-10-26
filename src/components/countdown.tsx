@@ -14,34 +14,25 @@ export function Countdown({
   size,
   compact = false,
 }: CountdownProps) {
-  const diff = target.getTime() - new Date().getTime();
-
-  const [days, setDays] = React.useState(
-    Math.floor(diff / (1000 * 60 * 60 * 24)),
-  );
-  const [hours, setHours] = React.useState(
-    Math.floor((diff / (1000 * 60 * 60)) % 24),
-  );
-  const [minutes, setMinutes] = React.useState(
-    Math.floor((diff / 1000 / 60) % 60),
-  );
-  const [seconds, setSeconds] = React.useState(Math.floor((diff / 1000) % 60));
+  const [diff, setDiff] = React.useState(() => target.getTime() - Date.now());
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      const diff = target.getTime() - new Date().getTime();
+      const diff = target.getTime() - Date.now();
       if (diff <= 0) {
         clearInterval(interval);
         onEnd?.();
       } else {
-        setDays(Math.floor(diff / (1000 * 60 * 60 * 24)));
-        setHours(Math.floor((diff / (1000 * 60 * 60)) % 24));
-        setMinutes(Math.floor((diff / 1000 / 60) % 60));
-        setSeconds(Math.floor((diff / 1000) % 60));
+        setDiff(diff);
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [target, onEnd]);
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / 1000 / 60) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
   let numberSize = "text-3xl";
   let textSize = "text-md";
   switch (size) {

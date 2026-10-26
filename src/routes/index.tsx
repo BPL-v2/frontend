@@ -34,7 +34,7 @@ function Home() {
         new Date(a.event_start_time).getTime(),
     );
   const signupsStart = nextEvent
-    ? new Date() >= new Date(nextEvent.application_start_time)
+    ? now >= new Date(nextEvent.application_start_time).getTime()
     : false;
   const hasStarted = nextEvent
     ? new Date(nextEvent.event_start_time).getTime() < now

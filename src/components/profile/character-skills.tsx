@@ -12,7 +12,7 @@ export function CharacterSkills({
   pob: PathOfBuilding;
   gameVersion: GameVersion;
 }) {
-  var equipmentSlots = [
+  const equipmentSlots = [
     "Helmet",
     "Body Armour",
     "Gloves",
@@ -40,7 +40,7 @@ export function CharacterSkills({
     );
   });
 
-  var slotSkills = equipmentSlots
+  let slotSkills = equipmentSlots
     .filter((slot) =>
       pob.skills.skillSets[0].skills.some((skill) => skill.slot === slot),
     )

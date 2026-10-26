@@ -63,86 +63,89 @@ export function ItemTable({
     .slice(0, preferences.limitTeams ? preferences.limitTeams : undefined)
     .map((team) => team.id);
 
-  const objectNameRender = (objective: ExtendedScoreObjective) => {
-    if (variantMap[objective.name] && !objective.isVariant) {
-      return (
-        <div
-          className="flex w-full cursor-pointer flex-col"
-          onClick={() =>
-            setShowVariants({
-              ...showVariants,
-              [objective.name]: !showVariants[objective.name],
-            })
-          }
-        >
-          <div>{objective.name}</div>
-          <span className="text-sm text-primary">
-            [Click to toggle Variants]
-          </span>
-        </div>
-      );
-    }
-    if (objective.isVariant) {
-      return <span className="text-primary">{objective.extra}</span>;
-    }
-    if (objective.extra) {
-      return (
-        <div className="flex flex-col">
-          <div>{objective.name}</div>
-          <span className="text-sm text-primary">[{objective.extra}]</span>
-        </div>
-      );
-    }
-    if (objective.counting_method === CountingMethod.HIGHEST_VALUE) {
-      return (
-        <span className="text-base font-extrabold text-secondary">
-          {objective.name}
-        </span>
-      );
-    }
-    return objective.name;
-  };
-
-  const imageOverlayedWithText = (
-    objective: ExtendedScoreObjective,
-    gameVersion: GameVersion,
-  ) => {
-    if (objective.isVariant) {
-      return <span className="text-primary">{objective.extra}</span>;
-    }
-
-    const img_location = getImageLocation(objective, gameVersion);
-    if (!img_location) {
-      return <div className="size-10 sm:size-16"></div>;
-    }
-    return (
-      <div className="relative flex items-center justify-center">
-        <img src={img_location} className="max-h-10 max-w-10 sm:max-h-16 sm:max-w-16" />
-        <div
-          className="absolute right-0 left-0 text-center text-sm sm:text-lg"
-          style={{
-            textShadow: "2px 2px 4px rgba(0, 0, 0)",
-          }}
-        >
-          {objectNameRender(objective)}
-        </div>
-      </div>
-    );
-  };
-
-  const badgeClass = (objective: ExtendedScoreObjective, teamID: number) => {
-    let className = "badge gap-2 w-full font-semibold py-1 ring-2";
-    if (objective.team_score[teamID].isFinished()) {
-      className += " bg-success text-success-content";
-    } else {
-      className += " bg-error text-error-content";
-    }
-    if (teamID === userTeamID) {
-      className += " ring-white ";
-    }
-    return className;
-  };
   const columns = useMemo<ColumnDef<ExtendedScoreObjective>[]>(() => {
+    const objectNameRender = (objective: ExtendedScoreObjective) => {
+      if (variantMap[objective.name] && !objective.isVariant) {
+        return (
+          <div
+            className="flex w-full cursor-pointer flex-col"
+            onClick={() =>
+              setShowVariants({
+                ...showVariants,
+                [objective.name]: !showVariants[objective.name],
+              })
+            }
+          >
+            <div>{objective.name}</div>
+            <span className="text-sm text-primary">
+              [Click to toggle Variants]
+            </span>
+          </div>
+        );
+      }
+      if (objective.isVariant) {
+        return <span className="text-primary">{objective.extra}</span>;
+      }
+      if (objective.extra) {
+        return (
+          <div className="flex flex-col">
+            <div>{objective.name}</div>
+            <span className="text-sm text-primary">[{objective.extra}]</span>
+          </div>
+        );
+      }
+      if (objective.counting_method === CountingMethod.HIGHEST_VALUE) {
+        return (
+          <span className="text-base font-extrabold text-secondary">
+            {objective.name}
+          </span>
+        );
+      }
+      return objective.name;
+    };
+
+    const imageOverlayedWithText = (
+      objective: ExtendedScoreObjective,
+      gameVersion: GameVersion,
+    ) => {
+      if (objective.isVariant) {
+        return <span className="text-primary">{objective.extra}</span>;
+      }
+
+      const img_location = getImageLocation(objective, gameVersion);
+      if (!img_location) {
+        return <div className="size-10 sm:size-16"></div>;
+      }
+      return (
+        <div className="relative flex items-center justify-center">
+          <img
+            src={img_location}
+            className="max-h-10 max-w-10 sm:max-h-16 sm:max-w-16"
+          />
+          <div
+            className="absolute right-0 left-0 text-center text-sm sm:text-lg"
+            style={{
+              textShadow: "2px 2px 4px rgba(0, 0, 0)",
+            }}
+          >
+            {objectNameRender(objective)}
+          </div>
+        </div>
+      );
+    };
+
+    const badgeClass = (objective: ExtendedScoreObjective, teamID: number) => {
+      let className = "badge gap-2 w-full font-semibold py-1 ring-2";
+      if (objective.team_score[teamID].isFinished()) {
+        className += " bg-success text-success-content";
+      } else {
+        className += " bg-error text-error-content";
+      }
+      if (teamID === userTeamID) {
+        className += " ring-white ";
+      }
+      return className;
+    };
     const teams = currentEvent.teams.sort((a: Team, b: Team) => {
       if (a.id === userTeamID) {
         return -1;
@@ -337,9 +340,6 @@ export function ItemTable({
     variantMap,
     showVariants,
     windowWidth,
-    badgeClass,
-    imageOverlayedWithText,
-    objectNameRender,
     userTeamID,
     users,
     filter,

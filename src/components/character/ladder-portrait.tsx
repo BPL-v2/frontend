@@ -5,6 +5,7 @@ import { AscendancyName } from "@components/character/ascendancy-name";
 import { AscendancyPortrait } from "@components/character/ascendancy-portrait";
 import { ExperienceBar } from "@components/character/experience-bar";
 import { twMerge } from "tailwind-merge";
+import { useNow } from "@utils/use-now";
 
 export const ACTIVE_THRESHOLD_SECONDS = 20 * 60;
 
@@ -15,9 +16,10 @@ export function ActivityDot({
   last_active: number;
   className?: string;
 }) {
+  const now = useNow();
   const isActive =
     last_active > 0 &&
-    Date.now() / 1000 - last_active < ACTIVE_THRESHOLD_SECONDS;
+    now.getTime() / 1000 - last_active < ACTIVE_THRESHOLD_SECONDS;
   return (
     <span
       className={`rounded-full border-2 border-base-300 ${isActive ? "bg-success" : "bg-error"} ${className ?? ""}`}

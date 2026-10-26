@@ -76,9 +76,16 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
     return <div className="text-base-content/60">No data yet.</div>;
   }
 
-  let cumulativeAngle = -Math.PI / 2;
-
   const sorted = [...data].sort((a, b) => b.value - a.value);
+  // Clamp so a single 100%-of-total slice doesn't degenerate into a
+  // zero-length arc back to its own start point.
+  const startAngles = sorted.reduce<number[]>(
+    (angles, slice, i) => [
+      ...angles,
+      angles[i] + Math.min(slice.value / total, 0.9999) * 2 * Math.PI,
+    ],
+    [-Math.PI / 2],
+  );
   const active = pinned ?? hovered;
   const activeSlice = sorted.find((s) => s.label === active);
 
@@ -96,12 +103,8 @@ export function PieChart({ data, selected, onSelect }: PieChartProps) {
       <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:items-center">
         <svg viewBox="0 0 100 100" className="w-64 shrink-0 md:w-80">
           {sorted.map((slice, i) => {
-            // Clamp so a single 100%-of-total slice doesn't degenerate into
-            // a zero-length arc back to its own start point.
-            const fraction = Math.min(slice.value / total, 0.9999);
-            const startAngle = cumulativeAngle;
-            const endAngle = startAngle + fraction * 2 * Math.PI;
-            cumulativeAngle = endAngle;
+            const startAngle = startAngles[i];
+            const endAngle = startAngles[i + 1];
             const isActive = active === slice.label;
             return (
               <path

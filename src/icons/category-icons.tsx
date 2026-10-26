@@ -628,7 +628,6 @@ export function CategoryIcon({ ...props }: IconRendererProps) {
   }
   if (props.objective) {
     const loc = findFirstItemImage(props.objective);
-    console.log;
     if (loc) {
       return <img className="h-12 max-w-12" src={loc} />;
     }

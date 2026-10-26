@@ -44,6 +44,7 @@ export function BuildEnablingRating({
         "rating",
         size === "xs" ? "rating-xs" : size === "md" ? "rating-md" : "rating-sm",
         readOnly ? "pointer-events-none" : "",
+        className,
       )}
     >
       {BUILD_ENABLING_LEVELS.map((level) => (

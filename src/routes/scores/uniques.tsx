@@ -12,6 +12,7 @@ import { Countdown } from "@components/countdown";
 import { EyeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { RepeatableUniques } from "@components/temporary-uniques";
 import { UniqueTabRules } from "@rules/uniques";
+import { useNow } from "@utils/use-now";
 
 // had to cook this smooth scroll implementation cause daisyUI overrides scroll behaviour, can't just set it in the global css
 function scrollToElement(el: HTMLElement, offset = 16) {
@@ -48,6 +49,7 @@ function CategoryCard({
   teamId?: number;
   onClick: () => void;
 }) {
+  const now = useNow();
   if (!isTimed(category)) {
     return (
       <UniqueCategoryCard
@@ -59,7 +61,7 @@ function CategoryCard({
     );
   }
   const hasStarted =
-    !category.valid_from || new Date(category.valid_from || "") < new Date();
+    !category.valid_from || new Date(category.valid_from || "") < now;
 
   if (!hasStarted) {
     return (

@@ -18,8 +18,10 @@ export function CategoryOfItemTableCategories({
   selectedTeam,
   ...props
 }: ScoreCategoryProps) {
-  const itemTableCategoryChildren =
-    category?.children.filter(isItemTableCategory) || [];
+  const itemTableCategoryChildren = useMemo(
+    () => category?.children.filter(isItemTableCategory) || [],
+    [category],
+  );
 
   const table = useMemo(() => {
     const cat = { ...category, children: [] } as ScoreObjective;
@@ -32,7 +34,7 @@ export function CategoryOfItemTableCategories({
       }
     }
     return <ItemTable objective={cat} />;
-  }, [itemTableCategoryChildren, category]);
+  }, [itemTableCategoryChildren, category, selectedCategories]);
 
   return (
     <div className="flex flex-col gap-4" {...props}>

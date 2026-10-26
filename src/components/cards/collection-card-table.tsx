@@ -7,6 +7,7 @@ import { ProgressBar } from "@components/progress-bar";
 import { Score } from "@components/score";
 import { TeamName } from "@components/team/team-name";
 import { getMaximumNumberFromPointCap } from "@utils/utils";
+import { useNow } from "@utils/use-now";
 
 type CollectionCardTableProps = {
   objective: ScoreObjective;
@@ -44,9 +45,10 @@ export function CollectionCardTable({
   roundedBottom = false,
   showPoints = true,
 }: CollectionCardTableProps) {
+  const now = useNow();
   const { currentEvent, preferences } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
-  const eventEnded = new Date(currentEvent.event_end_time) < new Date();
+  const eventEnded = new Date(currentEvent.event_end_time) < now;
   const tableRef = useRef<HTMLTableElement>(null);
   const teamIds = currentEvent.teams
     .sort((a, b) => {

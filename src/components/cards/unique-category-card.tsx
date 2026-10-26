@@ -8,6 +8,7 @@ import { Score } from "@components/score";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
 import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
+import { useNow } from "@utils/use-now";
 
 type UniqueCategoryCardProps = {
   objective: ScoreObjective;
@@ -51,6 +52,7 @@ export const UniqueCategoryCard = ({
   onClick,
   ...props
 }: UniqueCategoryCardProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const now = useNow();
   const { currentEvent } = useContext(GlobalStateContext);
   const totalItems = objective.children.length;
   const totalVariants = objective.children.reduce(
@@ -169,7 +171,7 @@ export const UniqueCategoryCard = ({
             ></progress>
           )}
         </div>
-        {objective.valid_to && new Date(objective.valid_to) > new Date() && (
+        {objective.valid_to && new Date(objective.valid_to) > now && (
           <div className="flex h-16 items-center justify-center gap-2 p-2">
             <span> Valid until:</span>
             <Countdown
@@ -178,7 +180,7 @@ export const UniqueCategoryCard = ({
             />
           </div>
         )}
-        {objective.valid_to && new Date(objective.valid_to) < new Date() && (
+        {objective.valid_to && new Date(objective.valid_to) < now && (
           <div className="flex h-16 items-center justify-center gap-4">
             <span> Locked</span>
           </div>

@@ -9,6 +9,7 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
 import { useContext } from "react";
 import PoPoints from "@components/personal-objective/po-points";
+import { useNow } from "@utils/use-now";
 
 export const Route = createFileRoute("/scores/for-you")({
   component: ForYouTab,
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/scores/for-you")({
 });
 
 function ForYouTab() {
+  const now = useNow();
   const gridCols = useCardGridClass(
     "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
   );
@@ -74,7 +76,7 @@ function ForYouTab() {
         objective.scoring_rules[0]?.scoring_rule ===
           ScoringRuleType.RANK_BY_COMPLETION_TIME &&
         !objective.team_score[eventStatus.team_id!].isFinished() &&
-        (!objective.valid_from || new Date(objective.valid_from) < new Date()),
+        (!objective.valid_from || new Date(objective.valid_from) < now),
     )
     .sort((a, b) => {
       return (

@@ -11,6 +11,7 @@ import { SubmissionFormModal } from "@components/form-dialogs/SubmissionFormModa
 import { ObjectiveIcon } from "@components/objective-icon";
 import { CollectionCardTable } from "@components/cards/collection-card-table";
 import { ConditionDescription } from "@components/conditions/condition-description";
+import { useNow } from "@utils/use-now";
 
 export type DailyCardProps = {
   objective: ScoreObjective;
@@ -38,6 +39,7 @@ function bonusAvailableCounter(
 }
 
 export function DailyCard({ objective }: DailyCardProps) {
+  const now = useNow();
   const { currentEvent } = useContext(GlobalStateContext);
   const [showModal, setShowModal] = useState(false);
   const qc = useQueryClient();
@@ -46,7 +48,7 @@ export function DailyCard({ objective }: DailyCardProps) {
   if (!currentEvent || !objective.valid_from) {
     return <></>;
   }
-  const isReleased = new Date(objective.valid_from) < new Date();
+  const isReleased = new Date(objective.valid_from) < now;
 
   if (!isReleased) {
     return (
@@ -74,13 +76,12 @@ export function DailyCard({ objective }: DailyCardProps) {
   const isRace =
     objective.scoring_rules[0]?.scoring_rule ===
     ScoringRuleType.RANK_BY_COMPLETION_TIME;
-  const isAvailable =
-    objective.valid_to && new Date(objective.valid_to) > new Date();
+  const isAvailable = objective.valid_to && new Date(objective.valid_to) > now;
   const canSubmit =
     objective.objective_type === ObjectiveType.SUBMISSION &&
     !!eventStatus?.team_id &&
-    new Date(currentEvent.event_start_time) < new Date() &&
-    new Date(currentEvent.event_end_time) > new Date();
+    new Date(currentEvent.event_start_time) < now &&
+    new Date(currentEvent.event_end_time) > now;
   return (
     <>
       {canSubmit && (

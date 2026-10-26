@@ -24,7 +24,7 @@ import { renderConditionally } from "@utils/token";
 import { RowSelectionState } from "@tanstack/react-table";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/admin/grant-achievements")({
   component: renderConditionally(GrantAchievementsPage, [
@@ -56,14 +56,10 @@ function GrantAchievementsPage() {
   const { userAchievements } = useGetUserAchievements();
   const { revokeAchievement } = useRevokeAchievement(qc);
   const { syncAchievements, syncAchievementsPending } = useSyncAchievements(qc);
-  const [eventId, setEventId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!events?.length || eventId !== null) return;
-    const current =
-      events.find((e) => e.is_current) ?? events[events.length - 1];
-    if (current) setEventId(current.id);
-  }, [events]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [selectedEventId, setEventId] = useState<number | null>(null);
+  const defaultEvent =
+    events?.find((e) => e.is_current) ?? events?.[events.length - 1];
+  const eventId = selectedEventId ?? defaultEvent?.id ?? null;
 
   const [nameFilter, setNameFilter] = useState("");
   const [teamFilter, setTeamFilter] = useState<number | null>(null);

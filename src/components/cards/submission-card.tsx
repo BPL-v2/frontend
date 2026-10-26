@@ -18,6 +18,7 @@ import { Score } from "@components/score";
 import { getPotentialPoints, getTotalPoints } from "@utils/utils";
 import React, { useContext, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { useNow } from "@utils/use-now";
 
 function getUrls(string: string): URL[] {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -138,6 +139,7 @@ export interface SubmissionCardProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 export function SubmissionCard({ objective, ...props }: SubmissionCardProps) {
+  const now = useNow();
   const { currentEvent, preferences } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const { submissions = [] } = useGetSubmissions(currentEvent.id);
@@ -171,8 +173,8 @@ export function SubmissionCard({ objective, ...props }: SubmissionCardProps) {
     .map((team) => team.id);
   const canSubmit =
     eventStatus?.team_id &&
-    new Date(currentEvent.event_start_time) < new Date() &&
-    new Date(currentEvent.event_end_time) > new Date();
+    new Date(currentEvent.event_start_time) < now &&
+    new Date(currentEvent.event_end_time) > now;
   return (
     <>
       <SubmissionFormModal

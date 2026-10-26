@@ -4,12 +4,13 @@ import { Fragment, useContext } from "react";
 import { CollectionCard } from "@components/cards/collection-card";
 import { ScoreObjective } from "@mytypes/score";
 import { Countdown } from "@components/countdown";
+import { useNow } from "@utils/use-now";
 
 function TimerRender({ objective }: { objective: ScoreObjective }) {
+  const now = useNow();
   if (!objective.valid_from || !objective.valid_to) {
     return null;
   }
-  const now = new Date();
   if (now < objective.valid_from) {
     return (
       <div className="flex flex-row justify-center gap-8 p-2 font-mono">
@@ -34,6 +35,7 @@ function TimerRender({ objective }: { objective: ScoreObjective }) {
 }
 
 export function RepeatableUniques() {
+  const now = useNow();
   const { scores } = useContext(GlobalStateContext);
   const repeatableUniques = scores?.children
     .find((child) => child.name === "Does not have a separate tab")
@@ -64,7 +66,7 @@ export function RepeatableUniques() {
                 <TimerRender objective={child} />
                 {child.children.length > 0 &&
                   child.valid_from &&
-                  child.valid_from < new Date() && (
+                  child.valid_from < now && (
                     <div className="grid grid-cols-5 gap-2">
                       {child.children.map((grandchild) => (
                         <CollectionCard

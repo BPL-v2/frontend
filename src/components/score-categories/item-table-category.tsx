@@ -11,9 +11,10 @@ interface ScoreCategoryProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 export function ItemTableScoreCategory({
   category,
-  selectedCategories,
-  handleCategoryClick,
-  selectedTeam,
+  // Pulled out so they are not spread onto the DOM element
+  selectedCategories: _selectedCategories,
+  handleCategoryClick: _handleCategoryClick,
+  selectedTeam: _selectedTeam,
   ...props
 }: ScoreCategoryProps) {
   return (

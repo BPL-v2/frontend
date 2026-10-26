@@ -4,6 +4,7 @@ import { Dialog } from "@components/dialog";
 import { setFormValues, useAppForm } from "@components/form/context";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateEvent } from "@api";
+import { useNow } from "@utils/use-now";
 
 interface EventFormModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export function EventFormModal({
   setIsOpen,
   existingEvent,
 }: EventFormModalProps) {
+  const now = useNow();
   const qc = useQueryClient();
 
   const form = useAppForm({
@@ -23,10 +25,10 @@ export function EventFormModal({
       name: "",
       patch: "",
       game_version: GameVersion.poe1,
-      application_start_time: new Date(),
-      application_end_time: new Date(),
-      event_start_time: new Date(),
-      event_end_time: new Date(),
+      application_start_time: now,
+      application_end_time: now,
+      event_start_time: now,
+      event_end_time: now,
       max_size: 1000,
       waitlist_size: 100,
       is_current: false,

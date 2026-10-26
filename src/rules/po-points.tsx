@@ -71,7 +71,7 @@ export function POPointRules() {
     return <></>;
   }
   const totalObjective = objs.find(
-    (obj) => obj.scoring_rules[0]?.point_cap || 0 > 0,
+    (obj) => (obj.scoring_rules[0]?.point_cap || 0) > 0,
   );
   const checkPoints = objs.filter((obj) => !obj.scoring_rules[0]?.point_cap);
   return (

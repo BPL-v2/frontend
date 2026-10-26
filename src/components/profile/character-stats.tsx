@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PathOfBuilding } from "@utils/pob";
 import { isAdmin } from "@utils/token";
 import { useState } from "react";
+import { useNow } from "@utils/use-now";
 
 export function CharacterStats({
   pob,
@@ -22,6 +23,7 @@ export function CharacterStats({
   pobId: number;
   eventId: number;
 }) {
+  const now = useNow();
   const qc = useQueryClient();
   const { deletePoB } = useDeletePoB(qc);
   const { events } = useGetEvents();
@@ -274,7 +276,7 @@ export function CharacterStats({
           />
         </div>
         {event &&
-          new Date(event.event_end_time) < new Date() &&
+          new Date(event.event_end_time) < now &&
           (user?.id === userId || isAdmin()) && (
             <div
               className="tooltip tooltip-bottom tooltip-error"

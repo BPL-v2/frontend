@@ -95,9 +95,11 @@ function RouteComponent() {
   }, [pobs, baseTypes]);
 
   const [pobIdOverride, setPobId] = useState<number | undefined>(undefined);
-  useEffect(() => {
+  const [prevCharacterId, setPrevCharacterId] = useState(characterId);
+  if (prevCharacterId !== characterId) {
+    setPrevCharacterId(characterId);
     setPobId(undefined);
-  }, [characterId]);
+  }
   const pobId = pobIdOverride ?? (pobs.length > 0 ? pobs.length - 1 : 0);
   const [debouncedPobId, setDebouncedPobId] = useState<number>(0);
 

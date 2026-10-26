@@ -1,9 +1,8 @@
 import { rankedPointsToText } from "./ranked-points-text";
-import { ScoreObjective } from "@mytypes/score";
 
 const convertArrayToText = (points: number[]) =>
   rankedPointsToText(points, "The first team to complete the objective");
-export function RaceTabRules({ category }: { category: ScoreObjective }) {
+export function RaceTabRules() {
   return (
     <>
       <h2>Points</h2>

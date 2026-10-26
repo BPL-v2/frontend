@@ -17,12 +17,14 @@ import {
   iterateObjectives,
 } from "@utils/utils";
 import { useContext } from "react";
+import { useNow } from "@utils/use-now";
 
 export const Route = createFileRoute("/admin/team-suggestions")({
   component: TeamSuggestionsPage,
 });
 
 function TeamSuggestionsPage() {
+  const now = useNow();
   const { currentEvent, scores } = useContext(GlobalStateContext);
   const { eventStatus } = useGetEventStatus(currentEvent.id);
   const qc = useQueryClient();
@@ -343,7 +345,7 @@ function TeamSuggestionsPage() {
       objective.scoring_rules[0]?.scoring_rule ===
         ScoringRuleType.RANK_BY_COMPLETION_TIME &&
       !objective.team_score[eventStatus.team_id!].isFinished() &&
-      (!objective.valid_from || new Date(objective.valid_from) < new Date()),
+      (!objective.valid_from || new Date(objective.valid_from) < now),
   );
 
   return (

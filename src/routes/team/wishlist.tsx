@@ -28,7 +28,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ColumnDef } from "@components/table/react-table-shim";
 import { GlobalStateContext } from "@utils/context-provider";
 import { flatMap } from "@utils/utils";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { ItemWishFormModal } from "@components/form-dialogs/ItemWishFormModal";
 import {
@@ -37,6 +37,9 @@ import {
 } from "@components/build-enabling-rating";
 import { BUILD_ENABLING_THRESHOLD } from "@mytypes/item-wish";
 import { stripFoulbornName } from "@mytypes/scoring-objective";
+
+// Stable fallback so `wishlist` only changes identity when the data does.
+const NO_WISHES: ItemWish[] = [];
 
 export const Route = createFileRoute("/team/wishlist")({
   component: RouteComponent,
@@ -142,7 +145,7 @@ function RouteComponent() {
   const { users = [] } = useGetUsers(currentEvent.id);
   const { user } = useGetUser();
 
-  const { wishlist = [] } = useGetWishlist(
+  const { wishlist = NO_WISHES } = useGetWishlist(
     currentEvent.id,
     eventStatus?.team_id,
   );
@@ -164,7 +167,9 @@ function RouteComponent() {
   const [pendingFulfilled, setPendingFulfilled] = useState<
     Record<number, boolean>
   >({});
-  useEffect(() => {
+  const [syncedWishlist, setSyncedWishlist] = useState(wishlist);
+  if (syncedWishlist !== wishlist) {
+    setSyncedWishlist(wishlist);
     setPendingFulfilled((prev) => {
       let changed = false;
       const next = { ...prev };
@@ -176,7 +181,7 @@ function RouteComponent() {
       }
       return changed ? next : prev;
     });
-  }, [wishlist]);
+  }
   const setFulfilled = (wishId: number, fulfilled: boolean) => {
     setPendingFulfilled((prev) => ({ ...prev, [wishId]: fulfilled }));
     updateItemWish(wishId, { fulfilled });

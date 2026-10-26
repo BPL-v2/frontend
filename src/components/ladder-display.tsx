@@ -28,6 +28,7 @@ import { ACTIVE_THRESHOLD_SECONDS } from "@components/character/ladder-portrait"
 import VirtualizedTable from "@components/table/virtualized-table";
 import Select from "@components/form/select";
 import { ColumnDef } from "@components/table/react-table-shim";
+import { useNow } from "@utils/use-now";
 
 function hoursToDaysAndHours(hours: number) {
   const days = Math.floor(hours / 24);
@@ -70,6 +71,7 @@ export function LadderDisplay({
   event?: Event;
   archive?: boolean;
 } = {}) {
+  const now = useNow();
   const {
     currentEvent: contextEvent,
     isMobile,
@@ -97,13 +99,13 @@ export function LadderDisplay({
     if (!ladder) {
       return [];
     }
-    const now = Date.now() / 1000;
+    const nowSeconds = now.getTime() / 1000;
     return ladder.filter((entry) => {
       if (
         filterActive &&
         !(
           entry.last_active > 0 &&
-          now - entry.last_active < ACTIVE_THRESHOLD_SECONDS
+          nowSeconds - entry.last_active < ACTIVE_THRESHOLD_SECONDS
         )
       ) {
         return false;
@@ -115,7 +117,7 @@ export function LadderDisplay({
       }
       return true;
     });
-  }, [ladder, selectedItems, filterActive]);
+  }, [ladder, selectedItems, filterActive, now]);
 
   const percentagePlayersWithItem = useMemo(
     () =>

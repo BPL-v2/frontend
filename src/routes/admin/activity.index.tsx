@@ -12,12 +12,14 @@ import {
 import { GlobalStateContext } from "@utils/context-provider";
 import VirtualizedTable from "@components/table/virtualized-table";
 import { getTotalPoints } from "@utils/utils";
+import { useNow } from "@utils/use-now";
 
 export const Route = createFileRoute("/admin/activity/")({
   component: renderConditionally(ActivityPage, [Permission.admin]),
 });
 const degenHours = 14;
 function ActivityPage() {
+  const now = useNow();
   const { currentEvent, scores } = useContext(GlobalStateContext);
   const { activities } = useGetActivitiesForEvent(currentEvent?.id);
   const { users = [] } = useGetUsers(currentEvent.id);
@@ -83,7 +85,7 @@ function ActivityPage() {
       });
     }
   }
-  const end = Math.min(currentEvent.event_end_time.getTime(), Date.now());
+  const end = Math.min(currentEvent.event_end_time.getTime(), now.getTime());
   const durationOfEventHours =
     (end - currentEvent.event_start_time.getTime()) / 3600 / 1000;
   const teamTableData = userActivities.reduce(

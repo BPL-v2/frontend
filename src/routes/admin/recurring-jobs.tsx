@@ -5,12 +5,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { renderConditionally } from "@utils/token";
 import React from "react";
+import { useNow } from "@utils/use-now";
 
 export const Route = createFileRoute("/admin/recurring-jobs")({
   component: renderConditionally(RecurringJobsPage, [Permission.admin]),
 });
 
 function RecurringJobsPage() {
+  const now = useNow();
   const queryClient = useQueryClient();
   const { events, isLoading: eventsLoading } = useGetEvents();
   const { jobs = [], isLoading: jobsLoading } = useGetJobs();
@@ -21,6 +23,8 @@ function RecurringJobsPage() {
     startJob({
       event_id: job.event_id,
       job_type: job.job_type,
+      // Only runs from a click handler, never during render.
+      // oxlint-disable-next-line react/purity
       end_date: new Date(),
     });
   };
@@ -63,11 +67,9 @@ function RecurringJobsPage() {
               <td>{job.job_type}</td>
               <td>{events.find((event) => event.id === job.event_id)?.name}</td>
               <td>{new Date(job.end_date).toLocaleString()}</td>
-              <td>
-                {new Date(job.end_date) < new Date() ? "Stopped" : "Running"}
-              </td>
+              <td>{new Date(job.end_date) < now ? "Stopped" : "Running"}</td>
               <td className="flex gap-2">
-                {new Date(job.end_date) < new Date() ? (
+                {new Date(job.end_date) < now ? (
                   <button
                     className="btn btn-primary"
                     onClick={() => {

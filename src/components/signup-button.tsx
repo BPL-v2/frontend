@@ -12,8 +12,10 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { SignupFormModal } from "@components/form-dialogs/SignupFormModal";
 import { SignupGroupModal } from "@components/form-dialogs/SignupGroupModal";
+import { useNow } from "@utils/use-now";
 
 function SignupButton() {
+  const now = useNow();
   const { currentEvent } = useContext(GlobalStateContext);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [groupModalOpen, setGroupModalOpen] = React.useState(false);
@@ -65,8 +67,8 @@ function SignupButton() {
     userLoading ||
     userError ||
     eventStatusError ||
-    new Date() > upcomingEvent.application_end_time ||
-    new Date() < upcomingEvent.application_start_time
+    now > upcomingEvent.application_end_time ||
+    now < upcomingEvent.application_start_time
   ) {
     return null;
   }

@@ -2,15 +2,17 @@ import { Event } from "@api";
 import { useGetEvents } from "@api";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { contrastColor } from "@utils/color";
+import { useNow } from "@utils/use-now";
 
 export const Route = createFileRoute("/events/")({
   component: EventsPage,
 });
 
 function EventCard({ event }: { event: Event }) {
+  const now = useNow();
   const start = new Date(event.event_start_time);
   const end = new Date(event.event_end_time);
-  const hasEnded = end < new Date();
+  const hasEnded = end < now;
 
   return (
     <div className="card bg-base-200">
