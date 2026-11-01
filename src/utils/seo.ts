@@ -128,6 +128,13 @@ export const seoData = {
     canonicalUrl: "https://bpl-poe.com/settings",
     ogImage: "https://bpl-poe.com/assets/app-logos/bpl-logo.webp",
   },
+  token: {
+    title: "BPL Token | Connect BPL Tools",
+    description:
+      "Copy your personal token to connect BPL Tools to your account.",
+    canonicalUrl: "https://bpl-poe.com/token",
+    ogImage: "https://bpl-poe.com/assets/app-logos/bpl-logo.webp",
+  },
   submissions: {
     title: "BPL Submissions | Submit Your Progress",
     description:

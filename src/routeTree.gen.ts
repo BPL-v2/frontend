@@ -17,6 +17,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as StreamsRouteRouteImport } from './routes/streams/route'
 import { Route as SubmissionsRouteImport } from './routes/submissions'
 import { Route as TeamRouteRouteImport } from './routes/team/route'
+import { Route as TokenRouteImport } from './routes/token'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminGrantAchievementsRouteImport } from './routes/admin/grant-achievements'
 import { Route as AdminRecurringJobsRouteImport } from './routes/admin/recurring-jobs'
@@ -106,6 +107,11 @@ const SubmissionsRoute = SubmissionsRouteImport.update({
 const TeamRouteRoute = TeamRouteRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TokenRoute = TokenRouteImport.update({
+  id: '/token',
+  path: '/token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -376,6 +382,7 @@ export interface FileRoutesByFullPath {
   '/rules': typeof RulesRoute
   '/settings': typeof SettingsRoute
   '/submissions': typeof SubmissionsRoute
+  '/token': typeof TokenRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
@@ -436,6 +443,7 @@ export interface FileRoutesByTo {
   '/rules': typeof RulesRoute
   '/settings': typeof SettingsRoute
   '/submissions': typeof SubmissionsRoute
+  '/token': typeof TokenRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
@@ -497,6 +505,7 @@ export interface FileRoutesById {
   '/rules': typeof RulesRoute
   '/settings': typeof SettingsRoute
   '/submissions': typeof SubmissionsRoute
+  '/token': typeof TokenRoute
   '/profile/$userId': typeof ProfileUserIdRouteRouteWithChildren
   '/team/stashes': typeof TeamStashesRouteRouteWithChildren
   '/admin/grant-achievements': typeof AdminGrantAchievementsRoute
@@ -559,6 +568,7 @@ export interface FileRouteTypes {
     | '/rules'
     | '/settings'
     | '/submissions'
+    | '/token'
     | '/profile/$userId'
     | '/team/stashes'
     | '/admin/grant-achievements'
@@ -619,6 +629,7 @@ export interface FileRouteTypes {
     | '/rules'
     | '/settings'
     | '/submissions'
+    | '/token'
     | '/profile/$userId'
     | '/team/stashes'
     | '/admin/grant-achievements'
@@ -679,6 +690,7 @@ export interface FileRouteTypes {
     | '/rules'
     | '/settings'
     | '/submissions'
+    | '/token'
     | '/profile/$userId'
     | '/team/stashes'
     | '/admin/grant-achievements'
@@ -740,6 +752,7 @@ export interface RootRouteChildren {
   RulesRoute: typeof RulesRoute
   SettingsRoute: typeof SettingsRoute
   SubmissionsRoute: typeof SubmissionsRoute
+  TokenRoute: typeof TokenRoute
   ProfileUserIdRouteRoute: typeof ProfileUserIdRouteRouteWithChildren
   AdminGrantAchievementsRoute: typeof AdminGrantAchievementsRoute
   AdminRecurringJobsRoute: typeof AdminRecurringJobsRoute
@@ -826,6 +839,13 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/token': {
+      id: '/token'
+      path: '/token'
+      fullPath: '/token'
+      preLoaderRoute: typeof TokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -1316,6 +1336,7 @@ const rootRouteChildren: RootRouteChildren = {
   RulesRoute: RulesRoute,
   SettingsRoute: SettingsRoute,
   SubmissionsRoute: SubmissionsRoute,
+  TokenRoute: TokenRoute,
   ProfileUserIdRouteRoute: ProfileUserIdRouteRouteWithChildren,
   AdminGrantAchievementsRoute: AdminGrantAchievementsRoute,
   AdminRecurringJobsRoute: AdminRecurringJobsRoute,
