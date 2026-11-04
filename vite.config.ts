@@ -80,6 +80,16 @@ export default defineConfig({
   build: {
     sourcemap: true,
     rollupOptions: {
+      // @tailwindcss/vite transforms CSS without emitting a sourcemap; the
+      // resulting CSS maps are slightly off, which is harmless. Silence it.
+      onwarn(warning, defaultHandler) {
+        if (
+          warning.code === "SOURCEMAP_BROKEN" &&
+          warning.plugin?.startsWith("@tailwindcss/vite")
+        )
+          return;
+        defaultHandler(warning);
+      },
       output: {
         // fallow-ignore-next-line complexity
         manualChunks(id) {

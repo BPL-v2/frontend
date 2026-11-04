@@ -17,44 +17,45 @@ function RouteComponent() {
   if (permissions.length === 0 && !eventStatus?.is_team_lead) {
     return "You do not have permission to view this page.";
   }
+
+  let availableGuilds = guilds;
   if (!isAdmin()) {
-    const myGuild = guilds.find(
+    availableGuilds = guilds.filter(
       (guild) => guild.team_id === eventStatus?.team_id,
     );
-    if (myGuild) {
-      router.navigate({
-        to: `/admin/guild/logs/$guildId`,
-        params: { guildId: myGuild.id },
-      });
-      return (
-        <div className="m-4">
-          <Outlet />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>
-            No guild found for your team. Make sure to set up guild stash
-            logging
-          </p>
-          <p>
-            Get the tool to collect guild logs from{" "}
-            <a href="https://github.com/BPL-v2/tools/releases/tag/v2.0.0">
-              the GitHub releases page
-            </a>{" "}
-            to set up logging.
-          </p>
-        </div>
-      );
-    }
+  }
+
+  if (availableGuilds.length === 0) {
+    return (
+      <div className="m-4">
+        <p>
+          No guild found for your team. Make sure to set up guild stash logging
+        </p>
+        <p>
+          Get the tool to collect guild logs from{" "}
+          <a
+            className="link-info"
+            href="https://github.com/BPL-v2/tools/releases/tag/v2.0.0"
+          >
+            https://github.com/BPL-v2/tools/releases/tag/v2.0.0
+          </a>{" "}
+          to set up logging.
+        </p>
+      </div>
+    );
+  }
+  if (router.state.location.pathname === "/admin/guild/logs") {
+    router.navigate({
+      to: "/admin/guild/logs/$guildId",
+      params: { guildId: availableGuilds[0].id },
+    });
   }
   return (
     <div className="flex flex-col">
       <div className="m-4 flex items-center gap-4">
         <div>Choose a guild:</div>
         <div className="join">
-          {guilds.map((guild) => (
+          {availableGuilds.map((guild) => (
             <Link
               to={`/admin/guild/logs/$guildId`}
               params={{ guildId: guild.id }}

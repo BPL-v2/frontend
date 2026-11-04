@@ -29,8 +29,6 @@ function filterMovementsAndProcessQuantities(
   logs: GuildStashChangelog[],
   maxMinutesDiff = 10,
 ): ProcessedLog[] {
-  const start = performance.now();
-
   // Sort all logs by timestamp first
   const sortedLogs = [...logs].sort((a, b) => a.timestamp - b.timestamp);
 
@@ -120,12 +118,6 @@ function filterMovementsAndProcessQuantities(
 
   // Sort processed logs back to original timestamp order
   processedLogs.sort((a, b) => a.timestamp - b.timestamp);
-
-  const end = performance.now();
-  console.log(
-    `Filtered ${logs.length - processedLogs.length} movements and processed quantities in ${end - start}ms`,
-  );
-
   return processedLogs;
 }
 
