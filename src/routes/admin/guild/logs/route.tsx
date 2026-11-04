@@ -17,7 +17,7 @@ function RouteComponent() {
   if (permissions.length === 0 && !eventStatus?.is_team_lead) {
     return "You do not have permission to view this page.";
   }
-  if (isAdmin()) {
+  if (!isAdmin()) {
     const myGuild = guilds.find(
       (guild) => guild.team_id === eventStatus?.team_id,
     );
