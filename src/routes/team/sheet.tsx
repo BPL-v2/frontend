@@ -42,7 +42,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { pickColor } from "@utils/color";
 import { defaultPreferences } from "@mytypes/preferences";
-import { DEFAULT_BUILD_ENABLING } from "@mytypes/item-wish";
+import { DEFAULT_BUILD_ENABLING, MAX_BUILD_ENABLING } from "@mytypes/item-wish";
 import { SKILL_GEMS, getGemColor, isTransfiguredGem } from "@utils/gem-utils";
 import { REALMS, REALM_COLORS } from "@mytypes/realms";
 import { ascendancies, UNDECIDED_ASCENDANCY_COLOR } from "@mytypes/ascendancy";
@@ -332,7 +332,7 @@ function RouteComponent() {
         item_field: ItemField.BASE_TYPE,
         value: newSkill,
         quantity: 1,
-        build_enabling: DEFAULT_BUILD_ENABLING,
+        build_enabling: MAX_BUILD_ENABLING,
       });
     }
   };
@@ -481,7 +481,8 @@ function RouteComponent() {
       saveItemWish({
         item_field: ItemField.BASE_TYPE,
         value,
-        build_enabling: DEFAULT_BUILD_ENABLING,
+        build_enabling:
+          value === mainSkill ? MAX_BUILD_ENABLING : DEFAULT_BUILD_ENABLING,
         quantity: 1,
       });
     }

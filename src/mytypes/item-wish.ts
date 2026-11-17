@@ -3,7 +3,7 @@
 // boolean data was migrated false -> 1 and true -> 5.
 
 const MIN_BUILD_ENABLING = 1;
-const MAX_BUILD_ENABLING = 5;
+export const MAX_BUILD_ENABLING = 5;
 export const DEFAULT_BUILD_ENABLING = 1;
 
 // A wish counts as "build enabling" for the quick filter / summaries once it
