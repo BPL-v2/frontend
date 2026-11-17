@@ -28,7 +28,10 @@ import { GlobalStateContext } from "@utils/context-provider";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useContext, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import {
+  ArrowsPointingInIcon,
+  ArrowsPointingOutIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -76,6 +79,17 @@ const ASCENDANCIES = [
     (name) => !BASE_CLASSES.has(name),
   ),
 ];
+
+function withViewTransition(update: () => void) {
+  if (
+    document.startViewTransition &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    document.startViewTransition(() => flushSync(update));
+  } else {
+    update();
+  }
+}
 
 function renderLinkCell(url?: string) {
   if (!url) return null;
@@ -202,6 +216,7 @@ function RouteComponent() {
   const [extraNotesOpen, setExtraNotesOpen] = useState(false);
   const [specFilter, setSpecFilter] = useState<string | null>(null);
   const [hideEmptyPlayers, setHideEmptyPlayers] = useState(false);
+  const [tableMaximized, setTableMaximized] = useState(false);
   const [mainRoleChartExpanded, setMainRoleChartExpanded] = useState(
     () => localStorage.getItem("mainRoleChartExpanded") === "true",
   );
@@ -252,6 +267,21 @@ function RouteComponent() {
     !(form.character_name ?? "").startsWith(requiredNamePrefix)
       ? `Character name must begin with ${requiredNamePrefix}`
       : null;
+
+  useEffect(() => {
+    if (!tableMaximized) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        withViewTransition(() => setTableMaximized(false));
+      }
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [tableMaximized]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -1037,60 +1067,90 @@ function RouteComponent() {
           </div>
         )}
       </div>
-      <div className="flex flex-wrap gap-1">
-        {Object.keys(defaultPreferences.teamSheet).map((label) => {
-          const key = label as keyof typeof preferences.teamSheet;
-          return (
-            <button
-              key={label}
-              onClick={() =>
-                setPreferences({
-                  ...preferences,
-                  teamSheet: {
-                    ...preferences.teamSheet,
-                    [label]: !preferences.teamSheet[key],
-                  },
-                })
-              }
-              className={twMerge(
-                "btn rounded-lg px-2 btn-sm",
-                preferences.teamSheet[key]
-                  ? "btn-primary"
-                  : "border-primary bg-base-100/0 text-primary",
-              )}
-            >
-              {label}
-            </button>
-          );
-        })}
-        <button
-          onClick={() => setHideEmptyPlayers((v) => !v)}
-          className={twMerge(
-            "btn rounded-lg px-2 btn-sm",
-            hideEmptyPlayers
-              ? "btn-primary"
-              : "border-primary bg-base-100/0 text-primary",
-          )}
-        >
-          Hide players with no data
-        </button>
-      </div>
-      {specFilter && (
-        <div className="flex items-center gap-2 text-sm">
-          <span>
-            Filtered by role:{" "}
-            <span className="font-semibold">{specFilter}</span>
-          </span>
-          <button className="btn btn-xs" onClick={() => setSpecFilter(null)}>
-            Clear
+      <div
+        className={twMerge(
+          "flex flex-col gap-4",
+          tableMaximized && "fixed inset-0 z-60 gap-2 bg-base-100 p-4",
+        )}
+      >
+        <div className="flex flex-wrap gap-1">
+          {Object.keys(defaultPreferences.teamSheet).map((label) => {
+            const key = label as keyof typeof preferences.teamSheet;
+            return (
+              <button
+                key={label}
+                onClick={() =>
+                  setPreferences({
+                    ...preferences,
+                    teamSheet: {
+                      ...preferences.teamSheet,
+                      [label]: !preferences.teamSheet[key],
+                    },
+                  })
+                }
+                className={twMerge(
+                  "btn rounded-lg px-2 btn-sm",
+                  preferences.teamSheet[key]
+                    ? "btn-primary"
+                    : "border-primary bg-base-100/0 text-primary",
+                )}
+              >
+                {label}
+              </button>
+            );
+          })}
+          <button
+            onClick={() => setHideEmptyPlayers((v) => !v)}
+            className={twMerge(
+              "btn rounded-lg px-2 btn-sm",
+              hideEmptyPlayers
+                ? "btn-primary"
+                : "border-primary bg-base-100/0 text-primary",
+            )}
+          >
+            Hide players with no data
           </button>
         </div>
-      )}
-      <Table
-        columns={visibleColumns}
-        data={visibleRows}
-        className="max-h-[60vh]"
-      />
+        {specFilter && (
+          <div className="flex items-center gap-2 text-sm">
+            <span>
+              Filtered by role:{" "}
+              <span className="font-semibold">{specFilter}</span>
+            </span>
+            <button className="btn btn-xs" onClick={() => setSpecFilter(null)}>
+              Clear
+            </button>
+          </div>
+        )}
+        <div
+          className={twMerge(
+            "relative",
+            tableMaximized && "flex min-h-0 flex-1 flex-col",
+          )}
+          style={{ viewTransitionName: "team-sheet-table" }}
+        >
+          <Table
+            columns={visibleColumns}
+            data={visibleRows}
+            className={tableMaximized ? "min-h-0 flex-1" : "max-h-[60vh]"}
+          />
+          <button
+            type="button"
+            className="absolute top-2 right-5 z-2 cursor-pointer rounded-lg bg-base-200 p-1.5 text-base-content/85 transition-colors duration-150 hover:text-base-content"
+            title={tableMaximized ? "Exit full screen" : "Show full screen"}
+            aria-label="Toggle full screen table"
+            onClick={() =>
+              withViewTransition(() => setTableMaximized((v) => !v))
+            }
+          >
+            {tableMaximized ? (
+              <ArrowsPointingInIcon className="size-6" />
+            ) : (
+              <ArrowsPointingOutIcon className="size-6" />
+            )}
+          </button>
+        </div>
+      </div>
       <UniquesPickerModal
         isOpen={uniquesPickerOpen}
         setIsOpen={setUniquesPickerOpen}
