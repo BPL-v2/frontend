@@ -2,6 +2,9 @@
 // Licensed under GNU AGPL v3.0: https://www.gnu.org/licenses/agpl-3.0.html
 // Copyright (c) Dav1dde and contributors
 
+import { stripFoulbornName } from "@mytypes/scoring-objective";
+import { SKILL_GEMS, isTransfiguredGem } from "@utils/gem-utils";
+
 export interface PlayerStats {
   averageDamage: number;
   averageBurstDamage: number;
@@ -256,6 +259,63 @@ export interface Item {
 // the way determineDifferences's broader slot-matching does.
 export function isTreeSocketedSlot(slot: string | null): boolean {
   return slot === "Socket";
+}
+
+// Some foulborn_uniques.json entries differ only in their numbers, so an exact
+// line match wins and a number-insensitive match must be unique.
+export function findFoulbornMod(
+  item: Item,
+  entries: { name: string; mod: string }[],
+): string {
+  if (!item.name.startsWith("Foulborn ")) return "";
+  const normalize = (text: string) =>
+    text.replace(/\(?\d+(\.\d+)?(-\d+(\.\d+)?)?\)?/g, "#");
+  const name = stripFoulbornName(item.name);
+  const candidates = entries.filter((entry) => entry.name === name);
+  const lines = item.mutatedMods.map((mod) => mod.line);
+  const exact = candidates.find((entry) => lines.includes(entry.mod));
+  if (exact) return exact.mod;
+  const similar = candidates.filter((entry) =>
+    lines.some((line) => normalize(line) === normalize(entry.mod)),
+  );
+  if (similar.length === 1) return similar[0].mod;
+  return candidates.length === 1 ? candidates[0].mod : "";
+}
+
+export interface DetectedSkills {
+  mainSkill?: string;
+  transfiguredGems: string[];
+}
+
+export function detectSkills(pob: PathOfBuilding): DetectedSkills {
+  const { skillSets, activeSkillSet } = pob.skills;
+  const skillSet =
+    skillSets.find((set) => set.id === activeSkillSet) ?? skillSets[0];
+  const groups = skillSet?.skills ?? [];
+  const enabledGems = (group: Skill) =>
+    group.gems.filter((gem) => gem.enabled !== "false");
+
+  const transfiguredGems = Array.from(
+    new Set(
+      groups
+        .filter((group) => group.enabled !== "false")
+        .flatMap(enabledGems)
+        .map((gem) => gem.nameSpec)
+        .filter(isTransfiguredGem),
+    ),
+  );
+
+  // mainSocketGroup is 1-based and counts disabled groups; mainActiveSkill
+  // indexes the group's active (non-support) gems.
+  const mainGroup = groups[pob.build.mainSocketGroup - 1];
+  if (!mainGroup) return { transfiguredGems };
+  const activeGems = enabledGems(mainGroup).filter(
+    (gem) => !gem.skillId.startsWith("Support"),
+  );
+  const name =
+    activeGems[(parseInt(mainGroup.mainActiveSkill) || 1) - 1]?.nameSpec;
+  const mainSkill = name && SKILL_GEMS.includes(name) ? name : undefined;
+  return { mainSkill, transfiguredGems };
 }
 
 // PoB stat names (as found in the export XML) to PlayerStats fields.
