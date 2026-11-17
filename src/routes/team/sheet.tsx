@@ -24,6 +24,7 @@ import {
 } from "@components/form-dialogs/GemsPickerModal";
 import { SecondaryRolePickerModal } from "@components/form-dialogs/SecondaryRolePickerModal";
 import { ItemSetPickerModal } from "@components/form-dialogs/ItemSetPickerModal";
+import { PickerDialog } from "@components/form-dialogs/PickerDialog";
 import { TextNoteModal } from "@components/form-dialogs/TextNoteModal";
 import { PieChart } from "@components/charts/pie-chart";
 import { tallyByPlayer } from "@utils/chart-tally";
@@ -230,6 +231,7 @@ function RouteComponent() {
   const [gemsPickerOpen, setGemsPickerOpen] = useState(false);
   const [secondaryRolePickerOpen, setSecondaryRolePickerOpen] = useState(false);
   const [extraNotesOpen, setExtraNotesOpen] = useState(false);
+  const [clearBuildOpen, setClearBuildOpen] = useState(false);
   const [specFilter, setSpecFilter] = useState<string | null>(null);
   const [hideEmptyPlayers, setHideEmptyPlayers] = useState(false);
   const [mainRoleChartExpanded, setMainRoleChartExpanded] = useState(
@@ -290,6 +292,8 @@ function RouteComponent() {
   const detectStatus = [detectBuildStatus, detectSkillsStatus]
     .filter(Boolean)
     .join(" ");
+
+  const hasBuildWishes = myUniqueWishes.length > 0 || myGemWishes.length > 0;
 
   useEffect(() => {
     localStorage.setItem(
@@ -500,6 +504,14 @@ function RouteComponent() {
       parts.push("No transfigured gems found.");
     }
     setDetectSkillsStatus(parts.join(" "));
+  };
+
+  const handleClearBuild = () => {
+    handleUniquesConfirm([]);
+    handleGemsConfirm([]);
+    detectedGems.current = [];
+    setDetectSkillsStatus("");
+    setDetectBuildStatus("Cleared Uniques Needed and Transfigured Gems.");
   };
 
   const handleDetectBuild = async () => {
@@ -1011,7 +1023,7 @@ function RouteComponent() {
                   setForm((f) => ({ ...f, pob_url: e.target.value }))
                 }
               />
-              <div className="absolute top-full left-0 mt-1 flex items-center gap-2">
+              <div className="absolute top-full left-0 mt-1 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   className="btn btn-xs"
@@ -1020,8 +1032,16 @@ function RouteComponent() {
                 >
                   {detectingBuild ? "Detecting..." : "Detect build"}
                 </button>
+                <button
+                  type="button"
+                  className="btn btn-outline btn-error btn-xs"
+                  disabled={!hasBuildWishes || detectingBuild}
+                  onClick={() => setClearBuildOpen(true)}
+                >
+                  Clear uniques & gems
+                </button>
                 {detectStatus && (
-                  <span className="text-xs text-base-content/60">
+                  <span className="w-full text-xs text-base-content/60">
                     {detectStatus}
                   </span>
                 )}
@@ -1236,6 +1256,18 @@ function RouteComponent() {
         maxLength={200}
         onConfirm={(value) => setForm((f) => ({ ...f, build_notes: value }))}
       />
+      <PickerDialog
+        title="Clear uniques & gems"
+        isOpen={clearBuildOpen}
+        setIsOpen={setClearBuildOpen}
+        className="max-w-sm"
+        onConfirm={handleClearBuild}
+      >
+        <p className="text-left">
+          Are you sure you want to remove all your Uniques Needed and
+          Transfigured Gems? This action cannot be undone.
+        </p>
+      </PickerDialog>
     </div>
   );
 }
