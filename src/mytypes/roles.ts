@@ -37,6 +37,7 @@ export const SPECIALIZATIONS: Record<string, string[]> = {
     "Delirium",
     "Ritual",
     "Ultimatum",
+    "Mercenaries",
     "League Mechanic",
   ],
   Delver: ["No Preference", "Sideways", "Deep Delve", "Bossing", "Delve Race"],
@@ -101,6 +102,7 @@ export const SPECIALIZATION_COLORS: Record<string, Record<string, string>> = {
     Delirium: "text-white",
     Ritual: "text-red-300",
     Ultimatum: "text-orange-700",
+    Mercenaries: "text-amber-600",
     // The current temporary league's own mechanic - deliberately loud and
     // unlike anything else in this list, since it's a fresh guest each
     // league rather than a permanent Atlas mechanic.
